@@ -1,8 +1,6 @@
 <?php
 /**
- * 
  * Check if current screen is helpful
- *
  * @return bool
  */
 function is_helpful() {
@@ -11,9 +9,7 @@ function is_helpful() {
 }
 
 /**
- *
  * WordPress blacklist checker
- *
  * @param string $content the content to be checked
  * @return bool
  */
