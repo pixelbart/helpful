@@ -1,7 +1,5 @@
 <?php
-namespace HelpfulPlugin;
-if ( !defined( 'ABSPATH' ) ) exit;
-use \WP_Query as WP_Query;
+namespace Helpful\Core;
 new Admin;
 
 class Admin
@@ -108,7 +106,7 @@ class Admin
         'fields' => 'ids',
       ];
 
-      $posts = new WP_Query($args);
+      $posts = new \WP_Query($args);
 
       if( $posts->found_posts ) {
     		foreach( $posts->posts as $post_id ) {
@@ -567,7 +565,7 @@ class Admin
         'fields' => 'ids',
       ];
 
-      $posts = new WP_Query($args);
+      $posts = new \WP_Query($args);
 
       if( $posts->found_posts ) {
 
@@ -606,7 +604,7 @@ class Admin
         'fields' => 'ids',
       ];
 
-      $posts = new WP_Query($args);
+      $posts = new \WP_Query($args);
 
       if( $posts->found_posts ) {
 
@@ -714,7 +712,7 @@ class Admin
         'fields' => 'ids',
       ];
 
-      $feedback = new WP_Query($args);
+      $feedback = new \WP_Query($args);
 
       $html .= '<div>';
       $html .= sprintf( '<strong>%s</strong>', _x('Recent Feedback','widget headline','helpful') );
@@ -1005,13 +1003,5 @@ class Admin
     if( get_post_meta( $post_id, 'helfpul_remove_single' ) ) {
       delete_post_meta( $post_id, 'helfpul_remove_single' );
     }
-  }
-
-  // helper query
-  public function query($args)
-  {
-    $args['fields'] = 'ids';
-    
-    return new WP_Query($args);
   }
 }

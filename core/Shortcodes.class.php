@@ -1,6 +1,5 @@
 <?php
-namespace HelpfulPlugin;
-if ( !defined( 'ABSPATH' ) ) exit;
+namespace Helpful\Core;
 new Shortcodes;
 
 /**
@@ -21,13 +20,13 @@ class Shortcodes
    */
   public function shortcode_helpful()
   {
-    ob_start();
-
     $default_template = HELPFUL_PATH . 'templates/frontend.php';
     $custom_template  = locate_template('helpful/frontend.php');
 
+    ob_start();
+
     // check if custom frontend exists
-    if( false !== stream_resolve_include_path( $custom_template ) ) {
+    if( '' !== $custom_template ) {
       include $custom_template;
     }
 

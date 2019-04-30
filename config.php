@@ -17,7 +17,7 @@ $helpful['wp_editor'] = [
   'teeny' => true,
   'media_buttons' => false,
   'textarea_rows' => 5,
-  'tinymce' => true,
+  'tinymce' => false,
   'quicktags' => [
     'buttons' => 'strong,em,del,ul,ol,li,close,link'
   ],

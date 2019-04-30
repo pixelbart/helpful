@@ -1,6 +1,6 @@
 <?php
 // functions
-include_once( HELPFUL_PATH . "core/functions.php" );
+include_once( HELPFUL_PATH . "core/helpers.php" );
 
 // classes
 include_once( HELPFUL_PATH . "core/Admin.class.php" );

@@ -1,6 +1,5 @@
 <?php
-namespace HelpfulPlugin;
-use \WP_Query as WP_Query;
+namespace Helpful\Core;
 new Feedback;
 
 class Feedback

@@ -1,7 +1,5 @@
 <?php
-namespace HelpfulPlugin;
-if ( !defined( 'ABSPATH' ) ) exit;
-use \WP_Query as WP_Query;
+namespace Helpful\Core;
 new Base;
 
 class Base
@@ -76,7 +74,7 @@ class Base
         $custom_template  = locate_template('helpful/frontend.php');
     
         // check if custom frontend exists
-        if( false !== stream_resolve_include_path( $custom_template ) ) {
+        if( '' !== $custom_template ) {
           include( $custom_template );
         }
     
