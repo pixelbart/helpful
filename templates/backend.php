@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <div class="wrap">
 	
-	<h1><?php _e('Helpful', 'helpful'); ?></h1>	
+	<h1><?php esc_html_e('Helpful', 'helpful'); ?></h1>	
 	
 	<div class="helpful-row">
 		

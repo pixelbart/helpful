@@ -63,7 +63,7 @@
 
     // default ajax data for buttons
     ajaxDataButton: function(element, action) {
-      var ajaxData = {}
+      var ajaxData = {};
 
       ajaxData["action"] = action;
       ajaxData["post_id"] = $(element).data("id");
@@ -80,7 +80,7 @@
       if( $(".helpful-feedback") ) {
 
         var self = this;
-        var ajaxData = {}
+        var ajaxData = {};
         var currentContainer = $(".helpful-feedback");
 
         $("body").on("click", ".helpful-feedback button", function(e) {
