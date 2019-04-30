@@ -18,7 +18,8 @@ an overview about your votes (pros and cons). With the integrated dashboard widg
 what you need. Simply change your form theme or add your own css in the options.
 
 Languages: English, German
-Demo (German): [klakki.me](https://klakki.me/)
+Demo: [klakki.me](https://klakki.me/) (German)
+Github: [Helpful](https://github.com/pixelbart/helpful)
 
 **Features**
 
@@ -64,11 +65,16 @@ I'm afraid not. I have not dealt with it and only know that there are problems w
 
 For the code editor you need at least version 4.9 of WordPress. Without this version, a text field will be displayed instead of the editor. The editor is used for custom CSS.
 
+= I'm a programmer, can I help? =
+
+Sure. Helpful is now also available on [Github](https://github.com/pixelbart/helpful). I will always update the code first and fix issues with Codacy. You are always welcome to help. Forke Helpful and start bullying!
+
 == Changelog ==
 
 = 3.1.0 =
-* The plugin is now additionally hosted on Github and errors are detected using Codacy.
-* The code has been rewritten and more comments added.
+* The plugin is now additionally hosted on Github and issues are detected using Codacy.
+* The code has been rewritten and comments are added.
+* Fixed major issues using Codacy and a lot of coffee.
 
 = 3.0.11 =
 * When registering the feedback some variables were still set to true. Therefore the feedback could be found when creating URLs. This is no longer the case.
