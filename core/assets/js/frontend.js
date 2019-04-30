@@ -110,7 +110,7 @@
 
          $(wpcf7Elm).find("form").each( function() {
           var $form = $( this );
-          if ( typeof wpcf7 !== 'undefined' ) {
+          if ( typeof wpcf7 !== "undefined" ) {
             wpcf7.initForm( $form );
             if ( wpcf7.cached ) {
               wpcf7.refill( $form );

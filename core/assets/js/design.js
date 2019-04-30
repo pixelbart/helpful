@@ -13,38 +13,39 @@
     },
 
     initThemePreview: function() {
-      var theme_select = $("#helpful_theme");
-      var preview_container = $("#theme-preview");
-      var preview_controls = $("#theme-preview-controls");
-      var preview_device = $("#theme-preview-device");
-      $(theme_select).on("change", function(e) {
-        var current_value = $(this).val();
-        if( "theme" == current_value ) {
-          $(preview_container).slideUp();
+      var themeSelect = $("#helpful_theme");
+      var previewContainer = $("#theme-preview");
+      var previewControls = $("#theme-preview-controls");
+      var previewDevice = $("#theme-preview-device");
+      
+      $(themeSelect).on("change", function(e) {
+        var currentValue = $(this).val();
+        if( "theme" == currentValue ) {
+          $(previewContainer).slideUp();
         } else {
-          $(preview_container).find("#hf-prev").removeClass().addClass("helpful helpful-theme-" + current_value);
-          $(preview_container).find("#theme-preview-device").css({"width":"100%"}).removeClass().addClass("hfd");
-          $(preview_container).slideDown();
+          $(previewContainer).find("#hf-prev").removeClass().addClass("helpful helpful-theme-" + currentValue);
+          $(previewContainer).find("#theme-preview-device").css({"width":"100%"}).removeClass().addClass("hfd");
+          $(previewContainer).slideDown();
         }
       });
 
-      $(preview_controls).find(".show-laptop").click(function(e) {
-        $(preview_device).animate({"width":"100%"}).removeClass().addClass("hfd");
+      $(previewControls).find(".show-laptop").click(function(e) {
+        $(previewDevice).animate({"width":"100%"}).removeClass().addClass("hfd");
         e.preventDefault();
       });
 
-      $(preview_controls).find(".show-tablet").click(function(e) {
-        $(preview_device).animate({"width":"768px"}).removeClass().addClass("hft");
+      $(previewControls).find(".show-tablet").click(function(e) {
+        $(previewDevice).animate({"width":"768px"}).removeClass().addClass("hft");
         e.preventDefault();
       });
 
-      $(preview_controls).find(".show-smartphone").click(function(e) {
-        $(preview_device).animate({"width":"360px"}).removeClass().addClass("hfm");
+      $(previewControls).find(".show-smartphone").click(function(e) {
+        $(previewDevice).animate({"width":"360px"}).removeClass().addClass("hfm");
         e.preventDefault();
       });
 
-      $(preview_controls).find(".close").click(function(e) {
-        $(preview_container).slideUp();
+      $(previewControls).find(".close").click(function(e) {
+        $(previewContainer).slideUp();
         e.preventDefault();
       });
     },
