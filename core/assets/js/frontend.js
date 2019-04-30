@@ -20,15 +20,8 @@
       $('body').on('click', '.helpful-pro', function(e) {
         e.preventDefault();
 
-    		var ajaxData = {}
-        var helpful_container = $(this).closest('.helpful')
-
-    		ajaxData['action'] = 'helpful_ajax_pro';
-    		ajaxData['post_id'] = $(this).data('id');
-    		ajaxData['user'] = $(this).data('user');
-    		ajaxData['pro'] = $(this).data('pro');
-    		ajaxData['contra'] = $(this).data('contra');
-
+        var helpful_container = $(this).closest('.helpful');
+        var ajaxData = self.ajaxDataButton(this, 'helpful_ajax_pro');
         var currentRequest = self.ajaxRequest(ajaxData);
 
         currentRequest.done(function(response) {
@@ -51,15 +44,8 @@
       $('body').on('click', '.helpful-con', function(e) {
         e.preventDefault();
 
-    		var ajaxData = {}
-        var helpful_container = $(this).closest('.helpful')
-
-    		ajaxData['action'] = 'helpful_ajax_contra';
-    		ajaxData['post_id'] = $(this).data('id');
-    		ajaxData['user'] = $(this).data('user');
-    		ajaxData['pro'] = $(this).data('pro');
-    		ajaxData['contra'] = $(this).data('contra');
-
+        var helpful_container = $(this).closest('.helpful');
+        var ajaxData = self.ajaxDataButton(this, 'helpful_ajax_contra');
         var currentRequest = self.ajaxRequest(ajaxData);
 
         currentRequest.done(function(response) {
@@ -73,6 +59,20 @@
 
         return false;
       });
+    },
+
+    // default ajax data for buttons
+    ajaxDataButton: function(element, action) {
+      var ajaxData = {}
+
+      ajaxData['action'] = action;
+      ajaxData['post_id'] = $(element).data('id');
+      ajaxData['user'] = $(element).data('user');
+      ajaxData['pro'] = $(element).data('pro');
+      ajaxData['contra'] = $(element).data('contra');
+      ajaxData['_ajax_nonce'] = $(element).data('nonce');
+
+      return ajaxData;
     },
 
     // insert feedback
@@ -89,6 +89,7 @@
           ajaxData['type'] = $(currentContainer).data('type');
           ajaxData['post_id'] = $(currentContainer).data('post');
           ajaxData['post_content'] = $(currentContainer).find('textarea').val();
+          ajaxData['_ajax_nonce'] = $(currentContainer).data('nonce');
 
           if( ajaxData['post_content'].length > 0 ) {
             self.ajaxRequest(ajaxData).done(function(response) {

@@ -235,7 +235,7 @@ class Base
     $custom_template  = locate_template('helpful/feedback.php');
 
     // check if custom frontend exists
-    if( false !== stream_resolve_include_path( $custom_template ) ) {
+    if( '' !== $custom_template ) {
       include $custom_template;
     }
 
