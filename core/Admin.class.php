@@ -472,7 +472,7 @@ class Admin
   		$html .= sprintf('<li>%s</li>', $text);
     }
 
-    $agent = esc_html($_SERVER['HTTP_USER_AGENT']);
+    $agent = sanitize_text_field($_SERVER['HTTP_USER_AGENT']);
     if( isset($agent) && function_exists('get_browser') ):
       if( get_browser($agent, true) ):
         $browser = get_browser($agent, true);
