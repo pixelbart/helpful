@@ -64,7 +64,7 @@ if( $helpful['tab'] == 'design' ) :
 							</div>
               <?php
               if( get_option('helpful_feedback_after_contra') || get_option('helpful_feedback_after_pro') ):
-              $feedback_text = _x('Thank you very much. Please write us your opinion, so that we can improve ourselves.', 'form user note', 'helpful');
+              $feedback_text = esc_attr_x('Thank you very much. Please write us your opinion, so that we can improve ourselves.', 'form user note', 'helpful');
               ?>
               <div class="divider"></div>
               <div class="helpful helpful-feedback">

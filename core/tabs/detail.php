@@ -28,8 +28,8 @@ $settings = $helpful['wp_editor'];
 			<td class="helpful-checkbox">
 
 				<?php
-				$post_types = get_post_types( array( 'public' => true ) );
-				$private_post_types = get_post_types( array( 'public' => false ) );
+				$post_types = get_post_types( ['public' => true] );
+				$private_post_types = get_post_types( ['public' => false] );
 
 				if( $private_post_types ):
 				$post_types = array_merge($post_types, $private_post_types);

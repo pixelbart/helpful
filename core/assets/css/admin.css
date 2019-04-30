@@ -59,11 +59,11 @@
 }
 
 .helpful-tab:first-child {
-	border-width: 1px 1px 0 1px !important;
+	border-width: 1px 1px 0 1px;
 }
 
 .helpful-tab-active {
-	background-color: #fff !important;
+	background-color: #fff;
 }
 
 .helpful-tab-link {
