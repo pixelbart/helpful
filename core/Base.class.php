@@ -142,7 +142,7 @@ class Base
 
       // sanitize inputs
       foreach( $_POST as $key => $value ) {
-        $inputs[$key] = wp_unslash(sanitize_text_field($value));
+        $inputs[$key] = sanitize_text_field($value);
       }
 
       // set args for insert command
@@ -170,7 +170,7 @@ class Base
       }
 
       else {
-        echo esc_html( __( 'Sorry, an error has occurred.', 'helpful' ) );
+        esc_html_e( 'Sorry, an error has occurred.', 'helpful' );
       }
     }	
 
@@ -187,11 +187,11 @@ class Base
     check_ajax_referer('helpful');
 
      // do requeset if defined
-     if( isset($_POST) && 1 == $_POST['contra'] ) {
+     if( isset($_POST['contra']) && 1 == $_POST['contra'] ) {
 
       // sanitize inputs
       foreach( $_POST as $key => $value ) {
-        $inputs[$key] = wp_unslash(sanitize_text_field($value));
+        $inputs[$key] = sanitize_text_field($value);
       }
 
       // set args for insert command
@@ -219,7 +219,7 @@ class Base
       }
 
       else {
-        echo esc_html( __( 'Sorry, an error has occurred.', 'helpful' ) );
+        esc_html_e( 'Sorry, an error has occurred.', 'helpful' );
       }
     }
 
@@ -262,7 +262,7 @@ class Base
 
     // sanitize request values
     foreach( $_POST as $key => $value ) {
-      $fields[$key] = wp_unslash(sanitize_text_field($value));
+      $fields[$key] = sanitize_text_field($value);
     }
 
     // insert feedback
@@ -296,7 +296,7 @@ class Base
     ];
 
     // save user language
-    $language = wp_unslash(sanitize_text_field($_SERVER['HTTP_ACCEPT_LANGUAGE']));
+    $language = sanitize_text_field(wp_unslash($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 
     if( isset($language) && '' !== $language ) {
       $language = explode(',', $language);
