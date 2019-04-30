@@ -1,0 +1,116 @@
+.helpful-tab-wrapper #theme-preview {
+	display: none;
+	margin: 20px auto 20px;
+}
+
+.helpful-tab-wrapper #theme-preview > .helpful {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.helpful-tab-wrapper #theme-preview #theme-preview-device {
+	padding: 20px;
+	margin: 0 auto 20px;
+}
+
+.helpful-tab-wrapper #theme-preview #theme-preview-device > .helpful {
+	margin: 0;
+}
+
+.helpful-tab-wrapper #theme-preview #theme-preview-controls {
+	text-align: center;
+	width: 100%;
+	margin: 40px 0 0;
+	display: block;
+}
+
+@media all and (max-width: 1600px) {
+	.helpful-tab-wrapper #theme-preview #theme-preview-controls {
+		display: none;
+	}
+}
+
+@media all and (min-width: 1600px) {
+
+	.helpful-tab-wrapper #theme-preview #theme-preview-controls span {
+		padding: 12.5px 14.5px;
+		display: inline;
+		text-align: center;
+		cursor: pointer;
+		border-radius: 50%;
+		border: 1px solid #ddd;
+	}
+
+	.helpful-tab-wrapper #theme-preview #theme-preview-controls span:hover {
+		background-color: #f5f5f5;
+	}
+
+	.hfd {
+		background-color: #fff;
+		border-color: #ddd;
+		border-width: 25px 25px 5px 25px;
+		border-style: solid;
+		padding: 40px 10% !important;
+		-webkit-border-top-left-radius: 25px;
+		-webkit-border-top-right-radius: 25px;
+		-moz-border-radius-topleft: 25px;
+		-moz-border-radius-topright: 25px;
+		border-top-left-radius: 25px;
+		border-top-right-radius: 25px;
+	}
+
+	.hft {
+		padding: 40px 10% !important;
+		border-color: #ddd;
+		border-width: 25px;
+		border-style: solid;
+		-webkit-border-radius: 25px;
+		-moz-border-radius: 25px;
+		border-radius: 25px;
+	}
+
+	.hfm {
+		border-color: #ddd;
+		border-width: 25px;
+		border-style: solid;
+		-webkit-border-radius: 25px;
+		-moz-border-radius: 25px;
+		border-radius: 25px;
+	}
+
+	.hfd > [class*="helpful-theme-"] .helpful-controls .helpful-pro {
+		width: calc( 50% - 6.25px );
+		display: inline-block;
+		float: left;
+		margin-right: 12.5px;
+
+	}
+
+	.hfd > [class*="helpful-theme-"] .helpful-controls .helpful-con {
+		width: calc( 50% - 6.25px );
+		display: inline-block;
+	}
+
+	.hft > [class*="helpful-theme-"] .helpful-controls .helpful-pro {
+		width: calc( 50% - 6.25px );
+		display: inline-block;
+		float: left;
+		margin-right: 12.5px;
+
+	}
+
+	.hft > [class*="helpful-theme-"] .helpful-controls .helpful-con {
+		width: calc( 50% - 6.25px );
+		display: inline-block;
+	}
+
+	.hfm > [class*="helpful-theme-"] .helpful-controls .helpful-pro,
+	.hfm > [class*="helpful-theme-"] .helpful-controls .helpful-con {
+		width: 100%;
+		width: calc( 100% );
+		float: none;
+		display: block;
+		margin: 0px 0px 10px 0px;
+	}
+
+}

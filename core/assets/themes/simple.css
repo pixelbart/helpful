@@ -1,0 +1,163 @@
+/**
+ * Theme: Simple
+ *
+ * @author  Devhats
+ * @version 1.0
+ */
+.helpful * { box-sizing: border-box; }
+
+.helpful-theme-simple {
+	position: relative;
+	padding: 25px;
+	margin: 25px 0 0 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Contact Form 7 */
+.helpful-theme-simple .sent > p {
+	display: none;
+}
+
+/* HEADING */
+
+.helpful-theme-simple .helpful-heading {
+	font-size: 1rem;
+	font-weight: 700;
+	margin: 0 0 12.5px;
+}
+
+.helpful-theme-simple.helpful_no_content .helpful-heading {
+  display: inline-block;
+}
+
+/* CONTENT */
+
+.helpful-theme-simple .helpful-content {
+	font-size: 1rem;
+	font-weight: 400;
+	margin: 0 0 12.5px;
+}
+
+/* CONTROLS */
+.helpful-theme-simple .helpful-controls {}
+.helpful-theme-simple .helpful-controls:after { clear: both; }
+.helpful-theme-simple.helpful_no_content .helpful-controls {
+  display: inline-block;
+}
+
+.helpful-theme-simple .helpful-controls > div {
+  color: #fff;
+  background-color: #34495e;
+  width: auto;
+  display: inline-block;
+	padding: 5px 15px;
+	position: relative;
+	cursor: pointer;
+  border-radius: 3px;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+	transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+}
+
+.helpful-theme-simple .helpful-controls > div:hover {
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+	transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+}
+
+.helpful-theme-simple .helpful-controls .helpful-pro { margin-right: 12.5px; }
+.helpful-theme-simple .helpful-controls .helpful-con {}
+
+@media all and (max-width: 992px) {
+	.helpful-theme-simple .helpful-controls .helpful-pro,
+	.helpful-theme-simple .helpful-controls .helpful-con {
+		width: 100%;
+		float: none;
+		display: block;
+		margin: 0px 0px 10px 0px;
+	}
+}
+
+.helpful-theme-simple .helpful-controls .counter {
+	right: -7.5px;
+  top: -7.5px;
+	color: #fff;
+  position: absolute;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+	background-color: #e74c3c;
+	padding: 2.5px 5px;
+  border-radius: 50%;
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* CREDITS */
+
+.helpful-theme-simple .helpful-credits {
+  color: rgba(255, 255, 255, 0.2);
+	left: 0;
+	width: 100%;
+	bottom: -5px;
+	font-size: .7rem;
+	text-align: left;
+	position: absolute;
+}
+
+.helpful-theme-simple .helpful-credits a {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* FEEDBACK */
+
+.helpful-theme-simple .helpful-feedback p {
+  margin: 0 0 12.5px;
+}
+
+.helpful-theme-simple .helpful-feedback textarea {
+  width: 100%;
+  display: block;
+	padding: 15px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #e5e5e5;
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+.helpful-theme-simple .helpful-feedback button {
+  color: #fff;
+  min-width: 150px;
+  text-align: center;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #34495e;
+	background-color: #364d63;
+	padding: 5px 15px;
+  margin: 12.5px 0 0;
+  cursor: pointer;
+	transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-webkit-transition: all .2s ease-in-out;
+  border-radius: 3px;
+}
+
+.helpful-theme-simple .helpful-feedback button:hover {
+  background-color: #34495e;
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+	transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-webkit-transition: all .2s ease-in-out;
+}
+
+@media all and (max-width: 992px) {
+  .helpful-theme-simple .helpful-feedback button {
+    min-width: 100%;
+    width: 100%;
+    display: block;
+  }
+}

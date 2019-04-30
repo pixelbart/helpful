@@ -1,0 +1,13 @@
+<wpml-config>
+  <admin-texts>
+    <key name="helpful_heading"/>
+    <key name="helpful_content"/>
+    <key name="helpful_exists"/>
+    <key name="helpful_success"/>
+    <key name="helpful_error"/>
+    <key name="helpful_pro"/>
+    <key name="helpful_contra"/>
+    <key name="helpful_after_pro"/>
+    <key name="helpful_after_contra"/>
+  </admin-texts>
+</wpml-config>
