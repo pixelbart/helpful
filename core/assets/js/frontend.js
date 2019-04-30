@@ -25,13 +25,13 @@
         var currentRequest = self.ajaxRequest(ajaxData);
 
         currentRequest.done(function(response) {
-    			$(helpfulContainer).html( response );
+          $(helpfulContainer).html( response );
         });
 
-    		currentRequest.always(function(response) {
+        currentRequest.always(function(response) {
           self.feedbackForm(helpfulContainer);
-    			self.contactForm7();
-    		});
+          self.contactForm7();
+        });
 
         return false;
       });
@@ -49,13 +49,13 @@
         var currentRequest = self.ajaxRequest(ajaxData);
 
         currentRequest.done(function(response) {
-    			$(helpfulContainer).html( response );
+          $(helpfulContainer).html( response );
         });
 
-    		currentRequest.always(function(response) {
+        currentRequest.always(function(response) {
           self.feedbackForm(helpfulContainer);
-    			self.contactForm7();
-    		});
+          self.contactForm7();
+        });
 
         return false;
       });
@@ -102,33 +102,35 @@
 
     // contact form 7 support
     contactForm7: function() {
-  		if( $(".wpcf7").length ) {
-  			var wpcf7Elm = $( ".wpcf7" );
-  			var actionUrl = $(wpcf7Elm).find("form").attr("action").split("#");
+      if( $(".wpcf7").length ) {
+        var wpcf7Elm = $( ".wpcf7" );
+        var actionUrl = $(wpcf7Elm).find("form").attr("action").split("#");
 
-  			$(wpcf7Elm).find("form").attr("action", "#" + actionUrl[1]);
+        $(wpcf7Elm).find("form").attr("action", "#" + actionUrl[1]);
 
-   			$(wpcf7Elm).find("form").each( function() {
-  				var $form = $( this );
-  				wpcf7.initForm( $form );
-  				if ( wpcf7.cached ) {
-  					wpcf7.refill( $form );
-  				}
-  			});
-  		}
+         $(wpcf7Elm).find("form").each( function() {
+          var $form = $( this );
+          if ( typeof wpcf7 !== 'undefined' ) {
+            wpcf7.initForm( $form );
+            if ( wpcf7.cached ) {
+              wpcf7.refill( $form );
+            }
+          }
+        });
+      }
     },
 
     ajaxRequest: function(data) {
       return $.ajax({
-  			url : helpful.ajax_url,
+        url : helpful.ajax_url,
         data : data,
         method : "POST",
-      });
+      });      
     }
-  }
+  };
 
   $(function() {
     HelpfulPlugin.initClass();
   });
 
-})(jQuery)
+})(jQuery);
