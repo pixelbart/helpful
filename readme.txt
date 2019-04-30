@@ -66,6 +66,10 @@ For the code editor you need at least version 4.9 of WordPress. Without this ver
 
 == Changelog ==
 
+= 3.1.0 =
+* The plugin is now additionally hosted on Github and errors are detected using Codacy.
+* The code has been rewritten and more comments added.
+
 = 3.0.11 =
 * When registering the feedback some variables were still set to true. Therefore the feedback could be found when creating URLs. This is no longer the case.
 * In one of the PHP classes comments have been added to explain certain values.

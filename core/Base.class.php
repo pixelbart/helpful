@@ -32,9 +32,6 @@ class Base
 		// Frontend helpers
 		add_filter( 'helpful_helpers', [ $this, 'frontend_helpers' ] );
 
-		// Shortcode
-		add_shortcode( 'helpful', [ $this, 'shortcode' ] );
-
 		// after pro message
 		add_filter( 'helpful_after_pro', [ $this, 'after_pro' ], 1 );
 
@@ -45,42 +42,53 @@ class Base
 		add_action( 'wp_head', [ $this, 'add_css_to_head' ] );
 	}
 
-	// Add after content
+  /**
+   * Add helpful after post content
+   *
+   * @param string $content the post content
+   * @return string
+   */
 	public function add_to_content($content)
   {
-		if( get_option('helpful_hide_in_content') ) {
-			return $content;
-		}
+    if( get_option('helpful_hide_in_content') )
+      return $content;
 
     // check if is frontpage
     $frontpage = is_home() ? true : false;
     $frontpage = is_front_page() ? true : $frontpage;
 
+    // get helpful post types
+    $post_types = get_option('helpful_post_types');
+
 		// is single
-		if( get_option('helpful_post_types') && is_singular() && $frontpage == false ) {
+		if( $post_types && is_singular() && false == $frontpage ) {
 
 			global $post;
 
       // current post type
 			$current = get_post_type( $post );
 
-			if( in_array( $current, get_option('helpful_post_types') ) ) {
+			if( in_array( $current, $post_types ) ) {
 
   			ob_start();
 
-  			// custom frontend exists?
-  			if( file_exists( locate_template('helpful/frontend.php') ) ) {
-  				include( locate_template('helpful/frontend.php') );
-  			}
-  			else {
-  				include( plugin_dir_path( HELPFUL_FILE ) . 'templates/frontend.php' );
-  			}
+        $default_template = HELPFUL_PATH . 'templates/frontend.php';
+        $custom_template  = locate_template('helpful/frontend.php');
+    
+        // check if custom frontend exists
+        if( false !== stream_resolve_include_path( $custom_template ) ) {
+          include( $custom_template );
+        }
+    
+        else {
+          include( $default_template );
+        }
 
-  			$helpful_poll = ob_get_contents();
+  			$helpful = ob_get_contents();
   			ob_end_clean();
 
   			// add content after post content
-  			$content = $content . $helpful_poll;
+  			$content = $content . $helpful;
       }
 		}
 
@@ -88,27 +96,11 @@ class Base
 		return $content;
 	}
 
-	// register shortcode
-	public function shortcode()
-  {
-    ob_start();
-
-    // custom frontend exists?
-    if( file_exists( locate_template('helpful/frontend.php') ) ) {
-      include( locate_template('helpful/frontend.php') );
-    }
-    else {
-      include( plugin_dir_path( HELPFUL_FILE ) . 'templates/frontend.php' );
-    }
-
-    $content = ob_get_contents();
-    ob_end_clean();
-
-		// return the new content
-		return $content;
-	}
-
-	// message after pro
+  /**
+   * Message shwon after pro vote
+   *
+   * @return string
+   */
 	public function after_pro()
   {
 		$after = __( 'Thank you for voting.', 'helpful' );
@@ -120,7 +112,11 @@ class Base
 		return $after;
 	}
 
-	// message after contra
+  /**
+   * Message shwon after contra vote
+   *
+   * @return string
+   */
 	public function after_contra()
   {
 		$after = __( 'Thank you for voting.', 'helpful' );
@@ -132,128 +128,129 @@ class Base
 		return $after;
 	}
 
-  // ajax callback: pro
+  /**
+   * Ajax callback after pro vote
+   *
+   * @return string
+   */
 	public function helpful_ajax_pro()
   {
-		// like it
-		if( 1 == $_REQUEST['pro'] ) {
+		// do request if defined
+    if( 1 == $_POST['pro'] && defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 
-			// do request if defined
-			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+      $inputs = [];
 
-        // sanitize inputs
-        foreach( $_REQUEST as $key => $value ) {
-          $_REQUEST[$key] = sanitize_text_field($value);
+      // sanitize inputs
+      foreach( $_POST as $key => $value ) {
+        $inputs[$key] = wp_unslash(sanitize_text_field($value));
+      }
+
+      // set args for insert command
+      $args = [
+        'post_id' => $inputs['post_id'],
+        'user'		=> $inputs['user'],
+        'pro' 		=> $inputs['pro'],
+        'contra'	=> $inputs['contra'],
+        'type'    => 'pro',
+      ];
+
+      // do and check insert command
+      $result = $this->insert( $args );
+
+      if( $result == true ) {
+
+        // get feedback form if option is set
+        if( get_option('helpful_feedback_after_pro') ) {
+          $this->get_feedback_form( $args );
         }
+        else {
+          $after = apply_filters( 'helpful_after_pro', '' );
+          echo $this->str_to_helpful( $after, $args['post_id'] );
+        }
+      }
 
-				// set args for insert command
-				$args = [
-					'post_id' => $_REQUEST['post_id'],
-					'user'		=> $_REQUEST['user'],
-					'pro' 		=> $_REQUEST['pro'],
-					'contra'	=> $_REQUEST['contra'],
-				];
-
-				// do and check insert command
-        $result = $this->insert( $args );
-
-        if( $result == true ) {
-
-          $args['type'] = 'pro';
-
-          // get feedback form if option is set
-          if( get_option('helpful_feedback_after_pro') ) {
-            $this->get_feedback_form($args);
-          }
-          else {
-            $after = apply_filters( 'helpful_after_pro', '' );
-            echo $this->str_to_helpful( $after, $args['post_id'] );
-          }
-				}
-
-				else {
-          _e( 'Sorry, an error has occurred.', 'helpful' );
-				}
-			}
-
-			// if request not definied do redirect
-			else {
-				wp_redirect( get_permalink( $args['post_id'] ) );
-				exit();
-			}
-
-		}
+      else {
+        echo esc_html( __( 'Sorry, an error has occurred.', 'helpful' ) );
+      }
+    }	
 
     wp_die();
   }
 
-	// ajax callback: contra
+  /**
+   * Ajax callback after contra vote
+   *
+   * @return string
+   */
 	public function helpful_ajax_contra()
   {
-    // on contra
-    if( 1 == $_REQUEST['contra'] ) {
+     // do requeset if defined
+     if( 1 == $_REQUEST['contra'] && defined('DOING_AJAX') && DOING_AJAX ) {
 
-      // do requeset if defined
-      if( defined('DOING_AJAX') && DOING_AJAX ) {
+      // sanitize inputs
+      foreach( $_POST as $key => $value ) {
+        $inputs[$key] = wp_unslash(sanitize_text_field($value));
+      }
 
-        // sanitize inputs
-        foreach( $_REQUEST as $key => $value ) {
-          $_REQUEST[$key] = sanitize_text_field($value);
+      // set args for insert command
+      $args = array(
+        'post_id' => $inputs['post_id'],
+        'user'		=> $inputs['user'],
+        'pro' 		=> $inputs['pro'],
+        'contra'	=> $inputs['contra'],
+        'type'    => 'contra',
+      );
+
+      // do and check insert command
+      $result = $this->insert( $args );
+
+      if( true == $result ) {
+
+        // get feedback form if option is set
+        if( get_option('helpful_feedback_after_contra') ) {
+          $this->get_feedback_form($args);
         }
-
-        // set args for insert command
-        $args = array(
-          'post_id' => $_REQUEST['post_id'],
-          'user'		=> $_REQUEST['user'],
-          'pro' 		=> $_REQUEST['pro'],
-          'contra'	=> $_REQUEST['contra'],
-        );
-
-        // do and check insert command
-        $result = $this->insert( $args );
-
-        if( true == $result ) {
-
-          $args['type'] = 'contra';
-
-          // get feedback form if option is set
-          if( get_option('helpful_feedback_after_contra') ) {
-            $this->get_feedback_form($args);
-          }
-          else {
-            $after = apply_filters( 'helpful_after_contra', '' );
-            echo $this->str_to_helpful( $after, $args['post_id'] );
-          }
-        }
-
         else {
-          _e( 'Sorry, an error has occurred.', 'helpful' );
+          $after = apply_filters( 'helpful_after_contra', '' );
+          echo $this->str_to_helpful( $after, $args['post_id'] );
         }
       }
 
-      // if request not defined do an redirect
       else {
-        wp_redirect( get_permalink( $args['post_id'] ) );
-        exit();
+        echo esc_html( __( 'Sorry, an error has occurred.', 'helpful' ) );
       }
     }
 
     wp_die();
   }
 
-  // get feedback form
+  /**
+   * Feedback form after vote
+   *
+   * @param array $args filled with vote informations
+   * @return string
+   */
   public function get_feedback_form($args)
   {
-    // custom frontend exists?
-    if( file_exists( locate_template('helpful/feedback.php') ) ) {
-      include( locate_template('helpful/feedback.php') );
+
+    $default_template = HELPFUL_PATH . 'templates/feedback.php';
+    $custom_template  = locate_template('helpful/feedback.php');
+
+    // check if custom frontend exists
+    if( false !== stream_resolve_include_path( $custom_template ) ) {
+      include $custom_template;
     }
+
     else {
-      include( plugin_dir_path( HELPFUL_FILE ) . 'templates/feedback.php' );
+      include $default_template;
     }
   }
 
-  // insert feedback
+  /**
+   * Insert feedback after feedback form submit
+   *
+   * @return string
+   */
   public function insert_feedback()
   {
     $response = '';
@@ -264,42 +261,43 @@ class Base
 
       // sanitize request values
       foreach( $_REQUEST as $key => $value ) {
-        $fields[$key] = sanitize_text_field($value);
+        $fields[$key] = wp_unslash(sanitize_text_field($value));
       }
 
       // insert feedback
+      $post_title = _x('Negative feedback for %s', 'feedback post title info', 'helpful');
+
       if( $fields['type'] == 'pro' ) {
         $post_title = _x('Positive feedback for %s', 'feedback post title info', 'helpful');
-      } else {
-        $post_title = _x('Negative feedback for %s', 'feedback post title info', 'helpful');
       }
 
       // check types and save type
+      $type = _x('Contra', 'feedback type', 'helpful');
+
       if( $fields['type'] == 'pro' ) {
         $type = _x('Pro', 'feedback type', 'helpful');
-      } else {
-        $type = _x('Contra', 'feedback type', 'helpful');
       }
 
       $post_title = sprintf($post_title, get_the_title($fields['post_id']));
 
       $feedback = [
-        'post_title' => wp_strip_all_tags($post_title),
+        'post_title'   => wp_strip_all_tags($post_title),
         'post_content' => $fields['post_content'],
-        'post_status' => 'publish',
-        'post_type' => 'helpful_feedback',
-        'meta_input' => [
-          'post_id' => $fields['post_id'],
-          'type' => $type,
-          'browser' => 'none',
-          'platform' => 'none',
-          'language' => 'none',
+        'post_status'  => 'publish',
+        'post_type'    => 'helpful_feedback',
+        'meta_input'   => [
+          'post_id'     => $fields['post_id'],
+          'type'        => $type,
+          'browser'     => 'none',
+          'platform'    => 'none',
+          'language'    => 'none',
         ],
       ];
 
       // save user language
-      if( isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $_SERVER['HTTP_ACCEPT_LANGUAGE'] !== '' ) {
-        $language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+      $language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+
+      if( isset($language) && '' !== $language ) {
         $language = explode(',', $language);
         $feedback['meta_input']['language'] = $language[0];
       }
@@ -316,15 +314,13 @@ class Base
         $feedback_id = wp_insert_post( $feedback );
       }
 
+      // after contra      
+      $after = apply_filters( 'helpful_after_contra', '' );
+      $response = $this->str_to_helpful( $after, $fields['post_id'] );
+
       // after pro
       if( 'pro' == $fields['type'] ) {
         $after = apply_filters( 'helpful_after_pro', '' );
-        $response = $this->str_to_helpful( $after, $fields['post_id'] );
-      }
-
-      // after contra
-      else {
-        $after = apply_filters( 'helpful_after_contra', '' );
         $response = $this->str_to_helpful( $after, $fields['post_id'] );
       }
     }
