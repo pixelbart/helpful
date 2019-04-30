@@ -472,10 +472,9 @@ class Admin
   		$html .= sprintf('<li>%s</li>', $text);
     }
 
-    $agent = sanitize_text_field($_SERVER['HTTP_USER_AGENT']);
-    if( isset($agent) && function_exists('get_browser') ):
-      if( get_browser($agent, true) ):
-        $browser = get_browser($agent, true);
+    if( function_exists('get_browser') ):
+      if( get_browser(null, true) ):
+        $browser = get_browser(null, true);
         $text = esc_html_x('Browser: %s', 'info sidebar options page', 'helpful');
         $text = sprintf($text, $browser['parent']);
     		$html .= sprintf('<li>%s</li>', $text);
@@ -519,14 +518,13 @@ class Admin
    */
 	public function widget_callback()
   {
-		global $post, $wpdb, $helpful;
+		global $post, $wpdb;
 
 		wp_enqueue_style('helpful-charts');
 		wp_enqueue_script('helpful-widget');
 
 		$html = '';
 		$url  = admin_url('?page=helpful');
-		$post_types = get_option('helpful_post_types');
     $number = get_option('helpful_widget_amount') ? get_option('helpful_widget_amount') : 5;
 
 		$table_name = $wpdb->prefix . 'helpful';
@@ -791,7 +789,7 @@ class Admin
 
     $html .= '</div>';
 
-		echo $html;
+		print $html;
 	}
 
   /**
@@ -968,7 +966,7 @@ class Admin
    */
   public function table_css()
   {
-    echo '<style>
+    print '<style>
     tr .hide-on-hover {display:block}
     tr:hover .hide-on-hover {display:none}
     tr .show-on-hover {display:none}
