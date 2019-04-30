@@ -57,7 +57,11 @@ class Admin
     }
 	}
 
-  // install database table
+  /**
+   * Install database table
+   *
+   * @return bool
+   */
 	public function install()
   {
 		global $wpdb;
@@ -87,17 +91,21 @@ class Admin
 		$this->default_options(true);
 
     update_option('helpful_is_installed', 1);
+
+    return true;
 	}
 
-	// truncate table and delete post metas
+  /**
+   * Truncate table and delete post meta
+   */
 	public function truncate()
   {
 		if( get_option('helpful_uninstall') ) {
 
-  		global $wpdb, $helpful;
+  		global $wpdb;
 
-  		$table_name = $wpdb->prefix . 'helpful';
-  		$wpdb->query("TRUNCATE TABLE $table_name");
+      $table_name = $wpdb->prefix . 'helpful';
+      $wpdb->query("TRUNCATE TABLE $table_name");      
   		update_option( 'helpful_uninstall', false );
 
       $args = [
@@ -124,12 +132,12 @@ class Admin
       }
 
       update_option('helpful_is_installed', 0);
-
-  		$helpful['system'] = __( 'The database table was successfully reset!', 'helpful' );
     }
 	}
 
-	// register Menu
+  /**
+   * Register admin menu
+   */
 	public function register_menu()
   {
     // add menu
@@ -154,16 +162,22 @@ class Admin
 		);
 
 		// register settings for settings page
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
+    add_action( 'admin_init', [ $this, 'register_settings' ] );
 	}
 
-	// admin page callback
+  /**
+   * Callback for admin page
+   *
+   * @return string
+   */
 	public function settings_page()
   {
-		include( plugin_dir_path( HELPFUL_FILE ) . 'templates/backend.php' );
+		include( HELPFUL_PATH . 'templates/backend.php' );
 	}
 
-  // register Settings
+  /**
+   * Register admin settings
+   */
 	public function register_settings()
   {
     $fields = [
@@ -248,10 +262,15 @@ class Admin
     }
 	}
 
-	// default values for settings
-	public function default_options( $bool = false )
+  /**
+   * Default values for settings
+   *
+   * @param bool $status set true for set defaults
+   * @return string
+   */
+	public function default_options( $status = false )
   {
-		if( false == $bool ) {
+		if( false == $status ) {
       return false;
     }
 
@@ -279,7 +298,10 @@ class Admin
     }
 	}
 
-	// register Tabs
+  /**
+   * Register tabs for admin page
+   * @return string
+   */
 	public function register_tabs()
   {
 		global $helpful;
@@ -288,27 +310,27 @@ class Admin
       'text' => [
         'class' => $helpful['tab'] == 'text' ? 'helpful-tab helpful-tab-active' : 'helpful-tab',
         'href'  => '?page=helpful&tab=text',
-        'name'  => _x( 'Texts', 'tab name', 'helpful' ),
+        'name'  => esc_html_x( 'Texts', 'tab name', 'helpful' ),
       ],
       'general' => [
         'class' => $helpful['tab'] == 'detail' ? 'helpful-tab helpful-tab-active' : 'helpful-tab',
         'href'  => '?page=helpful&tab=detail',
-        'name'  => _x( 'Details', 'tab name', 'helpful' ),
+        'name'  => esc_html_x( 'Details', 'tab name', 'helpful' ),
       ],
       'design' => [
         'class' => $helpful['tab'] == 'design' ? 'helpful-tab helpful-tab-active' : 'helpful-tab',
         'href'  => '?page=helpful&tab=design',
-        'name'  => _x( 'Design', 'tab name', 'helpful' ),
+        'name'  => esc_html_x( 'Design', 'tab name', 'helpful' ),
       ],
       'feedback' => [
         'class' => $helpful['tab'] == 'feedback' ? 'helpful-tab helpful-tab-active' : 'helpful-tab',
         'href'  => '?page=helpful&tab=feedback',
-        'name'  => _x( 'Feedback', 'tab name', 'helpful' ),
+        'name'  => esc_html_x( 'Feedback', 'tab name', 'helpful' ),
       ],
       'system' => [
         'class' => $helpful['tab'] == 'system' ? 'helpful-tab helpful-tab-active' : 'helpful-tab',
         'href'  => '?page=helpful&tab=system',
-        'name'  => _x( 'System', 'tab name', 'helpful' ),
+        'name'  => esc_html_x( 'System', 'tab name', 'helpful' ),
       ],
     ];
 
@@ -317,20 +339,26 @@ class Admin
     foreach( $tabs as $tab ) {
       printf(
         '<li class="%s"><a href="%s" class="helpful-tab-link">%s</a></li>',
-        $tab['class'], $tab['href'], $tab['name']
+        esc_attr($tab['class']), esc_attr($tab['href']), esc_html($tab['name'])
       );
     }
 	}
 
-	// setup tabs content
+  /**
+   * Setup tabs content for admin page
+   * @return string
+   */
 	public function setup_tabs()
   {
-		foreach ( glob( plugin_dir_path( HELPFUL_FILE ) . "core/tabs/*.php" ) as $file ) {
-			include_once $file;
+		foreach ( glob( HELPFUL_PATH . "core/tabs/*.php" ) as $file ) {
+			include_once($file);
 		}
 	}
 
-	// backend enqueue scripts
+  /**
+   * Enqueue backend scripts and styles
+   * @return string
+   */
 	public function backend_enqueue()
   {
 		// register styles
@@ -347,99 +375,108 @@ class Admin
 		// current screen is helpful
     // enqueue admin css
     $screen = get_current_screen();
-		if( 'toplevel_page_helpful' == $screen->base ) {
+		if( 'toplevel_page_helpful' !== $screen->base ) {
+      return;
+    }
 
-      $file = plugins_url( 'core/assets/css/admin.css', HELPFUL_FILE );
-			wp_enqueue_style ( 'helpful-backend', $file, [], HELPFUL_VERSION );
+    $file = plugins_url( 'core/assets/css/admin.css', HELPFUL_FILE );
+    wp_enqueue_style ( 'helpful-backend', $file, [], HELPFUL_VERSION );
+    
+    // Register theme for preview
+    foreach ( glob( HELPFUL_PATH . 'core/assets/themes/*.css' ) as $theme ) {
 
-      // Register theme for preview
-      foreach ( glob( plugin_dir_path( HELPFUL_FILE ) . 'core/assets/themes/*.css' ) as $theme ) {
+      $pathinfo = pathinfo($theme);
+      $name = str_replace( '.css', '', $pathinfo['basename'] );
+      $file = HELPFUL_PATH . 'core/assets/themes/' . $name . '.css';
 
-        $name = str_replace( array('.css'), '', basename( $theme, PHP_EOL ) );
-        $file = plugin_dir_path( HELPFUL_FILE ) . 'core/assets/themes/' . $name . '.css';
-
-        if( file_exists( $file ) ) {
-          $file = plugins_url( 'core/assets/themes/' . $name . '.css', HELPFUL_FILE );
-          wp_enqueue_style( 'helpful-preview-' . $name, $file, [], HELPFUL_VERSION );
-        }
+      if( false !== stream_resolve_include_path($file) ) {
+        $file = plugins_url( 'core/assets/themes/' . $name . '.css', HELPFUL_FILE );
+        wp_enqueue_style( 'helpful-preview-' . $name, $file, [], HELPFUL_VERSION );
       }
+    }
 
-      $file = plugins_url( 'core/assets/css/tab-design.css', HELPFUL_FILE );
-      wp_enqueue_style( 'helpful-design', $file, [], HELPFUL_VERSION );
+    $file = plugins_url( 'core/assets/css/tab-design.css', HELPFUL_FILE );
+    wp_enqueue_style( 'helpful-design', $file, [], HELPFUL_VERSION );
 
-      // Enqueue code editor and settings for manipulating HTML.
+    // Enqueue code editor and settings for manipulating HTML.
 
-      if( function_exists('wp_enqueue_code_editor') ) {
-        $editor_types = [ 'type' => 'css' ];
-        $settings = wp_enqueue_code_editor( $editor_types );
+    if( function_exists('wp_enqueue_code_editor') ) {
+      $editor_types = [ 'type' => 'css' ];
+      $settings = wp_enqueue_code_editor( $editor_types );
 
-        // fail if user disabled CodeMirror.
-        if( false !== $settings ) {
+      // fail if user disabled CodeMirror.
+      if( false !== $settings ) {
 
-          $script = sprintf(
-            '(function($) { $(function() {
-              if( $(".helpful_css").length ) { wp.codeEditor.initialize( "helpful_css", %s ); }
-            }); })(jQuery)',
-            wp_json_encode( $settings )
-          );
+        $script = sprintf(
+          '(function($) { $(function() {
+            if( $(".helpful_css").length ) { wp.codeEditor.initialize( "helpful_css", %s ); }
+          }); })(jQuery)',
+          wp_json_encode($settings)
+        );
 
-          wp_add_inline_script('code-editor', $script);
-        }
-      } /* end wp enqueue_code_editor */
+        wp_add_inline_script('code-editor', $script);
+      }
     }
 	}
 
-	// backend informations container
+  /**
+   * Backend sidebar content for admin page
+   *
+   * @return string
+   */
 	public function sidebar()
   {
-		global $helpful;
+    global $wp_version;
 
-		$html  = '<h4>' . _x( 'Links & Support', 'headline sidebar options page', 'helpful' ) . '</h4>';
-		$html .= '<p>' . _x( 'You have an question?', 'description sidebar options page', 'helpful' ) . '</p>';
+		$html  = sprintf('<h4>%s</h4>', esc_html_x( 'Links & Support', 'headline sidebar options page', 'helpful' ));
+		$html .= sprintf('<p>%s</p>', esc_html_x( 'You have an question?', 'description sidebar options page', 'helpful' ));
 		$html .= '<ul>';
 
 		$html .= sprintf(
 			'<li><a href="%s" target="_blank">%s</a></li>',
 			'https://wordpress.org/plugins/helpful/#developers',
-			_x( 'Changelogs', 'link text sidebar options page', 'helpful' )
+			esc_html_x( 'Changelogs', 'link text sidebar options page', 'helpful' )
 		);
 
 		$html .= sprintf(
 			'<li><a href="%s" target="_blank">%s</a></li>',
 			'https://wordpress.org/support/plugin/helpful',
-			_x( 'Help & Support', 'link text sidebar options page', 'helpful' )
+			esc_html_x( 'Help & Support', 'link text sidebar options page', 'helpful' )
 		);
 
 		$html .= sprintf(
 			'<li><a href="%s" target="_blank">%s</a></li>',
 			'https://wordpress.org/support/plugin/helpful/reviews/#new-post',
-			_x( 'Rate this plugin', 'link text sidebar options page', 'helpful' )
+			esc_html_x( 'Rate this plugin', 'link text sidebar options page', 'helpful' )
 		);
 
     $html .='</ul>';
-
-    $html .= sprintf( '<h4>%s</h4>', _x( 'Troubleshooting Information', 'text sidebar options page', 'helpful' ) );
-
+    $html .= sprintf( '<h4>%s</h4>', esc_html_x( 'Troubleshooting Information', 'text sidebar options page', 'helpful' ) );
 		$html .= '<ul>';
 
+    if( isset($wp_version) ) {
+      $text = esc_html_x('WordPress Version: %s', 'info sidebar options page', 'helpful');
+      $text = sprintf($text, $wp_version);
+  		$html .= sprintf('<li>%s</li>', $text);
+    }
+
     if( function_exists('phpversion') ) {
-      $text = _x('PHP Version: %s', 'info sidebar options page', 'helpful');
+      $text = esc_html_x('PHP Version: %s', 'info sidebar options page', 'helpful');
       $text = sprintf($text, phpversion());
   		$html .= sprintf('<li>%s</li>', $text);
     }
 
     if( HELPFUL_VERSION ) {
-      $text = _x('Helpful Version: %s', 'info sidebar options page', 'helpful');
+      $text = esc_html_x('Helpful Version: %s', 'info sidebar options page', 'helpful');
       $text = sprintf($text, HELPFUL_VERSION);
   		$html .= sprintf('<li>%s</li>', $text);
     }
 
-    $agent = $_SERVER['HTTP_USER_AGENT'];
-
+    $agent = esc_html($_SERVER['HTTP_USER_AGENT']);
     if( isset($agent) && function_exists('get_browser') ):
       if( get_browser($agent, true) ):
         $browser = get_browser($agent, true);
-        $text = _x('Browser: %s', 'info sidebar options page', 'helpful');
+        $text = esc_html_x('Browser: %s', 'info sidebar options page', 'helpful');
         $text = sprintf($text, $browser['parent']);
     		$html .= sprintf('<li>%s</li>', $text);
       endif;
@@ -450,7 +487,9 @@ class Admin
 		echo $html;
 	}
 
-	// register widget
+  /**
+   * Register custom dashboard widget
+   */
 	public function register_widget()
   {
 		if( !get_option('helpful_widget') ) {
@@ -458,18 +497,15 @@ class Admin
 		}
 	}
 
-	// widget
+  /**
+   * Dashboard widget options
+   */
 	public function widget()
   {
 		global $wp_meta_boxes;
 
-		wp_add_dashboard_widget(
-			'helpful_widget',
-			_x( 'Helpful', 'headline dashboard widget', 'helpful' ),
-			[ $this, 'widget_callback' ],
-      null,
-      [ '__block_editor_compatible_meta_box' => false ]
-		);
+    wp_add_dashboard_widget( 'helpful_widget', esc_html_x( 'Helpful', 'headline dashboard widget', 'helpful' ), 
+    [ $this, 'widget_callback' ], null, [ '__block_editor_compatible_meta_box' => false ] );
 
 		$dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
 		$helpful_widget = [ 'helpful_widget' => $dashboard['helpful_widget'] ];
@@ -478,7 +514,9 @@ class Admin
 		$wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
 	}
 
-	// widget callback
+  /**
+   * Dashboard widget content
+   */
 	public function widget_callback()
   {
 		global $post, $wpdb, $helpful;
@@ -494,58 +532,42 @@ class Admin
 		$table_name = $wpdb->prefix . 'helpful';
 
 		// Pros
-    $sql = "SELECT COUNT(*) FROM $table_name WHERE pro = 1";
-		$p = $wpdb->get_var($sql);
+    $sql = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE pro = %d", 1);
+		$pro = $wpdb->get_var($sql);
 
 		// Contras
-    $sql = "SELECT COUNT(*) FROM $table_name WHERE contra = 1";
-		$c = $wpdb->get_var($sql);
+    $sql = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE contra = %d", 1);
+		$contra = $wpdb->get_var($sql);
 
-    // sum
-    $sum = $c + $p;
+    $total = $contra + $pro;
 
-    // pro percentage
-    $pp = 0;
+    $pro_percentage = 0;
+    if( $pro ) $pro_percentage = ( $pro / $total ) * 100;
+    $pro_percentage = number_format($pro_percentage, 2);
+    $pro_percentage = (float) str_replace('.00', '', $pro_percentage);
 
-    if( $p ) {
-      $pp = ( $p / $sum ) * 100;
-    }
-
-    $pp = number_format($pp, 2);
-    $pp = (float) str_replace('.00', '', $pp);
-
-    // contra percentage
-    $cc = 0;
-
-    if( $c ) {
-      $cc = ( $c / $sum ) * 100;
-    }
-
-    $cc = number_format($cc, 2);
-    $cc = (float) str_replace('.00', '', $cc);
+    $contra_percentage = 0;
+    if( $contra ) $contra_percentage = ( $contra / $total ) * 100;
+    $contra_percentage = number_format($contra_percentage, 2);
+    $contra_percentage = (float) str_replace('.00', '', $contra_percentage);
 
 		// Pro Counter
 		$html .= '<div class="helpful-counter-pro">';
-
     if( get_option('helpful_percentages') ) {
- 		  $html .= sprintf( '<span>%s%% <small>(%s)</small></span>', $pp, $p );
+ 		  $html .= sprintf( '<span>%s%% <small>(%s)</small></span>', $pro_percentage, $pro );
     } else {
- 		  $html .= sprintf( '<span>%s <small>(%s%%)</small></span>', $p, $pp );
+ 		  $html .= sprintf( '<span>%s <small>(%s%%)</small></span>', $pro, $pro_percentage );
     }
-
     $html .= '<div class="helpful-counter-info">' . get_option('helpful_column_pro') . '</div>';
 		$html .= '</div>';
 
 		// Contra Counter
 		$html .= '<div class="helpful-counter-contra">';
-
-
     if( get_option('helpful_percentages') ) {
- 		  $html .= sprintf( '<span>%s%% <small>(%s)</small></span>', $cc, $c );
+ 		  $html .= sprintf( '<span>%s%% <small>(%s)</small></span>', $contra_percentage, $contra );
     } else {
- 		  $html .= sprintf( '<span>%s <small>(%s%%)</small></span>', $c, $cc );
+ 		  $html .= sprintf( '<span>%s <small>(%s%%)</small></span>', $contra, $contra_percentage );
     }
-
     $html .= '<div class="helpful-counter-info">' . get_option('helpful_column_contra') . '</div>';
 		$html .= '</div>';
 
@@ -555,11 +577,11 @@ class Admin
     if( get_option('helpful_widget_pro') ) {
 
       $html .= '<div>';
-      $html .= sprintf( '<strong>%s</strong>', _x('Most helpful','widget headline','helpful') );
+      $html .= sprintf( '<strong>%s</strong>', esc_html_x('Most helpful','widget headline','helpful') );
 
       $args = [
         'post_type' => 'any',
-        'posts_per_page' => $number,
+        'posts_per_page' => intval($number),
         'meta_key' => 'helpful-pro',
         'orderby' => [ 'meta_value_num' => 'DESC' ],
         'fields' => 'ids',
@@ -583,7 +605,7 @@ class Admin
         $html .= '</ul>';
 
       } else {
-        $html .= sprintf( '<p>%s</p>', __('No entries found.','helpful') );
+        $html .= sprintf( '<p>%s</p>', esc_html__('No entries found.','helpful') );
       }
 
       $html .= '</div>';
@@ -594,11 +616,11 @@ class Admin
     if( get_option('helpful_widget_contra') ) {
 
       $html .= '<div>';
-      $html .= sprintf( '<strong>%s</strong>', _x('Least helpful','widget headline','helpful') );
+      $html .= sprintf( '<strong>%s</strong>', esc_html_x('Least helpful','widget headline','helpful') );
 
       $args = [
         'post_type' => 'any',
-        'posts_per_page' => $number,
+        'posts_per_page' => intval($number),
         'meta_key' => 'helpful-contra',
         'orderby' => [ 'meta_value_num' => 'DESC' ],
         'fields' => 'ids',
@@ -622,43 +644,44 @@ class Admin
         $html .= '</ul>';
 
       } else {
-        $html .= sprintf( '<p>%s</p>', __('No entries found.','helpful') );
+        $html .= sprintf( '<p>%s</p>', esc_html__('No entries found.','helpful') );
       }
 
       $html .= '</div>';
       $html .= '<hr />';
     }
 
-    // most helpful recent posts
+    /* most helpful recent posts */
+
     if( get_option('helpful_widget_pro_recent') ) {
 
       // results
-      $sql = "SELECT post_id, time FROM $table_name WHERE pro = 1 ORDER BY time DESC LIMIT $number";
-      $recent_pros = $wpdb->get_results($sql);
+      $sql = $wpdb->prepare("SELECT post_id, time FROM $table_name WHERE pro = %d ORDER BY time DESC LIMIT %d", 1, $number);
+      $posts = $wpdb->get_results($sql);
 
       $html .= '<div>';
-      $html .= sprintf( '<strong>%s</strong>', _x('Recently helpful','widget headline','helpful') );
+      $html .= sprintf( '<strong>%s</strong>', esc_html_x('Recently helpful','widget headline','helpful') );
 
-      if( !empty($recent_pros) ) {
+      if( !empty($posts) ) {
 
       $html .= '<ul>';
 
-        foreach( $recent_pros as $p ) {
+        foreach( $posts as $post ) {
 
-          $time = strtotime($p->time);
+          $time = strtotime($post->time);
 
           $html .= sprintf(
             '<li><a href="%s">%s</a><br><span>%s</span></li>',
-            get_the_permalink($p->post_id),
-            get_the_title($p->post_id),
-            sprintf( _x('%s ago', 'time difference', 'helpful'), human_time_diff($time) )
+            get_the_permalink($post->post_id),
+            get_the_title($post->post_id),
+            sprintf( esc_html_x('%s ago', 'time difference', 'helpful'), human_time_diff($time) )
           );
         }
 
       $html .= '</ul>';
 
       } else {
-        $html .= sprintf( '<p>%s</p>', __('No entries found.','helpful') );
+        $html .= sprintf( '<p>%s</p>', esc_html__('No entries found.','helpful') );
       }
 
       $html .= '</div>';
@@ -669,32 +692,32 @@ class Admin
     if( get_option('helpful_widget_contra_recent') ) {
 
       // results
-      $sql = "SELECT post_id, time FROM $table_name WHERE contra = 1 ORDER BY time DESC LIMIT $number";
-      $recent_cons = $wpdb->get_results($sql);
+      $sql = $wpdb->prepare("SELECT post_id, time FROM $table_name WHERE contra = %d ORDER BY time DESC LIMIT %d", 1, $number);
+      $posts = $wpdb->get_results($sql);
 
       $html .= '<div>';
-      $html .= sprintf( '<strong>%s</strong>', _x('Recently unhelpful','widget headline','helpful') );
+      $html .= sprintf( '<strong>%s</strong>', esc_html_x('Recently unhelpful','widget headline','helpful') );
 
-      if( !empty($recent_cons) ) {
+      if( !empty($posts) ) {
 
       $html .= '<ul>';
 
-        foreach( $recent_cons as $p ) {
+        foreach( $posts as $post ) {
 
-          $time = strtotime($p->time);
+          $time = strtotime($post->time);
 
           $html .= sprintf(
             '<li><a href="%s">%s</a><br><span>%s</span></li>',
-            get_the_permalink($p->post_id),
-            get_the_title($p->post_id),
-            sprintf( _x('%s ago', 'time difference', 'helpful'), human_time_diff($time) )
+            get_the_permalink($post->post_id),
+            get_the_title($post->post_id),
+            sprintf( esc_html_x('%s ago', 'time difference', 'helpful'), human_time_diff($time) )
           );
         }
 
       $html .= '</ul>';
 
       } else {
-        $html .= sprintf( '<p>%s</p>', __('No entries found.','helpful') );
+        $html .= sprintf( '<p>%s</p>', esc_html__('No entries found.','helpful') );
       }
 
       $html .= '</div>';
@@ -715,34 +738,32 @@ class Admin
       $feedback = new \WP_Query($args);
 
       $html .= '<div>';
-      $html .= sprintf( '<strong>%s</strong>', _x('Recent Feedback','widget headline','helpful') );
+      $html .= sprintf( '<strong>%s</strong>', esc_html_x('Recent Feedback','widget headline','helpful') );
 
       if( $feedback->found_posts ) {
 
       $html .= '<ul>';
 
-        foreach( $feedback->posts as $feedback_id ) {
+        foreach( $feedback->posts as $post_id ) {
 
-          $time = get_the_time('U', $feedback_id);
+          $time = get_the_time('U', $post_id);
+          $url = admin_url( sprintf('post.php?post=%s&action=edit', $post_id) );
 
-          $url = admin_url( sprintf('post.php?post=%s&action=edit', $feedback_id) );
-
-          if( get_option('helpful_feedback_widget_overview') ) {
+          if( get_option('helpful_feedback_widget_overview') )
             $url = admin_url( 'edit.php?post_type=helpful_feedback' );
-          }
 
           $html .= sprintf(
             '<li><a href="%s">%s</a><br><span>%s</span></li>',
             $url,
-            get_the_title($feedback_id),
-            sprintf( _x('%s ago', 'time difference', 'helpful'), human_time_diff($time) )
+            get_the_title($post_id),
+            sprintf( esc_html_x('%s ago', 'time difference', 'helpful'), human_time_diff($time) )
           );
         }
 
       $html .= '</ul>';
 
       } else {
-        $html .= sprintf( '<p>%s</p>', __( 'No feedback found.', 'helpful' ) );
+        $html .= sprintf( '<p>%s</p>', esc_html__( 'No feedback found.', 'helpful' ) );
       }
 
       $html .= '</div>';
@@ -763,7 +784,7 @@ class Admin
 
 		// settings link
 		$html .= '<div class="helpful-settings">';
-		$html .= sprintf( '<a href="%s" title="%s">', $url, _x( 'Settings', 'link title dashboard widget', 'helpful' ) );
+		$html .= sprintf( '<a href="%s" title="%s">', esc_url($url), esc_html_x( 'Settings', 'link title dashboard widget', 'helpful' ) );
 		$html .= '<span class="dashicons dashicons-admin-generic"></span>';
 		$html .= '</a>';
 		$html .= '</div>';
@@ -773,26 +794,29 @@ class Admin
 		echo $html;
 	}
 
-	// register columns
+  /**
+   * Register columns on admin pages
+   * @return string
+   */
 	public function register_columns()
   {
 		$post_types = get_option('helpful_post_types');
-
-		if( $post_types ) {
-
+		if( isset($post_types) ) {
 			foreach( $post_types as $post_type ) {
+        $post_type = esc_attr($post_type);
 				add_filter( 'manage_edit-' . $post_type . '_columns', array( $this, 'columns' ), 10 );
 			}
 		}
 	}
 
-	// columns
+  /**
+   * Set column titles
+   * @param array $defaults defatul columns
+   * @return string
+   */
 	public function columns( $defaults )
   {
-		global $helpful;
-
 		$columns = [];
-
 		foreach ($defaults as $key => $value) {
 			$columns[$key] = $value;
 
@@ -805,90 +829,106 @@ class Admin
     return $columns;
 	}
 
-	// register columns content
+  /**
+   * Register columns content
+   * @return string
+   */
 	public function register_columns_content()
   {
 		$post_types = get_option('helpful_post_types');
-
-		if( $post_types ) {
+		if( isset($post_types) ) {
 			foreach( $post_types as $post_type ) {
+        $post_type = esc_attr($post_type);
 				add_action( 'manage_' . $post_type . '_posts_custom_column', array( $this, 'columns_content' ), 10, 2 );
 			}
 		}
 	}
 
-	// columns content
+  /**
+   * Columns callback
+   * @return string
+   */
 	public function columns_content( $column_name, $post_id )
   {
 		if ( 'helpful-pro' == $column_name ) {
-			$pros = get_post_meta( $post_id, 'helpful-pro', true );
-  		$cons = get_post_meta($post_id, 'helpful-contra', true );
+			$pro = get_post_meta( $post_id, 'helpful-pro', true );
+  		$contra = get_post_meta( $post_id, 'helpful-contra', true );
 
-      $pros = $pros ? (int) $pros : 0;
-      $cons = $cons ? (int) $cons : 0;
+      $pro = $pro ? (int) $pro : 0;
+      $contra = $contra ? (int) $contra : 0;
 
       $percent = 0;
-      if( $pros !== 0 ) {
-        $percent = ( $pros / ( $pros + $cons ) ) * 100;
+      if( $pro !== 0 ) {
+        $percent = ( $pro / ( $pro + $contra ) ) * 100;
       }
 
       $percent = number_format($percent, 2);
       $percent = (float) str_replace('.00', '', $percent);
 
       if( get_option('helpful_percentages') ) {
-			  printf('<span class="hide-on-hover">%s%%</span><span class="show-on-hover">%s</span>', $percent, intval( $pros ));
+			  printf( '<span class="hide-on-hover">%s%%</span><span class="show-on-hover">%s</span>', esc_html($percent), intval($pro) );
       } else {
-			  printf('<span class="hide-on-hover">%s</span><span class="show-on-hover">%s%%</span>', intval( $pros ), $percent);
+			  printf( '<span class="hide-on-hover">%s</span><span class="show-on-hover">%s%%</span>', intval($pro), esc_html($percent) );
       }
 		}
 
 		if ( 'helpful-contra' == $column_name ) {
-			$pros = get_post_meta( $post_id, 'helpful-pro', true );
-			$cons = get_post_meta($post_id, 'helpful-contra', true );
+			$pro = get_post_meta( $post_id, 'helpful-pro', true );
+			$contra = get_post_meta( $post_id, 'helpful-contra', true );
 
-      $pros = $pros ? (int) $pros : 0;
-      $cons = $cons ? (int) $cons : 0;
+      $pro = $pro ? (int) $pro : 0;
+      $contra = $contra ? (int) $contra : 0;
 
       $percent = 0;
-      if( $cons !== 0 ) {
-        $percent = ( $cons / ( $pros + $cons ) ) * 100;
+      if( $contra !== 0 ) {
+        $percent = ( $contra / ( $pro + $contra ) ) * 100;
       }
 
       $percent = number_format($percent, 2);
       $percent = (float) str_replace('.00', '', $percent);
 
       if( get_option('helpful_percentages') ) {
-			  printf('<span class="hide-on-hover">%s%%</span><span class="show-on-hover">%s</span>', $percent, intval( $cons ));
+			  printf( '<span class="hide-on-hover">%s%%</span><span class="show-on-hover">%s</span>', esc_html($percent), intval($contra) );
       } else {
-			  printf('<span class="hide-on-hover">%s</span><span class="show-on-hover">%s%%</span>', intval( $cons ), $percent);
+			  printf( '<span class="hide-on-hover">%s</span><span class="show-on-hover">%s%%</span>', intval($contra), esc_html($percent) );
       }
 		}
 	}
 
-	// register sortable columns
+  /**
+   * Register sortable columns
+   * @return string
+   */
 	public function register_sortable_columns()
   {
 		$post_types = get_option('helpful_post_types');
-		if( $post_types ) {
+		if( isset($post_types) ) {
 			foreach( $post_types as $post_type ) {
+        $post_type = esc_attr($post_type);
 				add_filter( 'manage_edit-' . $post_type . '_sortable_columns', [ $this, 'sortable_columns' ] );
 			}
 		}
 	}
 
-	// sortable columns
-	public function sortable_columns( $sortable_columns )
+  /**
+   * Set sortable columns
+   * @return string
+   */
+	public function sortable_columns($sortable_columns)
   {
 		$sortable_columns[ 'helpful-pro' ] = 'helpful-pro';
    	$sortable_columns[ 'helpful-contra' ] = 'helpful-contra';
 		return $sortable_columns;
 	}
 
-	// make columns values sortable in query
+  /**
+   * Make values sortable in columns
+   * @param object $query current query
+   * @return string
+   */
 	public function make_sortable_columns( $query )
   {
-		if ( $query->is_main_query() && ( $orderby = $query->get( 'orderby' ) ) ) {
-
+		if( $query->is_main_query() && ($orderby = $query->get('orderby')) ) {
 			switch( $orderby ) {
 				case 'helpful-pro':
   				$query->set( 'meta_key', 'helpful-pro' );
@@ -902,25 +942,30 @@ class Admin
 		}
 	}
 
-	// register themes
+  /**
+   * Register helpful themes
+   * @param array $query default themes
+   * @return array
+   */
 	public function themes( $themes )
   {
-		// set theme array
 		$themes = [
-			'base' 		=> _x( 'Base', 'theme name', 'helpful' ),
-			'dark' 		=> _x( 'Dark', 'theme name', 'helpful' ),
-			'minimal' => _x( 'Minimal', 'theme name', 'helpful' ),
-			'flat' 		=> _x( 'Flat', 'theme name', 'helpful' ),
-      'simple'  => _x( 'Simple', 'theme name', 'helpful' ),
-			'theme'		=> _x( 'Theme', 'theme name', 'helpful' ),
+			'base' 		=> esc_html_x( 'Base', 'theme name', 'helpful' ),
+			'dark' 		=> esc_html_x( 'Dark', 'theme name', 'helpful' ),
+			'minimal' => esc_html_x( 'Minimal', 'theme name', 'helpful' ),
+			'flat' 		=> esc_html_x( 'Flat', 'theme name', 'helpful' ),
+      'simple'  => esc_html_x( 'Simple', 'theme name', 'helpful' ),
+			'theme'		=> esc_html_x( 'Theme', 'theme name', 'helpful' ),
 		];
 
     $themes = apply_filters('helpful_themes', $themes);
-
 		return $themes;
 	}
 
-  // write table css
+  /**
+   * Custom css for admin tables
+   * @return string
+   */
   public function table_css()
   {
     echo '<style>
@@ -931,47 +976,56 @@ class Admin
     </style>';
   }
 
-  // add widget
+  /**
+   * Add meta box
+   * @return string
+   */
   public function add_meta_box()
   {
     $post_types = get_option('helpful_post_types');
-    add_meta_box( 'helpful-meta-box', __( 'Helpful', 'meta box name', 'helpful' ), [$this, 'callback_meta_box'], $post_types );
+    if( isset($post_types) )
+      add_meta_box( 'helpful-meta-box', esc_html__( 'Helpful', 'meta box name', 'helpful' ), [$this, 'callback_meta_box'], $post_types );
   }
 
-  // meta box callback
+  /**
+   * Meta box callback
+   * @return string
+   */
   public function callback_meta_box()
   {
     global $post;
-
     
-		$pros = get_post_meta( $post->ID, 'helpful-pro', true );
-  	$cons = get_post_meta( $post->ID, 'helpful-contra', true );
+		$pro = get_post_meta( $post->ID, 'helpful-pro', true );
+  	$contra = get_post_meta( $post->ID, 'helpful-contra', true );
 
-    $pros = $pros ? (int) $pros : 0;
-    $cons = $cons ? (int) $cons : 0;
+    $pro = $pro ? (int) $pro : 0;
+    $contra = $contra ? (int) $contra : 0;
 
     $pro_percent = 0;
-    if( $pros !== 0 ) {
-      $pro_percent = ( $pros / ( $pros + $cons ) ) * 100;
+    if( $pro !== 0 ) {
+      $pro_percent = ( $pro / ( $pro + $contra ) ) * 100;
     }
 
     $pro_percent = number_format($pro_percent, 2);
     $pro_percent = (float) str_replace('.00', '', $pro_percent);
 
     $contra_percent = 0;
-    if( $cons !== 0 ) {
-      $contra_percent = ( $cons / ( $pros + $cons ) ) * 100;
+    if( $contra !== 0 ) {
+      $contra_percent = ( $contra / ( $pro + $contra ) ) * 100;
     }
 
     $contra_percent = number_format($contra_percent, 2);
     $contra_percent = (float) str_replace('.00', '', $contra_percent);
 
     wp_nonce_field( 'helfpul_remove_single', 'helfpul_remove_single_nonce' );
-
-    include( plugin_dir_path( HELPFUL_FILE ) . 'templates/meta_box.php' );
+    include( HELPFUL_PATH . 'templates/meta_box.php' );
   }
 
-  // meta box save
+  /**
+   * Save meta box data
+   * @param integer $post_id current post id
+   * @return string
+   */
   public function save_meta_box($post_id)
   {
     if ( 
@@ -983,14 +1037,18 @@ class Admin
     }
   }
 
-  // remove helpful entries from single
+  /**
+   * Remove helpful data from current post
+   * @param integer $post_id current post id
+   * @return string
+   */
   public function remove_single($post_id)
   {
-    global $wpdb, $helpful;
+    global $wpdb;
 
     $table_name = $wpdb->prefix . 'helpful';
 
-    $wpdb->delete( $table_name, array( 'post_id' => $post_id ) );
+    $wpdb->delete( $table_name, ['post_id' => $post_id] );
     
     if( get_post_meta( $post_id, 'helpful-pro' ) ) {
       delete_post_meta( $post_id, 'helpful-pro' );
