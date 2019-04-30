@@ -133,8 +133,10 @@ class Base
    */
 	public function helpful_ajax_pro()
   {
+    check_ajax_referer('helpful');
+
 		// do request if defined
-    if( 1 == $_POST['pro'] && defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+    if( isset($_POST['pro']) && 1 == $_POST['pro'] ) {
 
       $inputs = [];
 
@@ -182,8 +184,10 @@ class Base
    */
 	public function helpful_ajax_contra()
   {
+    check_ajax_referer('helpful');
+
      // do requeset if defined
-     if( 1 == $_REQUEST['contra'] && defined('DOING_AJAX') && DOING_AJAX ) {
+     if( isset($_POST) && 1 == $_POST['contra'] ) {
 
       // sanitize inputs
       foreach( $_POST as $key => $value ) {
@@ -251,80 +255,77 @@ class Base
    */
   public function insert_feedback()
   {
+    check_ajax_referer('helpful_feedback');
+
     $response = '';
+    $fields = [];
 
-    if( defined('DOING_AJAX') && DOING_AJAX ) {
+    // sanitize request values
+    foreach( $_POST as $key => $value ) {
+      $fields[$key] = wp_unslash(sanitize_text_field($value));
+    }
 
-      $fields = [];
+    // insert feedback
+    $post_title = esc_html_x('Negative feedback for %s', 'feedback post title info', 'helpful');
 
-      // sanitize request values
-      foreach( $_REQUEST as $key => $value ) {
-        $fields[$key] = wp_unslash(sanitize_text_field($value));
-      }
+    if( 'pro' == $fields['type'] ) {
+      $post_title = esc_html_x('Positive feedback for %s', 'feedback post title info', 'helpful');
+    }
 
-      // insert feedback
-      $post_title = _x('Negative feedback for %s', 'feedback post title info', 'helpful');
+    // check types and save type
+    $type = esc_html_x('Contra', 'feedback type', 'helpful');
 
-      if( $fields['type'] == 'pro' ) {
-        $post_title = _x('Positive feedback for %s', 'feedback post title info', 'helpful');
-      }
+    if( 'pro' == $fields['type'] ) {
+      $type = esc_html_x('Pro', 'feedback type', 'helpful');
+    }
 
-      // check types and save type
-      $type = _x('Contra', 'feedback type', 'helpful');
+    $post_title = sprintf($post_title, get_the_title($fields['post_id']));
 
-      if( $fields['type'] == 'pro' ) {
-        $type = _x('Pro', 'feedback type', 'helpful');
-      }
+    $feedback = [
+      'post_title'   => wp_strip_all_tags($post_title),
+      'post_content' => $fields['post_content'],
+      'post_status'  => 'publish',
+      'post_type'    => 'helpful_feedback',
+      'meta_input'   => [
+        'post_id'     => $fields['post_id'],
+        'type'        => $type,
+        'browser'     => 'none',
+        'platform'    => 'none',
+        'language'    => 'none',
+      ],
+    ];
 
-      $post_title = sprintf($post_title, get_the_title($fields['post_id']));
+    // save user language
+    $language = wp_unslash(sanitize_text_field($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 
-      $feedback = [
-        'post_title'   => wp_strip_all_tags($post_title),
-        'post_content' => $fields['post_content'],
-        'post_status'  => 'publish',
-        'post_type'    => 'helpful_feedback',
-        'meta_input'   => [
-          'post_id'     => $fields['post_id'],
-          'type'        => $type,
-          'browser'     => 'none',
-          'platform'    => 'none',
-          'language'    => 'none',
-        ],
-      ];
+    if( isset($language) && '' !== $language ) {
+      $language = explode(',', $language);
+      $feedback['meta_input']['language'] = $language[0];
+    }
 
-      // save user language
-      $language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+    // save user browser
+    if( function_exists('get_browser') ) {
+      $browser = get_browser(null, true);
+      $feedback['meta_input']['browser'] = $browser['parent'];
+      $feedback['meta_input']['platform'] = $browser['platform'];
+    }
 
-      if( isset($language) && '' !== $language ) {
-        $language = explode(',', $language);
-        $feedback['meta_input']['language'] = $language[0];
-      }
+    // check if content is blacklisted
+    if( !helpful_backlist_check($feedback['post_content']) ) {
+      $feedback_id = wp_insert_post( $feedback );
+    }
 
-      // save user browser
-      if( function_exists('get_browser') ) {
-        $browser = get_browser(null, true);
-        $feedback['meta_input']['browser'] = $browser['parent'];
-        $feedback['meta_input']['platform'] = $browser['platform'];
-      }
+    // after contra      
+    $after = apply_filters( 'helpful_after_contra', false );
+    $response = $this->tags_to_helpful( $after, $fields['post_id'] );
 
-      // check if content is blacklisted
-      if( !helpful_backlist_check($feedback['post_content']) ) {
-        $feedback_id = wp_insert_post( $feedback );
-      }
-
-      // after contra      
-      $after = apply_filters( 'helpful_after_contra', '' );
-      $response = $this->str_to_helpful( $after, $fields['post_id'] );
-
-      // after pro
-      if( 'pro' == $fields['type'] ) {
-        $after = apply_filters( 'helpful_after_pro', '' );
-        $response = $this->str_to_helpful( $after, $fields['post_id'] );
-      }
+    // after pro
+    if( 'pro' == $fields['type'] ) {
+      $after = apply_filters( 'helpful_after_pro', false );
+      $response = $this->tags_to_helpful( $after, $fields['post_id'] );
     }
 
     echo $response;
-
     wp_die();
   }
 
@@ -375,7 +376,7 @@ class Base
 	// frontend helpers
 	public function frontend_helpers( $content )
   {
-		global $post, $helpful;
+		global $post;
 		$post_id = $post->ID;
 
     $info = [
@@ -385,7 +386,7 @@ class Base
     ];
 
     $credits_link = sprintf( '<a href="%s" target="_blank" rel="%s">%s</a>', $info['url'], $info['rel'], $info['name'] );
-    $credits_text = _x( 'Powered by %s', 'helpful credits', 'helpful' );
+    $credits_text = esc_html_x( 'Powered by %s', 'helpful credits', 'helpful' );
     $credits_text = sprintf($credits_text, $credits_link);
 		$credits_text = sprintf( '<div class="helpful-credits">%s</div>', $credits_text	);
 
@@ -433,10 +434,13 @@ class Base
 		$count_pro = !get_option('helpful_count_hide') ? sprintf('<span class="counter">%s</span>', $count_pro) : '';
 		$count_con = !get_option('helpful_count_hide') ? sprintf('<span class="counter">%s</span>', $count_con) : '';
 
+    $nonce = wp_create_nonce('helpful');
+
 		// markup btn pro
 		$btn_pro = '<div class="helpful-pro" ';
 		$btn_pro .= 'data-id="' . $post_id . '" ';
-		$btn_pro .= 'data-user="' . $user . '" ';
+    $btn_pro .= 'data-user="' . $user . '" ';
+    $btn_pro .= 'data-nonce="' . $nonce . '" ';
 		$btn_pro .= 'data-pro="1" ';
 		$btn_pro .= 'data-contra="0">';
 		$btn_pro .= $pro . $count_pro;
@@ -446,6 +450,7 @@ class Base
 		$btn_con = '<div class="helpful-con" ';
 		$btn_con .= 'data-id="' . $post_id . '" ';
 		$btn_con .= 'data-user="' . $user . '" ';
+    $btn_con .= 'data-nonce="' . $nonce . '" ';
 		$btn_con .= 'data-pro="0" ';
 		$btn_con .= 'data-contra="1">';
 		$btn_con .= $contra . $count_con;
@@ -453,82 +458,83 @@ class Base
 
 		// set array for frontend template
 		$content = [
-			'class' => $class,
+			'class' => esc_attr($class),
 			'credits' => $credits,
-			'heading' => $heading,
-			'content' => nl2br( $this->str_to_helpful( $content, $post_id ) ),
+			'heading' => esc_html($heading),
+			'content' => nl2br( $this->tags_to_helpful( $content, $post_id ) ),
 			'button-pro' => $btn_pro,
 			'button-contra' => $btn_con,
 			'exists' => $this->check( $post_id, $user ),
-			'exists-text'	=> nl2br( $this->str_to_helpful( get_option('helpful_exists'), $post_id ) ),
+			'exists-text'	=> nl2br( $this->tags_to_helpful( get_option('helpful_exists'), $post_id ) ),
 			'exists-hide'	=> $this->is_checked(get_option('helpful_exists_hide')),
 		];
 
 		return $content;
 	}
 
-	// string to helpful (helper)
-	public function str_to_helpful( $string, $post_id )
+	// tags to helpful (helper)
+	public function tags_to_helpful( $string, $post_id )
   {
 		$pro = get_post_meta( $post_id, 'helpful-pro', true );
 		$pro = $pro ? $pro : 0;
 
 		$contra = get_post_meta( $post_id, 'helpful-contra', true );
-		$contra = $contra ? $contra : 0;
+    $contra = $contra ? $contra : 0;
+    
+    $permalink = esc_url(get_permalink($post_id));
 
-		$new = str_replace( '{pro}', $pro, $string );
-		$new = str_replace( '{contra}', $contra, $new );
-    $new = str_replace( '{permalink}', esc_url(get_permalink($post_id)), $new );
+		$string = $this->tag_to_pro( $string, $post_id );
+		$string = $this->tag_to_contra( $string, $post_id );
+    $string = str_replace( '{permalink}', $permalink, $string );
 
-		return $new;
+		return $string;
 	}
 
-	// string to helpful pro (helper)
-	public function str_to_pro( $string, $post_id )
+	// tag to helpful pro (helper)
+	public function tag_to_pro( $string, $post_id )
   {
 		$pro = get_post_meta( $post_id, 'helpful-pro', true );
 		$pro = $pro ? $pro : 0;
-		return str_replace( '{pro}', $pro, $string );
+		return str_replace( '{pro}', intval($pro), $string );
 	}
 
-	// string to helpful contra (helper)
-	public function str_to_contra( $string, $post_id )
+	// tag to helpful contra (helper)
+	public function tag_to_contra( $string, $post_id )
   {
 		$contra = get_post_meta( $post_id, 'helpful-contra', true );
 		$contra = $contra ? $contra : 0;
-		return str_replace( '{contra}', $contra, $string );
+		return str_replace( '{contra}', intval($contra), $string );
 	}
 
 	// insert row
 	public function insert( $args = [] )
   {
-		// check args
 		if( empty($args) ) return false;
 		if( !$args['user'] ) return false;
 		if( !$args['post_id'] ) return false;
+
+		global $wpdb;
 
 		$user = $args['user'];
 		$pro = $args['pro'] == 1 ? 1 : 0;
 		$contra = $args['contra'] == 1 ? 1 : 0;
 		$post_id = $args['post_id'];
 
-		global $wpdb;
-
 		$table_name = $wpdb->prefix . $this->table_name;
 
     if( !$this->is_checked(get_option('helpful_multiple')) ) {
-      $sql = "SELECT post_id, user FROM $table_name WHERE user = '$user' AND post_id = $post_id";
+      $sql = $wpdb->prepare("SELECT post_id, user FROM $table_name WHERE user = %s AND post_id = %d", $user, $post_id);
   		$check = $wpdb->get_results($sql);
       if( $check ) return true;
     }
 
-    $values = array(
+    $values = [
       'time' 		=> current_time( 'mysql'),
       'user' 		=> $user,
       'pro' 		=> $pro,
       'contra' 	=> $contra,
       'post_id' => $post_id,
-    );
+    ];
 
 		$wpdb->insert( $table_name, $values );
 
@@ -570,7 +576,7 @@ class Base
 		// table
 		$table_name = $wpdb->prefix . $this->table_name;
 
-    $sql = "SELECT * FROM $table_name WHERE post_id = $post_id AND user = '$user'";
+    $sql = $wpdb->prepare("SELECT * FROM $table_name WHERE post_id = %d AND user = %s", $post_id, $user);
 		$result = $wpdb->get_row($sql);
 
 		if( $result ) return true;
@@ -591,20 +597,10 @@ class Base
 		endif;
 	}
 
-  // trim text
-  public function trimtext($text, $start, $length) {
-    if( strlen($text) > $length ) {
-      return substr($text, $start, $length) . '...';
-    } else {
-      return substr($text, $start, $length);
-    }
-  }
-
   // get current user
   public function get_current_user() {
 
     $user_id  = null;
-    // $user_id  = md5($_SERVER['REMOTE_ADDR']);
     $string  = bin2hex(openssl_random_pseudo_bytes(16));
     $lifetime = '+30 days';
 
@@ -619,8 +615,8 @@ class Base
   }
 
   // is checked
-  public function is_checked($option, $default = 'on')
+  public function is_checked($value, $default = 'on')
   {
-    return $option == $default ? true : false;
+    return $value == $default ? true : false;
   }
 }
