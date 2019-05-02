@@ -613,12 +613,17 @@ class Base
       return false;
     }
 
+    ob_start();
     echo '<!-- HELPFUL: CUSTOM CSS -->';
     echo '<style>';
     echo get_option('helpful_css');
     do_action('helpful_admin_inline_css');
     echo '</style>';
     echo '<!-- end HELPFUL: CUSTOM CSS -->';
+    $css = ob_get_contents();
+    ob_end_clean();
+
+    echo wp_strip_all_tags($css);
 	}
 
   /**
