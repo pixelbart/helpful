@@ -20,6 +20,6 @@ $helpful['wp_editor'] = [
 
 // credits
 $helpful['credits'] = [
-  'url' => 'https://pixelbart.de',
-  'name' => 'Pixelbart',
+  'url' => 'https://helpful-plugin.info',
+  'name' => 'Helpful',
 ];
