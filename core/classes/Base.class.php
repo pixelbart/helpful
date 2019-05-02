@@ -39,7 +39,7 @@ class Base
 		add_filter( 'helpful_after_contra', [ $this, 'after_contra' ], 1 );
 
 		// Frontend add to head (CSS)
-		add_action( 'wp_head', [ $this, 'add_css_to_head' ] );
+		add_action( 'wp_head', [ $this, 'add_css_to_head' ], PHP_INT_MAX );
 	}
 
   /**
@@ -609,14 +609,16 @@ class Base
    */
 	public function add_css_to_head()
   {
-		if( get_option( 'helpful_css' ) ) {
-      echo '<!-- HELPFUL: CUSTOM CSS -->';
-      echo '<style>';
-      echo get_option('helpful_css');
-      do_action('helpful_admin_inline_css');
-      echo '</style>';
-      echo '<!-- end HELPFUL: CUSTOM CSS -->';
+		if( !get_option( 'helpful_css' ) ) {
+      return false;
     }
+
+    echo '<!-- HELPFUL: CUSTOM CSS -->';
+    echo '<style>';
+    echo get_option('helpful_css');
+    do_action('helpful_admin_inline_css');
+    echo '</style>';
+    echo '<!-- end HELPFUL: CUSTOM CSS -->';
 	}
 
   /**
