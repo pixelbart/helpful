@@ -38,8 +38,9 @@ class Base
 		// after contra message
 		add_filter( 'helpful_after_contra', [ $this, 'after_contra' ], 1 );
 
-		// Frontend add to head (CSS)
-		add_action( 'wp_head', [ $this, 'add_css_to_head' ], PHP_INT_MAX );
+    // Frontend add to head (CSS)
+    if( get_option( 'helpful_css' ) )
+      add_action( 'wp_head', [ $this, 'custom_css' ] );
 	}
 
   /**
@@ -607,23 +608,13 @@ class Base
   /**
    * Add custom css to admin_head
    */
-	public function add_css_to_head()
+	public function custom_css()
   {
-		if( !get_option( 'helpful_css' ) ) {
-      return false;
-    }
-
-    ob_start();
-    echo '<!-- HELPFUL: CUSTOM CSS -->';
-    echo '<style>';
-    echo get_option('helpful_css');
-    do_action('helpful_admin_inline_css');
-    echo '</style>';
-    echo '<!-- end HELPFUL: CUSTOM CSS -->';
-    $css = ob_get_contents();
-    ob_end_clean();
-
-    echo wp_strip_all_tags($css);
+    // do_action('helpful_admin_inline_css');
+    $css = '<style id="helpful-inline-css" type="text/css">';
+    $css .= wp_strip_all_tags(get_option('helpful_css'));
+    $css .= '</style>';
+    print $css;
 	}
 
   /**
