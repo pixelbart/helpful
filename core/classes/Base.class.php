@@ -164,7 +164,7 @@ class Base
         }
         else {
           $after = apply_filters( 'helpful_after_pro', '' );
-          echo $this->str_to_helpful( $after, $args['post_id'] );
+          echo $this->tags_to_helpful( $after, $args['post_id'] );
         }
       }
 
@@ -212,7 +212,7 @@ class Base
         }
         else {
           $after = apply_filters( 'helpful_after_contra', '' );
-          echo $this->str_to_helpful( $after, $args['post_id'] );
+          echo $this->tags_to_helpful( $after, $args['post_id'] );
         }
       }
 
