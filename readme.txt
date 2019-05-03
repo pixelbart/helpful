@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 3.0.11
+Stable tag: 3.1.0
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -75,6 +75,8 @@ Sure. Helpful is now also available on [Github](https://github.com/pixelbart/hel
 * The plugin is now additionally hosted on Github and issues are detected using Codacy.
 * The code has been rewritten and comments are added.
 * Fixed major issues using Codacy and a lot of coffee.
+* Bug with user ID fixed. Thanks to [@iovamihai](https://wordpress.org/support/users/iovamihai/).
+* Not in the plugin: There is now a [landing page](https://helpful-plugin.info/) (still in work). This page is now also specified in the credits. So you advertise Helpful and not me.
 
 = 3.0.11 =
 * When registering the feedback some variables were still set to true. Therefore the feedback could be found when creating URLs. This is no longer the case.
