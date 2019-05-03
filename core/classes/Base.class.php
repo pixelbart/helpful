@@ -11,6 +11,9 @@ class Base
 
 	public function __construct()
   {
+    // Set user cookie
+    add_action( 'template_redirect', [ $this, 'set_user_cookie' ] );
+
 		// Add after content
 		add_filter( 'the_content', [ $this , 'add_to_content' ] );
 
@@ -41,7 +44,20 @@ class Base
     // Frontend add to head (CSS)
     if( get_option( 'helpful_css' ) )
       add_action( 'wp_head', [ $this, 'custom_css' ] );
-	}
+  }
+  
+  /**
+   * Set users cookie with unique id
+   */
+  public function set_user_cookie()
+  {
+    $string  = bin2hex(openssl_random_pseudo_bytes(16));
+    $lifetime = '+30 days';
+
+    if( !isset($_COOKIE['helpful_user']) ) {
+      setcookie( "helpful_user", esc_attr($string), strtotime( $lifetime ) );
+    }
+  }
 
   /**
    * Add helpful after post content
@@ -623,17 +639,7 @@ class Base
    */
   public function get_current_user() 
   {
-    $string  = bin2hex(openssl_random_pseudo_bytes(16));
-    $lifetime = '+30 days';
-
-    if( !isset($_COOKIE['helpful_user']) ) {
-      setcookie( "helpful_user", $string, strtotime( $lifetime ) );
-      $user_id = $string;
-    } else {
-      $user_id = $_COOKIE['helpful_user'];
-    }
-
-    return $user_id;
+    return esc_attr($_COOKIE['helpful_user']);
   }
 
   /**
