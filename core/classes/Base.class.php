@@ -11,9 +11,6 @@ class Base
 
 	public function __construct()
   {
-    // Set user cookie
-    add_action( 'template_redirect', [ $this, 'set_user_cookie' ] );
-
 		// Add after content
 		add_filter( 'the_content', [ $this , 'add_to_content' ] );
 
@@ -44,19 +41,6 @@ class Base
     // Frontend add to head (CSS)
     if( get_option( 'helpful_css' ) )
       add_action( 'wp_head', [ $this, 'custom_css' ] );
-  }
-  
-  /**
-   * Set users cookie with unique id
-   */
-  public function set_user_cookie()
-  {
-    $string  = bin2hex(openssl_random_pseudo_bytes(16));
-    $lifetime = '+30 days';
-
-    if( !isset($_COOKIE['helpful_user']) ) {
-      setcookie( "helpful_user", esc_attr($string), strtotime( $lifetime ) );
-    }
   }
 
   /**
@@ -118,7 +102,7 @@ class Base
    */
 	public function after_pro()
   {
-		$after = __( 'Thank you for voting.', 'helpful' );
+		$after = esc_html__( 'Thank you for voting.', 'helpful' );
 
     if( get_option('helpful_after_pro') ) {
       $after = do_shortcode( get_option( 'helpful_after_pro' ) );
@@ -133,7 +117,7 @@ class Base
    */
 	public function after_contra()
   {
-		$after = __( 'Thank you for voting.', 'helpful' );
+		$after = esc_html__( 'Thank you for voting.', 'helpful' );
 
     if( get_option('helpful_after_contra') ) {
       $after = do_shortcode( get_option( 'helpful_after_contra' ) );
@@ -172,7 +156,7 @@ class Base
       // do and check insert command
       $result = $this->insert( $args );
 
-      if( $result == true ) {
+      if( true == $result ) {
 
         // get feedback form if option is set
         if( get_option('helpful_feedback_after_pro') ) {
@@ -639,7 +623,8 @@ class Base
    */
   public function get_current_user() 
   {
-    return esc_attr($_COOKIE['helpful_user']);
+    $user_id = sanitize_text_field(wp_unslash($_COOKIE['helpful_user']));
+    return $user_id;
   }
 
   /**

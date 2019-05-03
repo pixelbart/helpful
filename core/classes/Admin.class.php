@@ -6,6 +6,9 @@ class Admin
 {
 	public function __construct()
   {
+    // Set user cookie
+    add_action( 'template_redirect', [ $this, 'set_user_cookie' ] );
+    
 		// install database table
 		register_activation_hook( HELPFUL_FILE, [ $this, 'install' ] );
 
@@ -56,6 +59,19 @@ class Admin
       add_action( 'save_post', [$this, 'save_meta_box'] );
     }
 	}
+  
+  /**
+   * Set users cookie with unique id
+   */
+  public function set_user_cookie()
+  {
+    $string  = bin2hex(openssl_random_pseudo_bytes(16));
+    $lifetime = '+30 days';
+
+    if( !isset($_COOKIE['helpful_user']) ) {
+      setcookie( "helpful_user", esc_attr($string), strtotime( $lifetime ) );
+    }
+  }
 
   /**
    * Install database table
