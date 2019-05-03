@@ -70,6 +70,7 @@ class Admin
 
     if( !isset($_COOKIE['helpful_user']) ) {
       setcookie( "helpful_user", esc_attr($string), strtotime( $lifetime ) );
+      $_COOKIE['helpful_user'] = esc_attr($string);
     }
   }
 

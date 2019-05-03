@@ -623,8 +623,23 @@ class Base
    */
   public function get_current_user() 
   {
-    $user_id = sanitize_text_field(wp_unslash($_COOKIE['helpful_user']));
-    return $user_id;
+    if( isset($_COOKIE['helpful_user']) ) {
+      $user_id = $_COOKIE['helpful_user'];
+    }
+
+    elseif( isset($_SERVER['HTTP_CLIENT_IP']) ) {
+      $user_id = sha1($_SERVER['HTTP_CLIENT_IP']);
+    }
+
+    elseif( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+      $user_id = sha1($_SERVER['HTTP_X_FORWARDED_FOR']);
+    }
+
+    else {
+      $user_id = sha1($_SERVER['REMOTE_ADDR']);
+    }
+
+    return sanitize_text_field(wp_unslash($user_id));
   }
 
   /**
