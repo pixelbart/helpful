@@ -1,5 +1,5 @@
 === Helpful ===
-Contributors: pixelbart
+Contributors: pixelbart, klakki
 Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
