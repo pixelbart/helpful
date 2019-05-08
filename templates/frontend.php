@@ -5,9 +5,8 @@
  * @author  Devhats
  */
 
-// Get helpful helpers
-$helpful = apply_filters( 'helpful_helpers', [] );
-
+// hide content on clean theme
+$hidden = strpos($helpful['class'], 'clean') ? 'hidden' : '';
 ?>
 
 <?php if( $helpful['exists'] ) : if( !$helpful['exists-hide'] ) : ?>
@@ -31,7 +30,7 @@ $helpful = apply_filters( 'helpful_helpers', [] );
   <?php endif; ?>
 
   <?php if( $helpful['content'] ): ?>
-	<div class="helpful-content"><?php echo $helpful['content']; ?></div>
+	<div class="helpful-content" <?php echo $hidden; ?>><?php echo $helpful['content']; ?></div>
   <?php endif; ?>
 
 	<div class="helpful-controls">

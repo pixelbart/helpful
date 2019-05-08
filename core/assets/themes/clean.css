@@ -1,0 +1,157 @@
+/**
+ * Theme: clean
+ *
+ * @author  Devhats
+ * @version 1.0
+ */
+
+.helpful * { box-sizing: border-box; }
+
+.helpful-theme-clean {
+  position: relative;
+  padding: 15px;
+  font-size: 1rem;
+  background-color: #f8f8f8;
+	-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+@media all and (max-width: 992px) {
+  .helpful-theme-clean {
+    flex-direction: column;
+  }
+}
+
+/* Contact Form 7 */
+.helpful-theme-clean .sent > p {
+	display: none;
+}
+
+/* HEADING */
+
+.helpful-theme-clean .helpful-heading {
+  font-size: 1rem;
+  line-height: 1.4;  
+  color: #999999;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+/* CONTROLS */
+
+.helpful-theme-clean .helpful-controls > div {
+  margin: 0 !important;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 38px;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 500px;
+  background-color: transparent;
+  color: #333333;
+  border: 1px solid #e5e5e5;
+  padding: 0 15px;
+  line-height: 28px;
+  font-size: .875rem;
+  cursor: pointer;
+  position: relative;
+  transition: all .2s ease-in-out;
+}
+
+.helpful-theme-clean .helpful-controls > div:nth-child(2) {
+  margin-left: 15px;
+}
+
+.helpful-theme-clean .helpful-controls > div:hover {
+	opacity: .5;
+	transition: all .2s ease-in-out;
+}
+
+.helpful-theme-clean .helpful-controls .counter {
+	right: -7.5px;
+  top: -7.5px;
+	color: #f5f5f5;
+  position: absolute;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+	background-color: #333;
+	padding: 2.5px 5px;
+  border-radius: 50%;
+	box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.1);
+	z-index: 2;
+}
+
+/* CREDITS */
+
+.helpful-theme-clean .helpful-credits {
+	font-size: .7rem;
+	position: absolute;
+	text-align: center;
+	bottom: 0;
+  right: 5px;
+	color: #bbb;
+}
+
+.helpful-theme-clean .helpful-credits a {
+	color: #bbb;
+}
+
+/* FEEDBACK */
+.helpful-theme-clean .helpful-feedback {
+  flex: 1 0 100%;
+  display: block;
+}
+
+.helpful-theme-clean .helpful-feedback p {
+  margin: 0 0 12.5px;
+}
+
+.helpful-theme-clean .helpful-feedback textarea {
+  color: #333;
+  width: 100%;
+  display: block;
+	padding: 15px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #e5e5e5;
+  background-color: #fff;
+	border-radius: 3px;
+	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+}
+
+.helpful-theme-clean .helpful-feedback button {
+  margin-top: 15px;
+  text-transform: none;
+  display: inline-block;
+  padding: 0 30px;
+  vertical-align: middle;
+  line-height: 38px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 500px;
+  background-color: #333333;
+  color: #e5e5e5;
+  border: 1px solid #333333;
+  padding: 0 15px;
+  line-height: 28px;
+  font-size: .875rem;
+  cursor: pointer;
+	transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-webkit-transition: all .2s ease-in-out;
+}
+
+.helpful-theme-clean .helpful-feedback button:hover {
+	opacity: .5;
+	transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-webkit-transition: all .2s ease-in-out;
+}

@@ -11,6 +11,9 @@ class Base
 
 	public function __construct()
   {
+    // Set user cookie
+    add_action( 'template_redirect', [ $this, 'set_user_cookie' ] );
+
 		// Add after content
 		add_filter( 'the_content', [ $this , 'add_to_content' ] );
 
@@ -42,6 +45,19 @@ class Base
     if( get_option( 'helpful_css' ) )
       add_action( 'wp_head', [ $this, 'custom_css' ] );
   }
+  
+  /**
+   * Set users cookie with unique id
+   */
+  public function set_user_cookie()
+  {
+    $string  = bin2hex(openssl_random_pseudo_bytes(16));
+    $lifetime = '+30 days';
+
+    if( !isset($_COOKIE['helpful_user']) ) {
+      setcookie( "helpful_user", $string, strtotime( $lifetime ) );
+    }
+  }
 
   /**
    * Add helpful after post content
@@ -71,6 +87,9 @@ class Base
 			if( in_array( $current, $post_types ) ) {
 
   			ob_start();
+
+        // Get helpful helpers
+        $helpful = apply_filters( 'helpful_helpers', [] );
 
         $default_template = HELPFUL_PATH . 'templates/frontend.php';
         $custom_template  = locate_template('helpful/frontend.php');
@@ -102,7 +121,7 @@ class Base
    */
 	public function after_pro()
   {
-		$after = esc_html__( 'Thank you for voting.', 'helpful' );
+		$after = __( 'Thank you for voting.', 'helpful' );
 
     if( get_option('helpful_after_pro') ) {
       $after = do_shortcode( get_option( 'helpful_after_pro' ) );
@@ -117,7 +136,7 @@ class Base
    */
 	public function after_contra()
   {
-		$after = esc_html__( 'Thank you for voting.', 'helpful' );
+		$after = __( 'Thank you for voting.', 'helpful' );
 
     if( get_option('helpful_after_contra') ) {
       $after = do_shortcode( get_option( 'helpful_after_contra' ) );
@@ -156,7 +175,7 @@ class Base
       // do and check insert command
       $result = $this->insert( $args );
 
-      if( true == $result ) {
+      if( $result == true ) {
 
         // get feedback form if option is set
         if( get_option('helpful_feedback_after_pro') ) {
@@ -623,23 +642,7 @@ class Base
    */
   public function get_current_user() 
   {
-    if( isset($_COOKIE['helpful_user']) ) {
-      $user_id = $_COOKIE['helpful_user'];
-    }
-
-    elseif( isset($_SERVER['HTTP_CLIENT_IP']) ) {
-      $user_id = sha1($_SERVER['HTTP_CLIENT_IP']);
-    }
-
-    elseif( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-      $user_id = sha1($_SERVER['HTTP_X_FORWARDED_FOR']);
-    }
-
-    else {
-      $user_id = sha1($_SERVER['REMOTE_ADDR']);
-    }
-
-    return sanitize_text_field(wp_unslash($user_id));
+    return $_COOKIE['helpful_user'];
   }
 
   /**
