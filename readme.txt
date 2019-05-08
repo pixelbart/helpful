@@ -1,5 +1,5 @@
 === Helpful ===
-Contributors: pixelbart, klakki
+Contributors: pixelbart
 Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
@@ -70,6 +70,11 @@ For the code editor you need at least version 4.9 of WordPress. Without this ver
 Sure. Helpful is now also available on [Github](https://github.com/pixelbart/helpful). I will always update the code first and fix issues with Codacy. You are always welcome to help. Forke Helpful and start bullying!
 
 == Changelog ==
+
+= 3.1.1 =
+* Added new theme (clean; without content text!)
+* Added attributes for shortcode (heading, content, etc.)
+* Fixed some css issues
 
 = 3.1.0 =
 * The plugin is now additionally hosted on Github and issues are detected using Codacy.
