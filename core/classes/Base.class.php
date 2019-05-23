@@ -483,7 +483,7 @@ class Base
 		$content = [
 			'class' => esc_attr($class),
 			'credits' => $credits,
-			'heading' => esc_html($heading),
+			'heading' => $this->tags_to_helpful( $heading, $post_id ),
 			'content' => nl2br( $this->tags_to_helpful( $content, $post_id ) ),
 			'button-pro' => $btn_pro,
 			'button-contra' => $btn_con,
@@ -503,8 +503,9 @@ class Base
    */
 	public function tags_to_helpful( $string, $post_id )
   {
-    $author_id = get_post_field( 'post_author', $post_id );
-    $display_name = get_the_author_meta( 'display_name' , $post_id ); 
+    $post = get_post($post_id);
+
+    $author_name = get_the_author_meta( 'display_name', $post->post_author );
 
 		$pro = get_post_meta( $post_id, 'helpful-pro', true );
 		$pro = $pro ? $pro : 0;
@@ -517,35 +518,9 @@ class Base
 		$string = str_replace( '{pro}', intval($pro), $string );
 		$string = str_replace( '{contra}', intval($contra), $string );
     $string = str_replace( '{permalink}', $permalink, $string );
-    $string = str_replace( '{author}', $display_name, $string );
+    $string = str_replace( '{author}', $author_name, $string );
 
 		return $string;
-	}
-
-  /**
-   * Convert tag to pro amount
-   * @param string $string
-   * @param integer $post_id
-   * @return string
-   */
-	public function tag_to_pro( $string, $post_id )
-  {
-		$pro = get_post_meta( $post_id, 'helpful-pro', true );
-		$pro = $pro ? $pro : 0;
-		return str_replace( '{pro}', intval($pro), $string );
-	}
-
-  /**
-   * Convert tag to contra amount
-   * @param string $string
-   * @param integer $post_id
-   * @return string
-   */
-	public function tag_to_contra( $string, $post_id )
-  {
-		$contra = get_post_meta( $post_id, 'helpful-contra', true );
-		$contra = $contra ? $contra : 0;
-		return str_replace( '{contra}', intval($contra), $string );
 	}
 
   /**
