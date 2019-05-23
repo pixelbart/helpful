@@ -653,6 +653,10 @@ class Base
    */
   public function get_current_user() 
   {
+    if( !isset($_CCOKIE['helpful_user']) && isset($_SESSION['helpful_user']) ) {
+      return $_SESSION['helpful_user'];
+    }
+    
     return $_COOKIE['helpful_user'];
   }
 
