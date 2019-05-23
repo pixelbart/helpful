@@ -11,6 +11,9 @@ class Base
 
 	public function __construct()
   {
+    // Init sessions as fallback
+    add_action( 'init', [ $this, 'init_sessions' ], 1 );
+    
     // Set user cookie
     add_action( 'template_redirect', [ $this, 'set_user_cookie' ] );
 
@@ -56,6 +59,10 @@ class Base
 
     if( !isset($_COOKIE['helpful_user']) ) {
       setcookie( "helpful_user", $string, strtotime( $lifetime ) );
+    }
+
+    if( !isset($_COOKIE['helpful_user']) && !isset($_SESSION['helpful_user']) ) {
+      $_SESSION['helpful_user'] = $string;
     }
   }
 
@@ -496,6 +503,9 @@ class Base
    */
 	public function tags_to_helpful( $string, $post_id )
   {
+    $author_id = get_post_field( 'post_author', $post_id );
+    $display_name = get_the_author_meta( 'display_name' , $post_id ); 
+
 		$pro = get_post_meta( $post_id, 'helpful-pro', true );
 		$pro = $pro ? $pro : 0;
 
@@ -504,9 +514,10 @@ class Base
     
     $permalink = esc_url(get_permalink($post_id));
 
-		$string = $this->tag_to_pro( $string, $post_id );
-		$string = $this->tag_to_contra( $string, $post_id );
+		$string = str_replace( '{pro}', intval($pro), $string );
+		$string = str_replace( '{contra}', intval($contra), $string );
     $string = str_replace( '{permalink}', $permalink, $string );
+    $string = str_replace( '{author}', $display_name, $string );
 
 		return $string;
 	}

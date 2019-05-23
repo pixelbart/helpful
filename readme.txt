@@ -3,8 +3,8 @@ Contributors: pixelbart
 Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
-Tested up to: 5.1
-Stable tag: 3.1.0
+Tested up to: 5.2
+Stable tag: 3.1.2
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -71,10 +71,17 @@ Sure. Helpful is now also available on [Github](https://github.com/pixelbart/hel
 
 == Changelog ==
 
+= 3.1.2 =
+* Now you can use `{author}` in the preferences to show the name of the author of the current post.
+* Now PHP sessions will be used again if cookies cannot be set. Unfortunately I have not found a better solution.
+* The `get_browser()` functions were almost all removed because there were too many problems with them.
+* No major corrections were made, as I am also working on a major update for Helpful.
+
 = 3.1.1 =
-* Added new theme (clean; without content text!)
-* Added attributes for shortcode (heading, content, etc.)
-* Fixed some css issues
+* There's a new theme. This is used on the landing page and is called Clean. The theme works best if you don't specify any text (except the headline).
+* It is now possible to make changes in the shortcode. With `[helpful heading="My heading"]` you can change the heading.
+* Fixed some bugs in the other themes.
+* Helpful runs under 5.2.
 
 = 3.1.0 =
 * The plugin is now additionally hosted on Github and issues are detected using Codacy.
