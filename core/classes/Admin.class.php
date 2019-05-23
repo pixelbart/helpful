@@ -472,15 +472,6 @@ class Admin
   		$html .= sprintf('<li>%s</li>', $text);
     }
 
-    if( function_exists('get_browser') ):
-      if( get_browser(null, true) ):
-        $browser = get_browser(null, true);
-        $text = esc_html_x('Browser: %s', 'info sidebar options page', 'helpful');
-        $text = sprintf($text, $browser['parent']);
-    		$html .= sprintf('<li>%s</li>', $text);
-      endif;
-    endif;
-
     $html .='</ul>';
 
 		echo $html;
