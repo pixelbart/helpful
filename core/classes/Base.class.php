@@ -67,6 +67,16 @@ class Base
   }
 
   /**
+   * Init sessions as fallback for cookies
+   */
+  public function init_sessions() 
+  {
+    if( !session_id() ) {
+      session_start();
+    }
+  }
+
+  /**
    * Add helpful after post content
    * @param string $content the post content
    * @return string
