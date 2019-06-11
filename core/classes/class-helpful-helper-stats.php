@@ -10,6 +10,7 @@ class Helpful_Helper_Stats {
 
   /**
    * Get pro count by post id
+   * @global $wpdb, $post
    * @param int $post_id if null current post id
    * @param bool $percentages return percentage values on true
    * @return int count
@@ -44,9 +45,10 @@ class Helpful_Helper_Stats {
 
     return (float) str_replace('.00', '', $pro_percent);
   }
-  
+
   /**
    * Get contra count by post id
+   * @global $wpdb, $post
    * @param int $post_id if null current post id
    * @param bool $percentages return percentage values on true
    * @return int count
@@ -58,8 +60,10 @@ class Helpful_Helper_Stats {
     }
 
     global $wpdb;
+
     $post_id = absint($post_id);
-    $helpful = $wpdb->prefix . 'helpful';    
+    $helpful = $wpdb->prefix . 'helpful';
+
     $sql = $wpdb->prepare("SELECT COUNT(*) FROM $helpful WHERE contra = 1 AND post_id = %d", $post_id);
     $var = $wpdb->get_var($sql);
 
@@ -79,15 +83,18 @@ class Helpful_Helper_Stats {
     $contra_percent = number_format($contra_percent, 2);
     return (float) str_replace('.00', '', $contra_percent);
   }
-  
+
   /**
    * Get pro count of all posts
+   * @global $wpdb
    * @param bool $percentages return percentage values on true
    * @return int count
    */
   public static function getProAll($percentages = false) {
     global $wpdb;
-    $helpful = $wpdb->prefix . 'helpful';    
+
+    $helpful = $wpdb->prefix . 'helpful';
+
     $sql = "SELECT COUNT(*) FROM $helpful WHERE pro = 1";
     $var = $wpdb->get_var($sql);
 
@@ -108,15 +115,18 @@ class Helpful_Helper_Stats {
 
     return (float) str_replace('.00', '', $pro_percent);
   }
-  
+
   /**
    * Get contra count of all posts
+   * @global $wpdb
    * @param bool $percentages return percentage values on true
    * @return int count
    */
   public static function getContraAll($percentages = false) {
     global $wpdb;
-    $helpful = $wpdb->prefix . 'helpful';    
+
+    $helpful = $wpdb->prefix . 'helpful';
+
     $sql = "SELECT COUNT(*) FROM $helpful WHERE contra = 1";
     $var = $wpdb->get_var($sql);
 
@@ -139,11 +149,14 @@ class Helpful_Helper_Stats {
 
   /**
    * Get years
+   * @global $wpdb
    * @return array
    */
   public static function getYears() {
     global $wpdb;
+
     $helpful = $wpdb->prefix . 'helpful';
+
     $sql = "SELECT time FROM $helpful ORDER BY time DESC";
     $results = $wpdb->get_results($sql);
 
@@ -161,28 +174,28 @@ class Helpful_Helper_Stats {
 
     return $years;
   }
-  
+
   /**
    * Stats for today
+   * @global $wpdb
    * @param integer $year
    * @return array
    */
   public static function getStatsToday($year) {
-
     global $wpdb;
 
     $helpful = $wpdb->prefix . 'helpful';
 
     $query   = "
-    SELECT pro, contra, time 
-    FROM $helpful 
-    WHERE DAYOFYEAR(time) = DAYOFYEAR(NOW()) 
+    SELECT pro, contra, time
+    FROM $helpful
+    WHERE DAYOFYEAR(time) = DAYOFYEAR(NOW())
     AND YEAR(time) = %d
     ";
 
     $query   = $wpdb->prepare($query, $year);
     $results = $wpdb->get_results($query);
-    
+
     if( !$results ) {
       return [
         'status' => 'error',
@@ -196,7 +209,7 @@ class Helpful_Helper_Stats {
     $contra = wp_list_pluck($results, 'contra');
     $contra = array_sum($contra);
 
-    /* Response for ChartJS */    
+    /* Response for ChartJS */
     $response = [
       'type' => 'doughnut',
       'data' => [
@@ -220,25 +233,25 @@ class Helpful_Helper_Stats {
 
   /**
    * Stats for yesterday
+   * @global $wpdb
    * @param integer $year
    * @return array
    */
   public static function getStatsYesterday($year) {
-
     global $wpdb;
 
     $helpful = $wpdb->prefix . 'helpful';
 
     $query   = "
-    SELECT pro, contra, time 
-    FROM $helpful 
-    WHERE DAYOFYEAR(time) = DAYOFYEAR(SUBDATE(CURDATE(),1)) 
+    SELECT pro, contra, time
+    FROM $helpful
+    WHERE DAYOFYEAR(time) = DAYOFYEAR(SUBDATE(CURDATE(),1))
     AND YEAR(time) = %d
     ";
 
     $query   = $wpdb->prepare($query, $year);
     $results = $wpdb->get_results($query);
-    
+
     if( !$results ) {
       return [
         'status' => 'error',
@@ -252,7 +265,7 @@ class Helpful_Helper_Stats {
     $contra = wp_list_pluck($results, 'contra');
     $contra = array_sum($contra);
 
-    /* Response for ChartJS */    
+    /* Response for ChartJS */
     $response = [
       'type' => 'doughnut',
       'data' => [
@@ -276,6 +289,7 @@ class Helpful_Helper_Stats {
 
   /**
    * Stats for week
+   * @global $wpdb
    * @param integer $year
    * @return array
    */
@@ -286,9 +300,9 @@ class Helpful_Helper_Stats {
     $helpful = $wpdb->prefix . 'helpful';
 
     $query   = "
-    SELECT pro, contra, time 
-    FROM $helpful 
-    WHERE WEEK(time, 1) = WEEK(CURDATE(), 1) 
+    SELECT pro, contra, time
+    FROM $helpful
+    WHERE WEEK(time, 1) = WEEK(CURDATE(), 1)
     AND YEAR(time) = %d
     ";
 
@@ -301,8 +315,8 @@ class Helpful_Helper_Stats {
         'message' => __('No entries found', 'helpful'),
       ];
     }
-    
-    $pro = [];    
+
+    $pro = [];
     $contra = [];
     $labels = [];
     $timestamp = strtotime('monday this week');
@@ -320,7 +334,7 @@ class Helpful_Helper_Stats {
       for( $i = 0; $i < $days; $i++ ) {
         $day = date_i18n( 'Ymd', strtotime('+'.$i.' days', $timestamp) );
         $date = date_i18n( 'Ymd', strtotime($result->time) );
-        
+
         if( $day == $date ) {
           $pro[$date] += $result->pro;
           $contra[$date] += $result->contra;
@@ -328,7 +342,7 @@ class Helpful_Helper_Stats {
       }
     }
 
-    /* Response for ChartJS */    
+    /* Response for ChartJS */
     $response = [
       'type' => 'bar',
       'data' => [
@@ -366,12 +380,12 @@ class Helpful_Helper_Stats {
 
   /**
    * Stats for month
+   * @global $wpdb
    * @param integer $year
    * @param integer @month
    * @return array
    */
   public static function getStatsMonth($year, $month = null) {
-
     global $wpdb;
 
     $helpful = $wpdb->prefix . 'helpful';
@@ -383,8 +397,8 @@ class Helpful_Helper_Stats {
     }
 
     $query   = "
-    SELECT pro, contra, time 
-    FROM $helpful 
+    SELECT pro, contra, time
+    FROM $helpful
     WHERE MONTH(time) = %d
     AND YEAR(time) = %d
     ";
@@ -398,8 +412,8 @@ class Helpful_Helper_Stats {
         'message' => __('No entries found', 'helpful'),
       ];
     }
-    
-    $pro = [];    
+
+    $pro = [];
     $contra = [];
     $labels = [];
     $timestamp = strtotime(date("$year-$month-1"));
@@ -417,7 +431,7 @@ class Helpful_Helper_Stats {
       for( $i = 0; $i < $days; $i++ ) {
         $day = date_i18n( 'Ymd', strtotime('+'.$i.' days', $timestamp) );
         $date = date_i18n( 'Ymd', strtotime($result->time) );
-        
+
         if( $day == $date ) {
           $pro[$date] += $result->pro;
           $contra[$date] += $result->contra;
@@ -425,7 +439,7 @@ class Helpful_Helper_Stats {
       }
     }
 
-    /* Response for ChartJS */    
+    /* Response for ChartJS */
     $response = [
       'type' => 'bar',
       'data' => [
@@ -463,18 +477,18 @@ class Helpful_Helper_Stats {
 
   /**
    * Stats for year
+   * @global $wpdb
    * @param integer $year
    * @return array
    */
   public static function getStatsYear($year) {
-
     global $wpdb;
 
     $helpful = $wpdb->prefix . 'helpful';
 
     $query   = "
-    SELECT pro, contra, time 
-    FROM $helpful 
+    SELECT pro, contra, time
+    FROM $helpful
     WHERE YEAR(time) = %d
     ";
 
@@ -487,8 +501,8 @@ class Helpful_Helper_Stats {
         'message' => __('No entries found', 'helpful'),
       ];
     }
-    
-    $pro = [];    
+
+    $pro = [];
     $contra = [];
     $labels = [];
     $timestamp = strtotime(sprintf(date('%d-1-1'), $year));
@@ -505,7 +519,7 @@ class Helpful_Helper_Stats {
       for( $i = 0; $i < $days; $i++ ) {
         $month = date_i18n( 'M', strtotime('+'.$i.' months', $timestamp) );
         $m = date_i18n( 'M', strtotime($result->time));
-        
+
         if( $month == $m ) {
           $pro[$month] += $result->pro;
           $contra[$month] += $result->contra;
@@ -513,7 +527,7 @@ class Helpful_Helper_Stats {
       }
     }
 
-    /* Response for ChartJS */    
+    /* Response for ChartJS */
     $response = [
       'type' => 'bar',
       'data' => [
@@ -551,20 +565,20 @@ class Helpful_Helper_Stats {
 
   /**
    * Stats by range
+   * @global $wpdb
    * @param string $from time string
    * @param string $to time string
    * @return array
    */
   public static function getStatsRange($from, $to) {
-
     global $wpdb;
 
     $helpful = $wpdb->prefix . 'helpful';
 
     $query   = "
-    SELECT pro, contra, time 
+    SELECT pro, contra, time
     FROM $helpful
-    WHERE DATE(time) >= DATE(%s) 
+    WHERE DATE(time) >= DATE(%s)
     AND DATE(time) <= DATE(%s)
     ";
 
@@ -582,12 +596,11 @@ class Helpful_Helper_Stats {
     $to_date = new DateTime($to);
 
     $diff = $from_date->diff($to_date);
-    
-    $pro = [];    
+
+    $pro = [];
     $contra = [];
     $labels = [];
     $timestamp = strtotime($from);
-    $days = date_i18n('t', $timestamp) - 1;
 
     for( $i = 0; $i < ($diff->format("%a") + 1); $i++ ) {
       $date = date_i18n( 'Ymd', strtotime('+'.$i.' days', $timestamp) );
@@ -603,7 +616,7 @@ class Helpful_Helper_Stats {
       $contra[$date] += (int) $result->contra;
     }
 
-    /* Response for ChartJS */    
+    /* Response for ChartJS */
     $response = [
       'type' => 'bar',
       'data' => [
@@ -633,21 +646,21 @@ class Helpful_Helper_Stats {
 
   /**
    * Stats for total
+   * @global $wpdb
    * @return array
    */
   public static function getStatsTotal() {
-
     global $wpdb;
 
     $helpful = $wpdb->prefix . 'helpful';
 
     $query   = "
-    SELECT pro, contra, time 
+    SELECT pro, contra, time
     FROM $helpful
     ";
 
     $results = $wpdb->get_results($query);
-    
+
     if( !$results ) {
       return [
         'status' => 'error',
@@ -661,7 +674,7 @@ class Helpful_Helper_Stats {
     $contra = wp_list_pluck($results, 'contra');
     $contra = array_sum($contra);
 
-    /* Response for ChartJS */    
+    /* Response for ChartJS */
     $response = [
       'type' => 'doughnut',
       'data' => [
@@ -725,8 +738,8 @@ class Helpful_Helper_Stats {
             'ID' => $post_id,
             'url' => get_the_permalink($post_id),
             'name' => get_the_title($post_id),
-            'time' => sprintf( 
-              __('Published %s ago', 'helpful'), 
+            'time' => sprintf(
+              __('Published %s ago', 'helpful'),
               human_time_diff(date_i18n(get_the_date('U', $post_id)), date_i18n('U'))
             ),
           ];
@@ -781,8 +794,8 @@ class Helpful_Helper_Stats {
             'ID' => $post_id,
             'url' => get_the_permalink($post_id),
             'name' => get_the_title($post_id),
-            'time' => sprintf( 
-              __('Published %s ago', 'helpful'), 
+            'time' => sprintf(
+              __('Published %s ago', 'helpful'),
               human_time_diff(date_i18n(get_the_date('U', $post_id)), date_i18n('U'))
             ),
           ];
@@ -797,6 +810,7 @@ class Helpful_Helper_Stats {
 
   /**
    * Get recently helpful pro posts
+   * @global $wpdb
    * @param integer $limit posts per page
    * @return array
    */
@@ -821,8 +835,8 @@ class Helpful_Helper_Stats {
           'ID' => $post->post_id,
           'url' => get_the_permalink($post->post_id),
           'name' => get_the_title($post->post_id),
-          'time' => sprintf( 
-            __('Submitted %s ago', 'helpful'), 
+          'time' => sprintf(
+            __('Submitted %s ago', 'helpful'),
             human_time_diff(date_i18n($timestamp), date_i18n('U'))
           ),
         ];
@@ -834,6 +848,7 @@ class Helpful_Helper_Stats {
 
   /**
    * Get recently unhelpful pro posts
+   * @global $wpdb
    * @param integer $limit posts per page
    * @return array
    */
@@ -858,8 +873,8 @@ class Helpful_Helper_Stats {
           'ID' => $post->post_id,
           'url' => get_the_permalink($post->post_id),
           'name' => get_the_title($post->post_id),
-          'time' => sprintf( 
-            __('Submitted %s ago', 'helpful'), 
+          'time' => sprintf(
+            __('Submitted %s ago', 'helpful'),
             human_time_diff(date_i18n($timestamp), date_i18n('U'))
           ),
         ];

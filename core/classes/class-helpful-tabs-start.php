@@ -11,12 +11,10 @@ class Helpful_Tabs_Start {
 
   /**
    * Add tab to filter
-   * @global $helpful
    * @param array $tabs current tabs
    * @return array
    */
   public function registerTab($tabs) {
-    global $helpful;
 
     $tabs['home'] = [
       'attr'  => ( !isset($_GET['tab']) ? 'selected' : ''),

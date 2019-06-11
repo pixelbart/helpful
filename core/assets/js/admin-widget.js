@@ -14,13 +14,18 @@
 
       // get stats on click refresh button
       $(this.el).on("click", ".refresh", function (e) {
-        if (e.target !== e.currentTarget) return;
+        if (e.target !== e.currentTarget) {
+          return;
+        }
+
         self.getStats();
       });
 
       // get stats on change event
       $(this.el).on("change", "select", function (e) {
-        if (e.target !== e.currentTarget) return;
+        if (e.target !== e.currentTarget) {
+          return;
+        }
 
         var hidden = ["total", "today", "yesterday", "week", "month"];
 

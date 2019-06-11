@@ -1,10 +1,11 @@
 <?php
+/**
+ * Class for feedback admin, ajax actions and adding submenu
+ */
 class Helpful_Feedback_Admin {
   
-  // class instance
 	static $instance;
 
-	// class constructor
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'addSubmenu' ] );
     add_action( 'admin_enqueue_scripts', [ $this, 'enqueueScripts' ] );
@@ -12,8 +13,13 @@ class Helpful_Feedback_Admin {
     add_action( 'wp_ajax_helpful_remove_feedback', [ $this, 'deleteFeedbackItem' ] );
   }
   
+  /**
+   * Add submenu item for feedback with permission 
+   * for all roles with publish_posts
+   * @return void
+   */
   public function addSubmenu() {
-		$hook = add_submenu_page(
+		add_submenu_page(
 			'helpful',
 			'Helpful Feedback',
 			'Feedback',
@@ -23,6 +29,10 @@ class Helpful_Feedback_Admin {
 		);  
   }
 
+  /**
+   * Render admin page for feedback
+   * @return void
+   */
   public function adminPageCallback() {
     include_once HELPFUL_PATH . "templates/admin-feedback.php";
   }
@@ -51,6 +61,10 @@ class Helpful_Feedback_Admin {
     }
   }
   
+  /**
+   * Ajax get feedback items
+   * @return void
+   */
   public function getFeedbackItems() {
     check_ajax_referer('helpful_admin_feedback_nonce');
 
@@ -77,7 +91,7 @@ class Helpful_Feedback_Admin {
     if( $posts ) {
       foreach( $posts as $post ) {
         $feedback = Helpful_Helper_Feedback::getFeedback($post);
-        include HELPFUL_PATH . "templates/admin-feedback-item.php";
+        $this->renderTemplate($feedback);
       }
     }
     else {
@@ -87,6 +101,10 @@ class Helpful_Feedback_Admin {
     wp_die();
   }
 
+  /**
+   * Ajax delete single feedback item
+   * @return void
+   */
   public function deleteFeedbackitem() {
     global $wpdb;
 
@@ -97,6 +115,15 @@ class Helpful_Feedback_Admin {
     }
 
     wp_die();
+  }
+
+  /**
+   * Render template for feedback item
+   * @param array $feedback
+   * @return void
+   */
+  public function renderTemplate($feedback) {
+    include HELPFUL_PATH . "templates/admin-feedback-item.php";
   }
   
   public static function get_instance() {

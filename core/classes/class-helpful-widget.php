@@ -22,6 +22,7 @@ class Helpful_Widget {
 
   /**
    * Enqueue styles and scripts
+   * @return void
    */
   public function enqueueScripts() {
 		if( get_option('helpful_widget') ) {
@@ -98,7 +99,7 @@ class Helpful_Widget {
 
     $years = Helpful_Helper_Stats::getYears();
 
-    include_once HELPFUL_PATH . "templates/admin-widget.php";
+    $this->renderTemplate($links, $years);
   }
 
   /**
@@ -148,7 +149,16 @@ class Helpful_Widget {
 
     header('Content-Type: application/json');
     echo json_encode($response);
-
     wp_die();
+  }
+
+  /**
+   * Render widget template
+   * @param array $links
+   * @param array $years
+   * @return void
+   */
+  public function renderTemplate($links, $years) {
+    include_once HELPFUL_PATH . "templates/admin-widget.php";
   }
 }

@@ -138,7 +138,6 @@ class Helpful_Helper_Values {
    * @return mixed
    */
   public static function insertContra($user, $post_id) {
-
     global $wpdb;
 
     $data = [
@@ -168,7 +167,7 @@ class Helpful_Helper_Values {
    * @return void
    */
   public static function removeData($post_id) {
-    global $wpdb, $wp_query;
+    global $wpdb;
 
     $table_name = $wpdb->prefix . 'helpful';
     $wpdb->delete( $table_name, [ 'post_id' => $post_id ] );

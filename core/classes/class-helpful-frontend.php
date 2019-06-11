@@ -176,7 +176,6 @@ class Helpful_Frontend {
   public function afterVote($type, $post_id) {
 
     $feedback_text = esc_html_x('Thank you very much. Please write us your opinion, so that we can improve ourselves.', 'form user note', 'helpful');
-    $feedback_button = esc_html_x('Send Feedback', 'button text', 'helpful');
 
     if( 'pro' == $type ) {
       $feedback_text = get_option('helpful_feedback_message_pro');

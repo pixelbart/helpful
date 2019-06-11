@@ -21,7 +21,6 @@ class Helpful_Notices {
    * @return void
    */
   public function performMaintenanceNotice() {
-
     $screen = get_current_screen();
 
     if( false === ( $value = get_transient('helpful_updated') ) && 'toplevel_page_helpful' !== $screen->base ) {
@@ -47,11 +46,10 @@ class Helpful_Notices {
    * @return void
    */
   public function performMaintenance() {
-
-    $screen = get_current_screen();
     $action = 'perform-maintenance';
+    $screen = get_current_screen();
 
-    if( isset($_GET['action']) && $action === $_GET['action'] ) {
+    if( isset($_GET['action']) && $action === $_GET['action'] && 'toplevel_page_helpful' === $screen->base ) {
 
       // perform maintenance
       $response = Helpful_Helper_Optimize::optimizePlugin();
