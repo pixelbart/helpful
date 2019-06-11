@@ -43,7 +43,6 @@ class Helpful_Notices {
    * @return void
    */
   public function performMaintenance() {
-    $action = 'perform-maintenance';
     $screen = get_current_screen();
 
     if( isset($_GET['action']) && wp_verify_nonce( $_GET['action'], 'helpful_perform_maintenance' ) && 'toplevel_page_helpful' === $screen->base ) {
