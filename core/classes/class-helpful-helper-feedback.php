@@ -26,7 +26,7 @@ class Helpful_Helper_Feedback {
     $feedback['post'] = $post;
     $feedback['time'] = sprintf( 
       __('Submitted %s ago', 'helpful'), 
-      human_time_diff( $time ) 
+      human_time_diff($time, current_time('timestamp'))
     );
     
     if( $entry->fields ) {      

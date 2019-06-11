@@ -6,7 +6,7 @@ $settings = $helpful['wp_editor'];
 <h2><?php _ex( 'Details', 'tab name', 'helpful' ); ?></h2>
     
 <p><?php _ex( 'Here you can customize Helpful in detail. You can activate and deactivate many things here. Besides you can decide where Helpful appears and if Helpful appears. 
-If you deactivate Helpful in the posts, you can output Helpful with the help of the shortcut code. For more information about the shortcodes, see Help.', 'tab description', 'helpful' ); ?></p>
+If you deactivate Helpful in the posts, you can output Helpful with the help of the shortcut code.', 'tab description', 'helpful' ); ?></p>
 
 <form method="post" action="options.php">
 
@@ -24,8 +24,8 @@ If you deactivate Helpful in the posts, you can output Helpful with the help of 
     </button>
     <div class="helpful-admin-panel-content">
 
-      <p class="description">Here you can select the post types where Helpful should appear. All selected post types get the table columns 
-        for pro and contra, in the wp-admin. Private post types are displayed in light gray and are not always supported.</p>
+      <p class="description"><?php echo esc_html_x("Here you can select the post types where Helpful should appear. All selected post types get the table columns 
+        for pro and contra, in the wp-admin. Private post types are displayed in light gray and are not always supported.", 'admin panel description', 'helpful'); ?></p>
 
       <div class="helpful-admin-group">
         <?php if( $post_types ) : foreach( $post_types as $post_type ) : ?>
@@ -113,8 +113,8 @@ If you deactivate Helpful in the posts, you can output Helpful with the help of 
     </button>
     <div class="helpful-admin-panel-content">
 
-      <p class="description">Here you can activate the Helpful Meta Box. With this meta box you can see in the current post how many votes you have 
-        already received for the current post. You can also reset the votes for the current post.</p>
+      <p class="description"><?php echo esc_html_x("Here you can activate the Helpful Meta Box. With this meta box you can see in the current post how many votes you have 
+        already received for the current post. You can also reset the votes for the current post.", 'admin panel description', 'helpful'); ?></p>
 
       <div class="helpful-admin-group">
         <label>
@@ -134,8 +134,8 @@ If you deactivate Helpful in the posts, you can output Helpful with the help of 
     </button>
     <div class="helpful-admin-panel-content">
 
-      <p class="description">Here you can activate the Helpful Dashboard Widget. There you will find the total number of votes. 
-        You will also see the most recently received and the most helpful and less helpful posts.</p>
+      <p class="description"><?php echo esc_html_x("Here you can activate the Helpful Dashboard Widget. There you will find the total number of votes. 
+        You will also see the most recently received and the most helpful and less helpful posts.", 'admin panel description', 'helpful'); ?></p>
 
       <div class="helpful-admin-group helpful-margin-bottom">
         <label>

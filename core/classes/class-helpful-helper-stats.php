@@ -727,7 +727,7 @@ class Helpful_Helper_Stats {
             'name' => get_the_title($post_id),
             'time' => sprintf( 
               __('Published %s ago', 'helpful'), 
-              human_time_diff(date_i18n(get_the_date('U', $post_id)), date_i18n('U')),
+              human_time_diff(date_i18n(get_the_date('U', $post_id)), date_i18n('U'))
             ),
           ];
         }
@@ -783,7 +783,7 @@ class Helpful_Helper_Stats {
             'name' => get_the_title($post_id),
             'time' => sprintf( 
               __('Published %s ago', 'helpful'), 
-              human_time_diff(date_i18n(get_the_date('U', $post_id)), date_i18n('U')),
+              human_time_diff(date_i18n(get_the_date('U', $post_id)), date_i18n('U'))
             ),
           ];
         }
