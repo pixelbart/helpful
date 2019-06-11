@@ -22,7 +22,7 @@ class Helpful_Helper_Values {
     );
 
     $defaults = [
-      'heading' => get_option('helpful_heading'),
+      'heading' => self::convertTags(get_option('helpful_heading'), $post_id),
       'content' => self::convertTags(get_option('helpful_content'), $post_id),
       'button_pro' => get_option('helpful_pro'),
       'button_contra' => get_option('helpful_contra'),

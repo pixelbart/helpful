@@ -23,9 +23,7 @@ function helpfulAutoloader($className) {
  * Setup database and default values
  * @since 3.2.0
  */
-add_action( 'plugins_loaded', function () {
-	new Helpful_Setup();
-} );
+new Helpful_Setup();
 
 /** 
  * Admin Tabs

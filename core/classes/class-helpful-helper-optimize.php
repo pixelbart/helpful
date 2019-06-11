@@ -10,8 +10,11 @@ class Helpful_Helper_Optimize {
    * @return array responses
    */
   public static function optimizePlugin() {
-    $response = [];
+    
+    delete_option('helpful_is_installed');
+    delete_option('helpful_feedback_is_installed');
 
+    $response = [];
     $response = array_merge($response, self::optimizeTables());
     $response = array_merge($response, self::moveFeedback());
     $response = array_merge($response, self::removeIncorrectEntries());

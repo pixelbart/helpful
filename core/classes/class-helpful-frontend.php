@@ -10,7 +10,7 @@ class Helpful_Frontend {
   public function __construct() {
     add_action( 'init', [ $this, 'setUserCookie' ], 1 );
     add_filter( 'helpful_themes', [ $this, 'defaultThemes' ], 1 );
-    add_action( 'wp_enqueue_scripts', [ $this, 'enqueueScripts' ] );
+    add_action( 'wp_enqueue_scripts', [ $this, 'enqueueScripts' ], PHP_INT_MAX );
     add_action( 'wp_ajax_helpful_save_vote', [ $this, 'saveVote' ] );
     add_action( 'wp_ajax_nopriv_helpful_save_vote', [ $this, 'saveVote' ] );
     add_action( 'wp_ajax_helpful_save_feedback', [ $this, 'saveFeedback' ] );

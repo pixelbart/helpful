@@ -11,9 +11,25 @@ class Helpful_Setup {
     register_activation_hook( HELPFUL_FILE, [ $this, 'updateTransient' ] );
 		register_activation_hook( HELPFUL_FILE, [ $this, 'setupHelpfulTable' ] );
     register_activation_hook( HELPFUL_FILE, [ $this, 'setupFeedbackTable' ] );
+		register_activation_hook( HELPFUL_FILE, [ $this, 'setupDefaults' ] );
     
 		add_action( 'admin_menu', [ $this, 'registerAdminMenu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueueScripts' ] );
+  }
+
+  /**
+   * Set default options
+   * @since 4.0.0
+   * @return void
+   */
+  public function setupDefaults() {
+    if( 1 === (int) get_option('helpful_defaults') ) {
+      return false;
+    }
+
+    $this->setDefaults(true);
+    
+    update_option('helpful_defaults', 1);
   }
   
   /**
@@ -33,7 +49,7 @@ class Helpful_Setup {
   public function setupHelpfulTable() {
 		global $wpdb;
 
-    if( get_option('helpful_is_installed') == 1 ) {
+    if( 1 === (int) get_option('helpful_is_installed') ) {
       return false;
     }
 
@@ -55,8 +71,6 @@ class Helpful_Setup {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta($sql);
 
-		$this->setDefaults(true);
-
     update_option('helpful_is_installed', 1);
 
     return true;
@@ -70,7 +84,7 @@ class Helpful_Setup {
   public function setupFeedbackTable() {
 		global $wpdb;
 
-    if( get_option('helpful_feedback_is_installed') == 1 ) {
+    if( 1 === (int) get_option('helpful_feedback_is_installed') ) {
       return false;
     }
 
@@ -120,6 +134,10 @@ class Helpful_Setup {
       'helpful_contra' => _x( 'No', 'text contra button', 'helpful' ),
       'helpful_column_pro' => _x( 'Pro', 'column name', 'helpful' ),
       'helpful_column_contra' => _x( 'Contra', 'column name', 'helpful' ),
+      'helpful_feedback_label_message' => _x('Message', 'label for feedback form field', 'helpful'),
+      'helpful_feedback_label_name' => _x('Name', 'label for feedback form field', 'helpful'),
+      'helpful_feedback_label_email' => _x('Email', 'label for feedback form field', 'helpful'),
+      'helpful_feedback_label_submit' => _x('Send Feedback', 'label for feedback form field', 'helpful'),
       'helpful_post_types' => [ 'post' ],
       'helpful_count_hide' => false,
       'helpful_credits' => true,

@@ -31,19 +31,23 @@ class Helpful_Shortcodes {
       return $content;
     }
 
+    if( !is_singular() ) {
+      return $content;
+    }
+
     // Helpful atts
     $helpful = Helpful_Helper_Values::getDefaults();
 
+    $hidden = false;
     $class = '';
-    $hidden = '';
 
     if( 1 == $helpful['exists'] ) {
       if( 1 == $helpful['exists-hide'] ) {
         return;
       }
 
+      $hidden = true;
       $class = 'helpful-exists';
-      $hidden = 'hidden';
       $helpful['content'] = $helpful['exists_text'];
     }
 

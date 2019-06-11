@@ -1,14 +1,17 @@
 <div class="helpful <?php echo $class; ?>">
 
-  <div class="helpful-header" <?php echo $hidden; ?>>
+  <?php if( false === $hidden ): ?>
+  <div class="helpful-header">
     <h3><?php echo $helpful['heading']; ?></h3>
   </div>
+  <?php endif; ?>
 
   <div class="helpful-content" role="alert">
     <span><?php echo $helpful['content']; ?></span>
   </div>
 
-  <div class="helpful-controls" <?php echo $hidden; ?>>
+  <?php if( false === $hidden ): ?>
+  <div class="helpful-controls">
     <div>
       <button class="helpful-pro" type="button" data-value="pro" data-post="<?php the_ID(); ?>" role="button">
         <?php echo $helpful['button_pro']; ?>
@@ -22,9 +25,10 @@
       </button>
     </div>
   </div>
+  <?php endif; ?>
 
-  <?php if( $helpful['credits'] ): ?>
-  <div class="helpful-footer" <?php echo $hidden; ?>>
+  <?php if( $helpful['credits'] && false === $hidden ): ?>
+  <div class="helpful-footer">
     <?php printf( _x('Powered by %s', 'credits', 'helpful'), $helpful['credits_html'] ); ?>
   </div>
   <?php endif; ?>

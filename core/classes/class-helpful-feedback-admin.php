@@ -17,7 +17,7 @@ class Helpful_Feedback_Admin {
 			'helpful',
 			'Helpful Feedback',
 			'Feedback',
-			'manage_options',
+			'publish_posts',
 			'helpful_feedback',
 			[ $this, 'adminPageCallback' ]
 		);  
