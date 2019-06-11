@@ -106,6 +106,8 @@ class Helpful_Feedback_Admin {
    * @return void
    */
   public function deleteFeedbackitem() {
+    check_ajax_referer('helpful_admin_feedback_nonce');
+    
     global $wpdb;
 
     if( isset($_REQUEST['feedback_id']) ) {

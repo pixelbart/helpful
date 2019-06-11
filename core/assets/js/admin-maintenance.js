@@ -9,7 +9,10 @@
       var self = this;
 
       $(self.el).on("click", "button", function (e) {
-        if (e.target !== e.currentTarget) return;
+        if (e.target !== e.currentTarget) {
+          return;
+        }
+        
         self.performMaintenance();
       });
     },
@@ -40,7 +43,7 @@
         method: "POST",
       });
     },
-  }
+  };
 
   $(function () {
     HelpfulMaintenance.init();

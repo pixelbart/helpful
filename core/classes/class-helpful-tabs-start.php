@@ -51,12 +51,9 @@ class Helpful_Tabs_Start {
 
   /**
    * Add content to admin page
-   * @global $helpful
    * @return void
    */
    public function addTabContent() {
-    global $helpful;
-
     if( !isset($_GET['tab']) ) {
       include_once HELPFUL_PATH . 'core/tabs/tab-start.php';
     }

@@ -23,14 +23,11 @@ class Helpful_Notices {
   public function performMaintenanceNotice() {
     $screen = get_current_screen();
 
-    if( false === ( $value = get_transient('helpful_updated') ) && 'toplevel_page_helpful' !== $screen->base ) {
+    if( false === get_transient('helpful_updated') && 'toplevel_page_helpful' !== $screen->base ) {
 
       $class = 'notice-warning';
 
-      $url = add_query_arg( [
-        'page' => 'helpful',
-        'action' => 'perform-maintenance',
-      ], admin_url('admin.php'));
+      $url = wp_nonce_url( admin_url('admin.php?page=helpful'), 'helpful_perform_maintenance', 'action' );
 
       $message = esc_html_x('The Helpful database must have been updated: %s', 'admin notice', 'helpful');
       $button = sprintf( '<a href="%s">%s</a>', $url, esc_html_x('Update database', 'admin notice action', 'helpful') );
@@ -49,7 +46,7 @@ class Helpful_Notices {
     $action = 'perform-maintenance';
     $screen = get_current_screen();
 
-    if( isset($_GET['action']) && $action === $_GET['action'] && 'toplevel_page_helpful' === $screen->base ) {
+    if( isset($_GET['action']) && wp_verify_nonce( $_GET['action'], 'helpful_perform_maintenance' ) && 'toplevel_page_helpful' === $screen->base ) {
 
       // perform maintenance
       $response = Helpful_Helper_Optimize::optimizePlugin();

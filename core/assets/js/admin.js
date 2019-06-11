@@ -93,7 +93,7 @@
         method: "POST",
       });
     },
-  }
+  };
 
   $(function () {
     HelpfulAdmin.init();
