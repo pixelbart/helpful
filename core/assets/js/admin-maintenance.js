@@ -10,14 +10,14 @@
 
       $(self.el).on("click", "button", function (e) {
         if (e.target !== e.currentTarget) return;
-        self.performMaintenance();        
+        self.performMaintenance();
       });
     },
     performMaintenance: function () {
       var self = this;
       var container = $(self.el).find(".helpful_response");
 
-      $(container).html(self.loader);      
+      $(container).html(self.loader);
       $(container).find("pre").remove();
 
       self.ajaxRequest(helpful_maintenance.data).done(function (response) {
@@ -46,4 +46,4 @@
     HelpfulMaintenance.init();
   });
 
-})(jQuery)
+})(jQuery);

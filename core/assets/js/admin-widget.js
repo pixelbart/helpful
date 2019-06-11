@@ -4,8 +4,8 @@
 
   const HelpfulAdminWidget = {
     el: "#helpful_widget",
-    loader: "<div class='loader'><i class='dashicons dashicons-update'></i></div>",
-    canvas: "<canvas class='chart'></canvas>",
+    loader: "<div class=\"loader\"><i class=\"dashicons dashicons-update\"></i></div>",
+    canvas: "<canvas class=\"chart\"></canvas>",
     initWidget: function () {
       const self = this;
 
@@ -22,13 +22,13 @@
       $(this.el).on("change", "select", function (e) {
         if (e.target !== e.currentTarget) return;
 
-        var hidden = ['total', 'today', 'yesterday', 'week', 'month'];
+        var hidden = ["total", "today", "yesterday", "week", "month"];
 
         if (hidden.indexOf(this.value) !== -1) {
           $(self.el).find("select[name=year]").val((new Date).getFullYear());
-          $(self.el).find("select[name=year]").parent().attr('hidden', 'hidden');
+          $(self.el).find("select[name=year]").parent().attr("hidden", "hidden");
         } else {
-          $(self.el).find("select[name=year]").parent().removeAttr('hidden');
+          $(self.el).find("select[name=year]").parent().removeAttr("hidden");
         }
 
         self.getStats();
@@ -52,7 +52,7 @@
       self.ajaxRequest(data).done(function (response) {
         if (!("status" in response)) {
           $(container).html(self.canvas);
-          var canvas = $(container).find('.chart')[0].getContext("2d");
+          var canvas = $(container).find(".chart")[0].getContext("2d");
           new Chart(canvas, response);
         } else {
           $(container).html(response.message);
@@ -81,4 +81,4 @@
     HelpfulAdminWidget.initWidget();
   });
 
-})(jQuery)
+})(jQuery);

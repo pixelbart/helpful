@@ -36,7 +36,7 @@
       $(currentButton).on("click", function (e) {
         e.preventDefault();
         $(tabElement).toggleClass("active");
-      });      
+      });
     },
     datePicker: function () {
       $(".helpful-date").datepicker({
@@ -84,7 +84,7 @@
         }
       });
 
-      return;      
+      return;
     },
     ajaxRequest: function (data) {
       return $.ajax({
@@ -99,4 +99,4 @@
     HelpfulAdmin.init();
   });
 
-})(jQuery)
+})(jQuery);

@@ -1,7 +1,7 @@
 (function ($) {
   
   const HelpfulAdminFeedback = {
-    loader: "<div class='helpful_loader'><i class='dashicons dashicons-update'></i></div>",
+    loader: "<div class=\"helpful_loader\"><i class=\"dashicons dashicons-update\"></i></div>",
     initClass: function () {
       this.getFeedbackItems();
       this.deleteFeedbackItem();
@@ -30,9 +30,9 @@
     },
     changeFeedbackFilter: function () {
       const self = this;
-      const filter = $('.helpful-admin-filter').find('select');
+      const filter = $(".helpful-admin-filter").find("select");
 
-      $(filter).on('change', function () {
+      $(filter).on("change", function () {
         self.getFeedbackItems($(filter).val());
       });
     },
@@ -43,18 +43,18 @@
       var data;
       var button;
 
-      $(document).on('click', '.helpful-delete-item', function (e) {
+      $(document).on("click", ".helpful-delete-item", function (e) {
 
         button = $(this);
 
         data = {
           action: "helpful_remove_feedback",
           _wpnonce: helpful_admin_feedback.nonce,
-          feedback_id: $(button).data('id'),
+          feedback_id: $(button).data("id"),
         };
 
         request = self.ajaxRequest(data);
-        $(button).closest('article').fadeOut();
+        $(button).closest("article").fadeOut();
       });
     },
     ajaxRequest: function (data) {
@@ -62,7 +62,7 @@
         url: helpful_admin_feedback.ajax_url,
         data: data,
         method: "POST",
-      }); 
+      });
     },
   };
 
@@ -70,4 +70,4 @@
     HelpfulAdminFeedback.initClass();
   });
 
-})(jQuery)
+})(jQuery);
