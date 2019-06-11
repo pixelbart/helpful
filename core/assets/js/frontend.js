@@ -130,7 +130,7 @@
   };
 
   $(function() {
-    HelpfulPlugin.initClass();
+    // HelpfulPlugin.initClass();
   });
 
 })(jQuery);

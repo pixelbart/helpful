@@ -1,12 +1,8 @@
-/**
- * Theme: Base
- *
- * @author  Devhats
- * @version 1.0
- */
+.helpful-red { color: #ed7161 }
+.helpful-green { color: #88c057 }
 .helpful * { box-sizing: border-box; }
 
-.helpful-theme-base {
+.helpful {
   color: #333;
 	position: relative;
 	border-style: solid;
@@ -15,6 +11,8 @@
 	border-width: 1px;
 	padding: 25px;
 	margin: 25px 0 0 0;
+	font-size: 1rem;
+	line-height: 1.6rem;
 	box-shadow: 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: 0px 2px 5px 0px #f4f4f4;
 	-webkit-box-shadow: 0px 2px 5px 0px #f4f4f4;
@@ -22,14 +20,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/* Contact Form 7 */
-.helpful-theme-base .sent > p {
-	display: none;
-}
-
 /* HEADING */
 
-.helpful-theme-base .helpful-heading {
+.helpful .helpful-header h3 {
 	font-size: 140%;
 	font-weight: 700;
 	margin: 0 0 12.5px;
@@ -37,24 +30,54 @@
 
 /* CONTENT */
 
-.helpful-theme-base .helpful-content {
-	font-size: 100%;
-	font-weight: 400;
-	margin: 0 0 12.5px;
+.helpful .helpful-content {
+	font-size: 1rem;
+	line-height: 1.6rem;
 }
 
 /* CONTROLS */
 
-.helpful-theme-base .helpful-controls:after {
+.helpful .helpful-controls {
+  display: flex;
+}
+
+@media all and (max-width: 992px) {
+	.helpful .helpful-controls {
+		flex-direction: column;
+	}
+}
+
+.helpful .helpful-controls:after {
 	clear: both;
 }
 
-.helpful-theme-base .helpful-controls > div {
-	padding: 12.5px 25px;
+.helpful .helpful-controls > div {
+	flex: 0 1 auto;
+	width: 50%;
+}
+
+.helpful .helpful-controls > div:first-child {
+  margin-right: 15px;
+}
+
+@media all and (max-width: 992px) {
+	.helpful .helpful-controls > div {
+		width: 100%;
+		display: block;
+		margin: 0px 0px 10px 0px;
+	}
+}
+
+.helpful .helpful-controls button {
+	padding: 15px 25px;
 	position: relative;
 	cursor: pointer;
-	border: 1px solid #e5e5e5;
 	opacity: 1;
+	width: 100%;
+	display: block;
+	text-align: left;
+	background: #fff;
+	border: 1px solid #e5e5e5;
 	transition: opacity .2s ease-in-out;
 	-moz-transition: opacity .2s ease-in-out;
 	-webkit-transition: opacity .2s ease-in-out;
@@ -63,39 +86,22 @@
 	-webkit-box-shadow: 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful-theme-base .helpful-controls > div:hover {
+.helpful .helpful-controls button:hover {
 	opacity: .5;
 	transition: opacity .2s ease-in-out;
 	-moz-transition: opacity .2s ease-in-out;
 	-webkit-transition: opacity .2s ease-in-out;
 }
 
-.helpful-theme-base .helpful-controls .helpful-pro {
-	width: calc( 50% - 6.25px );
-	display: inline-block;
-	float: left;
-	border-left: 2px solid #2ecc71;
-	margin-right: 12.5px;
+.helpful .helpful-controls button[data-value="pro"] {
+	border-left: 2px solid #88c057;
 }
 
-.helpful-theme-base .helpful-controls .helpful-con {
-	width: calc( 50% - 6.25px );
-	display: inline-block;
-	border-left: 2px solid #e74c3c;
+.helpful .helpful-controls button[data-value="contra"] {
+	border-left: 2px solid #ed7161;
 }
 
-@media all and (max-width: 992px) {
-	.helpful-theme-base .helpful-controls .helpful-pro,
-	.helpful-theme-base .helpful-controls .helpful-con {
-		width: 100%;
-		width: calc( 100% );
-		float: none;
-		display: block;
-		margin: 0px 0px 10px 0px;
-	}
-}
-
-.helpful-theme-base .helpful-controls .counter {
+.helpful .helpful-controls button span {
 	position: absolute;
 	right: 25px;
 	top: 50%;
@@ -107,7 +113,7 @@
 	transform: translateY(-50%);
 	background-color: #fff;
 	padding: 12.5px;
-	border-radius: 30px;
+	border-radius: 35px;
 	border: 1px solid #e5e5e5;
 	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
@@ -116,29 +122,37 @@
 
 /* CREDITS */
 
-.helpful-theme-base .helpful-credits {
-	font-size: 70%;
+.helpful .helpful-footer {
+	font-size: .7rem;
 	position: absolute;
 	right: 5px;
 	bottom: 2px;
 	color: #bbb;
 }
 
-.helpful-theme-base .helpful-credits a {
+.helpful .helpful-footer a {
 	color: #bbb;
 }
 
 /* FEEDBACK */
 
-.helpful-theme-base .helpful-feedback p {
+.helpful .helpful-feedback-form req {
+  color: #ed7161;
+}
+
+.helpful .helpful-feedback-form p {
   margin: 0 0 12.5px;
 }
 
-.helpful-theme-base .helpful-feedback textarea {
+.helpful .helpful-feedback-form textarea,
+.helpful .helpful-feedback-form input[type="text"],
+.helpful .helpful-feedback-form input[type="email"],
+.helpful .helpful-feedback-form input[type="url"],
+.helpful .helpful-feedback-form input[type="number"] {
   color: #333;
   width: 100%;
   display: block;
-	padding: 25px;
+	padding: 15px 25px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
@@ -148,15 +162,26 @@
 	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful-theme-base .helpful-feedback button {
+.helpful .helpful-feedback-form input[type="checkbox"],
+.helpful .helpful-feedback-form input[type="radio"] {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #e5e5e5;
+  background-color: #fff;
+	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+}
+
+.helpful .helpful-feedback-form button {
   color: #fff;
   min-width: 150px;
   text-align: center;
 	border-style: solid;
 	border-width: 1px;
-	border-color: #2abb67;
-	background-color: #2ecc71;
-  padding: 12.5px 25px;
+	border-color: #88c057;
+	background-color: #88c057;
+	padding: 15px 25px;
   margin: 12.5px 0 0;
   cursor: pointer;
 	transition: all .2s ease-in-out;
@@ -164,8 +189,8 @@
 	-webkit-transition: all .2s ease-in-out;
 }
 
-.helpful-theme-base .helpful-feedback button:hover {
-  background-color: #2abb67;
+.helpful .helpful-feedback-form button:hover {
+  background-color: #88c057;
 	box-shadow: 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: 0px 2px 5px 0px #f4f4f4;
 	-webkit-box-shadow: 0px 2px 5px 0px #f4f4f4;
@@ -175,7 +200,7 @@
 }
 
 @media all and (max-width: 992px) {
-  .helpful-theme-base .helpful-feedback button {
+  .helpful .helpful-feedback-form button {
     min-width: 100%;
     width: 100%;
     display: block;

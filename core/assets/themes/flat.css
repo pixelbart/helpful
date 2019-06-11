@@ -1,30 +1,23 @@
-/**
- * Theme: Flat
- *
- * @author  Devhats
- * @version 1.0
- */
+.helpful-red { color: #ed7161 }
+.helpful-green { color: #88c057 }
 .helpful * { box-sizing: border-box; }
 
-.helpful-theme-flat {
+.helpful {
 	position: relative;
 	border-style: solid;
 	border-color: #e5e5e5;
 	border-width: 2px 0 0;
 	padding: 25px;
 	margin: 25px 0 0 0;
+	font-size: 1rem;
+	line-height: 1.6rem;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/* Contact Form 7 */
-.helpful-theme-flat .sent > p {
-	display: none;
-}
-
 /* HEADING */
 
-.helpful-theme-flat .helpful-heading {
+.helpful .helpful-heading h3 {
 	font-size: 1.4rem;
 	font-weight: 700;
 	margin: 0 0 12.5px;
@@ -32,55 +25,78 @@
 
 /* CONTENT */
 
-.helpful-theme-flat .helpful-content {
+.helpful .helpful-content {
 	font-size: 1rem;
-	font-weight: 400;
-	margin: 0 0 12.5px;
+	line-height: 1.6rem;
 }
 
 /* CONTROLS */
 
-.helpful-theme-flat .helpful-controls:after {
+.helpful .helpful-controls {
+  display: flex;
+}
+
+@media all and (max-width: 992px) {
+	.helpful .helpful-controls {
+		flex-direction: column;
+	}
+}
+
+.helpful .helpful-controls:after {
 	clear: both;
 }
 
-.helpful-theme-flat .helpful-controls > div {
-	padding: 12.5px 25px;
+.helpful .helpful-controls > div {
+	flex: 0 1 auto;
+	width: 50%;
+}
+
+.helpful .helpful-controls > div:first-child {
+  margin-right: 15px;
+}
+
+@media all and (max-width: 992px) {
+	.helpful .helpful-controls > div {
+		width: 100%;
+		display: block;
+		margin: 0px 0px 10px 0px;
+	}
+}
+
+.helpful .helpful-controls button {
+	padding: 15px 25px;
 	position: relative;
 	cursor: pointer;
 	opacity: 1;
+	width: 100%;
+	border: 0px;
+	color: #fff;
+	display: block;
+	text-align: left;
 	border-radius: 30px;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
 }
 
-.helpful-theme-flat .helpful-controls > div:hover {
+.helpful .helpful-controls button:hover {
 	opacity: .5;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
 }
 
-.helpful-theme-flat .helpful-controls .helpful-pro {
-	width: calc( 50% - 6.25px );
-	display: inline-block;
-	float: left;
-	margin-right: 12.5px;
-	background-color: #2ecc71;
-	color: #fff;
+.helpful .helpful-controls button[data-value="pro"] {
+	background-color: #88c057;
 }
 
-.helpful-theme-flat .helpful-controls .helpful-con {
-	width: calc( 50% - 6.25px );
-	display: inline-block;
-	background-color: #e74c3c;
-	color: #fff;
+.helpful .helpful-controls button[data-value="contra"] {
+	background-color: #ed7161;
 }
 
 @media all and (max-width: 992px) {
-	.helpful-theme-flat .helpful-controls .helpful-pro,
-	.helpful-theme-flat .helpful-controls .helpful-con {
+	.helpful .helpful-controls .helpful-pro,
+	.helpful .helpful-controls .helpful-con {
 		width: 100%;
 		width: calc( 100% );
 		float: none;
@@ -89,7 +105,7 @@
 	}
 }
 
-.helpful-theme-flat .helpful-controls .counter {
+.helpful .helpful-controls span {
 	position: absolute;
 	right: 25px;
 	top: 50%;
@@ -107,7 +123,7 @@
 
 /* CREDITS */
 
-.helpful-theme-flat .helpful-credits {
+.helpful .helpful-footer {
 	font-size: .7rem;
 	position: absolute;
 	text-align: center;
@@ -117,21 +133,29 @@
 	width: 100%;
 }
 
-.helpful-theme-flat .helpful-credits a {
+.helpful .helpful-footer a {
 	color: #bbb;
 }
 
 /* FEEDBACK */
 
-.helpful-theme-flat .helpful-feedback p {
+.helpful .helpful-feedback-form req {
+  color: #ed7161;
+}
+
+.helpful .helpful-feedback-form p {
   margin: 0 0 12.5px;
 }
 
-.helpful-theme-flat .helpful-feedback textarea {
+.helpful .helpful-feedback-form textarea,
+.helpful .helpful-feedback-form input[type="text"],
+.helpful .helpful-feedback-form input[type="email"],
+.helpful .helpful-feedback-form input[type="url"],
+.helpful .helpful-feedback-form input[type="number"] {
   color: #333;
-  width: 100%;
   display: block;
-	padding: 25px;
+	width: 100%;
+	padding: 15px 25px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
@@ -142,32 +166,44 @@
 	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful-theme-flat .helpful-feedback button {
+.helpful .helpful-feedback-form input[type="checkbox"],
+.helpful .helpful-feedback-form input[type="radio"] {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #e5e5e5;
+  background-color: #fff;
+	border-radius: 3px;
+	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+}
+
+.helpful .helpful-feedback-form button {
   color: #fff;
   min-width: 150px;
   text-align: center;
 	border-style: solid;
 	border-width: 1px;
-	border-color: #2abb67;
-	background-color: #2ecc71;
-  padding: 12.5px 25px;
+	border-color: #88c057;
+	background-color: #88c057;
+	padding: 15px 25px;
   margin: 12.5px 0 0;
   cursor: pointer;
-	border-radius: 30px;
+	border-radius: 35px;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
 }
 
-.helpful-theme-flat .helpful-feedback button:hover {
-  background-color: #2abb67;
+.helpful .helpful-feedback-form button:hover {
+  background-color: #88c057;
 	box-shadow: 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: 0px 2px 5px 0px #f4f4f4;
 	-webkit-box-shadow: 0px 2px 5px 0px #f4f4f4;
 }
 
 @media all and (max-width: 992px) {
-  .helpful-theme-flat .helpful-feedback button {
+  .helpful .helpful-feedback-form button {
     min-width: 100%;
     width: 100%;
     display: block;

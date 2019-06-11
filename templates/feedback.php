@@ -1,25 +1,36 @@
-<?php
-/**
- * Feedback Frontend Template
- *
- * @author  Devhats
- */
-
-$nonce = wp_create_nonce('helpful_feedback');
-$feedback_text = esc_html_x('Thank you very much. Please write us your opinion, so that we can improve ourselves.', 'form user note', 'helpful');
-$feedback_button = esc_html_x('Send Feedback', 'button text', 'helpful');
-
-if( 'pro' == $args['type'] && get_option('helpful_feedback_message_pro') ) {
-  $feedback_text = get_option('helpful_feedback_message_pro');
-}
-
-if( 'contra' == $args['type'] && get_option('helpful_feedback_message_contra') ) {
-  $feedback_text = get_option('helpful_feedback_message_contra');
-}
-?>
-
-<div class="helpful-feedback" data-type="<?=$args['type']?>" data-post="<?=$args['post_id']?>" data-nonce="<?=$nonce?>">
-  <?php if( $feedback_text ) printf('<p>%s</p>', $feedback_text); ?>
-  <textarea name="helpful_feedback"></textarea>
-  <button type="button"><?php echo $feedback_button; ?></button>
+<?php if( isset($feedback_text) ): ?>
+<div class="feedback-note">
+  <p role="alert"><?php echo $feedback_text; ?></p>
 </div>
+<?php endif; ?>
+
+<div class="group">
+  <?php $label = get_option('helpful_feedback_label_message'); ?>
+  <label for="message"><?php echo $label; ?> <req>*</req></label>
+  <div class="control">
+    <textarea name="message" id="message" required></textarea>
+  </div>
+</div>
+
+<?php if( get_option('helpful_feedback_name') ): ?>
+<div class="group">
+  <?php $label = get_option('helpful_feedback_label_name'); ?>
+  <label for="email"><?php echo $label; ?></label>
+  <div class="control">
+    <input type="text" name="fields[name]" id="name">
+  </div>
+</div>
+<?php endif; ?>
+
+<?php if( get_option('helpful_feedback_email') ): ?>
+<div class="group">
+  <?php $label = get_option('helpful_feedback_label_email'); ?>
+  <label for="email"><?php echo $label; ?></label>
+  <div class="control">
+    <input type="email" name="fields[email]" id="email">
+  </div>
+</div>
+<?php endif; ?>
+
+<?php $label = get_option('helpful_feedback_label_submit'); ?>
+<button type="submit" role="button"><?php echo $label; ?></button>

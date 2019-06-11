@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 3.1.3
+Stable tag: 3.1.5
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -70,6 +70,20 @@ For the code editor you need at least version 4.9 of WordPress. Without this ver
 Sure. Helpful is now also available on [Github](https://github.com/pixelbart/helpful). I will always update the code first and fix issues with Codacy. You are always welcome to help. Forke Helpful and start bullying!
 
 == Changelog ==
+
+= 4.0.0 =
+* Now charts.js is used to display statistics.
+* There is a new admin page.
+* The feedback is now displayed more clearly in the admin area.
+* The themes were revised and also Helpful itself. It is possible that the theme has to be adapted via CSS if changes have been made there.
+* Numerous filters have been installed to facilitate Helpful's expansion.
+* Die Dokumentation auf der Helpful-Website wurde erweitert: [helpful-plugin.info](https://helpful-plugin.info/documentation/)
+
+= 3.1.5 =
+* Fixed feedback permissions so editors and administrators can now view, edit, and delete feedback.
+
+= 3.1.4 =
+* Fixed a bug that did not allow deleting Helpful from a single post.
 
 = 3.1.3 =
 * Bug `call_user_func_array() expects parameter 1 to be a valid callback` fixed
