@@ -86,12 +86,12 @@ class Helpful_Table {
 		if ( 'helpful-pro' == $column_name ) {
 
       if( get_option('helpful_percentages') ) {
-        $percent = Helpful_Helper_Values::getPro($post_id, true);
+        $percent = Helpful_Helper_Stats::getPro($post_id, true);
         update_post_meta($post_id, 'helpful-pro', $percent);
         printf( '%s%%', esc_html($percent) );
       }
       else {
-        $pro = Helpful_Helper_Values::getPro($post_id);
+        $pro = Helpful_Helper_Stats::getPro($post_id);
         update_post_meta($post_id, 'helpful-pro', $pro);
         printf( '%s', intval($pro) );
       }
@@ -99,12 +99,12 @@ class Helpful_Table {
 
 		if ( 'helpful-contra' == $column_name ) {
       if( get_option('helpful_percentages') ) {
-        $percent = Helpful_Helper_Values::getContra($post_id, true);
+        $percent = Helpful_Helper_Stats::getContra($post_id, true);
         update_post_meta($post_id, 'helpful-contra', $percent);
         printf( '%s%%', esc_html($percent) );
       }
       else {      
-        $contra = Helpful_Helper_Values::getContra($post_id);
+        $contra = Helpful_Helper_Stats::getContra($post_id);
         update_post_meta($post_id, 'helpful-contra', $contra);
         printf( '%s', intval($contra) );
       }

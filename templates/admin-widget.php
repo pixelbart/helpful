@@ -39,56 +39,56 @@
 
 <div class="helpful-widget-panels">
 
-  <?php if( !empty(Helpful_Helper_Values::getMostHelpful()) && get_option('helpful_widget_pro') ): ?>
+  <?php if( !empty(Helpful_Helper_Stats::getMostHelpful()) && get_option('helpful_widget_pro') ): ?>
   <div class="helpful-widget-panel">
     <button type="button">
       <?php _ex('Most helpful','widget headline','helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
-      <?php foreach( Helpful_Helper_Values::getMostHelpful() as $post ): ?>
+      <?php foreach( Helpful_Helper_Stats::getMostHelpful() as $post ): ?>
       <li><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a><br><?php echo $post['time']; ?></li>
       <?php endforeach; ?>
     </ul>
   </div>
   <?php endif; ?>
 
-  <?php if( !empty(Helpful_Helper_Values::getLeastHelpful()) && get_option('helpful_widget_contra') ): ?>
+  <?php if( !empty(Helpful_Helper_Stats::getLeastHelpful()) && get_option('helpful_widget_contra') ): ?>
   <div class="helpful-widget-panel">
     <button type="button">
       <?php _ex('Least helpful','widget headline','helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
-      <?php foreach( Helpful_Helper_Values::getLeastHelpful() as $post ): ?>
+      <?php foreach( Helpful_Helper_Stats::getLeastHelpful() as $post ): ?>
       <li><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a><br><?php echo $post['time']; ?></li>
       <?php endforeach; ?>
     </ul>
   </div>
   <?php endif; ?>
 
-  <?php if( !empty(Helpful_Helper_Values::getRecentlyPro()) && get_option('helpful_widget_pro_recent') ): ?>
+  <?php if( !empty(Helpful_Helper_Stats::getRecentlyPro()) && get_option('helpful_widget_pro_recent') ): ?>
   <div class="helpful-widget-panel">
     <button type="button">
       <?php _ex('Recently helpful','widget headline','helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
-      <?php foreach( Helpful_Helper_Values::getRecentlyPro() as $post ): ?>
+      <?php foreach( Helpful_Helper_Stats::getRecentlyPro() as $post ): ?>
       <li><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a><br><?php echo $post['time']; ?></li>
       <?php endforeach; ?>
     </ul>
   </div>
   <?php endif; ?>
 
-  <?php if( !empty(Helpful_Helper_Values::getRecentlyContra()) && get_option('helpful_widget_contra_recent') ): ?>
+  <?php if( !empty(Helpful_Helper_Stats::getRecentlyContra()) && get_option('helpful_widget_contra_recent') ): ?>
   <div class="helpful-widget-panel">
     <button type="button">
       <?php _ex('Recently unhelpful','widget headline','helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
-      <?php foreach( Helpful_Helper_Values::getRecentlyContra() as $post ): ?>
+      <?php foreach( Helpful_Helper_Stats::getRecentlyContra() as $post ): ?>
       <li><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a><br><?php echo $post['time']; ?></li>
       <?php endforeach; ?>
     </ul>

@@ -1,6 +1,6 @@
 <?php if( isset($feedback_text) ): ?>
 <div class="feedback-note">
-  <p role="alert"><?php echo $feedback_text; ?></p>
+  <p><?php echo $feedback_text; ?></p>
 </div>
 <?php endif; ?>
 

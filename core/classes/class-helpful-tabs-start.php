@@ -76,7 +76,7 @@ class Helpful_Tabs_Start {
     $from = date_i18n( 'Y-m-d', strtotime($_REQUEST['from']) );
     $to = date_i18n( 'Y-m-d', strtotime($_REQUEST['to']) );
 
-    $response = Helpful_Helper_Values::getStatsRange($from, $to);
+    $response = Helpful_Helper_Stats::getStatsRange($from, $to);
 
     $response['from'] = $from;
     $response['to'] = $to;
@@ -103,7 +103,7 @@ class Helpful_Tabs_Start {
    */
   public function getStatsTotal() {
     check_ajax_referer('helpful_admin_nonce');
-    $response = Helpful_Helper_Values::getStatsTotal();
+    $response = Helpful_Helper_Stats::getStatsTotal();
     header('Content-Type: application/json');
     echo json_encode($response);
     wp_die();

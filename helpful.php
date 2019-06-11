@@ -27,12 +27,5 @@ if( get_option('helpful_timezone') ) {
   date_default_timezone_set($timezone);
 }
 
-
-// remove stored value after plugin activation
-register_activation_hook( __FILE__, 'update_helpful' );
-function update_helpful() {
-  delete_transient('helpful_updated');
-}
-
 // Include classes and functions
 include_once plugin_dir_path( HELPFUL_FILE ) . "core/autoload.php";

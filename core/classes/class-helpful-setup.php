@@ -1,7 +1,6 @@
 <?php
 /**
  * Setup helpful databases and set defaults
- * @since 3.2.0
  */
 class Helpful_Setup {
 
@@ -9,15 +8,26 @@ class Helpful_Setup {
   private $table_feedback = 'helpful_feedback';
 
   public function __construct() {
+    register_activation_hook( HELPFUL_FILE, [ $this, 'updateTransient' ] );
 		register_activation_hook( HELPFUL_FILE, [ $this, 'setupHelpfulTable' ] );
     register_activation_hook( HELPFUL_FILE, [ $this, 'setupFeedbackTable' ] );
     
 		add_action( 'admin_menu', [ $this, 'registerAdminMenu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueueScripts' ] );
   }
+  
+  /**
+   * Update transient for showing maintenance notice
+   * @since 4.0.0
+   * @return void
+   */
+  public function updateTransient() {
+    delete_transient('helpful_updated');
+  }
 
   /**
    * Create database table for helpful
+   * @since 3.0.0
    * @return bool
    */
   public function setupHelpfulTable() {
@@ -54,6 +64,7 @@ class Helpful_Setup {
 
   /**
    * Create database table for feedback
+   * @since 4.0.0
    * @return bool
    */
   public function setupFeedbackTable() {
@@ -90,6 +101,7 @@ class Helpful_Setup {
 
   /**
    * Default values for settings
+   * @since 3.0.0
    * @param bool $status set true for filling defaults
    * @return bool
    */
@@ -188,5 +200,5 @@ class Helpful_Setup {
         'nonce' => wp_create_nonce( 'helpful_admin_nonce' ),
       ] );
     }
-	}
+  }
 }

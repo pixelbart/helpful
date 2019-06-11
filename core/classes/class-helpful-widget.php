@@ -96,7 +96,7 @@ class Helpful_Widget {
       ),
     ];
 
-    $years = Helpful_Helper_Values::getYears();
+    $years = Helpful_Helper_Stats::getYears();
 
     include_once HELPFUL_PATH . "templates/admin-widget.php";
   }
@@ -127,22 +127,22 @@ class Helpful_Widget {
 
     switch($range) {
       case 'today':
-        $response = Helpful_Helper_Values::getStatsToday($year);
+        $response = Helpful_Helper_Stats::getStatsToday($year);
         break;
       case 'yesterday':
-        $response = Helpful_Helper_Values::getStatsYesterday($year);
+        $response = Helpful_Helper_Stats::getStatsYesterday($year);
         break;
       case 'week':
-        $response = Helpful_Helper_Values::getStatsWeek($year);
+        $response = Helpful_Helper_Stats::getStatsWeek($year);
         break;
       case 'month':
-        $response = Helpful_Helper_Values::getStatsMonth($year);
+        $response = Helpful_Helper_Stats::getStatsMonth($year);
         break;
       case 'year':
-        $response = Helpful_Helper_Values::getStatsYear($year);
+        $response = Helpful_Helper_Stats::getStatsYear($year);
         break;
       case 'total':
-        $response = Helpful_Helper_Values::getStatsTotal();
+        $response = Helpful_Helper_Stats::getStatsTotal();
         break;
     }
 

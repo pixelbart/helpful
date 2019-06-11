@@ -28,22 +28,3 @@ function helpful_backlist_check(  $content ) {
   }
   return false;
 }
-
-/**
- * Get avatar by email if gravatar is checked
- * If not receive a placeholder
- * @since 3.2.0
- * @param string $email
- * @param int $size
- * @return string html element with image or dashicon
- */
-function helpful_get_avatar( $email = null, $size = 50 ) {
-  $html = '<div class="helpful-avatar" height="%1$d" width="%1$d"><i class="dashicons dashicons-admin-users"></i></div>';
-  $html = sprintf($html, $size);
-  if( !is_null($email) && get_option('helpful_feedback_gravatar') ) {
-    $gravatar = get_avatar_url( $email, [ 'size' => $size ] );    
-    $html = '<div class="helpful-avatar" height="%1$d" width="%1$d"><img src="%2$s"></div>';
-    $html = sprintf($html, $size, $gravatar);
-  }
-  return $html;
-}

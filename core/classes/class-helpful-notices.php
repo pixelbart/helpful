@@ -54,7 +54,8 @@ class Helpful_Notices {
     if( isset($_GET['action']) && $action === $_GET['action'] ) {
 
       // perform maintenance
-      Helpful_Helper_Optimize::optimizePlugin();
+      $response = Helpful_Helper_Optimize::optimizePlugin();
+      $response = apply_filters( 'helpful_maintenance', $response );
 
       $class = 'notice-success';
       $notice = esc_html_x('Thank you very much. The database has been updated successfully. ', 'admin notice', 'helpful');

@@ -1,6 +1,11 @@
 <?php
 class Helpful_Customizer {
 
+  /**
+   * Register custom customizer section/panel
+   * @param object $wp_customize
+   * @return void
+   */
   public function registerCustomizer( $wp_customize ) {
     $wp_customize->add_panel( 'helpful', [
       'title' => esc_html_x('Helpful', 'customizer panel title', 'helpful'),

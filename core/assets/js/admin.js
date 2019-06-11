@@ -1,8 +1,8 @@
 (function ($) {
 
   const HelpfulAdmin = {
-    loader: "<div class='helpful_loader'><i class='dashicons dashicons-update'></i></div>",
-    canvas: "<canvas class='chart'></canvas>",
+    loader: "<div class=\"helpful_loader\"><i class=\"dashicons dashicons-update\"></i></div>",
+    canvas: "<canvas class=\"chart\"></canvas>",
     init: function () {
       var self = this;
 
@@ -16,18 +16,18 @@
         window.location.href = $(this).find("option:selected").val();
       });
 
-      if ($('.helpful-date').length > 0) {
+      if ($(".helpful-date").length > 0) {
         self.datePicker();
       }
 
-      if ($('.helpful-range-form').length > 0) {
+      if ($(".helpful-range-form").length > 0) {
         self.getStatsRange();
-        $('.helpful-range-form').on('change', function () {
+        $(".helpful-range-form").on("change", function () {
           self.getStatsRange();
         });
       }
 
-      if ($('.helpful-total').length > 0) {
+      if ($(".helpful-total").length > 0) {
         self.getStatsTotal();
       }
     },
@@ -39,26 +39,25 @@
       });      
     },
     datePicker: function () {
-      $('.helpful-date').datepicker({
+      $(".helpful-date").datepicker({
         changeMonth: true,
         changeYear: true,
-        dateFormat: 'yy-mm-dd',
+        dateFormat: "yy-mm-dd",
       });
     },
     getStatsRange: function () {
       const self = this;
       var canvas;
-      var el = $('.helpful-range');
-      var form = $('.helpful-range-form');
+      var el = $(".helpful-range");
+      var form = $(".helpful-range-form");
       var data = $(form).serializeArray();
 
       $(el).html(self.loader);
 
       self.ajaxRequest(data).done(function (response) {
-        console.log(response);
         if (!("status" in response)) {
           $(el).html(self.canvas);
-          canvas = $(el).find('.chart')[0].getContext("2d");
+          canvas = $(el).find(".chart")[0].getContext("2d");
           new Chart(canvas, response);
         } else {
           $(el).html(response.message);
@@ -70,15 +69,15 @@
     getStatsTotal: function () {
       const self = this;
       var canvas;
-      var el = $('.helpful-total');
-      var data = { 'action': 'helpful_total_stats', '_wpnonce': helpful_admin.nonce };
+      var el = $(".helpful-total");
+      var data = { "action": "helpful_total_stats", "_wpnonce": helpful_admin.nonce };
 
       $(el).html(self.loader);
 
       self.ajaxRequest(data).done(function (response) {
         if (!("status" in response)) {
           $(el).html(self.canvas);
-          canvas = $(el).find('.chart')[0].getContext("2d");
+          canvas = $(el).find(".chart")[0].getContext("2d");
           new Chart(canvas, response);
         } else {
           $(el).html(response.message);

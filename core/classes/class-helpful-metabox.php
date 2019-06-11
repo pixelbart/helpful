@@ -52,10 +52,10 @@ class Helpful_Metabox {
   public function renderMetabox() {
     global $post;
 
-    $pro = Helpful_Helper_Values::getPro($post->ID);
-    $pro_percent = Helpful_Helper_Values::getPro($post->ID, true);
-    $contra = Helpful_Helper_Values::getContra($post->ID);
-    $contra_percent = Helpful_Helper_Values::getContra($post->ID, true);
+    $pro = Helpful_Helper_Stats::getPro($post->ID);
+    $pro_percent = Helpful_Helper_Stats::getPro($post->ID, true);
+    $contra = Helpful_Helper_Stats::getContra($post->ID);
+    $contra_percent = Helpful_Helper_Stats::getContra($post->ID, true);
 
     wp_nonce_field( 'helfpul_remove_data', 'helfpul_remove_data_nonce' );
     include( HELPFUL_PATH . 'templates/admin-metabox.php' );

@@ -2,7 +2,7 @@
 /**
  * Helpful Frontend Helpers for retrieving 
  * values from database
- * @since 3.2.0
+ * @since 4.0.0
  */
 
 /**
@@ -10,7 +10,7 @@
  */
 if( !function_exists("helpful_get_pro") ) {
   function helpful_get_pro($post_id = null) {
-    return Helpful_Helper_Values::getPro($post_id);
+    return Helpful_Helper_Stats::getPro($post_id);
   }
 }
 
@@ -19,7 +19,7 @@ if( !function_exists("helpful_get_pro") ) {
  */
 if( !function_exists("helpful_get_contra") ) {
   function helpful_get_contra($post_id = null) {
-    return Helpful_Helper_Values::getContra($post_id);
+    return Helpful_Helper_Stats::getContra($post_id);
   }
 }
 
@@ -28,7 +28,7 @@ if( !function_exists("helpful_get_contra") ) {
  */
 if( !function_exists("helpful_get_pro_all") ) {
   function helpful_get_pro_all() {
-    return Helpful_Helper_Values::getProAll();
+    return Helpful_Helper_Stats::getProAll();
   }
 }
 
@@ -37,6 +37,6 @@ if( !function_exists("helpful_get_pro_all") ) {
  */
 if( !function_exists("helpful_get_contra_all") ) {
   function helpful_get_contra_all() {
-    return Helpful_Helper_Values::getContraAll();
+    return Helpful_Helper_Stats::getContraAll();
   }
 }

@@ -128,7 +128,7 @@ class Helpful_Frontend {
     check_ajax_referer('helpful_frontend_nonce');
     
     $user_id = sanitize_text_field($_POST['user_id']);
-    $post_id = absint($_POST['post']);
+    $post_id = intval($_POST['post']);
     $value   = sanitize_text_field($_POST['value']);
     
     if( !Helpful_Helper_Values::checkUser($user_id, $post_id) ) {
@@ -153,7 +153,7 @@ class Helpful_Frontend {
   public function saveFeedback() {
     check_ajax_referer('helpful_feedback_nonce');
 
-    $feedback_id = Helpful_Helper_Values::insertFeedback();
+    $feedback_id = Helpful_Helper_Feedback::insertFeedback();
     $type = isset($_REQUEST['type']) ? sanitize_text_field($_REQUEST['type']) : 'pro';
 
     if( 'pro' == $type ) {

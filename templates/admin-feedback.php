@@ -10,9 +10,9 @@
 
     <div class="helpful-admin-filter">
       <select>
-        <option value="all">Alle Einträge</option>
-        <option value="pro">Pro</option>
-        <option value="contra">Kontra</option>
+        <option value="all"><?php _e('All entries', 'helpful'); ?></option>
+        <option value="pro"><?php _e('Pro', 'helpful'); ?></option>
+        <option value="contra"><?php _e('Contra', 'helpful'); ?></option>
       </select>
     </div><!-- .helpful-admin-filter -->
 

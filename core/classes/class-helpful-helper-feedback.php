@@ -6,12 +6,15 @@
  */
 class Helpful_Helper_Feedback {
 
-  public static $green = '#88c057';
-  public static $red = '#ed7161';
-
+  /**
+   * Get feedback data by post object
+   * @param object $entry post object
+   * @return array
+   */
   public static function getFeedback($entry) {
     
     $post = get_post($entry->post_id);
+    $time = strtotime($entry->time);
 
     $feedback = [];
 
@@ -23,7 +26,7 @@ class Helpful_Helper_Feedback {
     $feedback['post'] = $post;
     $feedback['time'] = sprintf( 
       __('Submitted %s ago', 'helpful'), 
-      human_time_diff( strtotime($entry->time) ) 
+      human_time_diff( $time ) 
     );
     
     if( $entry->fields ) {      
@@ -51,6 +54,12 @@ class Helpful_Helper_Feedback {
     return json_decode(json_encode($feedback));
   }
 
+  /**
+   * Get avatar or default helpful avatar by email
+   * @param string $email
+   * @param integer $size
+   * @return void
+   */
   public static function getAvatar($email = null, $size = 55) {
     $default = plugins_url( 'core/assets/images/avatar.jpg', HELPFUL_FILE );
 
@@ -63,6 +72,11 @@ class Helpful_Helper_Feedback {
     return sprintf('<img src="%1$s" height="%2$s" width="%2$s" alt="no avatar">', $default, $size);
   }
 
+  /**
+   * Get feedback items
+   * @param integer $limit posts per page
+   * @return object
+   */
   public static function getFeedbackItems($limit = null) {
     if( is_null($limit) ) {
       $limit = absint(get_option('helpful_widget_amount'));
@@ -81,5 +95,65 @@ class Helpful_Helper_Feedback {
     }
 
     return false;
+  }
+
+  /**
+   * Insert feedback into database
+   * @param $args
+   * @return int
+   */
+  public static function insertFeedback() {
+    global $wpdb;
+
+    $fields = [];
+    $pro = 0;
+    $contra = 0;
+    $message = null;
+
+    // check if fields exists
+    if( isset($_REQUEST['fields']) ) {
+      foreach( $_REQUEST['fields'] as $key => $value ) {
+        $fields[$key] = sanitize_text_field($value);
+      }
+
+      // here you can manipulate the fields
+      $fields = apply_filters('helpful-feedback-submit-fields', $fields);
+    }
+
+    // check if message exists
+    if( isset($_REQUEST['message']) ) {
+      $message = sanitize_text_field($_REQUEST['message']);
+
+      // here you can manipulate the message
+      $message = apply_filters('helpful-feedback-submit-fields', $message);
+    }
+
+    // checks feedback type
+    if( isset($_REQUEST['type']) ) {
+      $type = sanitize_text_field($_REQUEST['type']);
+
+      if( 'pro' == $type ) {
+        $pro = 1;
+      } 
+      elseif( 'contra' == $type ) {
+        $contra = 1;
+      }
+    } 
+
+    $data = [
+      'time' => current_time( 'mysql' ),
+      'user' => esc_attr($_REQUEST['user_id']),
+      'pro'  => $pro,
+      'contra' => $contra,
+      'post_id' => absint($_REQUEST['post_id']),
+      'message' => $message,
+      'fields' => maybe_serialize($fields),
+    ];
+
+    $table_name = $wpdb->prefix . 'helpful_feedback';
+    
+    $wpdb->insert($table_name, $data);
+
+    return $wpdb->insert_id;
   }
 }
