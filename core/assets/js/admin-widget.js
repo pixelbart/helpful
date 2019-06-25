@@ -58,6 +58,27 @@
         if (!("status" in response)) {
           $(container).html(self.canvas);
           var canvas = $(container).find(".chart")[0].getContext("2d");
+
+          // show percentages on doughnuts
+          // since 4.0.1
+          if ('doughnut' == response.type) {
+            response.options.tooltips = {
+              callbacks: {
+                label: function (tooltipItem, data) {
+                  var dataset = data.datasets[tooltipItem.datasetIndex];
+                  var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                  var total = meta.total;
+                  var currentValue = dataset.data[tooltipItem.index];
+                  var percentage = parseFloat((currentValue / total * 100).toFixed(1));
+                  return currentValue + ' (' + percentage + '%)';
+                },
+                title: function (tooltipItem, data) {
+                  return data.labels[tooltipItem[0].index];
+                },
+              },
+            };
+          }
+      
           new Chart(canvas, response);
         } else {
           $(container).html(response.message);

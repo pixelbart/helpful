@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 3.1.5
+Stable tag: 4.0.0
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -71,13 +71,18 @@ Sure. Helpful is now also available on [Github](https://github.com/pixelbart/hel
 
 == Changelog ==
 
+= 4.0.1 =
+* Now displays the percentage value in doughnuts as well as the value. The extension does not work with bar and stacked charts. (Statistics in Widget)
+
 = 4.0.0 =
+* **Important:** After the update the settings have to be reconfigured because a lot has changed in the background. Also the CSS classes for the Frotend have changed. If there are display problems, please empty the cache.
+* You can get more information here: [Version 4.0.0](https://wordpress.org/support/topic/version-4-0-0/)
 * Now charts.js is used to display statistics.
 * There is a new admin page.
 * The feedback is now displayed more clearly in the admin area.
 * The themes were revised and also Helpful itself. It is possible that the theme has to be adapted via CSS if changes have been made there.
 * Numerous filters have been installed to facilitate Helpful's expansion.
-* Die Dokumentation auf der Helpful-Website wurde erweitert: [helpful-plugin.info](https://helpful-plugin.info/documentation/)
+* The documentation on the Helpful website has been extended: [helpful-plugin.info](https://helpful-plugin.info/documentation/)
 
 = 3.1.5 =
 * Fixed feedback permissions so editors and administrators can now view, edit, and delete feedback.

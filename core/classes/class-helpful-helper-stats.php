@@ -219,7 +219,10 @@ class Helpful_Helper_Stats {
             'backgroundColor' => [ self::$green, self::$red, ],
           ],
         ],
-        'labels' => ['Pro', 'Contra'],
+        'labels' => [
+          __('Pro', 'helpful'), 
+          __('Contra', 'helpful')
+        ],
       ],
       'options' => [
         'legend' => [
@@ -275,7 +278,10 @@ class Helpful_Helper_Stats {
             'backgroundColor' => [ self::$green, self::$red, ],
           ],
         ],
-        'labels' => ['Pro', 'Contra'],
+        'labels' => [
+          __('Pro', 'helpful'), 
+          __('Contra', 'helpful')
+        ],
       ],
       'options' => [
         'legend' => [
@@ -348,12 +354,12 @@ class Helpful_Helper_Stats {
       'data' => [
         'datasets' => [
           [
-            'label' => 'Pro',
+            'label' => __('Pro', 'helpful'),
             'data' => array_values($pro),
             'backgroundColor' => self::$green,
           ],
           [
-            'label' => 'Contra',
+            'label' => __('Contra', 'helpful'),
             'data' => array_values($contra),
             'backgroundColor' => self::$red,
           ],
@@ -445,12 +451,12 @@ class Helpful_Helper_Stats {
       'data' => [
         'datasets' => [
           [
-            'label' => 'Pro',
+            'label' => __('Pro', 'helpful'),
             'data' => array_values($pro),
             'backgroundColor' => self::$green,
           ],
           [
-            'label' => 'Contra',
+            'label' => __('Contra', 'helpful'),
             'data' => array_values($contra),
             'backgroundColor' => self::$red,
           ],
@@ -533,12 +539,12 @@ class Helpful_Helper_Stats {
       'data' => [
         'datasets' => [
           [
-            'label' => 'Pro',
+            'label' => __('Pro', 'helpful'),
             'data' => array_values($pro),
             'backgroundColor' => self::$green,
           ],
           [
-            'label' => 'Contra',
+            'label' => __('Contra', 'helpful'),
             'data' => array_values($contra),
             'backgroundColor' => self::$red,
           ],
@@ -622,12 +628,12 @@ class Helpful_Helper_Stats {
       'data' => [
         'datasets' => [
           [
-            'label' => 'Pro',
+            'label' => __('Pro', 'helpful'),
             'data' => array_values($pro),
             'backgroundColor' => self::$green,
           ],
           [
-            'label' => 'Contra',
+            'label' => __('Contra', 'helpful'),
             'data' => array_values($contra),
             'backgroundColor' => self::$red,
           ],
@@ -684,7 +690,10 @@ class Helpful_Helper_Stats {
             'backgroundColor' => [ self::$green, self::$red, ],
           ],
         ],
-        'labels' => ['Pro', 'Contra'],
+        'labels' => [
+          __('Pro', 'helpful'), 
+          __('Contra', 'helpful')
+        ],
       ],
       'options' => [
         'legend' => [
