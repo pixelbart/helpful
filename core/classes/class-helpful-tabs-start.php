@@ -33,8 +33,8 @@ class Helpful_Tabs_Start {
   public function registerMenu() {
 		add_submenu_page(
 			'helpful',
-			'Settings',
-			'Settings',
+			__('Settings', 'Helpful'),
+			__('Settings', 'Helpful'),
 			'manage_options',
 			'helpful',
 			[ $this, 'renderAdminPage' ]

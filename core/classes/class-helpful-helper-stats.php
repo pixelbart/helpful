@@ -743,10 +743,18 @@ class Helpful_Helper_Stats {
 
         foreach( $posts as $post_id => $value ) {
           if( 0 == $value ) continue;
+          
+          $pro = self::getPro($post_id) ? self::getPro($post_id) : 0;
+          $contra = self::getContra($post_id) ? self::getContra($post_id) : 0;
+          $average = (int) ( $pro - $contra );
+          $total = (int) ( $pro + $contra );
+          $percentage = ( $average / $total ) * 100;
+
           $results[] = [
             'ID' => $post_id,
             'url' => get_the_permalink($post_id),
             'name' => get_the_title($post_id),
+            'percentage' => $percentage,
             'time' => sprintf(
               __('Published %s ago', 'helpful'),
               human_time_diff(date_i18n(get_the_date('U', $post_id)), date_i18n('U'))
@@ -756,7 +764,9 @@ class Helpful_Helper_Stats {
       }
     }
 
-    $results = array_filter($results);
+    if( is_array($results) ) {
+      $results = array_filter($results);
+    }
 
     return $results;
   }
@@ -799,10 +809,18 @@ class Helpful_Helper_Stats {
 
         foreach( $posts as $post_id => $value ) {
           if( 0 == $value ) continue;
+          
+          $pro = self::getPro($post_id) ? self::getPro($post_id) : 0;
+          $contra = self::getContra($post_id) ? self::getContra($post_id) : 0;
+          $average = (int) ( $contra - $pro );
+          $total = (int) ( $pro + $contra );
+          $percentage = ( $average / $total ) * 100;
+
           $results[] = [
             'ID' => $post_id,
             'url' => get_the_permalink($post_id),
             'name' => get_the_title($post_id),
+            'percentage' => $percentage,
             'time' => sprintf(
               __('Published %s ago', 'helpful'),
               human_time_diff(date_i18n(get_the_date('U', $post_id)), date_i18n('U'))
@@ -812,7 +830,9 @@ class Helpful_Helper_Stats {
       }
     }
 
-    $results = array_filter($results);
+    if( is_array($results) ) {
+      $results = array_filter($results);
+    }
 
     return $results;
   }
@@ -839,11 +859,19 @@ class Helpful_Helper_Stats {
 
     if( $results ) {
       foreach( $results as $post ) {
+          
+        $pro = self::getPro($post->post_id) ? self::getPro($post->post_id) : 0;
+        $contra = self::getContra($post->post_id) ? self::getContra($post->post_id) : 0;
+        $average = (int) ( $pro - $contra );
+        $total = (int) ( $pro + $contra );
+        $percentage = ( $average / $total ) * 100;
         $timestamp = strtotime($post->time);
+
         $posts[] = [
           'ID' => $post->post_id,
           'url' => get_the_permalink($post->post_id),
           'name' => get_the_title($post->post_id),
+          'percentage' => $percentage,
           'time' => sprintf(
             __('Submitted %s ago', 'helpful'),
             human_time_diff(date_i18n($timestamp), date_i18n('U'))
@@ -877,11 +905,19 @@ class Helpful_Helper_Stats {
 
     if( $results ) {
       foreach( $results as $post ) {
+          
+        $pro = self::getPro($post->post_id) ? self::getPro($post->post_id) : 0;
+        $contra = self::getContra($post->post_id) ? self::getContra($post->post_id) : 0;
+        $average = (int) ( $contra - $pro );
+        $total = (int) ( $pro + $contra );
+        $percentage = ( $average / $total ) * 100;
         $timestamp = strtotime($post->time);
+
         $posts[] = [
           'ID' => $post->post_id,
           'url' => get_the_permalink($post->post_id),
           'name' => get_the_title($post->post_id),
+          'percentage' => $percentage,
           'time' => sprintf(
             __('Submitted %s ago', 'helpful'),
             human_time_diff(date_i18n($timestamp), date_i18n('U'))

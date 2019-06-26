@@ -78,6 +78,26 @@
               },
             };
           }
+          // show percentages on bars
+          else {
+            response.options.tooltips = {
+              callbacks: {
+                label: function (tooltipItem, data) {
+                  var total = 0;
+                  var pro = data.datasets[0].data[tooltipItem.index];
+                  var contra = data.datasets[1].data[tooltipItem.index];
+                  var total = pro + contra;
+                  var dataset = data.datasets[tooltipItem.datasetIndex];
+                  var currentValue = dataset.data[tooltipItem.index];
+                  var percentage = parseFloat((currentValue / total * 100).toFixed(1));
+                  return currentValue + ' (' + percentage + '%)';
+                },
+                title: function (tooltipItem, data) {
+                  return data.labels[tooltipItem[0].index];
+                },
+              }
+            }
+          }
       
           new Chart(canvas, response);
         } else {

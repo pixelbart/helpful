@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 4.0.0
+Stable tag: 4.0.4
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -71,8 +71,20 @@ Sure. Helpful is now also available on [Github](https://github.com/pixelbart/hel
 
 == Changelog ==
 
+= 4.0.4 =
+* Added percentages in all charts. Cache must be cleared to see the changes.
+* Added percentages behind most and least helpful in dashboard widget.
+
+= 4.0.3 =
+* Fixed PHP errors in dashboard ([Read more](https://wordpress.org/support/topic/dashboard-errors-5/))
+* Fixed PHP errors in the post overview. ([Read more](https://wordpress.org/support/topic/errors-constantly-being-generated-by-helpful/))
+
+= 4.0.2 =
+* Since version 4.0.0 nothing was output anymore if you used the shortcode. This should be fixed now.
+
 = 4.0.1 =
 * Now displays the percentage value in doughnuts as well as the value. The extension does not work with bar and stacked charts. (Statistics in Widget)
+* 2 translations corrected
 
 = 4.0.0 =
 * **Important:** After the update the settings have to be reconfigured because a lot has changed in the background. Also the CSS classes for the Frotend have changed. If there are display problems, please empty the cache.

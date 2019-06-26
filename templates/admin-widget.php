@@ -47,7 +47,10 @@
     </button>
     <ul>
       <?php foreach( Helpful_Helper_Stats::getMostHelpful() as $post ): ?>
-      <li><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a><br><?php echo $post['time']; ?></li>
+      <li>
+        <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
+        <?php echo $post['time']; ?> (<?php echo $post['percentage']; ?>%)
+      </li>
       <?php endforeach; ?>
     </ul>
   </div>
@@ -61,7 +64,10 @@
     </button>
     <ul>
       <?php foreach( Helpful_Helper_Stats::getLeastHelpful() as $post ): ?>
-      <li><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a><br><?php echo $post['time']; ?></li>
+      <li>
+        <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
+        <?php echo $post['time']; ?> (<?php echo $post['percentage']; ?>%)
+      </li>
       <?php endforeach; ?>
     </ul>
   </div>
@@ -75,7 +81,10 @@
     </button>
     <ul>
       <?php foreach( Helpful_Helper_Stats::getRecentlyPro() as $post ): ?>
-      <li><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a><br><?php echo $post['time']; ?></li>
+      <li>
+        <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
+        <?php echo $post['time']; ?>
+      </li>
       <?php endforeach; ?>
     </ul>
   </div>
@@ -89,7 +98,10 @@
     </button>
     <ul>
       <?php foreach( Helpful_Helper_Stats::getRecentlyContra() as $post ): ?>
-      <li><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a><br><?php echo $post['time']; ?></li>
+      <li>
+        <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
+        <?php echo $post['time']; ?>
+      </li>
       <?php endforeach; ?>
     </ul>
   </div>

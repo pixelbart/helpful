@@ -77,21 +77,30 @@ class Helpful_Shortcodes {
    * @return string
    */
   public function shortcodeHelpful($atts) {
+    global $post;
 
     // Default Atts
     $defaults = Helpful_Helper_Values::getDefaults();
+    $user_id = Helpful_Helper_Values::getUser();
+
+    if( get_option('helpful_exists_hide') && Helpful_Helper_Values::checkUser($user_id, $post->ID) ) {
+      return;
+    }
 
     // Shortcode Atts
     $helpful = shortcode_atts($defaults, $atts );
 
-    $hidden = '';
+    $hidden = false;
+    $class = '';
 
     if( 1 == $helpful['exists'] ) {
       if( 1 == $helpful['exists-hide'] ) {
         return;
       }
 
-      $hidden = 'hidden';
+      $hidden = true;
+      $class = 'helpful-exists';
+      $helpful['content'] = $helpful['exists_text'];
     }
 
     ob_start();
@@ -108,10 +117,10 @@ class Helpful_Shortcodes {
       include $default_template;
     }
 
-    $content = ob_get_contents();
+    $content .= ob_get_contents();
     ob_end_clean();
 
-		return $content;
+    return $content;
   }
 
   /**

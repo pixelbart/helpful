@@ -67,8 +67,9 @@ class Helpful_Table {
    * @return string
    */
 	public function registerColumnsContent() {
-		$post_types = get_option('helpful_post_types');
-		if( !isset($post_types) ) {
+    $post_types = get_option('helpful_post_types');
+    
+		if( !isset($post_types) && !is_array($post_types) ) {
       return;
     }
 

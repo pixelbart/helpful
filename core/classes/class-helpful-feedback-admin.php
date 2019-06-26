@@ -21,8 +21,8 @@ class Helpful_Feedback_Admin {
   public function addSubmenu() {
 		add_submenu_page(
 			'helpful',
-			'Helpful Feedback',
-			'Feedback',
+			__('Helpful Feedback', 'helpful'),
+			__('Feedback', 'helpful'),
 			'publish_posts',
 			'helpful_feedback',
 			[ $this, 'adminPageCallback' ]
