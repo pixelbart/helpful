@@ -3,6 +3,7 @@
 .helpful * { box-sizing: border-box; }
 
 .helpful {
+	color: #333;
 	position: relative;
 	margin: 25px 0 0;
 	padding: 0 0 25px;
@@ -14,7 +15,8 @@
 
 /* HEADING */
 
-.helpful .helpful-header h3 {
+.helpful > .helpful-header > h3 {
+	color: #333;
 	font-size: 1.4rem;
 	font-weight: 700;
 	margin: 0 0 12.5px;
@@ -22,51 +24,67 @@
 
 /* CONTENT */
 
-.helpful .helpful-content {
+.helpful > .helpful-content {
+	color: #333;
 	font-size: 1rem;
 	line-height: 1.6rem;
 }
 
+.helpful > .helpful-content > a {
+	color: #333;
+	text-decoration: underline;
+}
+
+.helpful > .helpful-content a:hover {
+	color: #333;
+	text-decoration: none;
+}
+
 /* CONTROLS */
 
-.helpful .helpful-controls {
+.helpful > .helpful-controls {
   display: flex;
+	margin-top: 12.5px;
 }
 
 @media all and (max-width: 992px) {
-	.helpful .helpful-controls {
+	.helpful > .helpful-controls {
 		flex-direction: column;
 	}
 }
 
-.helpful .helpful-controls:after {
+.helpful > .helpful-controls:after {
 	clear: both;
 }
 
-.helpful .helpful-controls > div {
+.helpful > .helpful-controls > div {
 	flex: 0 1 auto;
 	width: 50%;
 }
 
-.helpful .helpful-controls > div:first-child {
+.helpful > .helpful-controls > div:first-child {
   margin-right: 15px;
 }
 
 @media all and (max-width: 992px) {
-	.helpful .helpful-controls > div {
+	.helpful > .helpful-controls > div {
 		width: 100%;
 		display: block;
 		margin: 0px 0px 10px 0px;
 	}
 }
 
-.helpful .helpful-controls button {
+.helpful > .helpful-controls > div > button {
+	padding: 12px 30px;
+	height: 56px;
+	max-height: 56px;
+	font-size: 1rem;
+	line-height: 1rem;
 	margin: 0;
   color: #fff;
   background-color: #34495e;
   width: auto;
 	width: 100%;
-	padding: 15px 25px;
 	text-align: left;
 	position: relative;
 	cursor: pointer;
@@ -78,7 +96,7 @@
 	-webkit-transition: all 0.2s ease-in-out;
 }
 
-.helpful .helpful-controls button:hover {
+.helpful > .helpful-controls > div > button:hover {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
 	transition: all 0.2s ease-in-out;
 	-moz-transition: all 0.2s ease-in-out;
@@ -86,7 +104,7 @@
 }
 
 @media all and (max-width: 992px) {
-	.helpful .helpful-controls button {
+	.helpful > .helpful-controls > div > button {
 		width: 100%;
 		float: none;
 		display: block;
@@ -94,7 +112,7 @@
 	}
 }
 
-.helpful .helpful-controls button span {
+.helpful > .helpful-controls > div > button > span {
 	right: -7.5px;
   top: -7.5px;
 	color: #fff;
@@ -110,7 +128,7 @@
 
 /* CREDITS */
 
-.helpful .helpful-footer {
+.helpful > .helpful-footer {
   color: #bbb;
 	left: 0;
 	width: 100%;
@@ -120,45 +138,67 @@
 	position: absolute;
 }
 
-.helpful .helpful-footer a {
+.helpful > .helpful-footer > a {
   color: #bbb;
 }
 
 /* FEEDBACK */
+.helpful > .helpful-content > .helpful-feedback-form {
+	color: #333;
+}
 
-.helpful .helpful-feedback-form req {
+.helpful > .helpful-content > .helpful-feedback-form req {
   color: #ed7161;
 }
 
-.helpful .helpful-feedback-form p {
+.helpful > .helpful-content > .helpful-feedback-form p {
   margin: 0 0 12.5px;
 }
 
-.helpful .helpful-feedback-form textarea,
-.helpful .helpful-feedback-form input[type="text"],
-.helpful .helpful-feedback-form input[type="email"],
-.helpful .helpful-feedback-form input[type="url"],
-.helpful .helpful-feedback-form input[type="number"] {
+.helpful > .helpful-content > .helpful-feedback-form > p,
+.helpful > .helpful-content > .helpful-feedback-form > .feedback-note > p,
+.helpful > .helpful-content > .helpful-feedback-form > .group {
+	color: #333;
+  margin: 0 0 12.5px;
+}
+
+.helpful > .helpful-content > .helpful-feedback-form textarea,
+.helpful > .helpful-content > .helpful-feedback-form input[type="text"],
+.helpful > .helpful-content > .helpful-feedback-form input[type="email"],
+.helpful > .helpful-content > .helpful-feedback-form input[type="url"],
+.helpful > .helpful-content > .helpful-feedback-form input[type="number"] {
+	color: #333;
   width: 100%;
   display: block;
-	padding: 15px 25px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
   background-color: #fff;
   border-radius: 3px;
+	font-size: 1rem;
+	line-height: 1.6rem;
+	padding: 7.5px 15px;
 }
 
-.helpful .helpful-feedback-form input[type="checkbox"],
-.helpful .helpful-feedback-form input[type="radio"] {
+.helpful > .helpful-content > .helpful-feedback-form textarea {
+	min-height: 150px;
+	max-width: 100%;
+	font-size: 1rem;
+	line-height: 1.6rem;
+}
+
+.helpful > .helpful-content > .helpful-feedback-form input[type="checkbox"],
+.helpful > .helpful-content > .helpful-feedback-form input[type="radio"] {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
   background-color: #fff;
   border-radius: 3px;
+	font-size: 1rem;
+	line-height: 1.6rem;
 }
 
-.helpful .helpful-feedback-form button {
+.helpful > .helpful-content > .helpful-feedback-form > button {
   color: #fff;
   min-width: 150px;
   text-align: center;
@@ -166,7 +206,11 @@
 	border-width: 1px;
 	border-color: #34495e;
 	background-color: #364d63;
-	padding: 15px 25px;
+	padding: 12px 15px;
+	height: 56px;
+	max-height: 56px;
+	font-size: 1rem;
+	line-height: 1.6rem;
   margin: 12.5px 0 0;
   cursor: pointer;
 	transition: all .2s ease-in-out;
@@ -175,7 +219,7 @@
   border-radius: 3px;
 }
 
-.helpful .helpful-feedback-form button:hover {
+.helpful > .helpful-content > .helpful-feedback-form > button:hover {
   background-color: #34495e;
 	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
@@ -186,7 +230,7 @@
 }
 
 @media all and (max-width: 992px) {
-  .helpful .helpful-feedback-form button {
+  .helpful > .helpful-content > .helpful-feedback-form button {
     min-width: 100%;
     width: 100%;
     display: block;

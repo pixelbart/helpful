@@ -34,6 +34,7 @@ add_action( 'plugins_loaded', function () {
 	new Helpful_Tabs_Texts();
 	new Helpful_Tabs_Details();
 	new Helpful_Tabs_Feedback();
+	new Helpful_Tabs_Design();
 	new Helpful_Tabs_System();
 } );
 

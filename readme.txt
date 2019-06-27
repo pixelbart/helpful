@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 4.0.4
+Stable tag: 4.0.5
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -70,6 +70,12 @@ For the code editor you need at least version 4.9 of WordPress. Without this ver
 Sure. Helpful is now also available on [Github](https://github.com/pixelbart/helpful). I will always update the code first and fix issues with Codacy. You are always welcome to help. Forke Helpful and start bullying!
 
 == Changelog ==
+
+= 4.0.5 =
+* Tab design integrated in settings. This will take you to the customizer where you can change your design.
+* The Helpful logo can now be found in the settings.
+* CSS corrected so that the designs should look good again.
+* The custom CSS added for Helpful now works again. The field is now customizable just like the themes. Codemirror is no longer included for the text field.
 
 = 4.0.4 =
 * Added percentages in all charts. Cache must be cleared to see the changes.

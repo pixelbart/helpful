@@ -22,7 +22,8 @@
 
 /* HEADING */
 
-.helpful .helpful-header h3 {
+.helpful > .helpful-header > h3 {
+	color: #333;
 	font-size: 140%;
 	font-weight: 700;
 	margin: 0 0 12.5px;
@@ -30,15 +31,27 @@
 
 /* CONTENT */
 
-.helpful .helpful-content {
+.helpful > .helpful-content {
+	color: #333;
 	font-size: 1rem;
 	line-height: 1.6rem;
+}
+
+.helpful > .helpful-content > a {
+	color: #333;
+	text-decoration: underline;
+}
+
+.helpful > .helpful-content a:hover {
+	color: #333;
+	text-decoration: none;
 }
 
 /* CONTROLS */
 
 .helpful .helpful-controls {
   display: flex;
+	margin-top: 12.5px;
 }
 
 @media all and (max-width: 992px) {
@@ -68,14 +81,19 @@
 	}
 }
 
-.helpful .helpful-controls button {
-	padding: 15px 25px;
+.helpful > .helpful-controls > div  > button {
+	padding: 12px 30px;
+	height: 56px;
+	max-height: 56px;
+	font-size: 1rem;
+	line-height: 1rem;
 	position: relative;
 	cursor: pointer;
 	opacity: 1;
 	width: 100%;
 	display: block;
 	text-align: left;
+	color: #333;
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	transition: opacity .2s ease-in-out;
@@ -86,22 +104,23 @@
 	-webkit-box-shadow: 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful .helpful-controls button:hover {
+.helpful > .helpful-controls > div > button:hover {
+	color: #333;
 	opacity: .5;
 	transition: opacity .2s ease-in-out;
 	-moz-transition: opacity .2s ease-in-out;
 	-webkit-transition: opacity .2s ease-in-out;
 }
 
-.helpful .helpful-controls button[data-value="pro"] {
+.helpful > .helpful-controls > div  > button[data-value="pro"] {
 	border-left: 2px solid #88c057;
 }
 
-.helpful .helpful-controls button[data-value="contra"] {
+.helpful > .helpful-controls > div  > button[data-value="contra"] {
 	border-left: 2px solid #ed7161;
 }
 
-.helpful .helpful-controls button span {
+.helpful > .helpful-controls > div  > button > span {
 	position: absolute;
 	right: 25px;
 	top: 50%;
@@ -122,7 +141,7 @@
 
 /* CREDITS */
 
-.helpful .helpful-footer {
+.helpful > .helpful-footer {
 	font-size: .7rem;
 	position: absolute;
 	right: 5px;
@@ -130,29 +149,43 @@
 	color: #bbb;
 }
 
-.helpful .helpful-footer a {
+.helpful > .helpful-footer > a {
 	color: #bbb;
 }
 
 /* FEEDBACK */
 
-.helpful .helpful-feedback-form req {
+.helpful > .helpful-content > .helpful-feedback-form {
+	color: #333;
+}
+
+.helpful > .helpful-content > .helpful-feedback-form req {
   color: #ed7161;
 }
 
-.helpful .helpful-feedback-form p {
+.helpful > .helpful-content > .helpful-feedback-form p {
   margin: 0 0 12.5px;
 }
 
-.helpful .helpful-feedback-form textarea,
-.helpful .helpful-feedback-form input[type="text"],
-.helpful .helpful-feedback-form input[type="email"],
-.helpful .helpful-feedback-form input[type="url"],
-.helpful .helpful-feedback-form input[type="number"] {
+.helpful > .helpful-content > .helpful-feedback-form > p,
+.helpful > .helpful-content > .helpful-feedback-form > .feedback-note > p,
+.helpful > .helpful-content > .helpful-feedback-form > .group {
+	color: #333;
+  margin: 0 0 12.5px;
+}
+
+.helpful > .helpful-content > .helpful-feedback-form textarea,
+.helpful > .helpful-content > .helpful-feedback-form input[type="text"],
+.helpful > .helpful-content > .helpful-feedback-form input[type="email"],
+.helpful > .helpful-content > .helpful-feedback-form input[type="url"],
+.helpful > .helpful-content > .helpful-feedback-form input[type="number"] {
   color: #333;
   width: 100%;
   display: block;
-	padding: 15px 25px;
+	font-size: 1rem;
+	line-height: 1.6rem;
+	padding: 7.5px 15px;
+	border-radius: 0px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
@@ -162,18 +195,28 @@
 	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful .helpful-feedback-form input[type="checkbox"],
-.helpful .helpful-feedback-form input[type="radio"] {
+.helpful > .helpful-content > .helpful-feedback-form textarea {
+	min-height: 150px;
+	max-width: 100%;
+	font-size: 1rem;
+	line-height: 1.6rem;
+}
+
+.helpful > .helpful-content > .helpful-feedback-form input[type="checkbox"],
+.helpful > .helpful-content > .helpful-feedback-form input[type="radio"] {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
   background-color: #fff;
+	font-size: 1rem;
+	line-height: 1.6rem;
+	border-radius: 0px;
 	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful .helpful-feedback-form button {
+.helpful > .helpful-content > .helpful-feedback-form > button {
   color: #fff;
   min-width: 150px;
   text-align: center;
@@ -181,15 +224,20 @@
 	border-width: 1px;
 	border-color: #88c057;
 	background-color: #88c057;
-	padding: 15px 25px;
-  margin: 12.5px 0 0;
+	padding: 12px 15px;
+	height: 56px;
+	max-height: 56px;
+	font-size: 1rem;
+	line-height: 1.6rem;
+	margin: 12.5px 0 0;
+	border-radius: 0px;
   cursor: pointer;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
 }
 
-.helpful .helpful-feedback-form button:hover {
+.helpful > .helpful-content > .helpful-feedback-form > button:hover {
   background-color: #88c057;
 	box-shadow: 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: 0px 2px 5px 0px #f4f4f4;
@@ -200,7 +248,7 @@
 }
 
 @media all and (max-width: 992px) {
-  .helpful .helpful-feedback-form button {
+  .helpful > .helpful-content > .helpful-feedback-form > button {
     min-width: 100%;
     width: 100%;
     display: block;

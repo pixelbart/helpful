@@ -1,7 +1,7 @@
 <div class="helpful-admin-header">
 
   <div class="helpful-admin-logo">
-    <h1>Helpful</h1>
+    <h1><img src="<?php echo plugins_url( 'core/assets/images/helpful-heart.svg', HELPFUL_FILE ); ?>"> <?php _e('Helpful', 'helpful'); ?></h1>
   </div>
   
   <?php $tabs = apply_filters('helpful_admin_tabs', []); ?>

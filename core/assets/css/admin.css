@@ -60,17 +60,31 @@
 }
 
 .helpful-admin-logo {
+	display: block;
 	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	padding: .8rem .8rem .2rem;
+}
+
+.helpful-admin-logo > h1 {
+	color: #666;
+	line-height: 1.3;
+	font-weight: 700;
+	font-size: 15px;
 	text-align: center;
 }
 
-.helpful-admin-logo h1 {
-	display: inline-block;
-	margin: 1rem .8rem;
-	padding: 9px 0 4px 0;
-	line-height: 1.3;
-	font-weight: 600;
-	font-size: 23px;
+.helpful-admin-logo > h1 > img {
+	margin-right: 4px;
+	vertical-align: middle;
+	width: 32px;
+	height: 30px;
+}
+
+.helpful-admin-logo svg {
+	width: 32px;
+	height: 30px;
 }
 
 /* Admin Header Tabs */

@@ -1,6 +1,7 @@
 .helpful * { box-sizing: border-box; }
 
 .helpful {
+  color: #999;
   position: relative;
   padding: 15px;
   font-size: 1rem;
@@ -22,25 +23,47 @@
 
 /* HEADING */
 
-.helpful .helpful-header {
+.helpful > .helpful-header {
   margin-right: 10px;
 }
 
-.helpful .helpful-header h3 {
+.helpful > .helpful-header > h3 {
   font-size: 1rem;
   line-height: 28px;
-  color: #999999;
+  color: #333;
   display: inline-block;
   margin: 0;
 }
 
+/* CONTENT */
+
+.helpful > .helpful-content {
+	color: #999;
+	font-size: 1rem;
+	line-height: 1.6rem;
+}
+
+.helpful > .helpful-content > span {
+  display: none;
+}
+
+.helpful > .helpful-content > a {
+	color: #999;
+	text-decoration: underline;
+}
+
+.helpful > .helpful-content a:hover {
+	color: #999;
+	text-decoration: none;
+}
+
 /* CONTROLS */
 
-.helpful .helpful-controls {
+.helpful > .helpful-controls {
   display: flex;
 }
 
-.helpful .helpful-controls button {
+.helpful > .helpful-controls > div > button {
   margin: 0 !important;
   display: inline-block;
   vertical-align: middle;
@@ -49,7 +72,7 @@
   text-transform: uppercase;
   border-radius: 500px;
   background-color: transparent;
-  color: #333333;
+  color: #333;
   border: 1px solid #e5e5e5;
   padding: 0 15px;
   line-height: 28px;
@@ -59,16 +82,16 @@
   transition: all .2s ease-in-out;
 }
 
-.helpful .helpful-controls > div:first-child {
+.helpful > .helpful-controls > div:first-child {
   margin-right: 15px;
 }
 
-.helpful .helpful-controls button:hover {
-	opacity: .5;
+.helpful > .helpful-controls > div > button:hover {
+  background-color: #e5e5e5;
 	transition: all .2s ease-in-out;
 }
 
-.helpful .helpful-controls button span {
+.helpful > .helpful-controls > div > button > span {
 	right: -7.5px;
   top: -7.5px;
 	color: #f5f5f5;
@@ -76,7 +99,7 @@
   font-size: 0.75rem;
   line-height: 0.75rem;
 	background-color: #333;
-	padding: 2.5px 5px;
+	padding: 2.5px 7px;
   border-radius: 15px;
 	box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.1);
 	z-index: 2;
@@ -84,31 +107,42 @@
 
 /* CREDITS */
 
-.helpful .helpful-footer {
+.helpful > .helpful-footer {
+	color: #bbb;
 	font-size: .7rem;
 	position: absolute;
 	text-align: center;
 	bottom: 0;
-  right: 5px;
-	color: #bbb;
+  right: 15px;
 }
 
-.helpful .helpful-footer a {
-	color: #bbb;
+.helpful > .helpful-footer > a {
+  color: #bbb;
 }
 
 /* FEEDBACK */
 @media all and (min-width: 992px) {
-  .helpful .helpful-feedback-form {
+  .helpful > .helpful-content > .helpful-feedback-form {
     min-width: 320px;
   }
 }
 
-.helpful .helpful-feedback-form req {
-  color: red;
+.helpful > .helpful-content > .helpful-feedback-form {
+	color: #333;
 }
 
-.helpful .helpful-feedback-form p {
+.helpful > .helpful-content > .helpful-feedback-form req {
+  color: #ed7161;
+}
+
+.helpful > .helpful-content > .helpful-feedback-form p {
+  margin: 0 0 12.5px;
+}
+
+.helpful > .helpful-content > .helpful-feedback-form > p,
+.helpful > .helpful-content > .helpful-feedback-form > .feedback-note > p,
+.helpful > .helpful-content > .helpful-feedback-form > .group {
+	color: #333;
   margin: 0 0 12.5px;
 }
 
@@ -120,7 +154,9 @@
   color: #333;
   width: 100%;
   display: block;
-	padding: 10px 15px;
+	font-size: 1rem;
+	line-height: 1.6rem;
+	padding: 7.5px 15px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
@@ -129,6 +165,13 @@
 	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+}
+
+.helpful > .helpful-content > .helpful-feedback-form textarea {
+	min-height: 150px;
+	max-width: 100%;
+	font-size: 1rem;
+	line-height: 1.6rem;
 }
 
 .helpful .helpful-feedback-form input[type="checkbox"],
@@ -138,28 +181,31 @@
 	border-color: #e5e5e5;
   background-color: #fff;
 	border-radius: 3px;
+	font-size: 1rem;
+	line-height: 1.6rem;
 	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 }
 
 .helpful .helpful-feedback-form button {
-  margin-top: 15px;
   text-transform: none;
   display: inline-block;
-  padding: 0 30px;
   vertical-align: middle;
   line-height: 38px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
   border-radius: 500px;
-  background-color: #333333;
-  color: #e5e5e5;
-  border: 1px solid #333333;
-  padding: 0 15px;
-  line-height: 28px;
-  font-size: .875rem;
+  background-color: #f8f8f8;
+  color: #333;
+  border: 1px solid #333;
+	font-size: 1rem;
+	line-height: 1.6rem;
+	padding: 7.5px 15px;
+	height: 56px;
+	max-height: 56px;
+  margin: 12.5px 0;
   cursor: pointer;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
@@ -167,7 +213,9 @@
 }
 
 .helpful .helpful-feedback-form button:hover {
-	opacity: .5;
+  background-color: #333;
+  color: #f8f8f8;
+  border: 1px solid #333;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
