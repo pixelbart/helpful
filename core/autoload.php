@@ -98,9 +98,11 @@ add_action( 'plugins_loaded', function () {
 
 /**
  * Customizer
- * @since 3.2.0
+ * @since 4.0.0
  */
-add_action( 'customize_register', [ 'Helpful_Customizer', 'registerCustomizer'] );
+add_action( 'customize_register', [ 
+	'Helpful_Customizer', 'registerCustomizer' 
+] );
 
 /** 
  * Frontend Helpers

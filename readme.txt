@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 4.0.5
+Stable tag: 4.0.6
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -70,6 +70,9 @@ For the code editor you need at least version 4.9 of WordPress. Without this ver
 Sure. Helpful is now also available on [Github](https://github.com/pixelbart/helpful). I will always update the code first and fix issues with Codacy. You are always welcome to help. Forke Helpful and start bullying!
 
 == Changelog ==
+
+= 4.0.6 =
+* Fixed `Deprecated: Non-static method Helpful_Customizer::registerCustomizer() should not be called statically`
 
 = 4.0.5 =
 * Tab design integrated in settings. This will take you to the customizer where you can change your design.
