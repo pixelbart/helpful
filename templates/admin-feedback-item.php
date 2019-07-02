@@ -3,7 +3,7 @@
   <header>
     <div class="helpful-admin-image">
     <?php echo $feedback->avatar; ?>
-      <div class="type <?php echo 1 == $feedback->pro ? 'pro' : 'contra'; ?>"></div>
+      <div class="type <?php echo ( 1 == $feedback->pro ) ? 'pro' : 'contra'; ?>"></div>
     </div>
     <div class="helpful-admin-info">
       <strong><?php echo $feedback->name; ?></strong>
@@ -21,7 +21,7 @@
     <?php echo $feedback->message; ?>
   </div><!-- .helpful-admin-body -->
 
-  <?php if( isset($feedback->fields) ): ?>
+  <?php if (isset($feedback->fields)) : ?>
   <footer>
     <?php foreach( $feedback->fields as $label => $value ): ?>
     <div><strong><?php echo ucfirst($label); ?>:</strong> <?php echo $value; ?></div>

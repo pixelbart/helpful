@@ -2,7 +2,7 @@
 <form class="helpful-widget-form">
 
   <input type="hidden" name="action" value="helpful_widget_stats">
-  <?php wp_nonce_field( 'helpful_widget_stats' ); ?>
+  <?php wp_nonce_field('helpful_widget_stats'); ?>
 
   <div class="helpful-margin-right-small">
     <select name="range">
@@ -15,7 +15,7 @@
     </select>
   </div>
 
-  <?php if( !empty($years) ): ?>
+  <?php if (!empty($years)) : ?>
   <div class="helpful-margin-right-small" hidden>
     <select name="year">
       <?php foreach( $years as $year ): ?>
@@ -39,10 +39,10 @@
 
 <div class="helpful-widget-panels">
 
-  <?php if( !empty(Helpful_Helper_Stats::getMostHelpful()) && get_option('helpful_widget_pro') ): ?>
+  <?php if (!empty(Helpful_Helper_Stats::getMostHelpful()) && get_option('helpful_widget_pro')) : ?>
   <div class="helpful-widget-panel">
     <button type="button">
-      <?php _ex('Most helpful','widget headline','helpful'); ?>
+      <?php _ex('Most helpful', 'widget headline', 'helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
@@ -56,14 +56,14 @@
   </div>
   <?php endif; ?>
 
-  <?php if( !empty(Helpful_Helper_Stats::getLeastHelpful()) && get_option('helpful_widget_contra') ): ?>
+  <?php if (!empty(Helpful_Helper_Stats::getLeastHelpful()) && get_option('helpful_widget_contra')) : ?>
   <div class="helpful-widget-panel">
     <button type="button">
-      <?php _ex('Least helpful','widget headline','helpful'); ?>
+      <?php _ex('Least helpful', 'widget headline', 'helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
-      <?php foreach( Helpful_Helper_Stats::getLeastHelpful() as $post ): ?>
+      <?php foreach ( Helpful_Helper_Stats::getLeastHelpful() as $post ) : ?>
       <li>
         <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
         <?php echo $post['time']; ?> (<?php echo $post['percentage']; ?>%)
@@ -73,14 +73,14 @@
   </div>
   <?php endif; ?>
 
-  <?php if( !empty(Helpful_Helper_Stats::getRecentlyPro()) && get_option('helpful_widget_pro_recent') ): ?>
+  <?php if (!empty(Helpful_Helper_Stats::getRecentlyPro()) && get_option('helpful_widget_pro_recent')) : ?>
   <div class="helpful-widget-panel">
     <button type="button">
-      <?php _ex('Recently helpful','widget headline','helpful'); ?>
+      <?php _ex('Recently helpful', 'widget headline', 'helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
-      <?php foreach( Helpful_Helper_Stats::getRecentlyPro() as $post ): ?>
+      <?php foreach ( Helpful_Helper_Stats::getRecentlyPro() as $post ) : ?>
       <li>
         <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
         <?php echo $post['time']; ?>
@@ -90,14 +90,14 @@
   </div>
   <?php endif; ?>
 
-  <?php if( !empty(Helpful_Helper_Stats::getRecentlyContra()) && get_option('helpful_widget_contra_recent') ): ?>
+  <?php if (!empty(Helpful_Helper_Stats::getRecentlyContra()) && get_option('helpful_widget_contra_recent')) : ?>
   <div class="helpful-widget-panel">
     <button type="button">
-      <?php _ex('Recently unhelpful','widget headline','helpful'); ?>
+      <?php _ex('Recently unhelpful', 'widget headline', 'helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
-      <?php foreach( Helpful_Helper_Stats::getRecentlyContra() as $post ): ?>
+      <?php foreach ( Helpful_Helper_Stats::getRecentlyContra() as $post ) : ?>
       <li>
         <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
         <?php echo $post['time']; ?>
@@ -107,17 +107,17 @@
   </div>
   <?php endif; ?>
 
-  <?php if( Helpful_Helper_Feedback::getFeedbackItems() && get_option('helpful_feedback_widget') ): ?> 
+  <?php if (Helpful_Helper_Feedback::getFeedbackItems() && get_option('helpful_feedback_widget')) : ?> 
   <div class="helpful-widget-panel">
     <button type="button">
-      <?php echo esc_html_x('Recent Feedback','widget headline','helpful'); ?>
+      <?php echo esc_html_x('Recent Feedback', 'widget headline', 'helpful'); ?>
       <span class="icon"></span>
     </button>
     <ul>
-      <?php foreach( Helpful_Helper_Feedback::getFeedbackItems() as $feedback ): $feedback = Helpful_Helper_Feedback::getFeedback($feedback); ?>
+      <?php foreach ( Helpful_Helper_Feedback::getFeedbackItems() as $feedback ) : $feedback = Helpful_Helper_Feedback::getFeedback($feedback); ?>
       <li>
         <a href="<?php echo admin_url('admin.php?page=helpful_feedback'); ?>">
-          <?php printf( __('%s on %s', 'helpful'), $feedback->name, $feedback->post->post_title ); ?>
+          <?php printf(__('%s on %s', 'helpful'), $feedback->name, $feedback->post->post_title); ?>
         </a><br><?php echo $feedback->time; ?>
       </li>
       <?php endforeach; ?>

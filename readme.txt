@@ -4,7 +4,8 @@ Donate link: https://www.paypal.me/834rd
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
-Stable tag: 4.0.6
+Requires PHP: 5.4.0
+Stable tag: 4.0.9
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -19,6 +20,8 @@ what you need. Simply change your form theme or add your own css in the options.
 
 Languages: English, German
 Demo: [klakki.me](https://klakki.me/) (German)
+Support: [wordpress.org](https://wordpress.org/support/plugin/helpful/)
+Documentation: [helpful-plugin.info](https://helpful-plugin.info/documentation/) (English)
 Github: [Helpful](https://github.com/pixelbart/helpful)
 
 **Features**
@@ -43,7 +46,7 @@ Github: [Helpful](https://github.com/pixelbart/helpful)
 
 = Can I show votes after voting? =
 
-You can. Simply use {pro} and {contra} in your texts to show the vote number.
+You can. Simply use `{pro}` and `{contra}` in your texts to show the vote number.
 
 = Can I use my own CSS files? =
 
@@ -61,15 +64,39 @@ Important are the PHP version and the plugin version. You can check the settings
 
 I'm afraid not. I have not dealt with it and only know that there are problems with Javascript. If you have a solution, you are welcome to share it in the forum.
 
-= Why is the code editor not displayed in the options? =
-
-For the code editor you need at least version 4.9 of WordPress. Without this version, a text field will be displayed instead of the editor. The editor is used for custom CSS.
-
 = I'm a programmer, can I help? =
 
 Sure. Helpful is now also available on [Github](https://github.com/pixelbart/helpful). I will always update the code first and fix issues with Codacy. You are always welcome to help. Forke Helpful and start bullying!
 
+= Can I output the author of the post? =
+
+You can. Use `{author}` for it in your texts. The `display_name` of the author will then be used.
+
+= How can I change the Helpful theme? =
+
+Go to Design in the Helpful settings, or visit your WordPress Customizer. There you will find a Helpful menu item.
+
+= How can I reset a single post? =
+
+First you have to activate the Metabox in the Helpful settings. Once you have done this, a box will appear below the posts (in the admin area) where you can reset the post.
+
+= My feedback is not displayed, what can I do? =
+
+Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
+
 == Changelog ==
+
+= 4.0.9 =
+* Blank theme added. With this theme Helpful will not include a theme and you can design Helpful completely by yourself with CSS. An `blank.css` file can be found in the `examples` folder of Helpful. Do not fill this file, but copy or move it, otherwise it will be overwritten during an update.
+
+= 4.0.8 =
+* The maintenance procedure in the Helpful settings, which can be found there under System, now also checks whether the database tables exist and creates them if they do not exist.
+* FAQ updated
+
+= 4.0.7 =
+* Formatting of PHP improved and more comments added
+* The required PHP version has been adjusted. Helpful requires at least PHP version 5.4.0, but higher versions are recommended.
+* It is now possible to reset individual contributions again.
 
 = 4.0.6 =
 * Fixed `Deprecated: Non-static method Helpful_Customizer::registerCustomizer() should not be called statically`

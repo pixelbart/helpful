@@ -1,111 +1,79 @@
 <?php
-// Plugin Helpers
-include_once( HELPFUL_PATH . "core/helpers.php" );
-
-/** 
- * Class Autoloader
- * @since 3.2.0
+/**
+ * Autoloader for classes and helpers.
+ *
+ * @package Helpful
+ * @author  Pixelbart <me@pixelbart.de>
  */
-spl_autoload_register('helpfulAutoloader');
-function helpfulAutoloader($className) {
-	if( false === strpos( $className, 'Helpful_' ) ) {
-		return;
-	}
-	
-	$path = __DIR__ . '/classes/';
-	$className = strtolower($className);
-	$className = 'class-' . $className;
-	$className = str_replace('_', '-', $className);
-	require $path . $className . '.php';	
+
+/**
+ * Plugin Helpers
+ *
+ * @since 1.0.0
+ */
+require_once HELPFUL_PATH . "core/helpers.php";
+
+/**
+ * Class Autoloader
+ *
+ * @since 4.0.0
+ */
+spl_autoload_register('Helpful_autoloader');
+function Helpful_autoloader($className) 
+{
+    if (false === strpos($className, 'Helpful_')) {
+        return;
+    }
+
+    $path = __DIR__ . '/classes/';
+    $className = strtolower($className);
+    $className = 'class-' . $className;
+    $className = str_replace('_', '-', $className);
+
+    include $path . $className . '.php';
 }
 
 /**
  * Setup database and default values
- * @since 3.2.0
+ *
+ * @since 1.0.0
  */
-new Helpful_Setup();
-
-/** 
- * Admin Tabs
- * @since 3.2.0
- */
-add_action( 'plugins_loaded', function () {
-	new Helpful_Tabs_Start();
-	new Helpful_Tabs_Texts();
-	new Helpful_Tabs_Details();
-	new Helpful_Tabs_Feedback();
-	new Helpful_Tabs_Design();
-	new Helpful_Tabs_System();
-} );
-
+Helpful_Setup::getInstance();
 
 /**
- * Metabox
- * @since 3.2.0
+ * Store and fire all instances
+ *
+ * @since 4.0.7
  */
-add_action( 'plugins_loaded', function () {
-	Helpful_Metabox::get_instance();
-} );
-
-/**
- * Dashboard Widget
- * @since 3.2.0
- */
-add_action( 'plugins_loaded', function () {
-	Helpful_Widget::get_instance();
-} );
-
-/**
- * Helpful Admin Columns
- * @since 3.2.0
- */
-add_action( 'plugins_loaded', function() {
-	Helpful_Table::get_instance();
-} );
-
-/**
- * Feedback Admin Tables
- * @since 3.2.0
- */
-add_action( 'plugins_loaded', function () {
-	Helpful_Feedback_Admin::get_instance();
-} );
-
-/**
- * Maintenance
- * @since 3.2.0
- */
-add_action( 'plugins_loaded', function () {
-	Helpful_Maintenance::get_instance();
-	Helpful_Notices::get_instance();
-} );
-
-/**
- * Frontend
- * @since 3.2.0
- */
-add_action( 'plugins_loaded', function () {
-	Helpful_Frontend::get_instance();
-} );
-
-/**
- * Shortcodes
- * @since 3.2.0
- */
-add_action( 'plugins_loaded', function () {
-	Helpful_Shortcodes::get_instance();
-} );
+add_action('plugins_loaded', 'Helpful_instances');
+function Helpful_instances() 
+{
+    Helpful_Tabs_Start::getInstance();
+    Helpful_Tabs_Texts::getInstance();
+    Helpful_Tabs_Details::getInstance();
+    Helpful_Tabs_Feedback::getInstance();
+    Helpful_Tabs_Design::getInstance();
+    Helpful_Tabs_System::getInstance();
+    Helpful_Metabox::getInstance();
+    Helpful_Widget::getInstance();
+    Helpful_Table::getInstance();
+    Helpful_Feedback_Admin::getInstance();
+    Helpful_Maintenance::getInstance();
+    Helpful_Notices::getInstance();
+    Helpful_Frontend::getInstance();
+    Helpful_Shortcodes::getInstance();
+}
 
 /**
  * Customizer
+ *
  * @since 4.0.0
  */
-add_action( 'customize_register', [ 
-	'Helpful_Customizer', 'registerCustomizer' 
-] );
+add_action('customize_register', [ 'Helpful_Customizer', 'registerCustomizer' ]);
 
-/** 
+/**
  * Frontend Helpers
+ *
  * @since 3.2.0
  */
-include_once( HELPFUL_PATH . "core/values.php" );
+require_once HELPFUL_PATH . "core/values.php";
