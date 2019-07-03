@@ -95,6 +95,7 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 			'helpful_uninstall',
 			'helpful_timezone',
 			'helpful_multiple',
+			'helpful_notes',
 		];
 
 		foreach ( $fields as $field ) {

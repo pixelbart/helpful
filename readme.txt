@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
 Requires PHP: 5.4.0
-Stable tag: 4.0.9
+Stable tag: 4.0.11
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,9 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.0.11 =
+* Added an option in the Helpful Settings under System that allows you to completely disable Helpful Notes in the Admin.
 
 = 4.0.10 =
 * The CSS was revised again, because themes and plugins could overwrite the CSS of Helpful. The problem is now hopefully solved.

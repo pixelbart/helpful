@@ -45,6 +45,10 @@ class Helpful_Notices {
 	public function perform_maintenance_notice() {
 		$screen = get_current_screen();
 
+		if ( 'on' === get_option( 'helpful_notes' ) ) {
+			return;
+		}
+
 		if ( false === get_transient( 'helpful_updated' ) && 'toplevel_page_helpful' !== $screen->base ) {
 
 			$class = 'notice-warning';
