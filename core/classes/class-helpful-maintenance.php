@@ -5,77 +5,76 @@
  * @package Helpful
  * @author  Pixelbart <me@pixelbart.de>
  */
-class Helpful_Maintenance
-{
-    static $instance;
+class Helpful_Maintenance {
 
-    /**
-     * Class constructor
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        add_action('admin_enqueue_scripts', [ $this, 'enqueueScripts' ]);
-        add_action('wp_ajax_helpful_perform_maintenance', [ $this, 'performMaintenance' ]);
-    }
+	/**
+	 * Class instance
+	 *
+	 * @var $instance
+	 */
+	public static $instance;
 
-    /**
-     * Enqueue styles and scripts
-     *
-     * @return void
-     */
-    public function enqueueScripts()
-    {
-        if (isset($_GET['page']) && 'helpful' !== $_GET['page']) {
-            return;
-        }
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wp_ajax_helpful_perform_maintenance', [ $this, 'perform_maintenance' ] );
+	}
 
-        $nonce = wp_create_nonce('helpful_maintenance_nonce');
-        $file = plugins_url('/core/assets/js/admin-maintenance.js', HELPFUL_FILE);
+	/**
+	 * Set instance and fire class
+	 *
+	 * @return instance
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
-        wp_enqueue_script('helpful-maintenance', $file, [ 'jquery' ], false, true);
+	/**
+	 * Enqueue styles and scripts
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $_GET['page'] ) && 'helpful' !== $_GET['page'] ) {
+			return;
+		}
 
-        $vars = [
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'data' => [
-                'action' => 'helpful_perform_maintenance',
-                '_wpnonce' => $nonce,
-            ],
-        ];
+		$nonce = wp_create_nonce( 'helpful_maintenance_nonce' );
+		$file  = plugins_url( '/core/assets/js/admin-maintenance.js', HELPFUL_FILE );
 
-        wp_localize_script('helpful-maintenance', 'helpful_maintenance', $vars);
-    }
+		wp_enqueue_script( 'helpful-maintenance', $file, [ 'jquery' ], HELPFUL_VERSION, true );
 
-    /**
-     * Ajax action for performing maintenance.
-     *
-     * @see class-helpful-helper-optimize.php
-     *
-     * @return void
-     */
-    public function performMaintenance()
-    {
-        check_admin_referer('helpful_maintenance_nonce');
+		$vars = [
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'data'     => [
+				'action'   => 'helpful_perform_maintenance',
+				'_wpnonce' => $nonce,
+			],
+		];
 
-        $response = Helpful_Helper_Optimize::optimizePlugin();
-        $response = apply_filters('helpful_maintenance', $response);
+		wp_localize_script( 'helpful-maintenance', 'helpful_maintenance', $vars );
+	}
 
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        wp_die();
-    }
+	/**
+	 * Ajax action for performing maintenance.
+	 *
+	 * @see class-helpful-helper-optimize.php
+	 *
+	 * @return void
+	 */
+	public function perform_maintenance() {
+		check_admin_referer( 'helpful_maintenance_nonce' );
 
-    /**
-     * Set instance and fire class
-     *
-     * @return void
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+		$response = Helpful_Helper_Optimize::optimize_plugin();
+		$response = apply_filters( 'helpful_maintenance', $response );
+
+		header( 'Content-Type: application/json' );
+		echo json_encode( $response );
+		wp_die();
+	}
 }

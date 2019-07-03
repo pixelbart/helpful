@@ -18,7 +18,7 @@
 
 /* HEADING */
 
-.helpful > .helpful-header > h3 {
+.helpful > .helpful-header > .helpful-headline {
 	font-size: 1.4rem;
 	font-weight: 700;
 	margin: 0 0 12.5px;
@@ -38,7 +38,7 @@
 	text-decoration: underline;
 }
 
-.helpful > .helpful-content a:hover {
+.helpful > .helpful-content > a:hover {
 	color: #333;
 	text-decoration: none;
 }
@@ -77,7 +77,7 @@
 	}
 }
 
-.helpful .helpful-controls > div  > button {
+.helpful .helpful-controls > div  > .helpful-button {
 	padding: 12px 30px;
 	height: 56px;
 	max-height: 56px;
@@ -100,22 +100,22 @@
 	-webkit-box-shadow: 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful .helpful-controls > div > button:hover {
+.helpful .helpful-controls > div > .helpful-button:hover {
 	opacity: .5;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
 }
 
-.helpful .helpful-controls > div  > button[data-value="pro"] {
+.helpful .helpful-controls > div  > .helpful-button[data-value="pro"] {
 	background-color: #88c057;
 }
 
-.helpful .helpful-controls > div  > button[data-value="contra"] {
+.helpful .helpful-controls > div  > .helpful-button[data-value="contra"] {
 	background-color: #ed7161;
 }
 
-.helpful .helpful-controls > div  > button span {
+.helpful .helpful-controls > div  > .helpful-button > .helpful-counter {
 	color: #333;
 	position: absolute;
 	right: 25px;
@@ -211,7 +211,7 @@
 	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form > button {
+.helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
   color: #fff;
   min-width: 150px;
   text-align: center;
@@ -232,7 +232,7 @@
 	-webkit-transition: all .2s ease-in-out;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form > button:hover {
+.helpful > .helpful-content > .helpful-feedback-form > .helpful-button:hover {
   background-color: #88c057;
 	box-shadow: 0px 2px 5px 0px #f4f4f4;
 	-moz-box-shadow: 0px 2px 5px 0px #f4f4f4;
@@ -240,7 +240,7 @@
 }
 
 @media all and (max-width: 992px) {
-  .helpful > .helpful-content > .helpful-feedback-form > button {
+  .helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
     min-width: 100%;
     width: 100%;
     display: block;

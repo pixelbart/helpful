@@ -86,6 +86,10 @@ Switch to the Helpful settings and click on the System tab. There you will find 
 
 == Changelog ==
 
+= 4.0.10 =
+* The CSS was revised again, because themes and plugins could overwrite the CSS of Helpful. The problem is now hopefully solved.
+* The PHP code has also been reworked and now complies with the WordPress coding standards. The problems caused by not checking `is_array()` should now be fixed.
+
 = 4.0.9 =
 * Blank theme added. With this theme Helpful will not include a theme and you can design Helpful completely by yourself with CSS. An `blank.css` file can be found in the `examples` folder of Helpful. Do not fill this file, but copy or move it, otherwise it will be overwritten during an update.
 

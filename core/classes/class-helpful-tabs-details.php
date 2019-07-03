@@ -7,99 +7,114 @@
  *
  * @since 4.0.0
  */
-class Helpful_Tabs_Details extends Helpful_Tabs
-{
-    static $instance;
-    public $tab_info, $tab_content;
+class Helpful_Tabs_Details extends Helpful_Tabs {
 
-    /**
-     * Class constructor.
-     */
-    public function __construct() 
-    {
-        $this->setupTab();
+	/**
+	 * Class instance
+	 *
+	 * @var $instance
+	 */
+	public static $instance;
 
-        // add_action( 'admin_menu', [ $this, 'registerMenu' ] );
-        add_action('admin_init', [ $this, 'registerSettings' ]);
-        add_filter('helpful_admin_tabs', [ $this, 'registerTab' ]);
-        add_action('helpful_tabs_content', [$this, 'addTabContent']);
-    }
+	/**
+	 * Stores tab data
+	 *
+	 * @var $tab_info
+	 */
+	public $tab_info;
 
-    /**
-     * Set instance and fire class
-     *
-     * @return void
-     */
-    public static function getInstance() 
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
+	/**
+	 * Stores tab content
+	 *
+	 * @var $tab_content
+	 */
+	public $tab_content;
 
-        return self::$instance;
-    }
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		$this->setup_tab();
 
-    /**
-     * Add tab to helpful admin menu
-     *
-     * @return void
-     */
-    public function setupTab() 
-    {
-        $this->tab_info = [ 'id' => 'details', 'name' => esc_html_x('Details', 'tab name', 'helpful'), ];
-        $this->tab_content = [ $this, 'renderCallback' ];
-    }
+		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		add_filter( 'helpful_admin_tabs', [ $this, 'register_tab' ] );
+		add_action( 'helpful_tabs_content', [ $this, 'add_tab_content' ] );
+	}
 
-    /**
-     * Include options page
-     *
-     * @return void
-     */
-    public function renderCallback() 
-    {
+	/**
+	 * Set instance and fire class
+	 *
+	 * @return voidinstance
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
 
-        $post_types = get_post_types([ 'public' => true ]);
-        $private_post_types = get_post_types([ 'public' => false ]);
+		return self::$instance;
+	}
 
-        if (isset($private_post_types)) {
-            $post_types = array_merge($post_types, $private_post_types);
-        } else {
-            $private_post_types = [];
-        }
+	/**
+	 * Add tab to helpful admin menu
+	 *
+	 * @return void
+	 */
+	public function setup_tab() {
+		$this->tab_info    = [
+			'id'   => 'details',
+			'name' => esc_html_x( 'Details', 'tab name', 'helpful' ),
+		];
+		$this->tab_content = [ $this, 'render_callback' ];
+	}
 
-        include_once HELPFUL_PATH . 'core/tabs/tab-details.php';
-    }
+	/**
+	 * Include options page
+	 *
+	 * @return void
+	 */
+	public function render_callback() {
 
-    /**
-     * Register settings for admin page
-     *
-     * @return void
-     */
-    public function registerSettings() 
-    {
-        $fields = [
-            'helpful_credits',
-            'helpful_hide_in_content',
-            'helpful_post_types',
-            'helpful_exists_hide',
-            'helpful_count_hide',
-            'helpful_widget',
-            'helpful_widget_amount',
-            'helpful_widget_pro',
-            'helpful_widget_contra',
-            'helpful_widget_pro_recent',
-            'helpful_widget_contra_recent',
-            'helpful_only_once',
-            'helpful_percentages',
-            'helpful_form_status_pro',
-            'helpful_form_email_pro',
-            'helpful_form_status_contra',
-            'helpful_form_email_contra',
-            'helpful_metabox',
-        ];
+		$post_types         = get_post_types( [ 'public' => true ] );
+		$private_post_types = get_post_types( [ 'public' => false ] );
 
-        foreach ( $fields as $field ) {
-            register_setting('helpful-details-settings-group', $field);
-        }
-    }
+		if ( isset( $private_post_types ) ) {
+			$post_types = array_merge( $post_types, $private_post_types );
+		} else {
+			$private_post_types = [];
+		}
+
+		include_once HELPFUL_PATH . 'core/tabs/tab-details.php';
+	}
+
+	/**
+	 * Register settings for admin page
+	 *
+	 * @return void
+	 */
+	public function register_settings() {
+		$fields = [
+			'helpful_credits',
+			'helpful_hide_in_content',
+			'helpful_post_types',
+			'helpful_exists_hide',
+			'helpful_count_hide',
+			'helpful_widget',
+			'helpful_widget_amount',
+			'helpful_widget_pro',
+			'helpful_widget_contra',
+			'helpful_widget_pro_recent',
+			'helpful_widget_contra_recent',
+			'helpful_only_once',
+			'helpful_percentages',
+			'helpful_form_status_pro',
+			'helpful_form_email_pro',
+			'helpful_form_status_contra',
+			'helpful_form_email_contra',
+			'helpful_metabox',
+		];
+
+		foreach ( $fields as $field ) :
+			register_setting( 'helpful-details-settings-group', $field );
+		endforeach;
+	}
 }

@@ -1,297 +1,271 @@
 <?php
 /**
- * Class for the helpful frontend and feedback 
+ * Class for the helpful frontend and feedback
  * formular, enqueues styles and scripts.
  *
  * @package Helpful
  * @author  Pixelbart <me@pixelbart.de>
  */
-class Helpful_Frontend
-{
-    static $instance;
+class Helpful_Frontend {
 
-    /**
-     * Class Constructor
-     */
-    public function __construct()
-    {
-        add_action('init', [ $this, 'setUserCookie' ], 1);
-        add_filter('helpful_themes', [ $this, 'defaultThemes' ], 1);
-        add_action('wp_enqueue_scripts', [ $this, 'enqueueScripts' ], PHP_INT_MAX);
-        add_action('wp_ajax_helpful_save_vote', [ $this, 'saveVote' ]);
-        add_action('wp_ajax_nopriv_helpful_save_vote', [ $this, 'saveVote' ]);
-        add_action('wp_ajax_helpful_save_feedback', [ $this, 'saveFeedback' ]);
-        add_action('wp_ajax_nopriv_helpful_save_feedback', [ $this, 'saveFeedback' ]);
-    }
+	/**
+	 * Instance
+	 *
+	 * @var $instance
+	 */
+	public static $instance;
 
-    /**
-     * Set users cookie with unique id
-     *
-     * @return void
-     */
-    public function setUserCookie()
-    {
-        $string  = bin2hex(openssl_random_pseudo_bytes(16));
-        $string = apply_filters('helpful_user_string', $string);
-        $lifetime = '+30 days';
+	/**
+	 * Class Constructor
+	 */
+	public function __construct() {
+		add_action( 'init', [ $this, 'set_user_cookie' ], 1 );
+		add_filter( 'helpful_themes', [ $this, 'default_themes' ], 1 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], PHP_INT_MAX );
+		add_action( 'wp_ajax_helpful_save_vote', [ $this, 'save_vote' ] );
+		add_action( 'wp_ajax_nopriv_helpful_save_vote', [ $this, 'save_vote' ] );
+		add_action( 'wp_ajax_helpful_save_feedback', [ $this, 'save_feedback' ] );
+		add_action( 'wp_ajax_nopriv_helpful_save_feedback', [ $this, 'save_feedback' ] );
+	}
 
-        if (!session_id()) {
-            session_start();
-        }
+	/**
+	 * Set instance and fire class
+	 *
+	 * @return instance
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
-        if (!isset($_COOKIE['helpful_user'])) {
-            setcookie("helpful_user", $string, strtotime($lifetime));
-        }
+	/**
+	 * Set users cookie with unique id
+	 *
+	 * @return void
+	 */
+	public function set_user_cookie() {
+		$string   = bin2hex( openssl_random_pseudo_bytes( 16 ) );
+		$string   = apply_filters( 'helpful_user_string', $string );
+		$lifetime = '+30 days';
 
-        if (!isset($_COOKIE['helpful_user'])) {
-            if (!isset($_SESSION['helpful_user'])) {
-                $_SESSION['helpful_user'] = $string;
-            }
-        }
-    }
+		if ( ! session_id() ) {
+			session_start();
+		}
 
-    /**
-     * Retrieve default themes
-     *
-     * @param array $themes themes array
-     *
-     * @return array
-     */
-    public function defaultThemes($themes)
-    {
-        $themes []= [
-            'id' => 'base',
-            'label' => esc_html_x('Base', 'theme name', 'helpful'),
-            'stylesheet' => plugins_url(
-                'core/assets/themes/base.css', HELPFUL_FILE
-            ),
-        ];
+		if ( ! isset( $_COOKIE['helpful_user'] ) ) {
+			setcookie( 'helpful_user', $string, strtotime( $lifetime ) );
+		}
 
-        $themes []= [
-            'id' => 'dark',
-            'label' => esc_html_x('Dark', 'theme name', 'helpful'),
-            'stylesheet' => plugins_url(
-                'core/assets/themes/dark.css', HELPFUL_FILE
-            ),
-        ];
+		if ( ! isset( $_COOKIE['helpful_user'] ) ) {
+			if ( ! isset( $_SESSION['helpful_user'] ) ) {
+				$_SESSION['helpful_user'] = $string;
+			}
+		}
+	}
 
-        $themes []= [
-            'id' => 'minimal',
-            'label' => esc_html_x('Minimal', 'theme name', 'helpful'),
-            'stylesheet' => plugins_url(
-                'core/assets/themes/minimal.css', HELPFUL_FILE
-            ),
-        ];
+	/**
+	 * Retrieve default themes
+	 *
+	 * @param array $themes themes array.
+	 *
+	 * @return array
+	 */
+	public function default_themes( $themes ) {
+		$themes[] = [
+			'id'         => 'base',
+			'label'      => esc_html_x( 'Base', 'theme name', 'helpful' ),
+			'stylesheet' => plugins_url( 'core/assets/themes/base.css', HELPFUL_FILE ),
+		];
 
-        $themes []= [
-            'id' => 'flat',
-            'label' => esc_html_x('Flat', 'theme name', 'helpful'),
-            'stylesheet' => plugins_url(
-                'core/assets/themes/flat.css', HELPFUL_FILE
-            ),
-        ];
+		$themes[] = [
+			'id'         => 'dark',
+			'label'      => esc_html_x( 'Dark', 'theme name', 'helpful' ),
+			'stylesheet' => plugins_url( 'core/assets/themes/dark.css', HELPFUL_FILE ),
+		];
 
-        $themes []= [
-            'id' => 'simple',
-            'label' => esc_html_x('Simple', 'theme name', 'helpful'),
-            'stylesheet' => plugins_url(
-                'core/assets/themes/simple.css', HELPFUL_FILE
-            ),
-        ];
+		$themes[] = [
+			'id'         => 'minimal',
+			'label'      => esc_html_x( 'Minimal', 'theme name', 'helpful' ),
+			'stylesheet' => plugins_url( 'core/assets/themes/minimal.css', HELPFUL_FILE ),
+		];
 
-        $themes []= [
-            'id' => 'clean',
-            'label' => esc_html_x('Clean', 'theme name', 'helpful'),
-            'stylesheet' => plugins_url(
-                'core/assets/themes/clean.css', HELPFUL_FILE
-            ),
-        ];
+		$themes[] = [
+			'id'         => 'flat',
+			'label'      => esc_html_x( 'Flat', 'theme name', 'helpful' ),
+			'stylesheet' => plugins_url( 'core/assets/themes/flat.css', HELPFUL_FILE ),
+		];
 
-        $themes []= [
-            'id' => 'blank',
-            'label' => esc_html_x('Blank', 'theme name', 'helpful'),
-            'stylesheet' => null,
-        ];
+		$themes[] = [
+			'id'         => 'simple',
+			'label'      => esc_html_x( 'Simple', 'theme name', 'helpful' ),
+			'stylesheet' => plugins_url( 'core/assets/themes/simple.css', HELPFUL_FILE ),
+		];
 
-        return $themes;
-    }
+		$themes[] = [
+			'id'         => 'clean',
+			'label'      => esc_html_x( 'Clean', 'theme name', 'helpful' ),
+			'stylesheet' => plugins_url( 'core/assets/themes/clean.css', HELPFUL_FILE ),
+		];
 
-    /**
-     * Enqueue styles and scripts
-     *
-     * @return void
-     */
-    public function enqueueScripts()
-    {
-        // get active theme and enqueue styles
-        $active_theme = get_option('helpful_theme');
-        $themes = apply_filters('helpful_themes', false);
+		$themes[] = [
+			'id'         => 'blank',
+			'label'      => esc_html_x( 'Blank', 'theme name', 'helpful' ),
+			'stylesheet' => null,
+		];
 
-        foreach ( $themes as $theme ) {
-            if ($active_theme !== $theme['id']) {
-                continue;
-            }
+		return $themes;
+	}
 
-            // no enqueue if blank theme
-            if ('blank' == $theme['id']) {
-                break;
-            }
+	/**
+	 * Enqueue styles and scripts
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		$active_theme = get_option( 'helpful_theme' );
+		$themes       = apply_filters( 'helpful_themes', false );
 
-            wp_enqueue_style(
-                'helpful-theme-' . $theme['id'],
-                $theme['stylesheet'],
-                HELPFUL_VERSION
-            );
-        }
+		foreach ( $themes as $theme ) {
+			if ( $active_theme !== $theme['id'] ) {
+				continue;
+			}
 
-        // frontend js
-        $file = plugins_url('core/assets/js/helpful.js', HELPFUL_FILE);
-        wp_enqueue_script('helpful', $file, ['jquery'], HELPFUL_VERSION, true);
+			if ( 'blank' === $theme['id'] ) {
+				break;
+			}
 
-        // frontend js variables
-        $user  = Helpful_Helper_Values::getUser();
-        $nonce = wp_create_nonce('helpful_frontend_nonce');
+			wp_enqueue_style( 'helpful-theme-' . $theme['id'], $theme['stylesheet'], [], HELPFUL_VERSION );
+		}
 
-        $vars = [
-            'ajax_url'    => admin_url('admin-ajax.php'),
-            'ajax_data'   => [
-                'user_id'   => $user,
-                '_wpnonce'  => $nonce,
-            ],
-        ];
+		$file = plugins_url( 'core/assets/js/helpful.js', HELPFUL_FILE );
+		wp_enqueue_script( 'helpful', $file, [ 'jquery' ], HELPFUL_VERSION, true );
 
-        wp_localize_script('helpful', 'helpful', $vars);
-    }
+		$user  = Helpful_Helper_Values::getUser();
+		$nonce = wp_create_nonce( 'helpful_frontend_nonce' );
+		$vars  = [
+			'ajax_url'  => admin_url( 'admin-ajax.php' ),
+			'ajax_data' => [
+				'user_id'  => $user,
+				'_wpnonce' => $nonce,
+			],
+		];
 
-    /**
-     * Ajax save user vote and render response.
-     *
-     * @return void
-     */
-    public function saveVote()
-    {
-        check_ajax_referer('helpful_frontend_nonce');
+		wp_localize_script( 'helpful', 'helpful', $vars );
+	}
 
-        $user_id = sanitize_text_field($_POST['user_id']);
-        $post_id = intval($_POST['post']);
-        $value   = sanitize_text_field($_POST['value']);
+	/**
+	 * Ajax save user vote and render response.
+	 *
+	 * @return void
+	 */
+	public function save_vote() {
+		check_ajax_referer( 'helpful_frontend_nonce' );
 
-        if (!Helpful_Helper_Values::checkUser($user_id, $post_id)) {
-            if ('pro' == $value) {
-                Helpful_Helper_Values::insertPro($user_id, $post_id);
-                $response = $this->afterVote($value, $post_id);
-            } else {
-                Helpful_Helper_Values::insertContra($user_id, $post_id);
-                $response = $this->afterVote($value, $post_id);
-            }
-        }
+		$user_id = sanitize_text_field( $_POST['user_id'] );
+		$post_id = intval( $_POST['post'] );
+		$value   = sanitize_text_field( $_POST['value'] );
 
-        echo $response;
-        wp_die();
-    }
+		if ( ! Helpful_Helper_Values::checkUser( $user_id, $post_id ) ) {
+			if ( 'pro' === $value ) {
+				Helpful_Helper_Values::insertPro( $user_id, $post_id );
+				$response = $this->after_vote( $value, $post_id );
+			} else {
+				Helpful_Helper_Values::insertContra( $user_id, $post_id );
+				$response = $this->after_vote( $value, $post_id );
+			}
+		}
 
-    /**
-     * Ajax save user feedback and render response.
-     *
-     * @return void
-     */
-    public function saveFeedback()
-    {
-        check_ajax_referer('helpful_feedback_nonce');
+		echo $response;
+		wp_die();
+	}
 
-        $feedback_id = Helpful_Helper_Feedback::insertFeedback();
+	/**
+	 * Ajax save user feedback and render response.
+	 *
+	 * @return void
+	 */
+	public function save_feedback() {
+		check_ajax_referer( 'helpful_feedback_nonce' );
+		Helpful_Helper_Feedback::insertFeedback();
 
-        $type = 'pro';
+		$type = 'pro';
 
-        if (isset($_REQUEST['type'])) {
-            $type = sanitize_text_field($_REQUEST['type']);
-        }
+		if ( isset( $_REQUEST['type'] ) ) {
+			$type = sanitize_text_field( $_REQUEST['type'] );
+		}
 
-        if ('pro' == $type) {
-            echo get_option('helpful_after_pro');
-        }
+		if ( 'pro' === $type ) {
+			echo get_option( 'helpful_after_pro' );
+		}
 
-        if ('contra' == $type) {
-            echo get_option('helpful_after_contra');
-        }
+		if ( 'contra' === $type ) {
+			echo get_option( 'helpful_after_contra' );
+		}
 
-        wp_die();
-    }
+		wp_die();
+	}
 
-    /**
-     * Render after messages or feedback form, after vote.
-     *
-     * @param string $type feedback type pro or contra
-     * @param int $post_id post id
-     *
-     * @return string
-     */
-    public function afterVote($type, $post_id)
-    {
-        $feedback_text = esc_html_x(
-            'Thank you very much. Please write us your opinion,
-            so that we can improve ourselves.',
-            'form user note',
-            'helpful'
-        );
+	/**
+	 * Render after messages or feedback form, after vote.
+	 * Checks if custom template exists.
+	 *
+	 * @param string  $type feedback type pro or contra.
+	 * @param integer $post_id       post id.
+	 *
+	 * @return string
+	 */
+	public function after_vote( $type, $post_id ) {
+		$feedback_text = esc_html_x(
+			'Thank you very much. Please write us your opinion, so that we can improve ourselves.',
+			'form user note',
+			'helpful'
+		);
 
-        if ('pro' == $type) {
-            $feedback_text = get_option('helpful_feedback_message_pro');
+		if ( 'pro' === $type ) {
+			$feedback_text = get_option( 'helpful_feedback_message_pro' );
 
-            if (!get_option('helpful_feedback_after_pro')) {
-                return get_option('helpful_after_pro');
-            }
-        }
+			if ( ! get_option( 'helpful_feedback_after_pro' ) ) {
+				return get_option( 'helpful_after_pro' );
+			}
+		}
 
-        if ('contra' == $type) {
-            $feedback_text = get_option('helpful_feedback_message_contra');
+		if ( 'contra' === $type ) {
+			$feedback_text = get_option( 'helpful_feedback_message_contra' );
 
-            if (!get_option('helpful_feedback_after_contra')) {
-                return get_option('helpful_after_contra');
-            }
-        }
+			if ( ! get_option( 'helpful_feedback_after_contra' ) ) {
+				return get_option( 'helpful_after_contra' );
+			}
+		}
 
-        ob_start();
+		ob_start();
 
-        $default_template = HELPFUL_PATH . 'templates/feedback.php';
-        $custom_template  = locate_template('helpful/feedback.php');
+		$default_template = HELPFUL_PATH . 'templates/feedback.php';
+		$custom_template  = locate_template( 'helpful/feedback.php' );
 
-        do_action('helpful-before-feedback-form');
+		do_action( 'helpful_before_feedback_form' );
 
-        echo '<form class="helpful-feedback-form">';
-        printf('<input type="hidden" name="user_id" value="%s">', Helpful_Helper_Values::getUser());
-        printf('<input type="hidden" name="action" value="%s">', 'helpful_save_feedback');
-        printf('<input type="hidden" name="post_id" value="%s">', $post_id);
-        printf('<input type="hidden" name="type" value="%s">', $type);
-        wp_nonce_field('helpful_feedback_nonce');
+		echo '<form class="helpful-feedback-form">';
+		printf( '<input type="hidden" name="user_id" value="%s">', Helpful_Helper_Values::getUser() );
+		printf( '<input type="hidden" name="action" value="%s">', 'helpful_save_feedback' );
+		printf( '<input type="hidden" name="post_id" value="%s">', $post_id );
+		printf( '<input type="hidden" name="type" value="%s">', $type );
+		wp_nonce_field( 'helpful_feedback_nonce' );
 
-        // check if custom frontend exists
-        if ('' !== $custom_template) {
-            include $custom_template;
-        } else {
-            include $default_template;
-        }
+		if ( '' !== $custom_template ) {
+			include $custom_template;
+		} else {
+			include $default_template;
+		}
 
-        echo '</form>';
+		echo '</form>';
 
-        do_action('helpful-after-feedback-form');
+		do_action( 'helpful_after_feedback_form' );
 
-        $content = ob_get_contents();
-        ob_end_clean();
+		$content = ob_get_contents();
+		ob_end_clean();
 
-        return $content;
-    }
-
-    /**
-     * Set instance and fire class
-     *
-     * @return void
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+		return $content;
+	}
 }

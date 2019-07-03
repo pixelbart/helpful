@@ -1,38 +1,61 @@
 <?php
+/**
+ * Tabs helper for admin page
+ *
+ * @author Pixelbart <me@pixelbart.de>
+ * @package Helpful
+ */
 class Helpful_Tabs {
-  public $tab_info, $tab_content;
 
-  /**
-   * Add tab to filter
-   * @global $helpful
-   * @param array $tabs current tabs
-   * @return array
-   */
-  public function registerTab($tabs) {
-    global $helpful;
+	/**
+	 * Stores tab data
+	 *
+	 * @var $tab_info
+	 */
+	public $tab_info;
 
-    $tab = $this->tab_info;
-    $tab_active = ($tab['id'] === $helpful['tab']);
-    $query_args = [
-      'page' => 'helpful',
-      'tab' => $tab['id'],
-    ];
+	/**
+	 * Stores tab content
+	 *
+	 * @var $tab_content
+	 */
+	public $tab_content;
 
-    $tabs[$tab['id']] = [
-      'attr'  => ($tab_active ? 'selected' : ''),
-      'class' => ($tab_active ? 'active' : ''),
-      'href'  => add_query_arg($query_args),
-      'name'  => $tab['name'],
-    ];
+	/**
+	 * Add tab to filter
+	 *
+	 * @global $helpful
+	 *
+	 * @param array $tabs current tabs.
+	 *
+	 * @return array
+	 */
+	public function register_tab( $tabs ) {
+		global $helpful;
 
-    return $tabs;
-  }
+		$tab        = $this->tab_info;
+		$tab_active = ( $tab['id'] === $helpful['tab'] );
+		$query_args = [
+			'page' => 'helpful',
+			'tab'  => $tab['id'],
+		];
 
-  /**
-   * Add submenu page in admin (not in use)
-   * @return void
-   */
-  public function registerMenu() {
+		$tabs[ $tab['id'] ] = [
+			'attr'  => ( $tab_active ? 'selected' : '' ),
+			'class' => ( $tab_active ? 'active' : '' ),
+			'href'  => add_query_arg( $query_args ),
+			'name'  => $tab['name'],
+		];
+
+		return $tabs;
+	}
+
+	/**
+	 * Deprecated: Add submenu page in admin
+	 *
+	 * @return void
+	 */
+	public function register_menu() {
 		add_submenu_page(
 			'helpful',
 			$this->tab_info['name'],
@@ -41,29 +64,32 @@ class Helpful_Tabs {
 			'helpful&tab=' . $this->tab_info['id'],
 			[ $this, 'renderAdminPage' ]
 		);
-  }
-
-  /**
-   * Include admin page
-   * @return void
-   */
-	public function renderAdminPage() {
-    include_once HELPFUL_PATH . 'templates/backend.php';
 	}
 
-  /**
-   * Add content to admin page
-   * @global $helpful
-   * @return void
-   */
-   public function addTabContent() {
-    global $helpful;
+	/**
+	 * Include admin page
+	 *
+	 * @return void
+	 */
+	public function render_admin_page() {
+		include_once HELPFUL_PATH . 'templates/backend.php';
+	}
 
-    $tab = $this->tab_info;
-    $tab_active = ($tab['id'] === $helpful['tab']);
+	/**
+	 * Add content to admin page
+	 *
+	 * @global $helpful
+	 *
+	 * @return void
+	 */
+	public function add_tab_content() {
+		global $helpful;
 
-    if( $tab_active ) {
-      call_user_func($this->tab_content);
-    }
-  }
+		$tab        = $this->tab_info;
+		$tab_active = ( $tab['id'] === $helpful['tab'] );
+
+		if ( $tab_active ) {
+			call_user_func( $this->tab_content );
+		}
+	}
 }

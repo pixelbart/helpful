@@ -5,90 +5,91 @@
  * @package Helpful
  * @author  Pixelbart <me@pixelbart.de>
  */
-class Helpful_Metabox
-{
-    static $instance;
+class Helpful_Metabox {
 
-    /**
-     * Class constructor.
-     */
-    public function __construct()
-    {
-        if (!get_option('helpful_metabox')) {
-            return;
-        }
+	/**
+	 * Class instance
+	 *
+	 * @var $instance
+	 */
+	public static $instance;
 
-        add_action('add_meta_boxes', [ $this, 'addMetabox' ]);
-        add_action('save_post', [ $this, 'saveMetaboxData' ]);
-        add_action('save_post', [ $this, 'saveMetaboxData' ], 10, 3);
-    }
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		if ( ! get_option( 'helpful_metabox' ) ) {
+			return;
+		}
 
-    /**
-     * Set instance and fire class.
-     *
-     * @return void
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+		add_action( 'add_meta_boxes', [ $this, 'add_metabox' ] );
+		add_action( 'save_post', [ $this, 'save_metabox_data' ] );
+		add_action( 'save_post', [ $this, 'save_metabox_data' ], 10, 3 );
+	}
 
-    /**
-     * Add metabox to post types.
-     *
-     * @return void
-     */
-    public function addMetabox()
-    {
-        /* get selected post types from settings */
-        $post_types = get_option('helpful_post_types');
+	/**
+	 * Set instance and fire class.
+	 *
+	 * @return instance
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
-        if (isset($post_types) && is_array($post_types)) {
-            add_meta_box(
-                'helpful-meta-box',
-                esc_html__('Helpful', 'meta box name', 'helpful'),
-                [ $this, 'renderMetabox' ],
-                $post_types
-            );
-        }
-    }
+	/**
+	 * Add metabox to post types.
+	 *
+	 * @return void
+	 */
+	public function add_metabox() {
+		$post_types = get_option( 'helpful_post_types' );
 
-    /**
-     * Render metabox content.
-     *
-     * @global $post
-     *
-     * @return void
-     */
-    public function renderMetabox()
-    {
-        global $post;
+		if ( isset( $post_types ) && is_array( $post_types ) ) {
+			add_meta_box(
+				'helpful-meta-box',
+				esc_html_x( 'Helpful', 'meta box name', 'helpful' ),
+				[ $this, 'render_metabox' ],
+				$post_types
+			);
+		}
+	}
 
-        $pro = Helpful_Helper_Stats::getPro($post->ID);
-        $pro_percent = Helpful_Helper_Stats::getPro($post->ID, true);
-        $contra = Helpful_Helper_Stats::getContra($post->ID);
-        $contra_percent = Helpful_Helper_Stats::getContra($post->ID, true);
+	/**
+	 * Render metabox content.
+	 *
+	 * @global $post
+	 *
+	 * @return void
+	 */
+	public function render_metabox() {
+		global $post;
 
-        wp_nonce_field('helpful_remove_data', 'helpful_remove_data_nonce');
-        include HELPFUL_PATH . 'templates/admin-metabox.php';
-    }
+		$pro            = Helpful_Helper_Stats::getPro( $post->ID );
+		$pro_percent    = Helpful_Helper_Stats::getPro( $post->ID, true );
+		$contra         = Helpful_Helper_Stats::getContra( $post->ID );
+		$contra_percent = Helpful_Helper_Stats::getContra( $post->ID, true );
 
-    /**
-     * Save meta box data.
-     *
-     * @return void
-     */
-    public function saveMetaboxData($post_id)
-    {
-        if (!wp_verify_nonce($_POST['helpful_remove_data_nonce'], 'helpful_remove_data')) {
-            return;
-        }
+		wp_nonce_field( 'helpful_remove_data', 'helpful_remove_data_nonce' );
+		include HELPFUL_PATH . 'templates/admin-metabox.php';
+	}
 
-        if ('yes' === $_POST['helpful_remove_data']) {
-            Helpful_Helper_Values::removeData($post_id);
-        }
-    }
+	/**
+	 * Save meta box data.
+	 *
+	 * @param integer $post_id post id.
+	 *
+	 * @return void
+	 */
+	public function save_metabox_data( $post_id ) {
+		if ( ! wp_verify_nonce( $_POST['helpful_remove_data_nonce'], 'helpful_remove_data' ) ) {
+			return;
+		}
+
+		if ( 'yes' === $_POST['helpful_remove_data'] ) {
+			Helpful_Helper_Values::removeData( $post_id );
+		}
+	}
 }

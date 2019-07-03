@@ -2,34 +2,34 @@
 /**
  * WordPress blacklist checker
  *
- * @param  string $content the content to be checked
+ * @param string $content the content to be checked.
+ *
  * @return bool
  */
-function Helpful_backlist_check($content) 
-{
-    $mod_keys = trim(get_option('blacklist_keys'));
-    
-    if ('' == $mod_keys) {
-        return false;
-    }
+function helpful_backlist_check( $content ) {
+	$mod_keys = trim( get_option( 'blacklist_keys' ) );
 
-    $without_html = wp_strip_all_tags($content);
-    $words = explode("\n", $mod_keys);
+	if ( '' == $mod_keys ) {
+		return false;
+	}
 
-    foreach ( (array) $words as $word ) {
-        $word = trim($word);
-        
-        if (empty($word)) {
-            continue;
-        }
-        
-        $word = preg_quote($word, '#');
-        $pattern = "#$word#i";
+	$without_html = wp_strip_all_tags( $content );
+	$words        = explode( "\n", $mod_keys );
 
-        if (preg_match($pattern, $content) || preg_match($pattern, $without_html)) {
-            return true;
-        }
-    }
+	foreach ( (array) $words as $word ) :
+		$word = trim( $word );
 
-    return false;
+		if ( empty( $word ) ) {
+			continue;
+		}
+
+		$word = preg_quote( $word, '#' );
+		$pattern = "#$word#i";
+
+		if ( preg_match( $pattern, $content ) || preg_match( $pattern, $without_html ) ) {
+			return true;
+		}
+	endforeach;
+
+	return false;
 }

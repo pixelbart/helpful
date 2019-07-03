@@ -36,17 +36,17 @@
 .helpful .helpful-controls > div {}
 
 /* Helpful: buttons */
-.helpful > .helpful-controls > div  > button {}
-.helpful > .helpful-controls > div > button:hover {}
+.helpful > .helpful-controls > div > .helpful-button {}
+.helpful > .helpful-controls > div > .helpful-button:hover {}
 
 /* Helpful: pro button */
-.helpful > .helpful-controls > div  > button[data-value="pro"] {}
+.helpful > .helpful-controls > div > .helpful-button[data-value="pro"] {}
 
 /* Helpful: contra button */
-.helpful > .helpful-controls > div  > button[data-value="contra"] {}
+.helpful > .helpful-controls > div > .helpful-button[data-value="contra"] {}
 
 /* Helpful: counter */
-.helpful > .helpful-controls > div  > button > span {}
+.helpful > .helpful-controls > div > .helpful-button > .helpful-counter {}
 
 /**
  * Credits
@@ -83,5 +83,5 @@
 .helpful > .helpful-content > .helpful-feedback-form textarea {}
 .helpful > .helpful-content > .helpful-feedback-form input[type="checkbox"],
 .helpful > .helpful-content > .helpful-feedback-form input[type="radio"] {}
-.helpful > .helpful-content > .helpful-feedback-form > button {}
-.helpful > .helpful-content > .helpful-feedback-form > button:hover {}
+.helpful > .helpful-content > .helpful-feedback-form .helpful-button {}
+.helpful > .helpful-content > .helpful-feedback-form .helpful-button:hover {}

@@ -4,6 +4,8 @@
  *
  * @package Helpful
  * @author  Pixelbart <me@pixelbart.de>
+ *
+ * @since 1.0.0
  */
 
 /**
@@ -11,69 +13,77 @@
  *
  * @since 1.0.0
  */
-require_once HELPFUL_PATH . "core/helpers.php";
+require_once HELPFUL_PATH . 'core/helpers.php';
 
 /**
- * Class Autoloader
+ * Configurate the class autoloader
+ *
+ * @param string $class_name class name.
  *
  * @since 4.0.0
  */
-spl_autoload_register('Helpful_autoloader');
-function Helpful_autoloader($className) 
-{
-    if (false === strpos($className, 'Helpful_')) {
-        return;
-    }
+function helpful_autoloader( $class_name ) {
+	if ( false === strpos( $class_name, 'Helpful_' ) ) {
+		return;
+	}
 
-    $path = __DIR__ . '/classes/';
-    $className = strtolower($className);
-    $className = 'class-' . $className;
-    $className = str_replace('_', '-', $className);
+	$path       = __DIR__ . '/classes/';
+	$class_name = strtolower( $class_name );
+	$class_name = 'class-' . $class_name;
+	$class_name = str_replace( '_', '-', $class_name );
 
-    include $path . $className . '.php';
+	include $path . $class_name . '.php';
 }
+
+/**
+ * Fires the class autoloader
+ */
+spl_autoload_register( 'helpful_autoloader' );
 
 /**
  * Setup database and default values
  *
  * @since 1.0.0
  */
-Helpful_Setup::getInstance();
+Helpful_Setup::get_instance();
 
 /**
- * Store and fire all instances
+ * Stores most fo the class instances
  *
  * @since 4.0.7
  */
-add_action('plugins_loaded', 'Helpful_instances');
-function Helpful_instances() 
-{
-    Helpful_Tabs_Start::getInstance();
-    Helpful_Tabs_Texts::getInstance();
-    Helpful_Tabs_Details::getInstance();
-    Helpful_Tabs_Feedback::getInstance();
-    Helpful_Tabs_Design::getInstance();
-    Helpful_Tabs_System::getInstance();
-    Helpful_Metabox::getInstance();
-    Helpful_Widget::getInstance();
-    Helpful_Table::getInstance();
-    Helpful_Feedback_Admin::getInstance();
-    Helpful_Maintenance::getInstance();
-    Helpful_Notices::getInstance();
-    Helpful_Frontend::getInstance();
-    Helpful_Shortcodes::getInstance();
+function helpful_instances() {
+	Helpful_Tabs_Start::get_instance();
+	Helpful_Tabs_Texts::get_instance();
+	Helpful_Tabs_Details::get_instance();
+	Helpful_Tabs_Feedback::get_instance();
+	Helpful_Tabs_Design::get_instance();
+	Helpful_Tabs_System::get_instance();
+	Helpful_Metabox::get_instance();
+	Helpful_Widget::get_instance();
+	Helpful_Table::get_instance();
+	Helpful_Feedback_Admin::get_instance();
+	Helpful_Maintenance::get_instance();
+	Helpful_Notices::get_instance();
+	Helpful_Frontend::get_instance();
+	Helpful_Shortcodes::get_instance();
 }
+
+/**
+ * Fires most of the class instances
+ */
+add_action( 'plugins_loaded', 'helpful_instances' );
 
 /**
  * Customizer
  *
  * @since 4.0.0
  */
-add_action('customize_register', [ 'Helpful_Customizer', 'registerCustomizer' ]);
+add_action( 'customize_register', [ 'Helpful_Customizer', 'register_customizer' ] );
 
 /**
  * Frontend Helpers
  *
  * @since 3.2.0
  */
-require_once HELPFUL_PATH . "core/values.php";
+require_once HELPFUL_PATH . 'core/values.php';

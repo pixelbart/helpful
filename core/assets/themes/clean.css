@@ -27,7 +27,7 @@
   margin-right: 10px;
 }
 
-.helpful > .helpful-header > h3 {
+.helpful > .helpful-header > .helpful-headline {
   font-size: 1rem;
   line-height: 28px;
   color: #333;
@@ -52,7 +52,7 @@
 	text-decoration: underline;
 }
 
-.helpful > .helpful-content a:hover {
+.helpful > .helpful-content > a:hover {
 	color: #999;
 	text-decoration: none;
 }
@@ -63,7 +63,7 @@
   display: flex;
 }
 
-.helpful > .helpful-controls > div > button {
+.helpful > .helpful-controls > div > .helpful-button {
   margin: 0 !important;
   display: inline-block;
   vertical-align: middle;
@@ -86,12 +86,12 @@
   margin-right: 15px;
 }
 
-.helpful > .helpful-controls > div > button:hover {
+.helpful > .helpful-controls > div > .helpful-button:hover {
   background-color: #e5e5e5;
 	transition: all .2s ease-in-out;
 }
 
-.helpful > .helpful-controls > div > button > span {
+.helpful > .helpful-controls > div > .helpful-button > .helpful-counter {
 	right: -7.5px;
   top: -7.5px;
 	color: #f5f5f5;
@@ -188,7 +188,7 @@
 	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
 }
 
-.helpful .helpful-feedback-form button {
+.helpful .helpful-feedback-form .helpful-button {
   text-transform: none;
   display: inline-block;
   vertical-align: middle;
@@ -212,7 +212,7 @@
 	-webkit-transition: all .2s ease-in-out;
 }
 
-.helpful .helpful-feedback-form button:hover {
+.helpful .helpful-feedback-form .helpful-button:hover {
   background-color: #333;
   color: #f8f8f8;
   border: 1px solid #333;
