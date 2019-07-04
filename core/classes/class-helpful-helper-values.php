@@ -69,15 +69,38 @@ class Helpful_Helper_Values {
 	 */
 	public static function convertTags( $string, $post_id ) {
 		$post   = get_post( $post_id );
+		$pro    = Helpful_Helper_Stats::getPro( $post->ID );
+		$contra = Helpful_Helper_Stats::getContra( $post->ID );
+
 		$tags   = [
-			'{pro}'       => Helpful_Helper_Stats::getPro( $post->ID ),
-			'{contra}'    => Helpful_Helper_Stats::getContra( $post->ID ),
-			'{permalink}' => esc_url( get_permalink( $post->ID ) ),
-			'{author}'    => get_the_author_meta( 'display_name', $post->post_author ),
+			'{pro}'            => $pro,
+			'{contra}'         => $contra,
+			'{total}'          => ( (int) $pro + (int) $contra ),
+			'{permalink}'      => esc_url( get_permalink( $post->ID ) ),
+			'{author}'         => get_the_author_meta( 'display_name', $post->post_author ),
+			'{pro_percent}'    => Helpful_Helper_Stats::getPro( $post->ID, true ),
+			'{contra_percent}' => Helpful_Helper_Stats::getContra( $post->ID, true ),
 		];
 		$string = str_replace( array_keys( $tags ), array_values( $tags ), $string );
 
 		return $string;
+	}
+
+	/**
+	 * Get available tags for the settings screen
+	 *
+	 * @return array
+	 */
+	public static function get_tags() {
+		return [
+			'{pro}',
+			'{contra}',
+			'{total}',
+			'{pro_percent}',
+			'{contra_percent}',
+			'{permalink}',
+			'{author}',
+		];
 	}
 
 	/**

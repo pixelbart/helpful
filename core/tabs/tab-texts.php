@@ -8,16 +8,23 @@
  * @since 2.0.0
  */
 global $helpful;
+
 $settings = $helpful['wp_editor'];
+$tags     = Helpful_Helper_Values::get_tags();
+$tags     = '<code>' . implode( '</code>, <code>', $tags ) . '</code>';
 ?>
 
-<h2><?php _ex('Texts', 'tab name', 'helpful'); ?></h2>
+<h2><?php _ex( 'Texts', 'tab name', 'helpful' ); ?></h2>
 
-<p><?php _ex('Most texts can be changed here. Use <code>{pro}</code> for positive votes, <code>{contra}</code> for negative votes and <code>{permalink}</code> to get the URL of the current post. You can also leave fields blank to not display anything at this point.', 'tab description', 'helpful'); ?></p>
+<p><?php 
+/* translators: %s available tag comma list */
+$text = esc_html_x( 'Most texts can be changed here. You can also leave fields blank to not display anything at this point. Available helpers: %s', 'tab description', 'helpful' );
+printf( $text, $tags );
+?></p>
 
 <form method="post" action="options.php">
 
-<?php settings_fields('helpful-texts-settings-group'); ?>
+<?php settings_fields( 'helpful-texts-settings-group'); ?>
 <?php do_settings_sections('helpful-texts-settings-group'); ?>
 <?php submit_button(__('Save Changes'), 'default'); ?>
 <?php do_action('helpful-texts-settings-before'); ?>

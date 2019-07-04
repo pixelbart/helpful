@@ -78,7 +78,7 @@ class Helpful_Notices {
 			'toplevel_page_helpful' === $screen->base
 		) {
 
-			$response = Helpful_Helper_Optimize::optimizePlugin();
+			$response = Helpful_Helper_Optimize::optimize_plugin();
 			$response = apply_filters( 'helpful_maintenance', $response );
 			$class    = 'notice-success';
 			$notice   = esc_html_x( 'Thank you very much. The database has been updated successfully. ', 'admin notice', 'helpful' );

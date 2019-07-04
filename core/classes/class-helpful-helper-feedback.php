@@ -22,7 +22,7 @@ class Helpful_Helper_Feedback {
 		$feedback            = [];
 		$feedback['id']      = $entry->id;
 		$feedback['name']    = __( 'Anonymous', 'helpful' );
-		$feedback['message'] = $entry->message;
+		$feedback['message'] = nl2br( $entry->message );
 		$feedback['pro']     = $entry->pro;
 		$feedback['contra']  = $entry->contra;
 		$feedback['post']    = $post;
@@ -121,7 +121,7 @@ class Helpful_Helper_Feedback {
 		$contra  = 0;
 		$message = null;
 
-		if ( ! isset( $_REQUEST['message'] ) || ! helpful_backlist_check( $_REQUEST['message'] ) ) {
+		if ( ! isset( $_REQUEST['message'] ) || helpful_backlist_check( $_REQUEST['message'] ) ) {
 			return null;
 		}
 
@@ -134,7 +134,7 @@ class Helpful_Helper_Feedback {
 		}
 
 		if ( isset( $_REQUEST['message'] ) ) {
-			$message = sanitize_text_field( wp_unslash( $_REQUEST['message'] ) );
+			$message = sanitize_textarea_field( wp_strip_all_tags( $_REQUEST['message'], false ) );
 			$message = apply_filters( 'helpful_feedback_submit_fields', $message );
 		}
 
