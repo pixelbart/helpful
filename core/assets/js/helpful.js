@@ -19,30 +19,32 @@
           return;
         }
 
+        var currentButton = $(this);
+        var currentForm = $(currentButton).closest('.helpful');
         var ajaxData = {};
 
         $.extend(ajaxData, helpful.ajax_data);
-        $.extend(ajaxData, $(this).data());
+        $.extend(ajaxData, $(currentButton).data());
         ajaxData.action = self.vote;
 
         self.ajaxRequest(ajaxData).done(function (response) {
-          $(self.el).find(".helpful-header").remove();
-          $(self.el).find(".helpful-controls").remove();
-          $(self.el).find(".helpful-footer").remove();
-          $(self.el).find(".helpful-content").html(response);
-          self.feedbackForm();
+          $(currentForm).find(".helpful-header").remove();
+          $(currentForm).find(".helpful-controls").remove();
+          $(currentForm).find(".helpful-footer").remove();
+          $(currentForm).find(".helpful-content").html(response);
+          self.feedbackForm(currentForm);
         });
       });
     },
 
-    feedbackForm: function () {
+    feedbackForm: function (currentForm) {
       var self = this;
       
-      $(document).on("submit", ".helpful .helpful-feedback-form", function (e) {
+      $(currentForm).on("submit", ".helpful-feedback-form", function (e) {
         e.preventDefault();
         var ajaxData = $(this).serializeArray();
         self.ajaxRequest(ajaxData).done(function (response) {
-          $(self.el).find(".helpful-content").html(response);
+          $(currentForm).find(".helpful-content").html(response);
         });
       });
     },

@@ -106,11 +106,11 @@ class Helpful_Shortcodes {
 	 *
 	 * @return string
 	 */
-	public function shortcode_helpful( $atts ) {
+	public function shortcode_helpful( $atts, $content = '' ) {
 		global $post;
 
 		$defaults = Helpful_Helper_Values::getDefaults();
-		$user_id = Helpful_Helper_Values::getUser();
+		$user_id  = Helpful_Helper_Values::getUser();
 
 		if ( get_option( 'helpful_exists_hide' ) && Helpful_Helper_Values::checkUser( $user_id, $post->ID ) ) {
 			return;

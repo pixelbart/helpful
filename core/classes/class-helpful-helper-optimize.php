@@ -22,6 +22,7 @@ class Helpful_Helper_Optimize {
 		$response = array_merge( $response, self::optimize_tables() );
 		$response = array_merge( $response, self::move_feedback() );
 		$response = array_merge( $response, self::remove_incorrect_entries() );
+		$response = array_merge( $response, self::fix_incorrect_feedback() );
 
 		array_filter( $response );
 
@@ -136,8 +137,8 @@ class Helpful_Helper_Optimize {
 
 		/* Remove incorrect entries from 'helpful' table */
 		$table_name = $wpdb->prefix . 'helpful';
-		$query = $wpdb->prepare( "SELECT id, user FROM {$table_name} WHERE user = %s", '' );
-		$items = $wpdb->get_results( $query );
+		$query      = $wpdb->prepare( "SELECT id, user FROM {$table_name} WHERE user = %s", '' );
+		$items      = $wpdb->get_results( $query );
 
 		if ( $items ) {
 			foreach ( $items as $item ) :
@@ -155,8 +156,8 @@ class Helpful_Helper_Optimize {
 
 		/* Remove incorrect entries from 'helpful_feedback' table */
 		$table_name = $wpdb->prefix . 'helpful_feedback';
-		$query = $wpdb->prepare( "SELECT id, user FROM {$table_name} WHERE user = %s", '' );
-		$items = $wpdb->get_results( $query );
+		$query      = $wpdb->prepare( "SELECT id, user FROM {$table_name} WHERE user = %s", '' );
+		$items      = $wpdb->get_results( $query );
 
 		if ( $items ) {
 			foreach ( $items as $item ) {
@@ -167,6 +168,44 @@ class Helpful_Helper_Optimize {
 			$response[] = sprintf(
 				/* translators: %1$d = amount of entries %2$s = table name */
 				esc_html_x( '%1$d incorrect entries have been removed from table "%2$s"', 'maintenance response', 'helpful' ),
+				$count,
+				$table_name
+			);
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Feedback text is cleaned up and slashes removed.
+	 *
+	 * @return array
+	 */
+	public static function fix_incorrect_feedback() {
+		global $wpdb;
+
+		$response   = [];
+		$table_name = $wpdb->prefix . 'helpful_feedback';
+		$query      = "SELECT id, message FROM {$table_name}";
+		$items      = $wpdb->get_results( $query );
+		$fixes      = [];
+
+		if ( ! empty( $items ) ) {
+			foreach ( $items as $item ) :
+				if ( false !== strpos( $item->message, '\\' ) ) {
+					$fixes[] = $item->id;
+					$message = sanitize_textarea_field( wp_strip_all_tags( $item->message ) );
+					$message = stripslashes( $message );
+					$wpdb->update( $table_name, [ 'message' => $message ], [ 'id' => $item->id ] );
+				}
+			endforeach;
+		}
+
+		if ( is_array( $fixes ) && ! empty( $fixes ) ) {
+			$count      = count( $fixes );
+			$response[] = sprintf(
+				/* translators: %1$d = amount of entries %2$s = table name */
+				esc_html_x( '%1$d incorrect entries have been fixed from table "%2$s".', 'maintenance response', 'helpful' ),
 				$count,
 				$table_name
 			);
