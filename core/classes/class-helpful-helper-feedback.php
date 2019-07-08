@@ -136,7 +136,7 @@ class Helpful_Helper_Feedback {
 		if ( isset( $_REQUEST['message'] ) ) {
 			$message = sanitize_textarea_field( wp_strip_all_tags( $_REQUEST['message'] ) );
 			$message = stripslashes( $message );
-			$message = apply_filters( 'helpful_feedback_submit_fields', $message );
+			$message = apply_filters( 'helpful_feedback_submit_message', $message );
 		}
 
 		if ( isset( $_REQUEST['type'] ) ) {

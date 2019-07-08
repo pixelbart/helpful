@@ -81,6 +81,9 @@ class Helpful_Helper_Values {
 			'{pro_percent}'    => Helpful_Helper_Stats::getPro( $post->ID, true ),
 			'{contra_percent}' => Helpful_Helper_Stats::getContra( $post->ID, true ),
 		];
+
+		$tags = apply_filters( 'helpful_tags', $tags );
+
 		$string = str_replace( array_keys( $tags ), array_values( $tags ), $string );
 
 		return $string;

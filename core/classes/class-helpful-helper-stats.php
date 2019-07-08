@@ -789,6 +789,7 @@ class Helpful_Helper_Stats {
 					$average    = (int) ( $pro - $contra );
 					$total      = (int) ( $pro + $contra );
 					$percentage = ( $average / $total ) * 100;
+					$percentage = round( $percentage, 2 );
 					$results[]  = [
 						'ID'         => $post_id,
 						'url'        => get_the_permalink( $post_id ),
@@ -856,6 +857,7 @@ class Helpful_Helper_Stats {
 					$average    = (int) ( $contra - $pro );
 					$total      = (int) ( $pro + $contra );
 					$percentage = ( $average / $total ) * 100;
+					$percentage = round( $percentage, 2 );
 					$results[]  = [
 						'ID'         => $post_id,
 						'url'        => get_the_permalink( $post_id ),
@@ -887,7 +889,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getRecentlyPro($limit = null) {
+	public static function getRecentlyPro( $limit = null ) {
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
 		}
@@ -914,6 +916,7 @@ class Helpful_Helper_Stats {
 				$average    = (int) ( $pro - $contra );
 				$total      = (int) ( $pro + $contra );
 				$percentage = ( $average / $total ) * 100;
+				$percentage = round( $percentage, 2 );
 				$timestamp  = strtotime( $post->time );
 				$posts[]    = [
 					'ID'         => $post->post_id,
@@ -968,6 +971,7 @@ class Helpful_Helper_Stats {
 				$average    = (int) ( $contra - $pro );
 				$total      = (int) ( $pro + $contra );
 				$percentage = ( $average / $total ) * 100;
+				$percentage = round( $percentage, 2 );
 				$timestamp  = strtotime( $post->time );
 
 				$posts[] = [
