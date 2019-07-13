@@ -23,6 +23,7 @@ class Helpful_Helper_Optimize {
 		$response = array_merge( $response, self::move_feedback() );
 		$response = array_merge( $response, self::remove_incorrect_entries() );
 		$response = array_merge( $response, self::fix_incorrect_feedback() );
+		$response = array_merge( $response, self::clear_cache() );
 
 		array_filter( $response );
 
@@ -210,6 +211,22 @@ class Helpful_Helper_Optimize {
 				$table_name
 			);
 		}
+
+		return $response;
+	}
+
+	/**
+	 * Feedback text is cleaned up and slashes removed.
+	 *
+	 * @return array
+	 */
+	public static function clear_cache() {
+
+		$response = [
+			esc_html_x( 'The cache for Helpful has been cleared.', 'maintenance response', 'helpful' ),
+		];
+
+		wp_cache_delete( 'stats_total', 'helpful' );
 
 		return $response;
 	}

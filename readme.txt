@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
 Requires PHP: 5.4.0
-Stable tag: 4.0.16
+Stable tag: 4.0.17
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,13 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.0.18 =
+* Added option in Helpful settings under System to load Helpful first.
+* Added WordPress caching for statistics in Total. Emptied as soon as someone votes with Helpful or maintenance is performed.
+
+= 4.0.17 =
+* Most and least helpful entries in dashboard widget extended. Here you can find more information about Helpful for each post. The publishing date for these two values can also be deactivated in the Helpful settings under Details.
 
 = 4.0.16 =
 * Filters and actions inserted and optimized. ([Learn more](https://helpful-plugin.info/documentation/filter-action/))

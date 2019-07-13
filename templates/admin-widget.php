@@ -49,7 +49,8 @@
       <?php foreach( Helpful_Helper_Stats::getMostHelpful() as $post ): ?>
       <li>
         <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
-        <?php echo $post['time']; ?> (<?php echo $post['percentage']; ?>%)
+        <div><?php printf( esc_html_x( '%d helpful / %d not helpful (%d%% helpful in total)', 'widget item info', 'helpful' ), $post['pro'], $post['contra'], $post['percentage'] ); ?></div>
+        <?php echo ! get_option( 'helpful_widget_hide_publication' ) ? $post['time'] : ''; ?>
       </li>
       <?php endforeach; ?>
     </ul>
@@ -66,7 +67,8 @@
       <?php foreach ( Helpful_Helper_Stats::getLeastHelpful() as $post ) : ?>
       <li>
         <div><a href="<?php echo $post['url']; ?>" target="_blank"><?php echo $post['name']; ?></a></div>
-        <?php echo $post['time']; ?> (<?php echo $post['percentage']; ?>%)
+        <div><?php printf( esc_html_x( '%d helpful / %d not helpful (%d%% helpful in total)', 'widget item info', 'helpful' ), $post['pro'], $post['contra'], $post['percentage'] ); ?></div>
+        <?php echo ! get_option( 'helpful_widget_hide_publication' ) ? $post['time'] : ''; ?>
       </li>
       <?php endforeach; ?>
     </ul>

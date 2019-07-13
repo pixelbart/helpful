@@ -278,6 +278,7 @@ class Helpful_Helper_Stats {
 		WHERE DAYOFYEAR(time) = DAYOFYEAR(SUBDATE(CURDATE(),1))
 		AND YEAR(time) = %d
 		";
+
 		$query   = $wpdb->prepare( $query, $year );
 		$results = $wpdb->get_results( $query );
 
@@ -343,6 +344,7 @@ class Helpful_Helper_Stats {
 		WHERE WEEK(time, 1) = WEEK(CURDATE(), 1)
 		AND YEAR(time) = %d
 		";
+
 		$query   = $wpdb->prepare( $query, $year );
 		$results = $wpdb->get_results( $query );
 
@@ -442,6 +444,7 @@ class Helpful_Helper_Stats {
 		WHERE MONTH(time) = %d
 		AND YEAR(time) = %d
 		";
+		
 		$query   = $wpdb->prepare( $query, $month, $year );
 		$results = $wpdb->get_results( $query );
 
@@ -532,6 +535,7 @@ class Helpful_Helper_Stats {
 		FROM $helpful
 		WHERE YEAR(time) = %d
 		";
+
 		$query   = $wpdb->prepare( $query, $year );
 		$results = $wpdb->get_results( $query );
 
@@ -699,7 +703,13 @@ class Helpful_Helper_Stats {
 		SELECT pro, contra, time
 		FROM $helpful
 		";
-		$results = $wpdb->get_results( $query );
+
+		$results = wp_cache_get( 'stats_total', 'helpful' );
+
+		if ( false === $results ) {
+			$results = $wpdb->get_results( $query );
+			wp_cache_set( 'stats_total', $results, 'helpful' );
+		}
 
 		if ( ! $results ) {
 			return [
@@ -788,12 +798,14 @@ class Helpful_Helper_Stats {
 					$contra     = self::getContra( $post_id ) ? self::getContra( $post_id ) : 0;
 					$average    = (int) ( $pro - $contra );
 					$total      = (int) ( $pro + $contra );
-					$percentage = ( $average / $total ) * 100;
+					$percentage = ( $pro / $total ) * 100;
 					$percentage = round( $percentage, 2 );
 					$results[]  = [
 						'ID'         => $post_id,
 						'url'        => get_the_permalink( $post_id ),
 						'name'       => get_the_title( $post_id ),
+						'pro'        => $pro,
+						'contra'     => $contra,
 						'percentage' => $percentage,
 						'time'       => sprintf(
 							/* translators: %s time difference */
@@ -856,12 +868,21 @@ class Helpful_Helper_Stats {
 					$contra     = self::getContra( $post_id ) ? self::getContra( $post_id ) : 0;
 					$average    = (int) ( $contra - $pro );
 					$total      = (int) ( $pro + $contra );
-					$percentage = ( $average / $total ) * 100;
-					$percentage = round( $percentage, 2 );
+					$percentage = ( $contra / $total );
+
+					if ( 1 !== $percentage ) {
+						$percentage = ( $pro / $total ) * 100;
+						$percentage = round( $percentage, 2 );
+					} else {
+						$percentage = 0;
+					}
+
 					$results[]  = [
 						'ID'         => $post_id,
 						'url'        => get_the_permalink( $post_id ),
 						'name'       => get_the_title( $post_id ),
+						'pro'        => $pro,
+						'contra'     => $contra,
 						'percentage' => $percentage,
 						'time'       => sprintf(
 							/* translators: %s time difference */

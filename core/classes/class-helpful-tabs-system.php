@@ -96,6 +96,7 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 			'helpful_timezone',
 			'helpful_multiple',
 			'helpful_notes',
+			'helpful_plugin_first',
 		];
 
 		foreach ( $fields as $field ) {

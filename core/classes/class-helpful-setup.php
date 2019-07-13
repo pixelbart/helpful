@@ -39,6 +39,8 @@ class Helpful_Setup {
 		register_activation_hook( HELPFUL_FILE, [ $this, 'setup_feedback_table' ] );
 		register_activation_hook( HELPFUL_FILE, [ $this, 'setup_defaults' ] );
 
+		add_action( 'activated_plugin', [ $this, 'load_first' ] );
+
 		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
@@ -190,6 +192,27 @@ class Helpful_Setup {
 			update_option( $slug, $value );
 		endforeach;
 		return true;
+	}
+
+	/**
+	 * Loads helpful first
+	 *
+	 * @return void
+	 */
+	public function load_first() {
+
+		if ( ! get_option( 'helpful_plugin_first' ) ) {
+			return;
+		}
+
+		$path = str_replace( WP_PLUGIN_DIR . '/', '', HELPFUL_FILE );
+		if ( $plugins = get_option( 'active_plugins' ) ) {
+			if ( $key = array_search( $path, $plugins ) ) {
+				array_splice( $plugins, $key, 1 );
+				array_unshift( $plugins, $path );
+				update_option( 'active_plugins', $plugins );
+			}
+		}
 	}
 
 	/**

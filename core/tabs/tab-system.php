@@ -46,11 +46,19 @@ $settings = $helpful['wp_editor'];
 			</label>
 		</div><!-- .helpful-admin-group -->
 
-		<div class="helpful-admin-group">
+		<div class="helpful-admin-group helpful-margin-bottom">
 			<label>
 				<?php $value = get_option('helpful_notes'); ?>
 				<input id="helpful_notes" type="checkbox" name="helpful_notes" <?php checked('on', $value); ?> /> 
 				<?php _ex('Check to completely disable admin notes for Helpful', 'label', 'helpful'); ?>
+			</label>
+		</div><!-- .helpful-admin-group -->
+
+		<div class="helpful-admin-group">
+			<label>
+				<?php $value = get_option('helpful_plugin_first'); ?>
+				<input id="helpful_plugin_first" type="checkbox" name="helpful_plugin_first" <?php checked('on', $value); ?> /> 
+				<?php _ex('Select so that Helpful is always loaded first', 'label', 'helpful'); ?>
 			</label>
 		</div><!-- .helpful-admin-group -->
 
