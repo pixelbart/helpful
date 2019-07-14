@@ -185,7 +185,7 @@ class Helpful_Helper_Values {
 			update_post_meta( $post_id, 'helpful-pro', Helpful_Helper_Stats::getPro( $post_id, true ) );
 		}
 
-		wp_cache_delete( 'stats_total', 'helpful' );
+		Helpful_Helper_Optimize::clear_cache();
 
 		return $wpdb->insert_id;
 	}
@@ -220,7 +220,7 @@ class Helpful_Helper_Values {
 			update_post_meta( $post_id, 'helpful-contra', Helpful_Helper_Stats::getContra( $post_id, true ) );
 		}
 
-		wp_cache_delete( 'stats_total', 'helpful' );
+		Helpful_Helper_Optimize::clear_cache();
 
 		return $wpdb->insert_id;
 	}
@@ -243,7 +243,7 @@ class Helpful_Helper_Values {
 		delete_post_meta( $post_id, 'helpful-contra' );
 		delete_post_meta( $post_id, 'helpful_remove_data', 'yes' );
 
-		wp_cache_delete( 'stats_total', 'helpful' );
+		Helpful_Helper_Optimize::clear_cache();
 	}
 
 	/**

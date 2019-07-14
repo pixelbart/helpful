@@ -92,10 +92,12 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs {
 			'helpful_feedback_widget_overview',
 			'helpful_feedback_name',
 			'helpful_feedback_email',
+			'helpful_feedback_cancel',
 			'helpful_feedback_label_message',
 			'helpful_feedback_label_name',
 			'helpful_feedback_label_email',
 			'helpful_feedback_label_submit',
+			'helpful_feedback_label_cancel',
 			'helpful_feedback_gravatar',
 		];
 

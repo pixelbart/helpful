@@ -39,6 +39,20 @@
 
     feedbackForm: function (currentForm) {
       var self = this;
+
+      $(currentForm).find('.helpful-cancel').click(function (e) {
+        e.preventDefault();
+        var ajaxData = [
+          { name: 'action', value: 'helpful_save_feedback' },
+          { name: 'cancel', value: 1 },
+          { name: 'type', value: $(currentForm).find('[name="type"]').val() },
+          { name: '_wpnonce', value: $(currentForm).find('[name="_wpnonce"]').val() },
+        ];
+
+        self.ajaxRequest(ajaxData).done(function (response) {
+          $(currentForm).find(".helpful-content").html(response);
+        });
+      });
       
       $(currentForm).on("submit", ".helpful-feedback-form", function (e) {
         e.preventDefault();

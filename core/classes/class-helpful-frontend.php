@@ -188,7 +188,10 @@ class Helpful_Frontend {
 	 */
 	public function save_feedback() {
 		check_ajax_referer( 'helpful_feedback_nonce' );
-		Helpful_Helper_Feedback::insertFeedback();
+
+		if ( ! isset( $_REQUEST['helpful_cancel'] ) ) {
+			Helpful_Helper_Feedback::insertFeedback();
+		}
 
 		$type = 'pro';
 

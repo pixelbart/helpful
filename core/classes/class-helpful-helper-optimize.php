@@ -227,6 +227,8 @@ class Helpful_Helper_Optimize {
 		];
 
 		wp_cache_delete( 'stats_total', 'helpful' );
+		wp_cache_delete( 'stats_total_pro', 'helpful' );
+		wp_cache_delete( 'stats_total_contra', 'helpful' );
 
 		return $response;
 	}

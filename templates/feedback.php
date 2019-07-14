@@ -32,5 +32,10 @@
 </div>
 <?php endif; ?>
 
-<?php $label = get_option( 'helpful_feedback_label_submit' ); ?>
-<button class="helpful-button" type="submit" role="button"><?php echo $label; ?></button>
+<?php if ( get_option( 'helpful_feedback_cancel' ) ) : ?>
+<?php $cancel = get_option( 'helpful_feedback_label_cancel' ); ?>
+<button class="helpful-button helpful-cancel" type="button" role="button"><?php echo $cancel; ?></button>
+<?php endif; ?>
+
+<?php $submit = get_option( 'helpful_feedback_label_submit' ); ?>
+<button class="helpful-button helpful-submit" type="submit" role="button"><?php echo $submit; ?></button>

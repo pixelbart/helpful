@@ -718,10 +718,21 @@ class Helpful_Helper_Stats {
 			];
 		}
 
-		$pro    = wp_list_pluck( $results, 'pro' );
-		$pro    = array_sum( $pro );
-		$contra = wp_list_pluck( $results, 'contra' );
-		$contra = array_sum( $contra );
+		$pro = wp_cache_get( 'stats_total_pro', 'helpful' );
+
+		if ( false === $pro ) {
+			$pro = wp_list_pluck( $results, 'pro' );
+			$pro = array_sum( $pro );
+			wp_cache_set( 'stats_total_pro', $pro, 'helpful' );
+		}
+
+		$contra = wp_cache_get( 'stats_total_contra', 'helpful' );
+
+		if ( false === $contra ) {
+			$contra = wp_list_pluck( $results, 'contra' );
+			$contra = array_sum( $contra );
+			wp_cache_set( 'stats_total_contra', $contra, 'helpful' );
+		}
 
 		/* Response for ChartJS */
 		$response = [
