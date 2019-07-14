@@ -24,7 +24,7 @@ define( 'HELPFUL_PHP_MIN', '5.4.0' );
 require_once plugin_dir_path( HELPFUL_FILE ) . 'config.php';
 
 /* Set custom timezone if set in the options */
-if ( get_option( 'helpful_timezone' ) ) {
+if ( get_option( 'helpful_timezone' ) && '' !== get_option( 'helpful_timezone' ) ) {
 	$timezone = get_option( 'helpful_timezone' );
 	date_default_timezone_set( $timezone );
 }
