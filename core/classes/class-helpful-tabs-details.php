@@ -112,6 +112,7 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 			'helpful_form_email_contra',
 			'helpful_metabox',
 			'helpful_widget_hide_publication',
+			'helpful_hide_admin_columns',
 		];
 
 		foreach ( $fields as $field ) :

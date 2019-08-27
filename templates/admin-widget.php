@@ -131,4 +131,13 @@
 
 <div class="helpful-widget-footer">
   <?php echo implode('', $links); ?>
+
+  <?php 
+  $total  = 0;
+  $total += Helpful_Helper_Stats::getProAll();
+  $total += Helpful_Helper_Stats::getContraAll();
+  ?>
+  <div class="helpful-widget-total">
+    <?php printf( esc_html__( '%d Votes', 'helpful' ), $total ); ?>
+  </div>
 </div>

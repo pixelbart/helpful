@@ -120,7 +120,7 @@ class Helpful_Shortcodes {
 		$hidden  = false;
 		$class   = '';
 
-		if ( 1 === $helpful['exists'] ) {
+		if ( isset( $helpful['exists'] ) && 1 === $helpful['exists'] ) {
 			if ( 1 === $helpful['exists-hide'] ) {
 				return;
 			}

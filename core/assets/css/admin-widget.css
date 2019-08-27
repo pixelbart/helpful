@@ -123,7 +123,7 @@
 /* Footer */
 .helpful-widget-footer {
   margin: 0px -12px -12px;
-  color: #ddd;
+  color: #82878c;
   background-color: #f5f5f5;
   border-top: 1px solid #eee;
 }
@@ -141,6 +141,12 @@
 .helpful-widget-footer a:hover {
   background-color: #fff;
   color: #555;
+}
+
+.helpful-widget-footer .helpful-widget-total {
+  float: right;
+  display: inline-block;
+  padding: 12px;
 }
 
 /* Keyframes for loading icon */

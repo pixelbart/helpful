@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
 Requires PHP: 5.4.0
-Stable tag: 4.0.18
+Stable tag: 4.0.20
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,16 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.0.20 =
+* General option to hide admin columns inserted by Helpful.
+* Fixed a bug where it was not checked if the variable was set.
+* The admin widget is now shown when Helpful is activated for the first time, as well as the individual elements in it.
+* Date: 27.08.2019
+
+= 4.0.19 =
+* Fixed a bug that caused `core/assets/vendor/chartjs/Chart.min.css` files not to be embedded.
+* Added option in the Helpful settings under System to reactivate the classic editor for WordPress.
 
 = 4.0.18 =
 * Added option in Helpful settings under System to load Helpful first.

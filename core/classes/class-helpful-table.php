@@ -49,6 +49,11 @@ class Helpful_Table {
 	 */
 	public function register_columns() {
 		$post_types = get_option( 'helpful_post_types' );
+		$hide_cols  = get_option( 'helpful_hide_admin_columns' );
+
+		if ( isset( $hide_cols ) && 'on' === $hide_cols ) {
+			return;
+		}
 
 		if ( ! isset( $post_types ) || ! is_array( $post_types ) ) {
 			return;
@@ -88,6 +93,11 @@ class Helpful_Table {
 	 */
 	public function register_columns_content() {
 		$post_types = get_option( 'helpful_post_types' );
+		$hide_cols  = get_option( 'helpful_hide_admin_columns' );
+
+		if ( isset( $hide_cols ) && 'on' === $hide_cols ) {
+			return;
+		}
 
 		if ( ! isset( $post_types ) || ! is_array( $post_types ) ) {
 			return;

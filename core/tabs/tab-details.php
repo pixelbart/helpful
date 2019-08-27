@@ -101,11 +101,19 @@ $settings = $helpful['wp_editor'];
 	</label>
 </div><!-- .helpful-admin-group -->
 
-<div class="helpful-admin-group">
+<div class="helpful-admin-group helpful-margin-bottom">
 	<label>
 		<?php $value = get_option('helpful_percentages'); ?>
 		<input id="helpful_percentages" type="checkbox" name="helpful_percentages" <?php checked('on', $value); ?> /> 
 		<?php _ex('Show percentages in admin if possible', 'label', 'helpful'); ?>
+	</label>
+</div><!-- .helpful-admin-group -->
+
+<div class="helpful-admin-group">
+	<label>
+		<?php $value = get_option('helpful_hide_admin_columns'); ?>
+		<input id="helpful_hide_admin_columns" type="checkbox" name="helpful_hide_admin_columns" <?php checked('on', $value); ?> /> 
+		<?php _ex('Hide Helpful Admin Columns', 'label', 'helpful'); ?>
 	</label>
 </div><!-- .helpful-admin-group -->
 

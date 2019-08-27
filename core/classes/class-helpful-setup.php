@@ -182,8 +182,13 @@ class Helpful_Setup {
 			'helpful_post_types'             => [ 'post' ],
 			'helpful_count_hide'             => false,
 			'helpful_credits'                => true,
-			'helpful_widget'                 => false,
 			'helpful_uninstall'              => false,
+			'helpful_widget'                 => true,
+			'helpful_widget_amount'          => true,
+			'helpful_widget_pro'             => true,
+			'helpful_widget_contra'          => true,
+			'helpful_widget_pro_recent'      => true,
+			'helpful_widget_contra_recent'   => true,
 		];
 
 		$options = apply_filters( 'helpful_options', $options );
@@ -251,7 +256,7 @@ class Helpful_Setup {
 
 		if ( 'toplevel_page_helpful' === $screen->base ) {
 
-			$file = plugins_url( 'core/assets/vendor/chartsjs/Chart.min.css', HELPFUL_FILE );
+			$file = plugins_url( 'core/assets/vendor/chartjs/Chart.min.css', HELPFUL_FILE );
 			wp_enqueue_style( 'helpful-chartjs', $file, [], HELPFUL_VERSION );
 
 			$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.min.css', HELPFUL_FILE );

@@ -47,7 +47,7 @@ class Helpful_Widget {
 			return;
 		}
 
-		$file = plugins_url( 'core/assets/vendor/chartsjs/Chart.min.css', HELPFUL_FILE );
+		$file = plugins_url( 'core/assets/vendor/chartjs/Chart.min.css', HELPFUL_FILE );
 		wp_register_style( 'helpful-chartjs', $file, [], HELPFUL_VERSION );
 
 		$file = plugins_url( 'core/assets/vendor/chartjs/Chart.min.js', HELPFUL_FILE );
