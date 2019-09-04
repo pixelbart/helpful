@@ -88,6 +88,7 @@ Switch to the Helpful settings and click on the System tab. There you will find 
 
 = 4.0.21 =
 * Fixed a bug in the dashboard widget where it was not clear for a function whether a variable was an integer or not.
+* The CSS class for the contra button is now `.helpful-contra` and no longer `.helpful-pro` (Thx to [derunterstrich](https://github.com/derunterstrich)).
 * Date: 04.09.2019
 
 = 4.0.20 =
