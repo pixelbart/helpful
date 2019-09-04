@@ -21,7 +21,7 @@
 		</button>
 	</div>
 	<div>
-		<button class="helpful-pro helpful-button" type="button" data-value="contra" data-post="<?php echo $post->ID; ?>" role="button">
+		<button class="helpful-contra helpful-button" type="button" data-value="contra" data-post="<?php echo $post->ID; ?>" role="button">
 			<?php echo $helpful['button_contra']; ?>
 			<?php echo $helpful['counter'] ? sprintf( '<span class="helpful-counter">%s</span>', $helpful['count_contra'] ) : ''; ?>
 		</button>
