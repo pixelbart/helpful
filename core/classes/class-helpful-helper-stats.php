@@ -350,7 +350,7 @@ class Helpful_Helper_Stats {
 
 		if ( ! $results ) {
 			return [
-				'status' => 'error',
+				'status'  => 'error',
 				'message' => __( 'No entries found', 'helpful' ),
 			];
 		}
@@ -587,7 +587,7 @@ class Helpful_Helper_Stats {
 						'backgroundColor' => self::$red,
 					],
 				],
-				'labels' => $labels,
+				'labels'   => $labels,
 			],
 			'options' => [
 				'scales' => [
@@ -752,7 +752,7 @@ class Helpful_Helper_Stats {
 				],
 				'labels'   => [
 					__( 'Pro', 'helpful' ),
-					__( 'Contra', 'helpful' )
+					__( 'Contra', 'helpful' ),
 				],
 			],
 			'options' => [
@@ -821,7 +821,7 @@ class Helpful_Helper_Stats {
 						'time'       => sprintf(
 							/* translators: %s time difference */
 							__( 'Published %s ago', 'helpful' ),
-							human_time_diff( date_i18n( get_the_date( 'U', $post_id ) ), date_i18n( 'U' ) )
+							human_time_diff( get_the_date( 'U', $post_id ), date_i18n( 'U' ) )
 						),
 					];
 				endforeach;
@@ -898,7 +898,7 @@ class Helpful_Helper_Stats {
 						'time'       => sprintf(
 							/* translators: %s time difference */
 							__( 'Published %s ago', 'helpful' ),
-							human_time_diff( date_i18n( get_the_date( 'U', $post_id ) ), date_i18n( 'U' ) )
+							human_time_diff( get_the_date( 'U', $post_id ), date_i18n( 'U' ) )
 						),
 					];
 				endforeach;
@@ -958,7 +958,7 @@ class Helpful_Helper_Stats {
 					'time'       => sprintf(
 						/* translators: %s time difference */
 						__( 'Submitted %s ago', 'helpful' ),
-						human_time_diff( date_i18n( $timestamp ), date_i18n( 'U' ) )
+						human_time_diff( $timestamp, date_i18n( 'U' ) )
 					),
 				];
 			endforeach;
@@ -1014,7 +1014,7 @@ class Helpful_Helper_Stats {
 					'time'       => sprintf(
 						/* translators: %s time difference */
 						__( 'Submitted %s ago', 'helpful' ),
-						human_time_diff( date_i18n( $timestamp ), date_i18n( 'U' ) )
+						human_time_diff( $timestamp, date_i18n( 'U' ) )
 					),
 				];
 			endforeach;
