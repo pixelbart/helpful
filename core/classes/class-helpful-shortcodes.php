@@ -50,6 +50,10 @@ class Helpful_Shortcodes {
 		$post_types = get_option( 'helpful_post_types' );
 		$user_id    = Helpful_Helper_Values::getUser();
 
+		if ( 'on' === get_post_meta( $post->ID, 'helpful_hide_on_post', true ) ) {
+			return $content;
+		}
+
 		if ( ! is_array( $post_types ) || ! in_array( $post->post_type, $post_types, true ) ) {
 			return $content;
 		}

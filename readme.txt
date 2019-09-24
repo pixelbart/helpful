@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.2
 Requires PHP: 5.4.0
-Stable tag: 4.0.22
+Stable tag: 4.0.23
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,10 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.0.23 =
+* In the Metabox within posts, Helpful can now be disabled for each post.
+* Date: 24.09.2019
 
 = 4.0.22 =
 * Fixed another bug in the Dashboard widget related to the date format.

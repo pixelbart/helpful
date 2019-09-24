@@ -71,6 +71,7 @@ class Helpful_Metabox {
 		$pro_percent    = Helpful_Helper_Stats::getPro( $post->ID, true );
 		$contra         = Helpful_Helper_Stats::getContra( $post->ID );
 		$contra_percent = Helpful_Helper_Stats::getContra( $post->ID, true );
+		$hide           = get_post_meta( $post->ID, 'helpful_hide_on_post', true );
 
 		wp_nonce_field( 'helpful_remove_data', 'helpful_remove_data_nonce' );
 		include HELPFUL_PATH . 'templates/admin-metabox.php';
@@ -90,6 +91,12 @@ class Helpful_Metabox {
 
 		if ( 'yes' === $_POST['helpful_remove_data'] ) {
 			Helpful_Helper_Values::removeData( $post_id );
+		}
+
+		if ( isset( $_POST['helpful_hide_on_post'] ) ) {
+			update_post_meta( $post_id, 'helpful_hide_on_post', 'on' );
+		} else {
+			update_post_meta( $post_id, 'helpful_hide_on_post', 'off' );
 		}
 	}
 }
