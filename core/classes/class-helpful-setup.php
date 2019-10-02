@@ -165,6 +165,11 @@ class Helpful_Setup {
 			return false;
 		}
 
+		ob_start();
+		require_once HELPFUL_PATH . 'templates/feedback-email.php';
+		$feedback_email_content = ob_get_contents();
+		ob_end_clean();
+
 		$options = [
 			'helpful_heading'                => _x( 'Was this post helpful?', 'default headline', 'helpful' ),
 			'helpful_content'                => _x( 'Let us know if you liked the post. That’s the only way we can improve.', 'default description', 'helpful' ),
@@ -184,11 +189,14 @@ class Helpful_Setup {
 			'helpful_credits'                => true,
 			'helpful_uninstall'              => false,
 			'helpful_widget'                 => true,
-			'helpful_widget_amount'          => true,
+			'helpful_widget_amount'          => 3,
 			'helpful_widget_pro'             => true,
 			'helpful_widget_contra'          => true,
 			'helpful_widget_pro_recent'      => true,
 			'helpful_widget_contra_recent'   => true,
+			'helpful_feedback_subject'       => _x( 'There\'s new feedback for you.', 'feedback email subject', 'helpful' ),
+			'helpful_feedback_receivers'     => get_option( 'admin_email' ),
+			'helpful_feedback_email_content' => $feedback_email_content,
 		];
 
 		$options = apply_filters( 'helpful_options', $options );

@@ -72,6 +72,7 @@ class Helpful_Metabox {
 		$contra         = Helpful_Helper_Stats::getContra( $post->ID );
 		$contra_percent = Helpful_Helper_Stats::getContra( $post->ID, true );
 		$hide           = get_post_meta( $post->ID, 'helpful_hide_on_post', true );
+		$receivers      = get_post_meta( $post->ID, 'helpful_feedback_receivers', true );
 
 		wp_nonce_field( 'helpful_remove_data', 'helpful_remove_data_nonce' );
 		include HELPFUL_PATH . 'templates/admin-metabox.php';
@@ -97,6 +98,11 @@ class Helpful_Metabox {
 			update_post_meta( $post_id, 'helpful_hide_on_post', 'on' );
 		} else {
 			update_post_meta( $post_id, 'helpful_hide_on_post', 'off' );
+		}
+
+		if ( isset( $_POST['helpful_feedback_receivers'] ) ) {
+			$receivers = sanitize_text_field( $_POST['helpful_feedback_receivers'] );
+			update_post_meta( $post_id, 'helpful_feedback_receivers', $receivers );
 		}
 	}
 }

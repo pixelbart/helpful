@@ -3,9 +3,9 @@ Contributors: pixelbart
 Donate link: https://www.buymeacoffee.com/pixelbart
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
-Tested up to: 5.2
-Requires PHP: 5.4.0
-Stable tag: 4.0.23
+Tested up to: 5.3
+Requires PHP: 5.6.20
+Stable tag: 4.1.0
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,16 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.1.0 =
+* The number of entries displayed in the widget is set to 3 by default. There was no default number in the widget before.
+* There are new options for feedback under feedback in the helpful options. You can now send your feedback by email. You can also add individual receivers directly to Helpful's Metabox.
+* The documentation on the official website has been extended ([Helpful Documentation](https://helpful-plugin.info/documentation)).
+* Helpful on Github is now working with the releases to make it easier to work together. Unfortunately I didn't do that before.
+* If WP_DEBUG and WP_DEBUG_LOG are set to true, errors are stored in the debug.log of WordPress. This should help to detect errors in the future ([Debugging in WordPress](https://wordpress.org/support/article/debugging-in-wordpress/)).
+* WordPress 5.3 tested.
+* Required PHP version updated from 5.2 to 5.6.20 ([Minimum PHP Version update](https://wordpress.org/news/2019/04/minimum-php-version-update/)).
+* Date: 02.10.2019
 
 = 4.0.23 =
 * In the Metabox within posts, Helpful can now be disabled for each post.

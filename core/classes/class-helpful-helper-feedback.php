@@ -120,8 +120,17 @@ class Helpful_Helper_Feedback {
 		$pro     = 0;
 		$contra  = 0;
 		$message = null;
+		$post_id = absint( $_REQUEST['post_id'] );
 
-		if ( ! isset( $_REQUEST['message'] ) || helpful_backlist_check( $_REQUEST['message'] ) ) {
+		if ( ! isset( $_REQUEST['message'] ) ) {
+			$message = 'Helpful Notice: Feedback was not saved because the message is empty in %s on line %d.';
+			helpful_error_log( sprintf( $message, __FILE__, __LINE__ ) );
+			return null;
+		}
+
+		if ( helpful_backlist_check( $_REQUEST['message'] ) ) {
+			$message = 'Helpful Notice: Feedback was not saved because the message contains blacklisted words in %s on line %d.';
+			helpful_error_log( sprintf( $message, __FILE__, __LINE__ ) );
 			return null;
 		}
 
@@ -154,13 +163,102 @@ class Helpful_Helper_Feedback {
 			'user'    => esc_attr( $_REQUEST['user_id'] ),
 			'pro'     => $pro,
 			'contra'  => $contra,
-			'post_id' => absint( $_REQUEST['post_id'] ),
+			'post_id' => $post_id,
 			'message' => $message,
 			'fields'  => maybe_serialize( $fields ),
 		];
 
+		/* send email */
+		self::send_email( $data );
+
 		$table_name = $wpdb->prefix . 'helpful_feedback';
 		$wpdb->insert( $table_name, $data );
 		return $wpdb->insert_id;
+	}
+
+	/**
+	 * Send feedback email.
+	 *
+	 * @param array $feedback feedback data.
+	 * @return void
+	 */
+	public static function send_email( $feedback ) {
+		if ( ! get_option( 'helpful_feedback_email' ) ) {
+			return;
+		}
+
+		$post = get_post( $feedback['post_id'] );
+
+		if ( ! $post ) {
+			return;
+		}
+
+		/* email headers */
+		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+
+		/* email subject */
+		$subject = get_option( 'helpful_feedback_subject' );
+
+		/* unserialize feedback fields */
+		$feedback['fields'] = maybe_unserialize( $feedback['fields'] );
+
+		$type = esc_html__( 'positive', 'helpful' );
+		if ( 1 === $feedback['contra'] ) { 
+			$type = esc_html__( 'negative', 'helpful' );
+		}
+
+		/* body tags */
+		$tags = [
+			'{type}'       => $type,
+			'{name}'       => $feedback['fields']['name'],
+			'{email}'      => $feedback['fields']['email'],
+			'{message}'    => $feedback['message'],
+			'{post_url}'   => get_permalink( $post ),
+			'{post_title}' => $post->post_title,
+			'{blog_name}'  => get_bloginfo( 'name' ),
+			'{blog_url}'   => site_url(),
+		];
+
+		$body = get_option( 'helpful_feedback_email_content' );
+		$body = str_replace( array_keys( $tags ), array_values( $tags ), $body );
+
+		/* receivers by post meta */
+		$post_receivers = [];
+
+		if ( get_post_meta( $post->ID, 'helpful_feedback_receivers', true ) ) {
+			$post_receivers = get_post_meta( $post->ID, 'helpful_feedback_receivers', true );
+			$post_receivers = helpful_trim_all( $post_receivers );
+			$post_receivers = explode( ',', $post_receivers );
+		}
+
+		/* receivers by helpful options */
+		$helpful_receivers = [];
+
+		if ( get_option( 'helpful_feedback_receivers' ) ) {
+			$helpful_receivers = get_option( 'helpful_feedback_receivers' );
+			$helpful_receivers = helpful_trim_all( $helpful_receivers );
+			$helpful_receivers = explode( ',', $helpful_receivers );
+		}
+
+		$receivers = array_merge( $helpful_receivers, $post_receivers );
+		$receivers = array_unique( $receivers );
+
+		/* receivers array is empty */
+		if ( empty( $receivers ) ) {
+			return;
+		}
+
+		/* filters */
+		$receivers = apply_filters( 'helpful_feedback_email_receivers', $receivers );
+		$subject   = apply_filters( 'helpful_feedback_email_subject', $subject );
+		$body      = apply_filters( 'helpful_feedback_email_body', $body );
+		$headers   = apply_filters( 'helpful_feedback_email_headers', $headers );
+
+		$response = wp_mail( $receivers, $subject, $body, $headers );
+
+		if ( false === $response ) {
+			$message = 'Helpful Warning: Email could not be sent in %s on line %d.';
+			helpful_error_log( sprintf( $message, __FILE__, __LINE__ ) );
+		}
 	}
 }

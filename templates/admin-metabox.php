@@ -30,5 +30,16 @@
                 </label>
             </td>
         </tr>
+        <tr>
+            <th style="width:20%">
+                <label for="helpful_hide_on_post"><?php echo esc_html_x('Feedback Email Receivers', 'meta box label', 'helpful'); ?></label>
+            </th>
+            <td>
+                <input type="text" class="widefat" name="helpful_feedback_receivers" id="helpful_feedback_receivers" value="" placeholder="email, email, ..."><br>
+                <label for="helpful_feedback_receivers">
+                    <span class="description"><?php _ex('Here you can enter email receivers (separated by a comma). Email receivers will then also receive the feedback by email. This does not include voting and there is <strong>no spam protection</strong>.', 'checkbox label', 'helpful'); ?></span>
+                </label>                
+            </td>
+        </tr>
     </tbody>
 </table>

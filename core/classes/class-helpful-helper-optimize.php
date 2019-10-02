@@ -24,6 +24,7 @@ class Helpful_Helper_Optimize {
 		$response = array_merge( $response, self::remove_incorrect_entries() );
 		$response = array_merge( $response, self::fix_incorrect_feedback() );
 		$response = array_merge( $response, self::clear_cache() );
+		$response = array_merge( $response, self::update_metas() );
 
 		array_filter( $response );
 
@@ -229,6 +230,52 @@ class Helpful_Helper_Optimize {
 		wp_cache_delete( 'stats_total', 'helpful' );
 		wp_cache_delete( 'stats_total_pro', 'helpful' );
 		wp_cache_delete( 'stats_total_contra', 'helpful' );
+
+		return $response;
+	}
+
+	/**
+	 * Update meta fields
+	 *
+	 * @return array
+	 */
+	public static function update_metas() {
+		$results    = [];
+		$response   = [];
+		$post_types = get_option( 'helpful_post_types' );
+
+		$args = [
+			'post_type'   => $post_types,
+			'post_status' => 'any',
+			'fields'      => 'ids',
+		];
+
+		$query   = new WP_Query( $args );
+
+		if ( $query->found_posts ) {
+			foreach ( $query->posts as $post_id ) :
+
+				$percentages = false;
+
+				if ( get_option( 'helpful_percentages' ) ) {
+					$percentages = true;
+				}
+
+				$pro    = Helpful_Helper_Stats::getPro( $post_id, $percentages );
+				$contra = Helpful_Helper_Stats::getContra( $post_id, $percentages );
+
+				update_post_meta( $post_id, 'helpful-pro', $pro );
+				update_post_meta( $post_id, 'helpful-contra', $contra );
+
+			endforeach;
+		}
+
+		$count      = $query->found_posts;
+		$response[] = sprintf(
+			/* translators: %1$d = amount of entries */
+			esc_html_x( '%1$d post meta fields have been updated.', 'maintenance response', 'helpful' ),
+			$count
+		);
 
 		return $response;
 	}

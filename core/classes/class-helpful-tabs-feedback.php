@@ -99,7 +99,13 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs {
 			'helpful_feedback_label_submit',
 			'helpful_feedback_label_cancel',
 			'helpful_feedback_gravatar',
+			'helpful_feedback_email',
+			'helpful_feedback_receivers',
+			'helpful_feedback_subject',
+			'helpful_feedback_email_content',
 		];
+
+		$fields = apply_filters( 'helpful_feedback_fields', $fields );
 
 		foreach ( $fields as $field ) {
 			register_setting( 'helpful-feedback-settings-group', $field );
