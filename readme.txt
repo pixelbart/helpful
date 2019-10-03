@@ -94,7 +94,7 @@ Switch to the Helpful settings and click on the System tab. There you will find 
 * If WP_DEBUG and WP_DEBUG_LOG are set to true, errors are stored in the debug.log of WordPress. This should help to detect errors in the future ([Debugging in WordPress](https://wordpress.org/support/article/debugging-in-wordpress/)).
 * WordPress 5.3 tested.
 * Required PHP version updated from 5.2 to 5.6.20 ([Minimum PHP Version update](https://wordpress.org/news/2019/04/minimum-php-version-update/)).
-* Date: 02.10.2019
+* Date: 03.10.2019
 
 = 4.0.23 =
 * In the Metabox within posts, Helpful can now be disabled for each post.
