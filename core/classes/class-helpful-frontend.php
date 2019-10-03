@@ -49,6 +49,7 @@ class Helpful_Frontend {
 		$string   = bin2hex( openssl_random_pseudo_bytes( 16 ) );
 		$string   = apply_filters( 'helpful_user_string', $string );
 		$lifetime = '+30 days';
+		$lifetime = apply_filters( 'helpful_user_cookie_time', $lifetime );
 
 		if ( ! session_id() ) {
 			session_start();

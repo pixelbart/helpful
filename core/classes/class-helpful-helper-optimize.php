@@ -240,7 +240,6 @@ class Helpful_Helper_Optimize {
 	 * @return array
 	 */
 	public static function update_metas() {
-		$results    = [];
 		$response   = [];
 		$post_types = get_option( 'helpful_post_types' );
 

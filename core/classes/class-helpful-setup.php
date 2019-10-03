@@ -43,6 +43,7 @@ class Helpful_Setup {
 
 		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 2 );
 	}
 
 	/**
@@ -295,5 +296,40 @@ class Helpful_Setup {
 
 			wp_localize_script( 'helpful-admin', 'helpful_admin', $vars );
 		}
+	}
+
+	/**
+	 * Method for adding and filtering plugin row meta of Helpful.
+	 *
+	 * @param array  $links default links.
+	 * @param string $file file string.
+	 *
+	 * @return array
+	 */
+	public function plugin_row_meta( $links, $file ) {
+
+		if ( false !== strpos( $file, basename( HELPFUL_FILE ) ) ) {
+			$links['documentation'] = sprintf(
+				'<a href="%s" target="_blank">%s</a>',
+				'https://helpful-plugin.info/documentation/',
+				esc_html_x( 'Documentation', 'plugin row meta', 'helpful' )
+			);
+
+			$links['donate'] = sprintf(
+				'<a href="%s" target="_blank">%s</a>',
+				'https://www.buymeacoffee.com/pixelbart',
+				esc_html_x( 'Donate', 'plugin row meta', 'helpful' )
+			);
+
+			$links['support'] = sprintf(
+				'<a href="%s" target="_blank">%s</a>',
+				'https://wordpress.org/support/plugin/helpful/',
+				esc_html_x( 'Support', 'plugin row meta', 'helpful' )
+			);
+
+			$links = apply_filters( 'helpful_plugin_row_meta', $links );
+		}
+
+		return $links;
 	}
 }

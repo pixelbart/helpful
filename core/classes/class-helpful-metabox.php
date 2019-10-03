@@ -101,7 +101,7 @@ class Helpful_Metabox {
 		}
 
 		if ( isset( $_POST['helpful_feedback_receivers'] ) ) {
-			$receivers = sanitize_text_field( $_POST['helpful_feedback_receivers'] );
+			$receivers = sanitize_text_field( wp_unslash( $_POST['helpful_feedback_receivers'] ) );
 			update_post_meta( $post_id, 'helpful_feedback_receivers', $receivers );
 		}
 	}

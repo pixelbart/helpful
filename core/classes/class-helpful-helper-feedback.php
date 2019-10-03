@@ -74,7 +74,10 @@ class Helpful_Helper_Feedback {
 			}
 		}
 
-		return sprintf( '<img src="%1$s" height="%2$s" width="%2$s" alt="no avatar">', $default, $size );
+		$html = '<img src="%1$s" height="%2$s" width="%2$s" alt="no avatar">';
+		$html = apply_filters( 'helpful_feedback_noavatar', $html );
+
+		return sprintf( $html, $default, $size );
 	}
 
 	/**
@@ -120,7 +123,14 @@ class Helpful_Helper_Feedback {
 		$pro     = 0;
 		$contra  = 0;
 		$message = null;
-		$post_id = absint( $_REQUEST['post_id'] );
+
+		if ( ! isset( $_REQUEST['post_id'] ) ) {
+			$message = 'Helpful Notice: Feedback was not saved because the post id is empty in %s on line %d.';
+			helpful_error_log( sprintf( $message, __FILE__, __LINE__ ) );
+			return null;
+		}
+
+		$post_id = absint( sanitize_text_field( wp_unslash( $_REQUEST['post_id'] ) ) );
 
 		if ( ! isset( $_REQUEST['message'] ) ) {
 			$message = 'Helpful Notice: Feedback was not saved because the message is empty in %s on line %d.';
@@ -143,7 +153,7 @@ class Helpful_Helper_Feedback {
 		}
 
 		if ( isset( $_REQUEST['message'] ) ) {
-			$message = sanitize_textarea_field( wp_strip_all_tags( $_REQUEST['message'] ) );
+			$message = sanitize_textarea_field( wp_strip_all_tags( wp_unslash( $_REQUEST['message'] ) ) );
 			$message = stripslashes( $message );
 			$message = apply_filters( 'helpful_feedback_submit_message', $message );
 		}
@@ -219,6 +229,7 @@ class Helpful_Helper_Feedback {
 			'{blog_url}'   => site_url(),
 		];
 
+		$tags = apply_filters( 'helpful_feedback_email_tags', $tags );
 		$body = get_option( 'helpful_feedback_email_content' );
 		$body = str_replace( array_keys( $tags ), array_values( $tags ), $body );
 

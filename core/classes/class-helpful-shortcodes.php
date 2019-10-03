@@ -89,11 +89,15 @@ class Helpful_Shortcodes {
 		$default_template = HELPFUL_PATH . 'templates/helpful.php';
 		$custom_template  = locate_template( 'helpful/helpful.php' );
 
+		do_action( 'helpful_before' );
+
 		if ( '' !== $custom_template ) {
 			include $custom_template;
 		} else {
 			include $default_template;
 		}
+
+		do_action( 'helpful_after' );
 
 		$content .= ob_get_contents();
 		ob_end_clean();
@@ -114,13 +118,16 @@ class Helpful_Shortcodes {
 		global $post;
 
 		$defaults = Helpful_Helper_Values::getDefaults();
+		$defaults = apply_filters( 'helpful_shortcode_defaults', $defaults );
 		$user_id  = Helpful_Helper_Values::getUser();
 
 		if ( get_option( 'helpful_exists_hide' ) && Helpful_Helper_Values::checkUser( $user_id, $post->ID ) ) {
 			return;
 		}
 
+
 		$helpful = shortcode_atts( $defaults, $atts );
+		$helpful = apply_filters( 'helpful_shortcode_atts', $helpful );
 		$hidden  = false;
 		$class   = '';
 
