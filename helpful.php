@@ -15,11 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$file_data = (object) get_file_data( __FILE__, [ 'Version' => 'version' ] );
+$file_data = (object) get_file_data( __FILE__, [ 'Version' => 'Version' ] );
 
 define( 'HELPFUL_FILE', __FILE__ );
 define( 'HELPFUL_PATH', plugin_dir_path( HELPFUL_FILE ) );
-define( 'HELPFUL_VERSION', $file_data->version );
+define( 'HELPFUL_VERSION', $file_data->Version );
 define( 'HELPFUL_PHP_MIN', '5.6.20' );
 
 /* Include config */
