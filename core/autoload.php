@@ -40,19 +40,19 @@ function helpful_autoloader( $class_name ) {
  */
 spl_autoload_register( 'helpful_autoloader' );
 
-/**
- * Setup database and default values
- *
- * @since 1.0.0
- */
-Helpful_Setup::get_instance();
+function helpful_load_classes() {
+	/**
+	 * Setup database and default values
+	 *
+	 * @since 1.0.0
+	 */
+	Helpful_Setup::get_instance();
 
-/**
- * Stores most fo the class instances
- *
- * @since 4.0.7
- */
-function helpful_instances() {
+	/**
+	 * Stores most fo the class instances
+	 *
+	 * @since 4.0.7
+	 */
 	Helpful_Tabs_Start::get_instance();
 	Helpful_Tabs_Texts::get_instance();
 	Helpful_Tabs_Details::get_instance();
@@ -69,10 +69,8 @@ function helpful_instances() {
 	Helpful_Shortcodes::get_instance();
 }
 
-/**
- * Fires most of the class instances
- */
-add_action( 'plugins_loaded', 'helpful_instances' );
+/* Fires Helpful Classes */
+add_action( 'plugins_loaded', 'helpful_load_classes' );
 
 /**
  * Customizer

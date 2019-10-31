@@ -44,6 +44,15 @@ class Helpful_Setup {
 		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 2 );
+
+		/**
+		 * Load Elementor Widgets
+		 *
+		 * @since 4.1.2
+		 */
+		add_action( 'elementor/widgets/widgets_registered', [ $this, 'elementor_widgets' ] );
+		add_action( 'elementor/controls/controls_registered', [ $this, 'elementor_controls' ] );
+		add_action( 'elementor/elements/categories_registered', [ $this, 'elementor_categories' ] );
 	}
 
 	/**
@@ -331,5 +340,40 @@ class Helpful_Setup {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Register custom elementor widgets
+	 *
+	 * @since 4.1.2
+	 */
+	public function elementor_widgets() {
+
+		/**
+		 * Register Helpful Widget
+		 *
+		 * @see Helpful_Elementor_Widget
+		 */
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \Helpful_Elementor_Widget() );
+	}
+
+	/**
+	 * Register custom elementor controls
+	 *
+	 * @since 4.1.2
+	 */
+	public function elementor_controls() {
+
+	}
+
+	/**
+	 * Register categories
+	 *
+	 * @since 4.1.2
+	 *
+	 * @param object $elementor elementor object.
+	 */
+	public function elementor_categories( $elementor ) {
+
 	}
 }

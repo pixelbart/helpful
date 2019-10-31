@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.3
 Requires PHP: 5.6.20
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,11 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.1.2 =
+* Helpful now has its own Elementor block.
+* Minor bug fixes.
+* Date: 31.10.2019
 
 = 4.1.1 =
 * Fixed an error message in the Helpful settings. The SVN commit swallowed a file. It should be back now. The plugins should finally be hosted on Github, my goodness!

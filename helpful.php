@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Helpful
  * Description: Add a fancy feedback form under your posts or post-types and ask your visitors a question. Give them the abbility to vote with yes or no.
- * Version: 4.1.1
+ * Version: 4.1.2
  * Author: Pixelbart
  * Author URI: https://pixelbart.de
  * Text Domain: helpful
@@ -31,5 +31,7 @@ if ( get_option( 'helpful_timezone' ) && '' !== get_option( 'helpful_timezone' )
 	date_default_timezone_set( $timezone );
 }
 
-/* Include classes and functions */
+/**
+ * Load helpful.
+ */
 require_once HELPFUL_PATH . 'core/autoload.php';

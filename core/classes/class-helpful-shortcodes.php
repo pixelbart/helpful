@@ -125,7 +125,6 @@ class Helpful_Shortcodes {
 			return;
 		}
 
-
 		$helpful = shortcode_atts( $defaults, $atts );
 		$helpful = apply_filters( 'helpful_shortcode_atts', $helpful );
 		$hidden  = false;

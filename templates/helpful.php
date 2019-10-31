@@ -29,7 +29,7 @@
 </div>
 <?php endif; ?>
 
-<?php if ( $helpful['credits'] && false === $hidden ) : ?>
+<?php if ( 'on' === $helpful['credits'] && false === $hidden ) : ?>
 <div class="helpful-footer">
 	<?php
 	/* translators: %s = credits link */
