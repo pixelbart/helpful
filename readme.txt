@@ -88,8 +88,9 @@ Switch to the Helpful settings and click on the System tab. There you will find 
 
 = 4.1.2 =
 * Helpful now has its own Elementor block.
+* If a user is logged in and gives feedback, the data from his or her profile is used.
 * Minor bug fixes.
-* Date: 31.10.2019
+* Date: 
 
 = 4.1.1 =
 * Fixed an error message in the Helpful settings. The SVN commit swallowed a file. It should be back now. The plugins should finally be hosted on Github, my goodness!
