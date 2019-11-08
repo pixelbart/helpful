@@ -12,9 +12,22 @@ class Helpful_Table {
 	/**
 	 * Instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Table
 	 */
 	public static $instance;
+
+	/**
+	 * Set instance and fire class
+	 *
+	 * @return Helpful_Table
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * Class constructor.
@@ -24,22 +37,8 @@ class Helpful_Table {
 		$this->register_columns_content();
 
 		if ( is_admin() ) {
-			add_action( 'pre_get_posts', [ $this, 'set_sortable_columns_query' ], 1 );
+			add_action( 'pre_get_posts', [ $this, 'set_sortable_columns_query' ], PHP_INT_MAX );
 		}
-	}
-
-	/**
-	 * Set instance and fire class
-	 *
-	 * @return instance
-	 */
-	public static function get_instance()
-	{
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
 	}
 
 	/**
@@ -121,8 +120,9 @@ class Helpful_Table {
 		if ( 'helpful-pro' === $column_name ) {
 			if ( get_option( 'helpful_percentages' ) ) {
 				$percent = Helpful_Helper_Stats::getPro( $post_id, true );
+				$pro     = Helpful_Helper_Stats::getPro( $post_id );
 				update_post_meta( $post_id, 'helpful-pro', $percent );
-				printf( '%s%%', esc_html( $percent ) );
+				printf( '%d (%s%%)', (int) $pro, esc_html( $percent ) );
 			} else {
 				$pro = Helpful_Helper_Stats::getPro( $post_id );
 				update_post_meta( $post_id, 'helpful-pro', $pro );
@@ -133,8 +133,9 @@ class Helpful_Table {
 		if ( 'helpful-contra' === $column_name ) {
 			if ( get_option( 'helpful_percentages' ) ) {
 				$percent = Helpful_Helper_Stats::getContra( $post_id, true );
+				$contra  = Helpful_Helper_Stats::getContra( $post_id );
 				update_post_meta( $post_id, 'helpful-contra', $percent );
-				printf( '%s%%', esc_html( $percent ) );
+				printf( '%d (%s%%)', (int) $contra, esc_html( $percent ) );
 			} else {
 				$contra = Helpful_Helper_Stats::getContra( $post_id );
 				update_post_meta( $post_id, 'helpful-contra', $contra );
@@ -179,7 +180,13 @@ class Helpful_Table {
 	 * @return void
 	 */
 	public function set_sortable_columns_query( $query ) {
-		if ( $query->is_main_query() && ( $orderby = $query->get( 'orderby' ) ) ) {
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		$orderby = $query->get( 'orderby' );
+
+		if ( $query->is_main_query() ) {
 			switch ( $orderby ) {
 				case 'helpful-pro':
 					$query->set( 'meta_key', 'helpful-pro' );

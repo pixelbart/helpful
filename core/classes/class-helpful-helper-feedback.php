@@ -152,6 +152,16 @@ class Helpful_Helper_Feedback {
 			$fields = apply_filters( 'helpful_feedback_submit_fields', $fields );
 		}
 
+		if ( is_user_logged_in() ) {
+			$user   = wp_get_current_user();
+			$fields = [];
+
+			$fields['name']  = $user->display_name;
+			$fields['email'] = $user->user_email;
+
+			$fields = apply_filters( 'helpful_feedback_submit_fields', $fields );
+		}
+
 		if ( isset( $_REQUEST['message'] ) ) {
 			$message = sanitize_textarea_field( wp_strip_all_tags( wp_unslash( $_REQUEST['message'] ) ) );
 			$message = stripslashes( $message );

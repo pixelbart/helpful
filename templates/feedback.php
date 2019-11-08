@@ -12,7 +12,7 @@
 	</div>
 </div>
 
-<?php if ( get_option( 'helpful_feedback_name' ) ) : ?>
+<?php if ( get_option( 'helpful_feedback_name' ) && ! is_user_logged_in() ) : ?>
 <div class="group">
 	<?php $label = get_option( 'helpful_feedback_label_name' ); ?>
 	<label for="email"><?php echo $label; ?></label>
@@ -22,7 +22,7 @@
 </div>
 <?php endif; ?>
 
-<?php if ( get_option( 'helpful_feedback_email' ) ) : ?>
+<?php if ( get_option( 'helpful_feedback_email' ) && ! is_user_logged_in() ) : ?>
 <div class="group">
 	<?php $label = get_option( 'helpful_feedback_label_email' ); ?>
 	<label for="email"><?php echo $label; ?></label>
