@@ -194,6 +194,7 @@ class Helpful_Setup {
 			'helpful_feedback_label_name'    => _x( 'Name', 'label for feedback form field', 'helpful' ),
 			'helpful_feedback_label_email'   => _x( 'Email', 'label for feedback form field', 'helpful' ),
 			'helpful_feedback_label_submit'  => _x( 'Send Feedback', 'label for feedback form field', 'helpful' ),
+			'helpful_feedback_label_cancel'  => _x( 'Cancel', 'label for feedback form field', 'helpful' ),
 			'helpful_post_types'             => [ 'post' ],
 			'helpful_count_hide'             => false,
 			'helpful_credits'                => true,

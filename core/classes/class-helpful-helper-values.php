@@ -54,6 +54,7 @@ class Helpful_Helper_Values {
 			'credits_html'         => $credits_html,
 			'exists'               => ( self::checkUser( $user_id, $post_id ) ? 1 : 0 ),
 			'exists_text'          => self::convertTags( get_option( 'helpful_exists' ), $post_id ),
+			'post_id'              => $post_id,
 		];
 
 		return $defaults;
@@ -113,11 +114,11 @@ class Helpful_Helper_Values {
 	 */
 	public static function getUser() {
 		if ( isset( $_COOKIE['helpful_user'] ) ) {
-			return $_COOKIE['helpful_user'];
+			return sanitize_text_field( $_COOKIE['helpful_user'] );
 		}
 
 		if ( isset( $_SESSION['helpful_user'] ) ) {
-			return $_SESSION['helpful_user'];
+			return sanitize_text_field( $_SESSION['helpful_user'] );
 		}
 
 		return null;

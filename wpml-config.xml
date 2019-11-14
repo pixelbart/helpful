@@ -18,5 +18,8 @@
     <key name="helpful_feedback_label_message"/>
     <key name="helpful_feedback_label_name"/>
     <key name="helpful_feedback_label_submit"/>
+    <key name="helpful_feedback_label_cancel"/>
+    <key name="helpful_feedback_subject"/>
+    <key name="helpful_feedback_email_content"/>
   </admin-texts>
 </wpml-config>

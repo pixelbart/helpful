@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.3
 Requires PHP: 5.6.20
-Stable tag: 4.1.2
+Stable tag: 4.1.3
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,12 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.1.3 =
+* Helpful now also detects loops and can thus be used more than once on a page when Helpful is placed in a loop. This is useful, for example, if you want to integrate Helpful into a FAQ.
+* You can now store a Post ID in the Helpful shortcode if Helpful does not recognize the post - or if you want to use Helpful outside a loop (`[helpful post_id="12345"]`).
+* Minor bug fixes in the translations and the wpml xml.
+* Date: 14.11.2019
 
 = 4.1.2 =
 * If a user is logged in and gives feedback, the data from his or her profile is used.

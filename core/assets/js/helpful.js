@@ -23,6 +23,8 @@
         var currentForm = $(currentButton).closest('.helpful');
         var ajaxData = {};
 
+        console.log($(currentButton).data());
+
         $.extend(ajaxData, helpful.ajax_data);
         $.extend(ajaxData, $(currentButton).data());
         ajaxData.action = self.vote;

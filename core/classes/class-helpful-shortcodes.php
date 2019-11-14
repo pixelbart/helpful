@@ -140,6 +140,14 @@ class Helpful_Shortcodes {
 			$helpful['content'] = $helpful['exists_text'];
 		}
 
+		if ( ! isset( $post->ID ) && ! isset( $helpful['post_id'] ) ) {
+			if ( false !== get_the_ID() ) {
+				$helpful['post_id'] = get_the_ID();
+			} else {
+				return esc_html__( 'No post found. Helpful must be placed in a post loop.', 'helpful' );
+			}
+		}
+
 		ob_start();
 
 		$default_template = HELPFUL_PATH . 'templates/helpful.php';

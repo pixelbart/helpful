@@ -22,6 +22,27 @@ class Helpful_Helper_Stats {
 	public static $red = '#ed7161';
 
 	/**
+	 * Todo: Helper for wp_date since WorddPress 5.4.
+	 * Todo: Currently there is a bug with the time zone here.
+	 *
+	 * @url https://developer.wordpress.org/reference/functions/date_i18n/
+	 *
+	 * @param string      $format Format to display the date.
+	 * @param int|boolean $timestamp_with_offset Whether to use GMT timezone. Only applies if timestamp is not provided.
+	 * @param boolean     $gmt Whether to use GMT timezone. Only applies if timestamp is not provided.
+	 * @return string The date, translated if locale specifies it.
+	 */
+	private static function helpful_date( $format, $timestamp_with_offset = false, $gmt = false ) {
+		if ( function_exists( 'wp_date' ) ) {
+			return wp_date( $format, $timestamp_with_offset, $gmt );
+		} elseif ( function_exists( 'date_i18n' ) ) {
+			return date_i18n( $format, $timestamp_with_offset, $gmt );
+		} else {
+			return date( $format, $timestamp_with_offset );
+		}
+	}
+
+	/**
 	 * Get amount of pro by post id.
 	 *
 	 * @global $wpdb, $post
