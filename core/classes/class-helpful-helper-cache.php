@@ -1,0 +1,63 @@
+<?php
+/**
+ * Helper class for Helpful Caching. Caching runs with the help of the Transients API of WordPress.
+ *
+ * @package Helpful
+ * @author  Pixelbart
+ * @see https://codex.wordpress.org/Transients_API
+ */
+class Helpful_Helper_Cache {
+
+	/**
+	 * Returns the available times for caching with the Transients API from WordPress.
+	 *
+	 * @param boolean $labels Outputs either the miliseconds or the labels for the options.
+	 * @return array
+	 */
+	public static function get_cache_times( $labels = true ) {
+		$times = [];
+
+		$times['minute'] = esc_html_x( 'One minute', 'caching time', 'helpful' );
+		$times['hour']   = esc_html_x( 'One hour', 'caching time', 'helpful' );
+		$times['day']    = esc_html_x( 'One day', 'caching time', 'helpful' );
+		$times['week']   = esc_html_x( 'One week', 'caching time', 'helpful' );
+		$times['month']  = esc_html_x( 'One month', 'caching time', 'helpful' );
+		$times['year']   = esc_html_x( 'One year', 'caching time', 'helpful' );
+
+		if ( false === $labels ) {
+			$times['minute'] = MINUTE_IN_SECONDS;
+			$times['hour']   = HOUR_IN_SECONDS;
+			$times['day']    = DAY_IN_SECONDS;
+			$times['week']   = WEEK_IN_SECONDS;
+			$times['month']  = MONTH_IN_SECONDS;
+			$times['year']   = YEAR_IN_SECONDS;
+		}
+
+		return $times;
+	}
+
+	/**
+	 * Deletes all transients related to Helpful and clears the cache of Helpful.
+	 *
+	 * @return integer Amount of deleted entries.
+	 */
+	public static function clear_cache() {
+		global $wpdb;
+
+		$helpful = $wpdb->prefix . 'helpful';
+
+		$count = 0;
+		$sql   = "SELECT * FROM $helpful WHERE name LIKE '_transient_timeout_helpful_%' OR name LIKE '_transient_helpful_%'";
+		$rows  = $wpdb->get_results( $sql );
+
+		if ( $rows ) {
+			foreach ( $rows as $row ) :
+				$values = [ 'option_name' => $row->option_name ];
+				$wpdb->delete( $helpful, $values );
+				$count++;
+			endforeach;
+		}
+
+		return $count;
+	}
+}

@@ -62,8 +62,23 @@ class Helpful_Helper_Stats {
 
 		$post_id = absint( $post_id );
 		$helpful = $wpdb->prefix . 'helpful';
-		$sql     = $wpdb->prepare( "SELECT COUNT(*) FROM $helpful WHERE pro = 1 AND post_id = %d", $post_id );
-		$var     = $wpdb->get_var( $sql );
+		$sql     = $wpdb->prepare( "SELECT COUNT(*) FROM $helpful WHERE pro = 1 AND post_id = %d", intval( $post_id ) );
+
+		$cache_name   = 'helpful_pro_' . $post_id;
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$var          = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$var = $wpdb->get_var( $sql );
+		} elseif ( false === $var ) {
+			$var = $wpdb->get_var( $sql );
+			set_transient( $cache_name, maybe_serialize( $var ), $cache_time );
+		}
+
+		$var = maybe_unserialize( $var );
 
 		if ( false === $percentages ) {
 			return $var;
@@ -102,8 +117,23 @@ class Helpful_Helper_Stats {
 
 		$post_id = absint( $post_id );
 		$helpful = $wpdb->prefix . 'helpful';
-		$sql     = $wpdb->prepare( "SELECT COUNT(*) FROM $helpful WHERE contra = 1 AND post_id = %d", $post_id );
-		$var     = $wpdb->get_var( $sql );
+		$sql     = $wpdb->prepare( "SELECT COUNT(*) FROM $helpful WHERE contra = 1 AND post_id = %d", intval( $post_id ) );
+
+		$cache_name   = 'helpful_contra_' . $post_id;
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$var          = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$var = $wpdb->get_var( $sql );
+		} elseif ( false === $var ) {
+			$var = $wpdb->get_var( $sql );
+			set_transient( $cache_name, maybe_serialize( $var ), $cache_time );
+		}
+
+		$var = maybe_unserialize( $var );
 
 		if ( false === $percentages ) {
 			return $var;
@@ -126,16 +156,32 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param bool $percentages return percentage values on true.
+	 * @param boolean $percentages return percentage values on true.
 	 *
 	 * @return int count
 	 */
 	public static function getProAll( $percentages = false ) {
+
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
 		$sql     = "SELECT COUNT(*) FROM $helpful WHERE pro = 1";
-		$var     = $wpdb->get_var( $sql );
+
+		$cache_name   = 'helpful_pro_all';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$var          = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$var = $wpdb->get_var( $sql );
+		} elseif ( false === $var ) {
+			$var = $wpdb->get_var( $sql );
+			set_transient( $cache_name, maybe_serialize( $var ), $cache_time );
+		}
+
+		$var = maybe_unserialize( $var );
 
 		if ( false === $percentages ) {
 			return $var;
@@ -168,7 +214,22 @@ class Helpful_Helper_Stats {
 
 		$helpful = $wpdb->prefix . 'helpful';
 		$sql     = "SELECT COUNT(*) FROM $helpful WHERE contra = 1";
-		$var     = $wpdb->get_var( $sql );
+
+		$cache_name   = 'helpful_contra_all';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$var          = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$var = $wpdb->get_var( $sql );
+		} elseif ( false === $var ) {
+			$var = $wpdb->get_var( $sql );
+			set_transient( $cache_name, maybe_serialize( $var ), $cache_time );
+		}
+
+		$var = maybe_unserialize( $var );
 
 		if ( false === $percentages ) {
 			return $var;
@@ -198,7 +259,22 @@ class Helpful_Helper_Stats {
 
 		$helpful = $wpdb->prefix . 'helpful';
 		$sql     = "SELECT time FROM $helpful ORDER BY time DESC";
-		$results = $wpdb->get_results( $sql );
+
+		$cache_name   = 'helpful_years';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( ! $results ) {
 			return [];
@@ -234,8 +310,24 @@ class Helpful_Helper_Stats {
 		WHERE DAYOFYEAR(time) = DAYOFYEAR(NOW())
 		AND YEAR(time) = %d
 		";
-		$query   = $wpdb->prepare( $query, $year );
-		$results = $wpdb->get_results( $query );
+
+		$sql = $wpdb->prepare( $query, intval( $year ) );
+
+		$cache_name   = 'helpful_today';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( ! $results ) {
 			return [
@@ -300,8 +392,23 @@ class Helpful_Helper_Stats {
 		AND YEAR(time) = %d
 		";
 
-		$query   = $wpdb->prepare( $query, $year );
-		$results = $wpdb->get_results( $query );
+		$sql = $wpdb->prepare( $query, intval( $year ) );
+
+		$cache_name   = 'helpful_yesterday';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( ! $results ) {
 			return [
@@ -366,8 +473,23 @@ class Helpful_Helper_Stats {
 		AND YEAR(time) = %d
 		";
 
-		$query   = $wpdb->prepare( $query, $year );
-		$results = $wpdb->get_results( $query );
+		$sql = $wpdb->prepare( $query, intval( $year ) );
+
+		$cache_name   = 'helpful_week';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( ! $results ) {
 			return [
@@ -465,9 +587,24 @@ class Helpful_Helper_Stats {
 		WHERE MONTH(time) = %d
 		AND YEAR(time) = %d
 		";
-		
-		$query   = $wpdb->prepare( $query, $month, $year );
-		$results = $wpdb->get_results( $query );
+
+		$sql = $wpdb->prepare( $query, intval( $month ), intval( $year ) );
+
+		$cache_name   = 'helpful_month';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( ! $results ) {
 			return [
@@ -557,8 +694,23 @@ class Helpful_Helper_Stats {
 		WHERE YEAR(time) = %d
 		";
 
-		$query   = $wpdb->prepare( $query, $year );
-		$results = $wpdb->get_results( $query );
+		$sql = $wpdb->prepare( $query, intval( $year ) );
+
+		$cache_name   = 'helpful_year';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( ! $results ) {
 			return [
@@ -570,7 +722,7 @@ class Helpful_Helper_Stats {
 		$pro       = [];
 		$contra    = [];
 		$labels    = [];
-		$timestamp = strtotime( sprintf( date( '%d-1-1' ), $year ) );
+		$timestamp = strtotime( sprintf( date( '%d-1-1' ), intval( $year ) ) );
 		$days      = 12;
 
 		for ( $i = 0; $i < $days; $i++ ) :
@@ -648,8 +800,24 @@ class Helpful_Helper_Stats {
 		WHERE DATE(time) >= DATE(%s)
 		AND DATE(time) <= DATE(%s)
 		";
-		$query   = $wpdb->prepare( $query, $from, $to );
-		$results = $wpdb->get_results( $query );
+
+		$sql = $wpdb->prepare( $query, $from, $to );
+
+		$cache_name   = 'helpful_from_' . $from . '_to_' . $to;
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( ! $results ) {
 			return [
@@ -720,17 +888,23 @@ class Helpful_Helper_Stats {
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
-		$query   = "
-		SELECT pro, contra, time
-		FROM $helpful
-		";
+		$sql   = "SELECT pro, contra, time FROM $helpful";
 
-		$results = wp_cache_get( 'stats_total', 'helpful' );
+		$cache_name   = 'helpful_total';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
 
-		if ( false === $results ) {
-			$results = $wpdb->get_results( $query );
-			wp_cache_set( 'stats_total', $results, 'helpful' );
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
 		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( ! $results ) {
 			return [
@@ -739,21 +913,11 @@ class Helpful_Helper_Stats {
 			];
 		}
 
-		$pro = wp_cache_get( 'stats_total_pro', 'helpful' );
+		$pro = wp_list_pluck( $results, 'pro' );
+		$pro = array_sum( $pro );
 
-		if ( false === $pro ) {
-			$pro = wp_list_pluck( $results, 'pro' );
-			$pro = array_sum( $pro );
-			wp_cache_set( 'stats_total_pro', $pro, 'helpful' );
-		}
-
-		$contra = wp_cache_get( 'stats_total_contra', 'helpful' );
-
-		if ( false === $contra ) {
-			$contra = wp_list_pluck( $results, 'contra' );
-			$contra = array_sum( $contra );
-			wp_cache_set( 'stats_total_contra', $contra, 'helpful' );
-		}
+		$contra = wp_list_pluck( $results, 'contra' );
+		$contra = array_sum( $contra );
 
 		/* Response for ChartJS */
 		$response = [
@@ -795,7 +959,9 @@ class Helpful_Helper_Stats {
 	 */
 	public static function getMostHelpful( $limit = null ) {
 		if ( is_null( $limit ) ) {
-			$limit = absint( get_option( 'helpful_widget_amount' ) );
+			$limit = intval( get_option( 'helpful_widget_amount' ) );
+		} else {
+			$limit = intval( $limit );
 		}
 
 		$args  = [
@@ -804,7 +970,22 @@ class Helpful_Helper_Stats {
 			'posts_per_page' => -1,
 			'fields'         => 'ids',
 		];
-		$query = new WP_Query( $args );
+
+		$cache_name   = 'helpful_most_helpful';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$query        = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$query = new WP_Query( $args );
+		} elseif ( false === $query ) {
+			$query = new WP_Query( $args );
+			set_transient( $cache_name, maybe_serialize( $query ), $cache_time );
+		}
+
+		$query = maybe_unserialize( $query );
 		$posts = [];
 
 		if ( $query->found_posts ) {
@@ -826,6 +1007,16 @@ class Helpful_Helper_Stats {
 						continue;
 					}
 
+					$post_time = '';
+
+					if ( get_the_date( 'U', $post_id ) ) {
+						$post_time = sprintf(
+							/* translators: %s time difference */
+							__( 'Published %s ago', 'helpful' ),
+							human_time_diff( get_the_date( 'U', $post_id ), date_i18n( 'U' ) )
+						);
+					}
+
 					$pro        = self::getPro( $post_id ) ? self::getPro( $post_id ) : 0;
 					$contra     = self::getContra( $post_id ) ? self::getContra( $post_id ) : 0;
 					$average    = (int) ( $pro - $contra );
@@ -839,11 +1030,7 @@ class Helpful_Helper_Stats {
 						'pro'        => $pro,
 						'contra'     => $contra,
 						'percentage' => $percentage,
-						'time'       => sprintf(
-							/* translators: %s time difference */
-							__( 'Published %s ago', 'helpful' ),
-							human_time_diff( get_the_date( 'U', $post_id ), date_i18n( 'U' ) )
-						),
+						'time'       => $post_time,
 					];
 				endforeach;
 			}
@@ -874,7 +1061,22 @@ class Helpful_Helper_Stats {
 			'posts_per_page' => -1,
 			'fields'         => 'ids',
 		];
-		$query = new WP_Query( $args );
+
+		$cache_name   = 'helpful_least_helpful';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$query        = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$query = new WP_Query( $args );
+		} elseif ( false === $query ) {
+			$query = new WP_Query( $args );
+			set_transient( $cache_name, maybe_serialize( $query ), $cache_time );
+		}
+
+		$query = maybe_unserialize( $query );
 		$posts = [];
 
 		if ( $query->found_posts ) {
@@ -909,6 +1111,16 @@ class Helpful_Helper_Stats {
 						$percentage = 0;
 					}
 
+					$post_time = '';
+
+					if ( get_the_date( 'U', $post_id ) ) {
+						$post_time = sprintf(
+							/* translators: %s time difference */
+							__( 'Published %s ago', 'helpful' ),
+							human_time_diff( get_the_date( 'U', $post_id ), date_i18n( 'U' ) )
+						);
+					}
+
 					$results[]  = [
 						'ID'         => $post_id,
 						'url'        => get_the_permalink( $post_id ),
@@ -916,11 +1128,7 @@ class Helpful_Helper_Stats {
 						'pro'        => $pro,
 						'contra'     => $contra,
 						'percentage' => $percentage,
-						'time'       => sprintf(
-							/* translators: %s time difference */
-							__( 'Published %s ago', 'helpful' ),
-							human_time_diff( get_the_date( 'U', $post_id ), date_i18n( 'U' ) )
-						),
+						'time'       => $post_time,
 					];
 				endforeach;
 			}
@@ -957,9 +1165,25 @@ class Helpful_Helper_Stats {
 		ORDER BY id DESC
 		LIMIT %d
 		";
-		$posts   = [];
-		$query   = $wpdb->prepare( $sql, 1, $limit );
-		$results = $wpdb->get_results( $query );
+
+		$posts = [];
+		$sql   = $wpdb->prepare( $sql, 1, intval( $limit ) );
+
+		$cache_name   = 'helpful_recently_pro';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( $results ) {
 			foreach ( $results as $post ) :
@@ -1012,9 +1236,25 @@ class Helpful_Helper_Stats {
 		ORDER BY id DESC
 		LIMIT %d
 		";
-		$posts   = [];
-		$query   = $wpdb->prepare( $sql, 1, $limit );
-		$results = $wpdb->get_results( $query );
+
+		$posts = [];
+		$sql   = $wpdb->prepare( $sql, 1, intval( $limit ) );
+
+		$cache_name   = 'helpful_recently_contra';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Helpful_Helper_Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = $wpdb->get_results( $sql );
+		} elseif ( false === $results ) {
+			$results = $wpdb->get_results( $sql );
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
 
 		if ( $results ) {
 			foreach ( $results as $post ) :

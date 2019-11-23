@@ -102,6 +102,8 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 			'helpful_notes',
 			'helpful_plugin_first',
 			'helpful_classic_editor',
+			'helpful_caching',
+			'helpful_caching_time',
 		];
 
 		foreach ( $fields as $field ) {

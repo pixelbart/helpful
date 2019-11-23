@@ -24,6 +24,43 @@ $settings = $helpful['wp_editor'];
 
 	<div class="helpful-admin-panel">
 		<button type="button" class="helpful-admin-panel-header">
+			<span class="title"><?php echo esc_html_x( 'Cache', 'admin panel title', 'helpful' ); ?></span>
+			<span class="icon"></span>
+		</button><!-- .helpful-admin-panel-header -->
+		<div class="helpful-admin-panel-content">
+
+			<p class="description"><?php echo esc_html_x( 'Helpful stores the data for a specified retention period using WordPress Transients API in between. Here you can set how long something should be cached and if something should be saved.', 'admin panel description', 'helpful' ); ?></p>
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_caching' ); ?>
+					<input id="helpful_caching" type="checkbox" name="helpful_caching" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Enable Caching', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group">
+				<label for="helpful_caching_time" class="helpful-block">
+					<?php echo esc_html_x( 'Cache storage time', 'label', 'helpful' ); ?>
+				</label>
+				<?php $times = Helpful_Helper_Cache::get_cache_times(); ?>
+				<?php $value = get_option( 'helpful_caching_time' ); ?>
+				<select id="helpful_caching_time" name="helpful_caching_time" class="regular-text">
+					<?php foreach ( $times as $id => $label ) :?>
+						<?php if ( $value === $id ) : ?>
+						<option value="<?php echo esc_attr( $id ); ?>" selected><?php echo esc_html( $label ); ?></option>
+						<?php else : ?>
+						<option value="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $label ); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</select>
+			</div><!-- .helpful-admin-group -->
+
+		</div><!-- .helpful-admin-panel-content -->
+	</div><!-- .helpful-admin-panel -->
+
+	<div class="helpful-admin-panel">
+		<button type="button" class="helpful-admin-panel-header">
 			<span class="title"><?php _ex('Miscellaneous', 'admin panel title', 'helpful'); ?></span>
 			<span class="icon"></span>
 		</button><!-- .helpful-admin-panel -->
@@ -41,7 +78,7 @@ $settings = $helpful['wp_editor'];
 		<div class="helpful-admin-group helpful-margin-bottom">
 			<label>
 				<?php $value = get_option( 'helpful_multiple' ); ?>
-				<input id="helpful_multiple" type="checkbox" name="helpful_multiple" <?php checked( 'on', $value ); ?> /> 
+				<input id="helpful_multiple" type="checkbox" name="helpful_multiple" <?php checked( 'on', $value ); ?> />
 				<?php _ex( 'Enable to allow users to vote more than once in individual posts', 'label', 'helpful' ); ?>
 			</label>
 		</div><!-- .helpful-admin-group -->
@@ -49,7 +86,7 @@ $settings = $helpful['wp_editor'];
 		<div class="helpful-admin-group helpful-margin-bottom">
 			<label>
 				<?php $value = get_option( 'helpful_notes' ); ?>
-				<input id="helpful_notes" type="checkbox" name="helpful_notes" <?php checked( 'on', $value ); ?> /> 
+				<input id="helpful_notes" type="checkbox" name="helpful_notes" <?php checked( 'on', $value ); ?> />
 				<?php _ex('Check to completely disable admin notes for Helpful', 'label', 'helpful'); ?>
 			</label>
 		</div><!-- .helpful-admin-group -->
@@ -57,7 +94,7 @@ $settings = $helpful['wp_editor'];
 		<div class="helpful-admin-group helpful-margin-bottom">
 			<label>
 				<?php $value = get_option( 'helpful_plugin_first' ); ?>
-				<input id="helpful_plugin_first" type="checkbox" name="helpful_plugin_first" <?php checked( 'on', $value ); ?> /> 
+				<input id="helpful_plugin_first" type="checkbox" name="helpful_plugin_first" <?php checked( 'on', $value ); ?> />
 				<?php _ex('Select so that Helpful is always loaded first', 'label', 'helpful'); ?>
 			</label>
 		</div><!-- .helpful-admin-group -->
@@ -65,7 +102,7 @@ $settings = $helpful['wp_editor'];
 		<div class="helpful-admin-group">
 			<label>
 				<?php $value = get_option( 'helpful_classic_editor' ); ?>
-				<input id="helpful_classic_editor" type="checkbox" name="helpful_classic_editor" <?php checked( 'on', $value ); ?> /> 
+				<input id="helpful_classic_editor" type="checkbox" name="helpful_classic_editor" <?php checked( 'on', $value ); ?> />
 				<?php _ex( 'Activate the classic editor and deactivate the block editor', 'label', 'helpful' ); ?>
 			</label>
 		</div><!-- .helpful-admin-group -->
@@ -105,7 +142,7 @@ $settings = $helpful['wp_editor'];
 			<div class="helpful-admin-group">
 				<label class="helpful-danger">
 					<?php $value = get_option( 'helpful_uninstall' ); ?>
-					<input id="helpful_uninstall" type="checkbox" name="helpful_uninstall" <?php checked( 'on', $value ); ?> /> 
+					<input id="helpful_uninstall" type="checkbox" name="helpful_uninstall" <?php checked( 'on', $value ); ?> />
 					<?php _ex( 'Reset Helpful', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->

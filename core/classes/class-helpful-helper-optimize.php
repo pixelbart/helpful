@@ -231,6 +231,12 @@ class Helpful_Helper_Optimize {
 		wp_cache_delete( 'stats_total_pro', 'helpful' );
 		wp_cache_delete( 'stats_total_contra', 'helpful' );
 
+		/**
+		 * Deletes all transients related to Helpful.
+		 */
+		$count  = 3;
+		$count += Helpful_Helper_Cache::clear_cache();
+
 		return $response;
 	}
 
