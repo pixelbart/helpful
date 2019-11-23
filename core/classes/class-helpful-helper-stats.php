@@ -187,7 +187,7 @@ class Helpful_Helper_Stats {
 			return $var;
 		}
 
-		$pro         = $var ?: 0 );
+		$pro         = $var ?: 0;
 		$contra      = self::getContraAll();
 		$pro_percent = 0;
 
