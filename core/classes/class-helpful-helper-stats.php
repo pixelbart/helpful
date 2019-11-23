@@ -84,11 +84,11 @@ class Helpful_Helper_Stats {
 			return $var;
 		}
 
-		$pro         = ( $var ? (int) $var : 0 );
+		$pro         = $var ?: 0;
 		$contra      = self::getContra( $post_id );
 		$pro_percent = 0;
 
-		if ( 0 !== $pro ) {
+		if ( is_int( $pro ) && 0 !== $pro && 0 <= $pro ) {
 			$pro_percent = ( ( $pro / ( $pro + $contra ) ) * 100 );
 		}
 
@@ -139,11 +139,11 @@ class Helpful_Helper_Stats {
 			return $var;
 		}
 
-		$contra         = ( $var ? (int) $var : 0 );
+		$contra         = $var ?: 0;
 		$pro            = self::getPro( $post_id );
 		$contra_percent = 0;
 
-		if ( 0 !== $contra ) {
+		if ( is_int( $contra ) && 0 !== $contra && 0 <= $contra ) {
 			$contra_percent = ( ( $contra / ( $pro + $contra ) ) * 100 );
 		}
 
@@ -187,11 +187,11 @@ class Helpful_Helper_Stats {
 			return $var;
 		}
 
-		$pro         = ( $var ? (int) $var : 0 );
+		$pro         = $var ?: 0 );
 		$contra      = self::getContraAll();
 		$pro_percent = 0;
 
-		if ( 0 !== $pro ) {
+		if ( is_int( $pro ) && 0 !== $pro && 0 <= $pro ) {
 			$pro_percent = ( ( $pro / ( $pro + $contra ) ) * 100 );
 		}
 
@@ -235,11 +235,11 @@ class Helpful_Helper_Stats {
 			return $var;
 		}
 
-		$contra         = ( $var ? (int) $var : 0 );
+		$contra         = $var ?: 0;
 		$pro            = self::getProAll();
 		$contra_percent = 0;
 
-		if ( 0 !== $contra ) {
+		if ( is_int( $contra ) && 0 !== $contra && 0 <= $contra ) {
 			$contra_percent = ( ( $contra / ( $pro + $contra ) ) * 100 );
 		}
 
