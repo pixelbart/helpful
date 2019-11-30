@@ -8,7 +8,7 @@
     <div class="helpful-admin-info">
       <strong><?php echo $feedback->name; ?></strong>
       <div class="helpful-muted"><?php echo $feedback->time; ?></div>
-      <div class="helpful-post"><a href="<?php echo $feedback->post->guid; ?>" target="_blank"><?php echo $feedback->post->post_title; ?></a></div>
+      <div class="helpful-post"><a href="<?php echo get_the_permalink( $feedback->post->ID ); ?>" target="_blank"><?php echo $feedback->post->post_title; ?></a></div>
     </div>
     <div class="helpful-admin-actions">
       <button type="button" class="helpful-delete-item" data-id="<?php echo $feedback->id; ?>">
