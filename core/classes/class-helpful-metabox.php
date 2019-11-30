@@ -86,6 +86,10 @@ class Helpful_Metabox {
 	 * @return void
 	 */
 	public function save_metabox_data( $post_id ) {
+		if ( ! isset( $_POST['helpful_remove_data_nonce'] ) ) {
+			return;
+		}
+
 		if ( ! wp_verify_nonce( $_POST['helpful_remove_data_nonce'], 'helpful_remove_data' ) ) {
 			return;
 		}
