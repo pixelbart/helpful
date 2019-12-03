@@ -89,7 +89,8 @@ Switch to the Helpful settings and click on the System tab. There you will find 
 = 4.1.4 =
 * The caching of Helpful is now solved with Transients API of WordPress. There are a few options in the settings of Helpful. Among other things the time can be adjusted and whether the caching should be activated at all. This concerns above all the Admin Widget, so that the queries do not become so slow.
 * An error could occur in the Admin Widget if the publication date of a post was not recognized. Instead, the publishing date is no longer shown if it would cause an error.
-* Date: 23.11.2019
+* Fixed a bug that caused an error when saving the Theme Editor.
+* Date: 03.12.2019
 
 = 4.1.3 =
 * Helpful now also detects loops and can thus be used more than once on a page when Helpful is placed in a loop. This is useful, for example, if you want to integrate Helpful into a FAQ.

@@ -40,37 +40,32 @@ function helpful_autoloader( $class_name ) {
  */
 spl_autoload_register( 'helpful_autoloader' );
 
-function helpful_load_classes() {
-	/**
-	 * Setup database and default values
-	 *
-	 * @since 1.0.0
-	 */
-	Helpful_Setup::get_instance();
+/**
+ * Setup database and default values
+ *
+ * @since 1.0.0
+ */
+Helpful_Setup::get_instance();
 
-	/**
-	 * Stores most fo the class instances
-	 *
-	 * @since 4.0.7
-	 */
-	Helpful_Tabs_Start::get_instance();
-	Helpful_Tabs_Texts::get_instance();
-	Helpful_Tabs_Details::get_instance();
-	Helpful_Tabs_Feedback::get_instance();
-	Helpful_Tabs_Design::get_instance();
-	Helpful_Tabs_System::get_instance();
-	Helpful_Metabox::get_instance();
-	Helpful_Widget::get_instance();
-	Helpful_Table::get_instance();
-	Helpful_Feedback_Admin::get_instance();
-	Helpful_Maintenance::get_instance();
-	Helpful_Notices::get_instance();
-	Helpful_Frontend::get_instance();
-	Helpful_Shortcodes::get_instance();
-}
-
-/* Fires Helpful Classes */
-add_action( 'plugins_loaded', 'helpful_load_classes' );
+/**
+ * Stores most fo the class instances
+ *
+ * @since 4.0.7
+ */
+Helpful_Tabs_Start::get_instance();
+Helpful_Tabs_Texts::get_instance();
+Helpful_Tabs_Details::get_instance();
+Helpful_Tabs_Feedback::get_instance();
+Helpful_Tabs_Design::get_instance();
+Helpful_Tabs_System::get_instance();
+Helpful_Metabox::get_instance();
+Helpful_Widget::get_instance();
+Helpful_Table::get_instance();
+Helpful_Feedback_Admin::get_instance();
+Helpful_Maintenance::get_instance();
+Helpful_Notices::get_instance();
+Helpful_Frontend::get_instance();
+Helpful_Shortcodes::get_instance();
 
 /**
  * Customizer
@@ -85,3 +80,5 @@ add_action( 'customize_register', [ 'Helpful_Customizer', 'register_customizer' 
  * @since 3.2.0
  */
 require_once HELPFUL_PATH . 'core/values.php';
+
+

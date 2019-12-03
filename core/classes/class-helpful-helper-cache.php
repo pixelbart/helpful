@@ -44,16 +44,20 @@ class Helpful_Helper_Cache {
 	public static function clear_cache() {
 		global $wpdb;
 
-		$helpful = $wpdb->prefix . 'helpful';
+		$table_name = $wpdb->prefix . 'options';
 
 		$count = 0;
-		$sql   = "SELECT * FROM $helpful WHERE name LIKE '_transient_timeout_helpful_%' OR name LIKE '_transient_helpful_%'";
+		$sql   = "SELECT * FROM $table_name WHERE option_name LIKE '_transient_timeout_helpful_%' OR option_name LIKE '_transient_helpful_%'";
 		$rows  = $wpdb->get_results( $sql );
 
 		if ( $rows ) {
 			foreach ( $rows as $row ) :
+				if ( '_transient_timeout_helpful_updated' === $row->option_name || '_transient_helpful_updated' === $row->option_name ) {
+					continue;
+				}
+
 				$values = [ 'option_name' => $row->option_name ];
-				$wpdb->delete( $helpful, $values );
+				$wpdb->delete( $table_name, $values );
 				$count++;
 			endforeach;
 		}

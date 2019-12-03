@@ -34,4 +34,11 @@ if ( get_option( 'helpful_timezone' ) && '' !== get_option( 'helpful_timezone' )
 /**
  * Load helpful.
  */
-require_once HELPFUL_PATH . 'core/autoload.php';
+function helpful_load_plugin() {
+	include HELPFUL_PATH . 'core/autoload.php';
+}
+
+/**
+ * Fires Helpful.
+ */
+add_action( 'init', 'helpful_load_plugin' );
