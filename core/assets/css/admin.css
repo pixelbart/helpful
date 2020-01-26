@@ -145,7 +145,7 @@
 }
 
 .helpful-admin-content input[type="checkbox"]:checked::before {
-	color: rgb(137, 192, 88);
+	color: rgb(137, 192, 88) !important;
 }
 
 .helpful-admin-container {
@@ -157,6 +157,19 @@
 	margin-bottom: 1rem !important;
 	display: block;
 	width: auto;
+}
+
+.helpful-admin-container .button {	
+	color: rgb(255,255,255);
+	border-color: rgb(137, 192, 88);
+	background: rgb(137, 192, 88);
+}
+
+.helpful-admin-container .button:hover,
+.helpful-admin-container .button:focus {	
+	color: rgb(255,255,255);
+	border-color: rgb(137, 192, 88);
+	background: rgba(137, 192, 88, 0.7);
 }
 
 /* Admin Toggle Panels */

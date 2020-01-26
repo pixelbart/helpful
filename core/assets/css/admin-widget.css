@@ -136,16 +136,17 @@
   border-style: solid;
   color: #82878c;
   background-color: #f5f5f5;
+  text-decoration: none;
 }
 
 .helpful-widget-footer a:hover {
   background-color: #fff;
   color: #555;
+  text-decoration: none;
 }
 
 .helpful-widget-footer .helpful-widget-total {
   float: right;
-  display: inline-block;
   padding: 12px;
 }
 
