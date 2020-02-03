@@ -67,6 +67,7 @@ Helpful_Maintenance::get_instance();
 Helpful_Notices::get_instance();
 Helpful_Frontend::get_instance();
 Helpful_Shortcodes::get_instance();
+Helpful_Datatables::get_instance();
 
 /**
  * Customizer

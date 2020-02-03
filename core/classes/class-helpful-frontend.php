@@ -11,7 +11,7 @@ class Helpful_Frontend {
 	/**
 	 * Instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Frontend
 	 */
 	public static $instance;
 

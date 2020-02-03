@@ -204,44 +204,38 @@ class Helpful_Tabs_Start {
 		if ( $query->found_posts ) {
 			foreach ( $query->posts as $post_id ) :
 
-				$post      = get_post( $post_id );
-				$post_type = get_post_type_object( $post->post_type );
+				$data = Helpful_Helper_Stats::get_single_post_stats( $post_id );
 
 				$response['data'][] = [
-					'post' => [
-						'id'     => $post->ID,
-						'title'  => sprintf(
-							'<a href="%1&s" title="%2$s" target="_blank">%2$s</a>',
-							get_the_permalink( $post->ID ),
-							$post->post_title
-						),
-						'author' => get_the_author_meta( 'display_name', $post->post_author ),
-						'date'   => [
-							'display'   => date_i18n( 'Y-m-d', get_the_date( 'U', $post->ID ) ),
-							'timestamp' => date_i18n( 'U', get_the_date( 'U', $post->ID ) ),
-						],
-						'type' => [
-							'display' => $post_type->labels->singular_name,
-							'slug'    => $post_type->name,
-						],
+					'post_id'    => $data['ID'],
+					'post_title' => sprintf(
+						'<a href="%1&s" title="%2$s" target="_blank">%2$s</a>',
+						esc_url( $data['permalink'] ),
+						esc_html( $data['title'] )
+					),
+					'post_type' => [
+						'display' => $data['type']['name'],
+						'sort'    => $data['type']['slug'],
+					],
+					'post_author' => [
+						'display' => $data['author']['name'],
+						'sort'    => $data['author']['ID'],
+					],
+					'pro' => [
+						'display' => sprintf( '%s (%s%%)', $data['pro']['value'], $data['pro']['percentage'] ),
+						'sort'    => $data['pro']['value'],
+					],
+					'contra' => [
+						'display' => sprintf( '%s (%s%%)', $data['contra']['value'], $data['contra']['percentage'] ),
+						'sort' => $data['contra']['value'],
 					],
 					'helpful' => [
-						'pro' => [
-							'display' => sprintf(
-								'%s (%s%%)',
-								Helpful_Helper_Stats::getPro( $post->ID, false ),
-								Helpful_Helper_Stats::getPro( $post->ID, true )
-							),
-							'sort' => (int) Helpful_Helper_Stats::getPro( $post->ID, false ),
-						],
-						'contra' => [
-							'display' => sprintf(
-								'%s (%s%%)',
-								Helpful_Helper_Stats::getContra( $post->ID, false ),
-								Helpful_Helper_Stats::getContra( $post->ID, true )
-							),
-							'sort' => (int) Helpful_Helper_Stats::getContra( $post->ID, false ),
-						],
+						'display' => sprintf( '%s%%', $data['helpful'] ),
+						'sort'    => $data['helpful'],
+					],
+					'post_date'   => [
+						'display' => $data['time']['date'],
+						'sort'    => $data['time']['timestamp'],
 					],
 				];
 

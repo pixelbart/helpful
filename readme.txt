@@ -93,7 +93,7 @@ Switch to the Helpful settings and click on the System tab. There you will find 
 * The Helpful metabox now shows the correct values again.
 * In the overviews in the admin area you can now sort the column by Helpful by clicking on a column header.
 * Fixed a bug that caused visitors or people who voted to be saved without ID.
-* Date: 03.02.2020
+* Date: 04.02.2020
 
 = 4.1.4 =
 * The caching of Helpful is now solved with Transients API of WordPress. There are a few options in the settings of Helpful. Among other things the time can be adjusted and whether the caching should be activated at all. This concerns above all the Admin Widget, so that the queries do not become so slow.

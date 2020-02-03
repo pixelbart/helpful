@@ -438,4 +438,37 @@ class Helpful_Helper_Values {
 			usleep( 100000 );
 		}
 	}
+
+	/**
+	 * Translatable Datatables Language String
+	 *
+	 * @return array
+	 */
+	public static function datatables_language_string()
+	{
+		return [
+			'decimal'        => esc_html_x( '', 'datatables decimal', 'helpful' ),
+			'emptyTable'     => esc_html_x( 'No data available in table', 'datatables emptyTable', 'helpful' ),
+			'info'           => esc_html_x( 'Showing _START_ to _END_ of _TOTAL_ entries', 'datatables info', 'helpful' ),
+			'infoEmpty'      => esc_html_x( 'Showing 0 to 0 of 0 entries', 'datatables infoEmpty', 'helpful' ),
+			'infoFiltered'   => esc_html_x( '(filtered from _MAX_ total entries)', 'datatables infoFiltered', 'helpful' ),
+			'infoPostFix'    => esc_html_x( '', 'datatables infoPostFix', 'helpful' ),
+			'thousands'      => esc_html_x( ',', 'datatables thousands', 'helpful' ),
+			'lengthMenu'     => esc_html_x( 'Show _MENU_ entries', 'datatables lengthMenu', 'helpful' ),
+			'loadingRecords' => esc_html_x( 'Loading...', 'datatables loadingRecords', 'helpful' ),
+			'processing'     => esc_html_x( 'Processing...', 'datatables processing', 'helpful' ),
+			'search'         => esc_html_x( 'Search:', 'datatables search', 'helpful' ),
+			'zeroRecords'    => esc_html_x( 'No matching records found', 'datatables zeroRecords', 'helpful' ),
+			'paginate'       => [
+				'first'    => esc_html_x( 'First', 'datatables first', 'helpful' ),
+				'last'     => esc_html_x( 'Last', 'datatables last', 'helpful' ),
+				'next'     => esc_html_x( 'Next', 'datatables next', 'helpful' ),
+				'previous' => esc_html_x( 'Previous', 'datatables previous', 'helpful' ),
+			],
+			'aria'         => [
+				'sortAscending'  => esc_html_x( ': activate to sort column ascending', 'datatables sortAscending', 'helpful' ),
+				'sortDescending' => esc_html_x( ': activate to sort column descending', 'datatables sortDescending', 'helpful' ),
+			],
+		];
+	}
 }

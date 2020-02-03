@@ -67,7 +67,7 @@
 
 					// show percentages on doughnuts
 					// since 4.0.1
-					if ('doughnut' == response.type) {
+					if ('doughnut' === response.type) {
 						response.options.tooltips = {
 							callbacks: {
 								label: function (tooltipItem, data) {
@@ -149,48 +149,89 @@
 				},
 				"language": helpful_admin.language,
 				"columns": [
-					{ "data": "post.id" },
-					{ "data": "post.title" },
 					{
 						"data": {
-							"_": "post.type",
-							"filter": "post.type.display",
-							"display": "post.type.display",
-							"sort" : "post.type.slug",
+							"display": "post_id",
+							"sort": "post_id",
+							"filter": "post_id",
 						},
 						"visible": false,
-					},
-					{ "data": "post.author" },
-					{
-						"data": {
-							"_": "helpful.pro",
-							"filter": "helpful.pro.sort",
-							"display": "helpful.pro.display",
-							"sort": "helpful.pro.sort",
-						},
+						"type": "num",
 					},
 					{
 						"data": {
-							"_": "helpful.contra",
-							"filter": "helpful.contra.sort",
-							"display": "helpful.contra.display",
-							"sort": "helpful.contra.sort",
+							"display": "post_title",
+							"sort": "post_title",
+							"filter": "post_title",
 						},
+						"visible": true,
+						"type": "html",
 					},
 					{
 						"data": {
-							"_": "post.date",
-							"filter": "post.date.display",
-							"display": "post.date.display",
-							"sort" : "post.date.timestamp",
+							"display": "post_type.display",
+							"sort": "post_type.sort",
+							"filter": "post_type.display",
 						},
+						"visible": false,
+						"type": "html",
 					},
+					{
+						"data": {
+							"display": "post_author.display",
+							"sort": "post_author.sort",
+							"filter": "post_author.display",
+						},
+						"visible": true,
+						"type": "html",
+
+					},
+					{
+						"data": {
+							"display": "pro.display",
+							"sort": "pro.sort",
+							"filter": "pro.display",
+						},
+						"visible": true,
+						"type": "num",
+					},
+					{
+						"data": {
+							"display": "contra.display",
+							"sort": "contra.sort",
+							"filter": "contra.display",
+						},
+						"visible": true,
+						"type": "num",
+					},
+					{
+						"data": {
+							"display": "helpful.display",
+							"sort": "helpful.sort",
+							"filter": "helpful.display",
+						},
+						"visible": true,
+						"type": "num",
+					},
+					{
+						"data": {
+							"display": "post_date.display",
+							"sort": "post_date.sort",
+							"filter": "post_date.display",
+						},
+						"visible": true,
+						"type": "num",
+					}
 				],
 			});
 
 			var table = $(container).DataTable(options);
 
 			table.column('0:visible').order('desc').draw();
+
+			table.on( 'buttons-action', function () {
+				table.ajax.reload()
+			} );
 		},
 		tableOptions: function () {
 			return {
