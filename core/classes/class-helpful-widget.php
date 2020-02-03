@@ -94,8 +94,6 @@ class Helpful_Widget {
 		$sorted_dashboard = array_merge( $helpful_widget, $dashboard );
 
 		$wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
-
-		return true;
 	}
 
 	/**
