@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6.20
-Stable tag: 4.1.4
+Stable tag: 4.2.0
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -86,13 +86,14 @@ Switch to the Helpful settings and click on the System tab. There you will find 
 
 == Changelog ==
 
-= 4.1.5 =
+= 4.2.0 =
+* **Before updating:** A lot of things have been rewritten in the background. If you encounter problems, you can download version 4.1.4 [here](https://downloads.wordpress.org/plugin/helpful.4.1.4.zip).
 * In the Helpful settings there are now datatables in which all previous votes can be found. If the tables are too slow, caching can be set. The caching can be configured under Helpful -> System.
 * Chart.js and datatables are now loaded with CDN.
-* CSS corrections.
 * The Helpful metabox now shows the correct values again.
-* In the overviews in the admin area you can now sort the column by Helpful by clicking on a column header.
+* In the overviews in the admin area you can now sort the Helpful columns by clicking on a column header.
 * Fixed a bug that caused visitors or people who voted to be saved without ID.
+* CSS corrections.
 * Date: 04.02.2020
 
 = 4.1.4 =
