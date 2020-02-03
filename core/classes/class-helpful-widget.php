@@ -33,11 +33,12 @@ class Helpful_Widget {
 	 *
 	 * @return Helpful_Widget
 	 */
-	public static function get_instance():Helpful_Widget
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
@@ -46,17 +47,17 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts():void
+	public function enqueue_scripts()
 	{
 		if ( get_option( 'helpful_widget' ) ) {
 			return;
 		}
 
-		$file = plugins_url( 'core/assets/vendor/chartjs/Chart.min.css', HELPFUL_FILE );
-		wp_register_style( 'helpful-chartjs', $file, [], HELPFUL_VERSION );
+		$file = '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css';
+		wp_enqueue_style( 'helpful-chartjs', $file, [], '2.9.3' );
 
-		$file = plugins_url( 'core/assets/vendor/chartjs/Chart.min.js', HELPFUL_FILE );
-		wp_register_script( 'helpful-chartjs', $file, [], HELPFUL_VERSION, true );
+		$file = '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js';
+		wp_enqueue_script( 'helpful-chartjs', $file, [], '2.9.3', true );
 
 		$file = plugins_url( 'core/assets/css/admin-widget.css', HELPFUL_FILE );
 		wp_register_style( 'helpful-widget', $file, [], HELPFUL_VERSION );
@@ -70,7 +71,7 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function widget_setup():void
+	public function widget_setup()
 	{
 		if ( get_option( 'helpful_widget' ) ) {
 			return;
@@ -101,7 +102,7 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function widget_callback():void
+	public function widget_callback()
 	{
 		wp_enqueue_style( 'helpful-chartjs' );
 		wp_enqueue_style( 'helpful-widget' );
@@ -139,7 +140,7 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function get_stats():void
+	public function get_stats()
 	{
 		check_ajax_referer( 'helpful_widget_stats' );
 
@@ -193,7 +194,7 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function render_template( array $links, array $years ):void
+	public function render_template( array $links, array $years )
 	{
 		include_once HELPFUL_PATH . 'templates/admin-widget.php';
 	}

@@ -19,14 +19,14 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	/**
 	 * Stores tab data
 	 *
-	 * @var $tab_info
+	 * @var array
 	 */
 	public $tab_info;
 
 	/**
 	 * Stores tab content
 	 *
-	 * @var $tab_content
+	 * @var array
 	 */
 	public $tab_content;
 
@@ -39,9 +39,9 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	{
 		$this->setup_tab();
 
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
-		add_filter( 'helpful_admin_tabs', [ $this, 'register_tab' ] );
-		add_action( 'helpful_tabs_content', [ $this, 'add_tab_content' ] );
+		add_action( 'admin_init', [ &$this, 'register_settings' ] );
+		add_filter( 'helpful_admin_tabs', [ &$this, 'register_tab' ] );
+		add_action( 'helpful_tabs_content', [ &$this, 'add_tab_content' ] );
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	 *
 	 * @return Helpful_Tabs_Details
 	 */
-	public static function get_instance():Helpful_Tabs_Details
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -63,14 +63,14 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function setup_tab():void
+	public function setup_tab()
 	{
 		$this->tab_info    = [
 			'id'   => 'details',
 			'name' => esc_html_x( 'Details', 'tab name', 'helpful' ),
 		];
 
-		$this->tab_content = [ $this, 'render_callback' ];
+		$this->tab_content = [ &$this, 'render_callback' ];
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_callback():void
+	public function render_callback()
 	{
 		$post_types         = get_post_types( [ 'public' => true ] );
 		$private_post_types = get_post_types( [ 'public' => false ] );
@@ -97,7 +97,7 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function register_settings():void
+	public function register_settings()
 	{
 		$fields = [
 			'helpful_credits',

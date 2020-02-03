@@ -10,14 +10,14 @@ class Helpful_Helper_Stats {
 	/**
 	 * Helpful color helper
 	 *
-	 * @var $green
+	 * @var string
 	 */
 	public static $green = '#88c057';
 
 	/**
 	 * Helpful color helper
 	 *
-	 * @var $red
+	 * @var string
 	 */
 	public static $red = '#ed7161';
 
@@ -53,7 +53,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return string
 	 */
-	public static function getPro( int $post_id = null, bool $percentages = false ):string
+	public static function getPro( int $post_id = null, bool $percentages = false )
 	{
 		if ( is_null( $post_id ) ) {
 			global $post;
@@ -111,7 +111,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return string
 	 */
-	public static function getContra( int $post_id = null, bool $percentages = false ):string
+	public static function getContra( int $post_id = null, bool $percentages = false )
 	{
 		if ( is_null( $post_id ) ) {
 			global $post, $wpdb;
@@ -168,7 +168,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return int count
 	 */
-	public static function getProAll( bool $percentages = false ):string
+	public static function getProAll( bool $percentages = false )
 	{
 		global $wpdb;
 
@@ -217,7 +217,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return int count
 	 */
-	public static function getContraAll( bool $percentages = false ):string
+	public static function getContraAll( bool $percentages = false )
 	{
 		global $wpdb;
 
@@ -263,7 +263,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getYears():array
+	public static function getYears()
 	{
 		global $wpdb;
 
@@ -310,7 +310,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsToday( int $year ):array
+	public static function getStatsToday( int $year )
 	{
 		global $wpdb;
 
@@ -392,7 +392,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsYesterday( int $year ):array
+	public static function getStatsYesterday( int $year )
 	{
 		global $wpdb;
 
@@ -474,7 +474,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsWeek( int $year ):array
+	public static function getStatsWeek( int $year )
 	{
 		global $wpdb;
 
@@ -583,7 +583,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsMonth( int $year, int $month = null ):array
+	public static function getStatsMonth( int $year, int $month = null )
 	{
 		global $wpdb;
 
@@ -698,7 +698,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsYear( int $year ):array
+	public static function getStatsYear( int $year )
 	{
 		global $wpdb;
 
@@ -805,7 +805,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsRange( string $from, string $to ):array
+	public static function getStatsRange( string $from, string $to )
 	{
 		global $wpdb;
 
@@ -900,7 +900,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsTotal():array
+	public static function getStatsTotal()
 	{
 		global $wpdb;
 
@@ -974,7 +974,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getMostHelpful( int $limit = null ):array
+	public static function getMostHelpful( int $limit = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = intval( get_option( 'helpful_widget_amount' ) );
@@ -1068,7 +1068,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getLeastHelpful( int $limit = null ):array
+	public static function getLeastHelpful( int $limit = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
@@ -1169,7 +1169,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getRecentlyPro( int $limit = null ):array
+	public static function getRecentlyPro( int $limit = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
@@ -1241,7 +1241,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getRecentlyContra( int $limit = null ):array
+	public static function getRecentlyContra( int $limit = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );

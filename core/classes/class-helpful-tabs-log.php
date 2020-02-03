@@ -52,7 +52,7 @@ class Helpful_Tabs_Log extends Helpful_Tabs {
 	 *
 	 * @return Helpful_Tabs_Log
 	 */
-	public static function get_instance():Helpful_Tabs_Log
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -65,7 +65,7 @@ class Helpful_Tabs_Log extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function setup_tab():void
+	public function setup_tab()
 	{
 		$this->tab_info   = [
 			'id'   => 'log',
@@ -79,7 +79,7 @@ class Helpful_Tabs_Log extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_callback():void
+	public function render_callback()
 	{
 		include_once HELPFUL_PATH . 'core/tabs/tab-log.php';
 	}
@@ -89,7 +89,7 @@ class Helpful_Tabs_Log extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts():void
+	public function enqueue_scripts()
 	{
 		$screen = get_current_screen();
 
@@ -120,68 +120,41 @@ class Helpful_Tabs_Log extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function ajax_get_log_data():void
+	public function ajax_get_log_data()
 	{
 		check_ajax_referer( 'helpful_admin_log' );
 
+		$response = [];
+
 		global $wpdb;
 
-		$table = $wpdb->prefix . 'helpful';
+		$table_name = $wpdb->prefix . 'helpful';
 
-		$primary_key = 'id';
-		
-		$columns = [];
+		$sql = "SELECT * FROM $table_name";
 
-		$columns[] = [
-			'db' => 'post_id',
-			'dt' => 'post_id',
-		];
+		$rows = $wpdb->get_results( $sql );
 
-		$columns[] = [
-			'db' => 'post_id',
-			'dt' => 'post_title',
-			'formatter' => function( $post_id, $row ) {
+		if ( $rows ) :
+			foreach ( $rows as $row ) :
+				$post = get_post( $row->post_id );
 
-				$str_length = apply_filters( 'helpful_datatables_string_length', 35 );
-
-				$html = get_the_title( $post_id );
-
-				if ( 0 !== $str_length ) {
-					if ( $str_length < strlen( get_the_title( $post_id ) ) ) {
-						$html = substr( get_the_title( $post_id ), 0, $str_length ) . '...';
-					}
-				}
-
-				return sprintf(
-					'<a href="%1$s" title="%2$s" target="_blank">%2$s</a>',
-					esc_url( get_the_permalink( $post_id ) ),
-					esc_html( $html )
-				);
-			},
-		];
-
-		$columns[] = [ 'db' => 'pro', 'dt' => 'pro' ];
-		$columns[] = [ 'db' => 'contra', 'dt' => 'contra' ];
-		$columns[] = [
-			'db' => 'user',
-			'dt' => 'user',
-			'formatter' => function( $user, $row ) {
-				return $user ? 1 : 0;
-			},
-		];
-
-		$columns[] = [
-			'db'        => 'time',
-			'dt'        => 'time',
-			'formatter' => function( $time, $row ) {
-				return esc_html( $time );
-			},
-		];
-
-		require HELPFUL_PATH . 'core/assets/vendor/datatables/ssp.class.php';
-
-		$response = SSP::simple( $_GET, $table, $primary_key, $columns );
-		$response['debug'] = $_GET;
+				$response['data'][] = [
+					'post_id' => $post->ID,
+					'post_title' => sprintf(
+						'<a href="%1&s" title="%2$s" target="_blank">%2$s</a>',
+						get_the_permalink( $post->ID ),
+						$post->post_title
+					),
+					'pro'    => $row->pro,
+					'contra' => $row->contra,
+					'user'   => $row->user ? 1 : 0,
+					'time'   => [
+						'display'   => date_i18n( 'Y-m-d H:i:s', strtotime( $row->time ) ),
+						'timestamp' => date_i18n( 'U', strtotime( $row->time ) ),
+					],
+				];
+			endforeach;
+		endif;
 
 		header( 'Content-Type: application/json' );
 		echo wp_json_encode( $response );

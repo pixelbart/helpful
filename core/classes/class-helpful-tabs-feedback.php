@@ -39,9 +39,9 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs {
 	{
 		$this->setup_tab();
 
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
-		add_filter( 'helpful_admin_tabs', [ $this, 'register_tab' ] );
-		add_action( 'helpful_tabs_content', [ $this, 'add_tab_content' ] );
+		add_action( 'admin_init', [ &$this, 'register_settings' ] );
+		add_filter( 'helpful_admin_tabs', [ &$this, 'register_tab' ] );
+		add_action( 'helpful_tabs_content', [ &$this, 'add_tab_content' ] );
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs {
 	 *
 	 * @return Helpful_Tabs_Feedback
 	 */
-	public static function get_instance():Helpful_Tabs_Feedback
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -63,14 +63,14 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function setup_tab():void
+	public function setup_tab()
 	{
 		$this->tab_info    = [
 			'id'  => 'feedback',
 			'name' => esc_html_x( 'Feedback', 'tab name', 'helpful' ),
 		];
 
-		$this->tab_content = [ $this, 'render_callback' ];
+		$this->tab_content = [ &$this, 'render_callback' ];
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_callback():void
+	public function render_callback()
 	{
 		include_once HELPFUL_PATH . 'core/tabs/tab-feedback.php';
 	}
@@ -88,7 +88,7 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function register_settings():void
+	public function register_settings()
 	{
 		$fields = [
 			'helpful_feedback_widget',

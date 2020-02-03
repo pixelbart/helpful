@@ -30,7 +30,7 @@ class Helpful_Tabs {
 	 *
 	 * @return array
 	 */
-	public function register_tab( array $tabs ):array
+	public function register_tab( array $tabs )
 	{
 		global $helpful;
 
@@ -56,7 +56,7 @@ class Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function register_menu():void
+	public function register_menu()
 	{
 		add_submenu_page(
 			'helpful',
@@ -73,7 +73,7 @@ class Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_admin_page():void
+	public function render_admin_page()
 	{
 		include_once HELPFUL_PATH . 'templates/backend.php';
 	}
@@ -85,7 +85,7 @@ class Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function add_tab_content():void
+	public function add_tab_content()
 	{
 		global $helpful;
 

@@ -37,7 +37,7 @@ class Helpful_Tabs_Start {
 	 *
 	 * @return Helpful_Tabs_Start
 	 */
-	public static function get_instance():Helpful_Tabs_Start
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -53,7 +53,7 @@ class Helpful_Tabs_Start {
 	 *
 	 * @return array
 	 */
-	public function register_tab( $tabs ):array
+	public function register_tab( $tabs )
 	{
 		$tabs['home'] = [
 			'attr'  => ( ! isset( $_GET['tab'] ) ? 'selected' : '' ),
@@ -70,7 +70,7 @@ class Helpful_Tabs_Start {
 	 *
 	 * @return void
 	 */
-	public function register_menu():void
+	public function register_menu()
 	{
 		add_submenu_page(
 			'helpful',
@@ -78,7 +78,7 @@ class Helpful_Tabs_Start {
 			__( 'Settings', 'helpful' ),
 			'manage_options',
 			'helpful',
-			[ $this, 'render_admin_page' ]
+			[ &$this, 'render_admin_page' ]
 		);
 	}
 
@@ -87,7 +87,7 @@ class Helpful_Tabs_Start {
 	 *
 	 * @return void
 	 */
-	public function render_admin_page():void
+	public function render_admin_page()
 	{
 		include_once HELPFUL_PATH . 'templates/admin.php';
 	}
@@ -97,7 +97,7 @@ class Helpful_Tabs_Start {
 	 *
 	 * @return void
 	 */
-	public function add_tab_content():void
+	public function add_tab_content()
 	{
 		if ( ! isset( $_GET['tab'] ) ) {
 			include_once HELPFUL_PATH . 'core/tabs/tab-start.php';
@@ -111,7 +111,7 @@ class Helpful_Tabs_Start {
 	 *
 	 * @return void
 	 */
-	public function ajax_get_stats_range():void
+	public function ajax_get_stats_range()
 	{
 		check_ajax_referer( 'helpful_range_stats' );
 
@@ -145,7 +145,7 @@ class Helpful_Tabs_Start {
 	 *
 	 * @return void
 	 */
-	public function ajax_get_stats_total():void
+	public function ajax_get_stats_total()
 	{
 		check_ajax_referer( 'helpful_admin_nonce' );
 		$response = Helpful_Helper_Stats::getStatsTotal();
@@ -157,7 +157,7 @@ class Helpful_Tabs_Start {
 	/**
 	 * Get posts data
 	 */
-	public function ajax_get_posts_data():void
+	public function ajax_get_posts_data()
 	{
 		check_ajax_referer( 'helpful_admin_nonce' );
 
@@ -217,8 +217,8 @@ class Helpful_Tabs_Start {
 						),
 						'author' => get_the_author_meta( 'display_name', $post->post_author ),
 						'date'   => [
-							'display'   => get_the_date( 'Y-m-d', $post->ID ),
-							'timestamp' => get_the_date( 'U', $post->ID ),
+							'display'   => date_i18n( 'Y-m-d', get_the_date( 'U', $post->ID ) ),
+							'timestamp' => date_i18n( 'U', get_the_date( 'U', $post->ID ) ),
 						],
 						'type' => [
 							'display' => $post_type->labels->singular_name,

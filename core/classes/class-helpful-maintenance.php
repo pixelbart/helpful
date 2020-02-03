@@ -30,7 +30,7 @@ class Helpful_Maintenance {
 	 *
 	 * @return Helpful_Maintenance
 	 */
-	public static function get_instance():Helpful_Maintenance
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -43,7 +43,7 @@ class Helpful_Maintenance {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts():void
+	public function enqueue_scripts()
 	{
 		if ( isset( $_GET['page'] ) && 'helpful' !== $_GET['page'] ) {
 			return;
@@ -72,7 +72,7 @@ class Helpful_Maintenance {
 	 *
 	 * @return void
 	 */
-	public function perform_maintenance():void
+	public function perform_maintenance()
 	{
 		check_admin_referer( 'helpful_maintenance_nonce' );
 

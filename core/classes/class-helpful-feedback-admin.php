@@ -31,7 +31,7 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return Helpful_Feedback_Admin
 	 */
-	public static function get_instance():Helpful_Feedback_Admin
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -46,7 +46,7 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function add_submenu():void
+	public function add_submenu()
 	{
 		add_submenu_page(
 			'helpful',
@@ -63,7 +63,7 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function admin_page_callback():void
+	public function admin_page_callback()
 	{
 		include_once HELPFUL_PATH . 'templates/admin-feedback.php';
 	}
@@ -73,7 +73,7 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts():void
+	public function enqueue_scripts()
 	{
 		$screen = get_current_screen();
 
@@ -99,7 +99,7 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function get_feedback_items():void
+	public function get_feedback_items()
 	{
 		check_ajax_referer( 'helpful_admin_feedback_nonce' );
 
@@ -140,7 +140,7 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function delete_feedback_item():void
+	public function delete_feedback_item()
 	{
 		check_ajax_referer( 'helpful_admin_feedback_nonce' );
 
@@ -162,7 +162,7 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function render_template( $feedback ):void
+	public function render_template( $feedback )
 	{
 		include HELPFUL_PATH . 'templates/admin-feedback-item.php';
 	}

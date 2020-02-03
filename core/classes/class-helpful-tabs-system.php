@@ -39,10 +39,10 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	{
 		$this->setup_tab();
 
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
-		add_filter( 'helpful_admin_tabs', [ $this, 'register_tab' ] );
-		add_action( 'helpful_tabs_content', [ $this, 'add_tab_content' ] );
-		add_action( 'admin_init', [ $this, 'reset_plugin' ] );
+		add_action( 'admin_init', [ &$this, 'register_settings' ] );
+		add_filter( 'helpful_admin_tabs', [ &$this, 'register_tab' ] );
+		add_action( 'helpful_tabs_content', [ &$this, 'add_tab_content' ] );
+		add_action( 'admin_init', [ &$this, 'reset_plugin' ] );
 
 		if ( get_option( 'helpful_classic_editor' ) ) {
 			add_filter( 'use_block_editor_for_post', '__return_false', 10 );
@@ -54,7 +54,7 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return Helpful_Tabs_System
 	 */
-	public static function get_instance():Helpful_Tabs_System
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -67,13 +67,13 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function setup_tab():void
+	public function setup_tab()
 	{
 		$this->tab_info   = [
 			'id'   => 'system',
 			'name' => esc_html_x( 'System', 'tab name', 'helpful' ),
 		];
-		$this->tab_content = [ $this, 'render_callback' ];
+		$this->tab_content = [ &$this, 'render_callback' ];
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_callback():void
+	public function render_callback()
 	{
 		$post_types         = get_post_types( [ 'public' => true ] );
 		$private_post_types = get_post_types( [ 'public' => false ] );
@@ -100,7 +100,7 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function register_settings():void
+	public function register_settings()
 	{
 		$fields = [
 			'helpful_uninstall',
@@ -125,7 +125,7 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function reset_plugin():void
+	public function reset_plugin()
 	{
 		if ( ! get_option( 'helpful_uninstall' ) ) {
 			return;

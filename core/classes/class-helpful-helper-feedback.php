@@ -13,9 +13,9 @@ class Helpful_Helper_Feedback {
 	 *
 	 * @param object $entry post object.
 	 *
-	 * @return array
+	 * @return string json
 	 */
-	public static function getFeedback( $entry ):array
+	public static function getFeedback( $entry )
 	{
 		$post = get_post( $entry->post_id );
 		$time = strtotime( $entry->time );
@@ -66,7 +66,7 @@ class Helpful_Helper_Feedback {
 	 *
 	 * @return string
 	 */
-	public static function getAvatar( $email = null, $size = 55 ):string
+	public static function getAvatar( $email = null, $size = 55 )
 	{
 		$default = plugins_url( 'core/assets/images/avatar.jpg', HELPFUL_FILE );
 

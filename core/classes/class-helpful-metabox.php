@@ -35,7 +35,7 @@ class Helpful_Metabox {
 	 *
 	 * @return Helpful_Metabox
 	 */
-	public static function get_instance():Helpful_Metabox
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -48,7 +48,7 @@ class Helpful_Metabox {
 	 *
 	 * @return void
 	 */
-	public function add_metabox():void
+	public function add_metabox()
 	{
 		$post_types = get_option( 'helpful_post_types' );
 
@@ -69,7 +69,7 @@ class Helpful_Metabox {
 	 *
 	 * @return void
 	 */
-	public function render_metabox():void
+	public function render_metabox()
 	{
 		global $post;
 
@@ -91,7 +91,7 @@ class Helpful_Metabox {
 	 *
 	 * @return void
 	 */
-	public function save_metabox_data( $post_id ):void
+	public function save_metabox_data( $post_id )
 	{
 		if ( ! isset( $_POST['helpful_remove_data_nonce'] ) ) {
 			return;

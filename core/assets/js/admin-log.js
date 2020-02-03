@@ -1,17 +1,17 @@
 (function ($) {
 	"use strict";
-
+	
 	const HelpfulAdminLog = {
 		container: "#helpful-table-log",
 		init: function () {
 			const self = this;
-
+			
 			if ($(self.container).length < 1) {
 				return;
 			}
-
+			
 			var options = self.tableOptions();
-
+			
 			$.extend(options, {
 				"ajax": {
 					"url": helpful_admin_log.ajax_url,
@@ -27,12 +27,19 @@
 					{ "data": "pro" },
 					{ "data": "contra" },
 					{ "data": "user" },
-					{ "data": "time" }
+					{
+						"data": {
+							"_": "time",
+							"filter": "time.display",
+							"display": "time.display",
+							"sort" : "time.timestamp",
+						},
+					}
 				],
 			});
-
+			
 			var table = $(self.container).DataTable(options);
-
+			
 			table.column('5').order('desc').draw();
 		},
 		tableOptions: function () {
@@ -53,7 +60,7 @@
 			});
 		},
 	};
-
+	
 	$(function () {
 		HelpfulAdminLog.init();
 	});

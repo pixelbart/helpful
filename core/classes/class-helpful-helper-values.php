@@ -12,14 +12,14 @@ class Helpful_Helper_Values {
 	/**
 	 * Database table name for helpful
 	 *
-	 * @var $table_helpful
+	 * @var string
 	 */
 	protected static $table_helpful = 'helpful';
 
 	/**
 	 * Database table name for helpful feedback
 	 *
-	 * @var $table_feedback
+	 * @var string
 	 */
 	protected static $table_feedback = 'helpful_feedback';
 
@@ -30,7 +30,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return array
 	 */
-	public static function getDefaults():array
+	public static function getDefaults()
 	{
 		global $helpful, $post;
 
@@ -69,7 +69,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return string
 	 */
-	public static function convertTags( string $string, int $post_id ):string
+	public static function convertTags( string $string, int $post_id )
 	{
 		$post   = get_post( $post_id );
 		$pro    = Helpful_Helper_Stats::getPro( $post->ID );
@@ -97,7 +97,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return array
 	 */
-	public static function get_tags():array
+	public static function get_tags()
 	{
 		return [
 			'{pro}',
@@ -113,7 +113,7 @@ class Helpful_Helper_Values {
 	/**
 	 * Get user string
 	 *
-	 * @return string/null
+	 * @return string|null
 	 */
 	public static function getUser()
 	{
@@ -140,7 +140,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return void
 	 */
-	public static function setUser():void
+	public static function setUser()
 	{
 		$string   = bin2hex( openssl_random_pseudo_bytes( 16 ) );
 		$string   = apply_filters( 'helpful_user_string', $string );
@@ -172,7 +172,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return boolean
 	 */
-	public static function checkUser( string $user_id, int $post_id ):bool
+	public static function checkUser( string $user_id, int $post_id )
 	{
 		if ( get_option( 'helpful_multiple' ) ) {
 			return false;
@@ -268,7 +268,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return void
 	 */
-	public static function removeData( int $post_id ):void
+	public static function removeData( int $post_id )
 	{
 		global $wpdb;
 
@@ -290,7 +290,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return array
 	 */
-	public static function tableExists( string $table_name ):array
+	public static function tableExists( string $table_name )
 	{
 		global $wpdb;
 
@@ -317,7 +317,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return string
 	 */
-	public static function setupHelpfulTable():string
+	public static function setupHelpfulTable()
 	{
 		global $wpdb;
 
@@ -349,7 +349,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return string
 	 */
-	public static function setupHelpfulFeedbackTable():string
+	public static function setupHelpfulFeedbackTable()
 	{
 		global $wpdb;
 
@@ -383,7 +383,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return array
 	 */
-	public static function get_data():array
+	public static function get_data()
 	{
 		global $wpdb;
 
@@ -406,7 +406,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return void
 	 */
-	public static function sync_post_meta():void
+	public static function sync_post_meta()
 	{
 		$transient = 'helpful_sync_meta';
 

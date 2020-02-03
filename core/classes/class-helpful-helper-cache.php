@@ -14,7 +14,7 @@ class Helpful_Helper_Cache {
 	 * @param boolean $labels Outputs either the miliseconds or the labels for the options.
 	 * @return array
 	 */
-	public static function get_cache_times( bool $labels = true ):array
+	public static function get_cache_times( bool $labels = true )
 	{
 		$times = [];
 
@@ -42,7 +42,7 @@ class Helpful_Helper_Cache {
 	 *
 	 * @return integer Amount of deleted entries.
 	 */
-	public static function clear_cache():int
+	public static function clear_cache()
 	{
 		global $wpdb;
 

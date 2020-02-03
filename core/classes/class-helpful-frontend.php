@@ -34,7 +34,7 @@ class Helpful_Frontend {
 	 *
 	 * @return Helpful_Frontend
 	 */
-	public static function get_instance():Helpful_Frontend
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -47,7 +47,7 @@ class Helpful_Frontend {
 	 *
 	 * @return void
 	 */
-	public function set_user_cookie():void
+	public function set_user_cookie()
 	{
 		Helpful_Helper_Values::setUser();
 	}
@@ -59,7 +59,7 @@ class Helpful_Frontend {
 	 *
 	 * @return array
 	 */
-	public function default_themes( $themes ):array
+	public function default_themes( $themes )
 	{
 		$themes[] = [
 			'id'         => 'base',
@@ -111,7 +111,7 @@ class Helpful_Frontend {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts():void
+	public function enqueue_scripts()
 	{
 		$active_theme = get_option( 'helpful_theme' );
 		$themes       = apply_filters( 'helpful_themes', false );
@@ -149,7 +149,7 @@ class Helpful_Frontend {
 	 *
 	 * @return void
 	 */
-	public function save_vote():void
+	public function save_vote()
 	{
 		check_ajax_referer( 'helpful_frontend_nonce' );
 
@@ -176,7 +176,7 @@ class Helpful_Frontend {
 	 *
 	 * @return void
 	 */
-	public function save_feedback():void
+	public function save_feedback()
 	{
 		check_ajax_referer( 'helpful_feedback_nonce' );
 

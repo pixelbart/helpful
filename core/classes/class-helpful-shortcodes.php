@@ -32,7 +32,7 @@ class Helpful_Shortcodes {
 	 *
 	 * @return Helpful_Shortcodes
 	 */
-	public static function get_instance():Helpful_Shortcodes
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -48,7 +48,7 @@ class Helpful_Shortcodes {
 	 *
 	 * @return string
 	 */
-	public function add_to_content( string $content ):string
+	public function add_to_content( string $content )
 	{
 		global $post;
 
@@ -120,7 +120,7 @@ class Helpful_Shortcodes {
 	 *
 	 * @return string
 	 */
-	public function shortcode_helpful( array $atts, string $content = '' ):string
+	public function shortcode_helpful( array $atts, string $content = '' )
 	{
 		global $post;
 

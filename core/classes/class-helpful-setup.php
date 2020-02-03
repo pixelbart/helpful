@@ -63,7 +63,7 @@ class Helpful_Setup {
 	 *
 	 * @return Helpful_Setup
 	 */
-	public static function get_instance():Helpful_Setup
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -74,9 +74,9 @@ class Helpful_Setup {
 	/**
 	 * Set default options.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	public function setup_defaults():bool
+	public function setup_defaults()
 	{
 		if ( 1 === (int) get_option( 'helpful_defaults' ) ) {
 			return false;
@@ -94,7 +94,7 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function delete_transient():void
+	public function delete_transient()
 	{
 		delete_transient( 'helpful_updated' );
 	}
@@ -106,7 +106,7 @@ class Helpful_Setup {
 	 *
 	 * @return bool
 	 */
-	public function setup_helpful_table():bool
+	public function setup_helpful_table()
 	{
 		if ( 1 === (int) get_option( 'helpful_is_installed' ) ) {
 			return false;
@@ -141,7 +141,7 @@ class Helpful_Setup {
 	 *
 	 * @return bool
 	 */
-	public function setup_feedback_table():bool
+	public function setup_feedback_table()
 	{
 		if ( 1 === (int) get_option( 'helpful_feedback_is_installed' ) ) {
 			return false;
@@ -178,7 +178,7 @@ class Helpful_Setup {
 	 *
 	 * @return bool
 	 */
-	public function set_defaults( bool $status = false ):bool
+	public function set_defaults( bool $status = false )
 	{
 		if ( false === $status ) {
 			return false;
@@ -233,7 +233,7 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function load_first():void
+	public function load_first()
 	{
 
 		if ( ! get_option( 'helpful_plugin_first' ) ) {
@@ -255,7 +255,7 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function register_admin_menu():void
+	public function register_admin_menu()
 	{
 		add_menu_page(
 			__( 'Helpful', 'helpful' ),
@@ -273,7 +273,7 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function settings_page_callback():void
+	public function settings_page_callback()
 	{
 		include_once HELPFUL_PATH . 'templates/admin.php';
 	}
@@ -283,7 +283,7 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts():void
+	public function enqueue_scripts()
 	{
 		$screen = get_current_screen();
 
@@ -340,7 +340,7 @@ class Helpful_Setup {
 	 *
 	 * @return array
 	 */
-	public function plugin_row_meta( array $links, string $file ):array
+	public function plugin_row_meta( array $links, string $file )
 	{
 
 		if ( false !== strpos( $file, basename( HELPFUL_FILE ) ) ) {
@@ -371,9 +371,9 @@ class Helpful_Setup {
 	/**
 	 * Register custom elementor widgets
 	 *
-	 * @since 4.1.2
+	 * @return void
 	 */
-	public function elementor_widgets():void
+	public function elementor_widgets()
 	{
 
 		/**
@@ -387,9 +387,9 @@ class Helpful_Setup {
 	/**
 	 * Register custom elementor controls
 	 *
-	 * @since 4.1.2
+	 * @return void
 	 */
-	public function elementor_controls():void
+	public function elementor_controls()
 	{
 
 	}
@@ -397,11 +397,11 @@ class Helpful_Setup {
 	/**
 	 * Register categories
 	 *
-	 * @since 4.1.2
-	 *
 	 * @param object $elementor elementor object.
+	 *
+	 * @return void
 	 */
-	public function elementor_categories( $elementor ):void
+	public function elementor_categories( $elementor )
 	{
 
 	}

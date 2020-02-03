@@ -21,7 +21,7 @@ class Helpful_Table {
 	 *
 	 * @return Helpful_Table
 	 */
-	public static function get_instance():Helpful_Table
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -45,7 +45,7 @@ class Helpful_Table {
 	 *
 	 * @return void
 	 */
-	public function init_columns():void
+	public function init_columns()
 	{
 		global $pagenow;
 
@@ -83,7 +83,7 @@ class Helpful_Table {
 	 *
 	 * @return array
 	 */
-	public function register_columns( array $defaults ):array
+	public function register_columns( array $defaults )
 	{
 		$columns = [];
 		foreach ( $defaults as $key => $value ) :
@@ -106,7 +106,7 @@ class Helpful_Table {
 	 *
 	 * @return void
 	 */
-	public function populate_columns( string $column_name, int $post_id ):void
+	public function populate_columns( string $column_name, int $post_id )
 	{
 		if ( 'helpful-pro' === $column_name ) {
 			if ( get_option( 'helpful_percentages' ) ) {
@@ -142,7 +142,7 @@ class Helpful_Table {
 	 *
 	 * @return array
 	 */
-	public function register_sortable_columns( array $columns ):array
+	public function register_sortable_columns( array $columns )
 	{
 		$columns['helpful-pro']    = 'helpful-pro';
 		$columns['helpful-contra'] = 'helpful-contra';
@@ -157,7 +157,7 @@ class Helpful_Table {
 	 *
 	 * @return void
 	 */
-	public function sort_columns_query( WP_Query $wp_query ):void
+	public function sort_columns_query( WP_Query $wp_query )
 	{
 		if ( ! is_admin() ) {
 			return;

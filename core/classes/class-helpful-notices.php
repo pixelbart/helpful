@@ -41,7 +41,7 @@ class Helpful_Notices {
 	 *
 	 * @return Helpful_Notices
 	 */
-	public static function get_instance():Helpful_Notices
+	public static function get_instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
@@ -55,7 +55,7 @@ class Helpful_Notices {
 	 *
 	 * @return void
 	 */
-	private function set_plugin_data():void
+	private function set_plugin_data()
 	{
 		if ( ! function_exists( 'get_plugin_data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -69,7 +69,7 @@ class Helpful_Notices {
 	 *
 	 * @return void
 	 */
-	public function perform_maintenance_notice():void
+	public function perform_maintenance_notice()
 	{
 		$screen = get_current_screen();
 		$plugin = $this->plugin;
@@ -111,7 +111,7 @@ class Helpful_Notices {
 	 *
 	 * @return void
 	 */
-	public function perform_maintenance():void
+	public function perform_maintenance()
 	{
 		$screen = get_current_screen();
 		$page   = 'toplevel_page_helpful';
