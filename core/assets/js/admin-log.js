@@ -34,7 +34,7 @@
 							"display": "time.display",
 							"sort" : "time.timestamp",
 						},
-					}
+					},
 				],
 			});
 			

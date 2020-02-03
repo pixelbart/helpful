@@ -226,16 +226,22 @@ class Helpful_Tabs_Start {
 						],
 					],
 					'helpful' => [
-						'pro' => sprintf(
-							'%s (%s%%)',
-							Helpful_Helper_Stats::getPro( $post->ID, false ),
-							Helpful_Helper_Stats::getPro( $post->ID, true )
-						),
-						'contra' => sprintf(
-							'%s (%s%%)',
-							Helpful_Helper_Stats::getContra( $post->ID, false ),
-							Helpful_Helper_Stats::getContra( $post->ID, true )
-						),
+						'pro' => [
+							'display' => sprintf(
+								'%s (%s%%)',
+								Helpful_Helper_Stats::getPro( $post->ID, false ),
+								Helpful_Helper_Stats::getPro( $post->ID, true )
+							),
+							'sort' => (int) Helpful_Helper_Stats::getPro( $post->ID, false ),
+						],
+						'contra' => [
+							'display' => sprintf(
+								'%s (%s%%)',
+								Helpful_Helper_Stats::getContra( $post->ID, false ),
+								Helpful_Helper_Stats::getContra( $post->ID, true )
+							),
+							'sort' => (int) Helpful_Helper_Stats::getContra( $post->ID, false ),
+						],
 					],
 				];
 
