@@ -10,14 +10,17 @@ class Helpful_Maintenance {
 	/**
 	 * Class instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Maintenance
 	 */
 	public static $instance;
 
 	/**
 	 * Class constructor
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'wp_ajax_helpful_perform_maintenance', [ $this, 'perform_maintenance' ] );
 	}
@@ -25,9 +28,10 @@ class Helpful_Maintenance {
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return instance
+	 * @return Helpful_Maintenance
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Maintenance
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -39,7 +43,8 @@ class Helpful_Maintenance {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts():void
+	{
 		if ( isset( $_GET['page'] ) && 'helpful' !== $_GET['page'] ) {
 			return;
 		}
@@ -67,7 +72,8 @@ class Helpful_Maintenance {
 	 *
 	 * @return void
 	 */
-	public function perform_maintenance() {
+	public function perform_maintenance():void
+	{
 		check_admin_referer( 'helpful_maintenance_nonce' );
 
 		$response = Helpful_Helper_Optimize::optimize_plugin();

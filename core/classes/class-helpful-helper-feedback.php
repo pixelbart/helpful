@@ -15,7 +15,8 @@ class Helpful_Helper_Feedback {
 	 *
 	 * @return array
 	 */
-	public static function getFeedback( $entry ) {
+	public static function getFeedback( $entry ):array
+	{
 		$post = get_post( $entry->post_id );
 		$time = strtotime( $entry->time );
 
@@ -65,7 +66,8 @@ class Helpful_Helper_Feedback {
 	 *
 	 * @return string
 	 */
-	public static function getAvatar( $email = null, $size = 55 ) {
+	public static function getAvatar( $email = null, $size = 55 ):string
+	{
 		$default = plugins_url( 'core/assets/images/avatar.jpg', HELPFUL_FILE );
 
 		if ( get_option( 'helpful_feedback_gravatar' ) ) {
@@ -89,7 +91,8 @@ class Helpful_Helper_Feedback {
 	 *
 	 * @return object
 	 */
-	public static function getFeedbackItems( $limit = null ) {
+	public static function getFeedbackItems( $limit = null )
+	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
 		}
@@ -116,7 +119,8 @@ class Helpful_Helper_Feedback {
 	 *
 	 * @return integer
 	 */
-	public static function insertFeedback() {
+	public static function insertFeedback()
+	{
 		global $wpdb;
 
 		$fields  = [];
@@ -200,9 +204,11 @@ class Helpful_Helper_Feedback {
 	 * Send feedback email.
 	 *
 	 * @param array $feedback feedback data.
+	 *
 	 * @return void
 	 */
-	public static function send_email( $feedback ) {
+	public static function send_email( $feedback )
+	{
 		if ( ! get_option( 'helpful_feedback_email' ) ) {
 			return;
 		}

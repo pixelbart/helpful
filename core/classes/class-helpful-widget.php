@@ -12,25 +12,29 @@ class Helpful_Widget {
 	/**
 	 * Class instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Widget
 	 */
 	public static $instance;
 
 	/**
 	 * Class constructor
+	 *
+	 * @return void
 	 */
-	public function __construct() {
-		add_action( 'wp_dashboard_setup', [ $this, 'widget_setup' ], 1 );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-		add_action( 'wp_ajax_helpful_widget_stats', [ $this, 'get_stats'] );
+	public function __construct()
+	{
+		add_action( 'wp_dashboard_setup', [ &$this, 'widget_setup' ], 1 );
+		add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
+		add_action( 'wp_ajax_helpful_widget_stats', [ &$this, 'get_stats'] );
 	}
 
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return instance
+	 * @return Helpful_Widget
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Widget
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -42,7 +46,8 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts():void
+	{
 		if ( get_option( 'helpful_widget' ) ) {
 			return;
 		}
@@ -65,7 +70,8 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function widget_setup() {
+	public function widget_setup():void
+	{
 		if ( get_option( 'helpful_widget' ) ) {
 			return;
 		}
@@ -75,7 +81,7 @@ class Helpful_Widget {
 		wp_add_dashboard_widget(
 			'helpful_widget',
 			esc_html_x( 'Helpful', 'headline dashboard widget', 'helpful' ),
-			[ $this, 'widget_callback' ],
+			[ &$this, 'widget_callback' ],
 			null,
 			[ '__block_editor_compatible_meta_box' => false ]
 		);
@@ -97,7 +103,8 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function widget_callback() {
+	public function widget_callback():void
+	{
 		wp_enqueue_style( 'helpful-chartjs' );
 		wp_enqueue_style( 'helpful-widget' );
 		wp_enqueue_script( 'helpful-chartjs' );
@@ -134,7 +141,8 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function get_stats() {
+	public function get_stats():void
+	{
 		check_ajax_referer( 'helpful_widget_stats' );
 
 		$response            = [];
@@ -187,7 +195,8 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function render_template( $links, $years ) {
+	public function render_template( array $links, array $years ):void
+	{
 		include_once HELPFUL_PATH . 'templates/admin-widget.php';
 	}
 }

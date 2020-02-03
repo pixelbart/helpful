@@ -12,55 +12,59 @@ class Helpful_Setup {
 	/**
 	 * Instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Setup
 	 */
 	public static $instance;
 
 	/**
 	 * Helpful database table name
 	 *
-	 * @var $table_helpful
+	 * @var string
 	 */
 	protected $table_helpful = 'helpful';
 
 	/**
 	 * Helpful feedback database table name
 	 *
-	 * @var $table_feedback
+	 * @var Helpful_Setup
 	 */
 	protected $table_feedback = 'helpful_feedback';
 
 	/**
-	 * Class constructor.
+	 * Class constructor
+	 *
+	 * @return void
 	 */
-	public function __construct() {
-		register_activation_hook( HELPFUL_FILE, [ $this, 'delete_transient' ] );
-		register_activation_hook( HELPFUL_FILE, [ $this, 'setup_helpful_table' ] );
-		register_activation_hook( HELPFUL_FILE, [ $this, 'setup_feedback_table' ] );
-		register_activation_hook( HELPFUL_FILE, [ $this, 'setup_defaults' ] );
+	public function __construct()
+	{
+		register_activation_hook( HELPFUL_FILE, [ &$this, 'delete_transient' ] );
+		register_activation_hook( HELPFUL_FILE, [ &$this, 'setup_helpful_table' ] );
+		register_activation_hook( HELPFUL_FILE, [ &$this, 'setup_feedback_table' ] );
+		register_activation_hook( HELPFUL_FILE, [ &$this, 'setup_defaults' ] );
 
-		add_action( 'activated_plugin', [ $this, 'load_first' ] );
+		add_action( 'activated_plugin', [ &$this, 'load_first' ] );
 
-		add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-		add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 2 );
+		add_action( 'admin_menu', [ &$this, 'register_admin_menu' ] );
+		add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
+		add_filter( 'plugin_row_meta', [ &$this, 'plugin_row_meta' ], 10, 2 );
 
 		/**
 		 * Load Elementor Widgets
 		 *
 		 * @since 4.1.2
 		 */
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'elementor_widgets' ] );
-		add_action( 'elementor/controls/controls_registered', [ $this, 'elementor_controls' ] );
-		add_action( 'elementor/elements/categories_registered', [ $this, 'elementor_categories' ] );
+		add_action( 'elementor/widgets/widgets_registered', [ &$this, 'elementor_widgets' ] );
+		add_action( 'elementor/controls/controls_registered', [ &$this, 'elementor_controls' ] );
+		add_action( 'elementor/elements/categories_registered', [ &$this, 'elementor_categories' ] );
 	}
 
 	/**
 	 * Set instance and fire class.
 	 *
-	 * @return instance
+	 * @return Helpful_Setup
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Setup
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -72,7 +76,8 @@ class Helpful_Setup {
 	 *
 	 * @return boolean
 	 */
-	public function setup_defaults() {
+	public function setup_defaults():bool
+	{
 		if ( 1 === (int) get_option( 'helpful_defaults' ) ) {
 			return false;
 		}
@@ -89,7 +94,8 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function delete_transient() {
+	public function delete_transient():void
+	{
 		delete_transient( 'helpful_updated' );
 	}
 
@@ -100,7 +106,8 @@ class Helpful_Setup {
 	 *
 	 * @return bool
 	 */
-	public function setup_helpful_table() {
+	public function setup_helpful_table():bool
+	{
 		if ( 1 === (int) get_option( 'helpful_is_installed' ) ) {
 			return false;
 		}
@@ -134,7 +141,8 @@ class Helpful_Setup {
 	 *
 	 * @return bool
 	 */
-	public function setup_feedback_table() {
+	public function setup_feedback_table():bool
+	{
 		if ( 1 === (int) get_option( 'helpful_feedback_is_installed' ) ) {
 			return false;
 		}
@@ -170,7 +178,8 @@ class Helpful_Setup {
 	 *
 	 * @return bool
 	 */
-	public function set_defaults( $status = false ) {
+	public function set_defaults( bool $status = false ):bool
+	{
 		if ( false === $status ) {
 			return false;
 		}
@@ -215,6 +224,7 @@ class Helpful_Setup {
 		foreach ( $options as $slug => $value ) :
 			update_option( $slug, $value );
 		endforeach;
+
 		return true;
 	}
 
@@ -223,7 +233,8 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function load_first() {
+	public function load_first():void
+	{
 
 		if ( ! get_option( 'helpful_plugin_first' ) ) {
 			return;
@@ -244,7 +255,8 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function register_admin_menu() {
+	public function register_admin_menu():void
+	{
 		add_menu_page(
 			__( 'Helpful', 'helpful' ),
 			__( 'Helpful', 'helpful' ),
@@ -261,7 +273,8 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function settings_page_callback() {
+	public function settings_page_callback():void
+	{
 		include_once HELPFUL_PATH . 'templates/admin.php';
 	}
 
@@ -270,42 +283,53 @@ class Helpful_Setup {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts():void
+	{
 		$screen = get_current_screen();
 
-		if ( 'toplevel_page_helpful' === $screen->base ) {
-
-			$file = plugins_url( 'core/assets/vendor/chartjs/Chart.min.css', HELPFUL_FILE );
-			wp_enqueue_style( 'helpful-chartjs', $file, [], HELPFUL_VERSION );
-
-			$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.min.css', HELPFUL_FILE );
-			wp_enqueue_style( 'helpful-jquery', $file, [], HELPFUL_VERSION );
-
-			$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.structure.min.css', HELPFUL_FILE );
-			wp_enqueue_style( 'helpful-jquery-structure', $file, [], HELPFUL_VERSION );
-
-			$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.theme.min.css', HELPFUL_FILE );
-			wp_enqueue_style( 'helpful-jquery-theme', $file, [], HELPFUL_VERSION );
-
-			$file = plugins_url( 'core/assets/css/admin.css', HELPFUL_FILE );
-			wp_enqueue_style( 'helpful-backend', $file, [], HELPFUL_VERSION );
-
-			$file = plugins_url( 'core/assets/vendor/chartjs/Chart.min.js', HELPFUL_FILE );
-			wp_enqueue_script( 'helpful-chartjs', $file, [], HELPFUL_VERSION, true );
-
-			$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.min.js', HELPFUL_FILE );
-			wp_enqueue_script( 'helpful-jquery', $file, [], HELPFUL_VERSION, true );
-
-			$file = plugins_url( 'core/assets/js/admin.js', HELPFUL_FILE );
-			wp_enqueue_script( 'helpful-admin', $file, [], HELPFUL_VERSION, true );
-
-			$vars = [
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'helpful_admin_nonce' ),
-			];
-
-			wp_localize_script( 'helpful-admin', 'helpful_admin', $vars );
+		if ( 'toplevel_page_helpful' !== $screen->base ) {
+			return;
 		}
+
+		$file = '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css';
+		wp_enqueue_style( 'helpful-chartjs', $file, [], '2.9.3' );
+
+		$file = '//cdn.datatables.net/v/ju/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/r-2.2.3/sc-2.0.1/datatables.min.css';
+		wp_enqueue_style( 'helpful-datatables', $file, [], '1.10.20' );
+
+		$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.min.css', HELPFUL_FILE );
+		wp_enqueue_style( 'helpful-jquery', $file, [], HELPFUL_VERSION );
+
+		$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.structure.min.css', HELPFUL_FILE );
+		wp_enqueue_style( 'helpful-jquery-structure', $file, [], HELPFUL_VERSION );
+
+		$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.theme.min.css', HELPFUL_FILE );
+		wp_enqueue_style( 'helpful-jquery-theme', $file, [], HELPFUL_VERSION );
+
+		$file = plugins_url( 'core/assets/css/admin.css', HELPFUL_FILE );
+		wp_enqueue_style( 'helpful-backend', $file, [], HELPFUL_VERSION );
+
+		$file = '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js';
+		wp_enqueue_script( 'helpful-chartjs', $file, [], '2.9.3', true );
+
+		$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.min.js', HELPFUL_FILE );
+		wp_enqueue_script( 'helpful-jquery', $file, [], HELPFUL_VERSION, true );
+
+		$file = '//cdn.datatables.net/v/ju/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/r-2.2.3/sc-2.0.1/datatables.min.js';
+		wp_enqueue_script( 'helpful-datatables', $file, [], '1.10.20', true );
+
+		$file = plugins_url( 'core/assets/js/admin.js', HELPFUL_FILE );
+		wp_enqueue_script( 'helpful-admin', $file, [], HELPFUL_VERSION, true );
+
+		$language = apply_filters( 'helpful_datatables_language', '' );
+
+		$vars = [
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( 'helpful_admin_nonce' ),
+			'language' => [ 'url' => $language ],
+		];
+
+		wp_localize_script( 'helpful-admin', 'helpful_admin', $vars );
 	}
 
 	/**
@@ -316,7 +340,8 @@ class Helpful_Setup {
 	 *
 	 * @return array
 	 */
-	public function plugin_row_meta( $links, $file ) {
+	public function plugin_row_meta( array $links, string $file ):array
+	{
 
 		if ( false !== strpos( $file, basename( HELPFUL_FILE ) ) ) {
 			$links['documentation'] = sprintf(
@@ -348,7 +373,8 @@ class Helpful_Setup {
 	 *
 	 * @since 4.1.2
 	 */
-	public function elementor_widgets() {
+	public function elementor_widgets():void
+	{
 
 		/**
 		 * Register Helpful Widget
@@ -363,7 +389,8 @@ class Helpful_Setup {
 	 *
 	 * @since 4.1.2
 	 */
-	public function elementor_controls() {
+	public function elementor_controls():void
+	{
 
 	}
 
@@ -374,7 +401,8 @@ class Helpful_Setup {
 	 *
 	 * @param object $elementor elementor object.
 	 */
-	public function elementor_categories( $elementor ) {
+	public function elementor_categories( $elementor ):void
+	{
 
 	}
 }

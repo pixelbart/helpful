@@ -86,6 +86,15 @@ Switch to the Helpful settings and click on the System tab. There you will find 
 
 == Changelog ==
 
+= 4.1.5 =
+* In the Helpful settings there are now datatables in which all previous votes can be found. If the tables are too slow, caching can be set. The caching can be configured under Helpful -> System.
+* Chart.js and datatables are now loaded with CDN.
+* CSS corrections.
+* The Helpful metabox now shows the correct values again.
+* In the overviews in the admin area you can now sort the column by Helpful by clicking on a column header.
+* Fixed a bug that caused visitors or people who voted to be saved without ID.
+* Date: 03.02.2020
+
 = 4.1.4 =
 * The caching of Helpful is now solved with Transients API of WordPress. There are a few options in the settings of Helpful. Among other things the time can be adjusted and whether the caching should be activated at all. This concerns above all the Admin Widget, so that the queries do not become so slow.
 * An error could occur in the Admin Widget if the publication date of a post was not recognized. Instead, the publishing date is no longer shown if it would cause an error.

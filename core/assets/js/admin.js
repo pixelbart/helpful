@@ -1,5 +1,7 @@
 (function ($) {
 
+  "use strict";
+
   const HelpfulAdmin = {
     loader: "<div class=\"helpful_loader\"><i class=\"dashicons dashicons-update\"></i></div>",
     canvas: "<canvas class=\"chart\"></canvas>",
@@ -29,6 +31,10 @@
 
       if ($(".helpful-total").length > 0) {
         self.getStatsTotal();
+      }
+
+      if ($("#helpful-table-posts").length > 0) {
+        self.datatablePosts();
       }
     },
     togglePanel: function (tabElement) {
@@ -70,6 +76,7 @@
                   var total = meta.total;
                   var currentValue = dataset.data[tooltipItem.index];
                   var percentage = parseFloat((currentValue / total * 100).toFixed(1));
+                  percentage = (isNaN(percentage)) ? 0 : percentage;
                   return currentValue + ' (' + percentage + '%)';
                 },
                 title: function (tooltipItem, data) {
@@ -90,6 +97,7 @@
                   var dataset = data.datasets[tooltipItem.datasetIndex];
                   var currentValue = dataset.data[tooltipItem.index];
                   var percentage = parseFloat((currentValue / total * 100).toFixed(1));
+                  percentage = (isNaN(percentage)) ? 0 : percentage;
                   return currentValue + ' (' + percentage + '%)';
                 },
                 title: function (tooltipItem, data) {
@@ -127,11 +135,68 @@
 
       return;
     },
-    ajaxRequest: function (data) {
+    datatablePosts: function () {
+      var container = $('#helpful-table-posts');
+			var options = this.tableOptions();
+
+			$.extend(options, {
+				"ajax": {
+					"url": helpful_admin.ajax_url,
+					"data": function (d) {
+						d._wpnonce = helpful_admin.nonce;
+						d.action = "helpful_get_posts_data";						
+					},
+				},
+				"language": helpful_admin.language,
+				"columns": [
+					{ "data": "post.id" },
+          { "data": "post.title" },
+          {
+            "data": {
+              "_": "post.type",
+              "filter": "post.type.display",
+              "display": "post.type.display",
+              "sort" : "post.type.slug",
+            },
+            "visible": false,
+          },
+          { "data": "post.author" },
+          { "data": "helpful.pro" },
+          { "data": "helpful.contra" },
+          {
+            "data": {
+              "_": "post.date",
+              "filter": "post.date.display",
+              "display": "post.date.display",
+              "sort" : "post.date.timestamp",
+            },
+          },
+				],
+			});
+
+      var table = $(container).DataTable(options);
+
+      table.column('0:visible').order('desc').draw();
+    },
+		tableOptions: function () {
+			return {
+				"dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>'+
+				"t" +
+				'<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+				"buttons": [ "colvis" ],
+				"scrollY": 275,
+				"deferRender": true,
+				"scroller": true,
+				"responsive": true,
+				"processing": false,
+				"serverSide": false,
+			};
+		},
+    ajaxRequest: function (data, method = "POST") {
       return $.ajax({
         url: helpful_admin.ajax_url,
         data: data,
-        method: "POST",
+        method: method,
       });
     },
   };

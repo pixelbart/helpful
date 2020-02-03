@@ -12,41 +12,45 @@ class Helpful_Tabs_Texts extends Helpful_Tabs {
 	/**
 	 * Class instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Tabs_Texts
 	 */
 	public static $instance;
 
 	/**
 	 * Stores tab data
 	 *
-	 * @var $tab_info
+	 * @var array
 	 */
 	public $tab_info;
 
 	/**
 	 * Stores tab content
 	 *
-	 * @var $tab_content
+	 * @var array
 	 */
 	public $tab_content;
 
 	/**
 	 * Class constructor
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		$this->setup_tab();
 
-		add_action( 'admin_init', [ $this, 'register_settings' ] );
-		add_filter( 'helpful_admin_tabs', [ $this, 'register_tab' ] );
-		add_action( 'helpful_tabs_content', [ $this, 'add_tab_content' ] );
+		add_action( 'admin_init', [ &$this, 'register_settings' ] );
+		add_filter( 'helpful_admin_tabs', [ &$this, 'register_tab' ] );
+		add_action( 'helpful_tabs_content', [ &$this, 'add_tab_content' ] );
 	}
 
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return instance
+	 * @return Helpful_Tabs_Texts
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Tabs_Texts
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -58,12 +62,14 @@ class Helpful_Tabs_Texts extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function setup_tab() {
+	public function setup_tab():void
+	{
 		$this->tab_info    = [
 			'id'   => 'texts',
 			'name' => esc_html_x( 'Texts', 'tab name', 'helpful' ),
 		];
-		$this->tab_content = [ $this, 'render_callback' ];
+
+		$this->tab_content = [ &$this, 'render_callback' ];
 	}
 
 	/**
@@ -71,7 +77,8 @@ class Helpful_Tabs_Texts extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_callback() {
+	public function render_callback():void
+	{
 		include_once HELPFUL_PATH . 'core/tabs/tab-texts.php';
 	}
 
@@ -80,7 +87,8 @@ class Helpful_Tabs_Texts extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function register_settings() {
+	public function register_settings():void
+	{
 		$fields = [
 			'helpful_heading',
 			'helpful_content',

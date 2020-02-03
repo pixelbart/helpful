@@ -13,7 +13,8 @@ class Helpful_Elementor_Widget extends \Elementor\Widget_Base {
 	 *
 	 * @return string widget name.
 	 */
-	public function get_name() {
+	public function get_name():string
+	{
 		return 'helpful-widget';
 	}
 
@@ -22,7 +23,8 @@ class Helpful_Elementor_Widget extends \Elementor\Widget_Base {
 	 *
 	 * @return string widget title.
 	 */
-	public function get_title() {
+	public function get_title():string
+	{
 		return esc_html_x( 'Helpful', 'elementor widget name', 'helpful' );
 	}
 
@@ -31,7 +33,8 @@ class Helpful_Elementor_Widget extends \Elementor\Widget_Base {
 	 *
 	 * @return string widget icon.
 	 */
-	public function get_icon() {
+	public function get_icon():string
+	{
 		return 'fa fa-thumbs-up';
 	}
 
@@ -40,14 +43,18 @@ class Helpful_Elementor_Widget extends \Elementor\Widget_Base {
 	 *
 	 * @return array widget categories.
 	 */
-	public function get_categories() {
+	public function get_categories():array
+	{
 		return [ 'general' ];
 	}
 
 	/**
 	 * Register widget controls.
+	 *
+	 * @return void
 	 */
-	protected function _register_controls() {
+	protected function _register_controls():void
+	{
 		$this->start_controls_section(
 			'general',
 			[
@@ -171,8 +178,11 @@ class Helpful_Elementor_Widget extends \Elementor\Widget_Base {
 
 	/**
 	 * Render widget output on the frontend.
+	 *
+	 * @return void
 	 */
-	protected function render() {
+	protected function render():void
+	{
 		$settings = $this->get_settings_for_display();
 
 		$options = [

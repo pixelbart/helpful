@@ -12,7 +12,8 @@ class Helpful_Helper_Optimize {
 	 *
 	 * @return array
 	 */
-	public static function optimize_plugin() {
+	public static function optimize_plugin():array
+	{
 		delete_option( 'helpful_is_installed' );
 		delete_option( 'helpful_feedback_is_installed' );
 
@@ -39,7 +40,8 @@ class Helpful_Helper_Optimize {
 	 *
 	 * @return array responses
 	 */
-	private static function optimize_tables() {
+	private static function optimize_tables():array
+	{
 		global $wpdb;
 		$response = [];
 
@@ -68,7 +70,8 @@ class Helpful_Helper_Optimize {
 	 *
 	 * @return array response
 	 */
-	private static function move_feedback() {
+	private static function move_feedback():array
+	{
 		global $wpdb;
 
 		$response = [];
@@ -132,7 +135,8 @@ class Helpful_Helper_Optimize {
 	 *
 	 * @return array responses
 	 */
-	private static function remove_incorrect_entries() {
+	private static function remove_incorrect_entries():array
+	{
 		global $wpdb;
 
 		$response = [];
@@ -183,7 +187,8 @@ class Helpful_Helper_Optimize {
 	 *
 	 * @return array
 	 */
-	public static function fix_incorrect_feedback() {
+	public static function fix_incorrect_feedback():array
+	{
 		global $wpdb;
 
 		$response   = [];
@@ -221,7 +226,8 @@ class Helpful_Helper_Optimize {
 	 *
 	 * @return array
 	 */
-	public static function clear_cache() {
+	public static function clear_cache():array
+	{
 
 		$response = [
 			esc_html_x( 'The cache for Helpful has been cleared.', 'maintenance response', 'helpful' ),
@@ -245,7 +251,8 @@ class Helpful_Helper_Optimize {
 	 *
 	 * @return array
 	 */
-	public static function update_metas() {
+	public static function update_metas():array
+	{
 		$response   = [];
 		$post_types = get_option( 'helpful_post_types' );
 

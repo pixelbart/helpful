@@ -12,28 +12,31 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	/**
 	 * Class instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Tabs_System
 	 */
 	public static $instance;
 
 	/**
 	 * Stores tab data
 	 *
-	 * @var $tab_info
+	 * @var array
 	 */
 	public $tab_info;
 
 	/**
 	 * Stores tab content
 	 *
-	 * @var $tab_content
+	 * @var array
 	 */
 	public $tab_content;
 
 	/**
 	 * Class constructor
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		$this->setup_tab();
 
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
@@ -49,9 +52,10 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return isntance
+	 * @return Helpful_Tabs_System
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Tabs_System
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -63,7 +67,8 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function setup_tab() {
+	public function setup_tab():void
+	{
 		$this->tab_info   = [
 			'id'   => 'system',
 			'name' => esc_html_x( 'System', 'tab name', 'helpful' ),
@@ -76,7 +81,8 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_callback() {
+	public function render_callback():void
+	{
 		$post_types         = get_post_types( [ 'public' => true ] );
 		$private_post_types = get_post_types( [ 'public' => false ] );
 
@@ -94,7 +100,8 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function register_settings() {
+	public function register_settings():void
+	{
 		$fields = [
 			'helpful_uninstall',
 			'helpful_timezone',
@@ -118,7 +125,8 @@ class Helpful_Tabs_System extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function reset_plugin() {
+	public function reset_plugin():void
+	{
 		if ( ! get_option( 'helpful_uninstall' ) ) {
 			return;
 		}

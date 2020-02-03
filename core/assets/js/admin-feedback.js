@@ -1,4 +1,6 @@
 (function ($) {
+
+  "use strict";
   
   const HelpfulAdminFeedback = {
     loader: "<div class=\"helpful_loader\"><i class=\"dashicons dashicons-update\"></i></div>",

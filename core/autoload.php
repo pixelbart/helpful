@@ -58,6 +58,7 @@ Helpful_Tabs_Details::get_instance();
 Helpful_Tabs_Feedback::get_instance();
 Helpful_Tabs_Design::get_instance();
 Helpful_Tabs_System::get_instance();
+Helpful_Tabs_Log::get_instance();
 Helpful_Metabox::get_instance();
 Helpful_Widget::get_instance();
 Helpful_Table::get_instance();

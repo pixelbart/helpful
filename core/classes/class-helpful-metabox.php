@@ -10,14 +10,17 @@ class Helpful_Metabox {
 	/**
 	 * Class instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Metabox
 	 */
 	public static $instance;
 
 	/**
 	 * Class constructor
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		if ( ! get_option( 'helpful_metabox' ) ) {
 			return;
 		}
@@ -30,9 +33,10 @@ class Helpful_Metabox {
 	/**
 	 * Set instance and fire class.
 	 *
-	 * @return instance
+	 * @return Helpful_Metabox
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Metabox
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -44,7 +48,8 @@ class Helpful_Metabox {
 	 *
 	 * @return void
 	 */
-	public function add_metabox() {
+	public function add_metabox():void
+	{
 		$post_types = get_option( 'helpful_post_types' );
 
 		if ( isset( $post_types ) && is_array( $post_types ) ) {
@@ -64,7 +69,8 @@ class Helpful_Metabox {
 	 *
 	 * @return void
 	 */
-	public function render_metabox() {
+	public function render_metabox():void
+	{
 		global $post;
 
 		$pro            = Helpful_Helper_Stats::getPro( $post->ID );
@@ -85,7 +91,8 @@ class Helpful_Metabox {
 	 *
 	 * @return void
 	 */
-	public function save_metabox_data( $post_id ) {
+	public function save_metabox_data( $post_id ):void
+	{
 		if ( ! isset( $_POST['helpful_remove_data_nonce'] ) ) {
 			return;
 		}

@@ -12,14 +12,17 @@ class Helpful_Shortcodes {
 	/**
 	 * Instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Shortcodes
 	 */
 	public static $instance;
 
 	/**
 	 * Class constructor.
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		add_filter( 'the_content', [ $this, 'add_to_content' ] );
 		add_shortcode( 'helpful', [ $this, 'shortcode_helpful' ] );
 	}
@@ -27,9 +30,10 @@ class Helpful_Shortcodes {
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return instance
+	 * @return Helpful_Shortcodes
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Shortcodes
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -44,7 +48,8 @@ class Helpful_Shortcodes {
 	 *
 	 * @return string
 	 */
-	public function add_to_content( $content ) {
+	public function add_to_content( string $content ):string
+	{
 		global $post;
 
 		$post_types = get_option( 'helpful_post_types' );
@@ -110,11 +115,13 @@ class Helpful_Shortcodes {
 	 *
 	 * @global $post
 	 *
-	 * @param array $atts shortcode attributes.
+	 * @param array  $atts shortcode attributes.
+	 * @param string $content shortcode content.
 	 *
 	 * @return string
 	 */
-	public function shortcode_helpful( $atts, $content = '' ) {
+	public function shortcode_helpful( array $atts, string $content = '' ):string
+	{
 		global $post;
 
 		$defaults = Helpful_Helper_Values::getDefaults();

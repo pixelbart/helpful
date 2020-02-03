@@ -16,7 +16,8 @@ class Helpful_Customizer {
 	 *
 	 * @return void
 	 */
-	public static function register_customizer( $wp_customize ) {
+	public static function register_customizer( $wp_customize ):void
+	{
 		$panel = [
 			'title'       => esc_html_x( 'Helpful', 'customizer panel title', 'helpful' ),
 			'description' => esc_html_x( 'Here you can make small adjustments to Helpful.', 'customizer panel description', 'helpful' ),

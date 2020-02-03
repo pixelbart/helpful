@@ -21,7 +21,8 @@ class Helpful_Table {
 	 *
 	 * @return Helpful_Table
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Table
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -31,14 +32,12 @@ class Helpful_Table {
 
 	/**
 	 * Class constructor.
+	 *
+	 * @return void
 	 */
-	public function __construct() {
-		$this->register_columns();
-		$this->register_columns_content();
-
-		if ( is_admin() ) {
-			add_action( 'pre_get_posts', [ $this, 'set_sortable_columns_query' ], PHP_INT_MAX );
-		}
+	public function __construct()
+	{
+		add_action( 'admin_init', [ &$this, 'init_columns' ] );
 	}
 
 	/**
@@ -46,7 +45,10 @@ class Helpful_Table {
 	 *
 	 * @return void
 	 */
-	public function register_columns() {
+	public function init_columns():void
+	{
+		global $pagenow;
+
 		$post_types = get_option( 'helpful_post_types' );
 		$hide_cols  = get_option( 'helpful_hide_admin_columns' );
 
@@ -57,11 +59,21 @@ class Helpful_Table {
 		if ( ! isset( $post_types ) || ! is_array( $post_types ) ) {
 			return;
 		}
+		
+		$type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
 
-		foreach ( $post_types as $post_type ) {
-			$post_type = esc_attr( $post_type );
-			add_filter( 'manage_edit-' . $post_type . '_columns', [ $this, 'set_columns_title' ], 10 );
+		if ( ! in_array( $type, $post_types ) ) {
+			return;
 		}
+
+		foreach ( $post_types as $type ) :
+			if ( is_admin() && 'edit.php' === $pagenow ) {
+				add_filter( 'manage_' . $type . '_posts_columns', [ &$this, 'register_columns' ] );
+				add_action( 'manage_' . $type . '_posts_custom_column', [ &$this, 'populate_columns' ], 10, 2 );
+				add_filter( 'manage_edit-' . $type . '_sortable_columns', [ &$this, 'register_sortable_columns' ] );
+				add_action( 'pre_get_posts', [ &$this, 'sort_columns_query' ] );
+			}
+		endforeach;
 	}
 
 	/**
@@ -71,7 +83,8 @@ class Helpful_Table {
 	 *
 	 * @return array
 	 */
-	public function set_columns_title( $defaults ) {
+	public function register_columns( array $defaults ):array
+	{
 		$columns = [];
 		foreach ( $defaults as $key => $value ) :
 			$columns[ $key ] = $value;
@@ -86,29 +99,6 @@ class Helpful_Table {
 	}
 
 	/**
-	 * Register columns content
-	 *
-	 * @return string
-	 */
-	public function register_columns_content() {
-		$post_types = get_option( 'helpful_post_types' );
-		$hide_cols  = get_option( 'helpful_hide_admin_columns' );
-
-		if ( isset( $hide_cols ) && 'on' === $hide_cols ) {
-			return;
-		}
-
-		if ( ! isset( $post_types ) || ! is_array( $post_types ) ) {
-			return;
-		}
-
-		foreach ( $post_types as $post_type ) :
-			$post_type = esc_attr( $post_type );
-			add_action( 'manage_' . $post_type . '_posts_custom_column', [ $this, 'set_columns_content' ], 10, 2 );
-		endforeach;
-	}
-
-	/**
 	 * Columns callback
 	 *
 	 * @param string  $column_name column name.
@@ -116,13 +106,14 @@ class Helpful_Table {
 	 *
 	 * @return void
 	 */
-	public function set_columns_content( $column_name, $post_id ) {
+	public function populate_columns( string $column_name, int $post_id ):void
+	{
 		if ( 'helpful-pro' === $column_name ) {
 			if ( get_option( 'helpful_percentages' ) ) {
 				$percent = Helpful_Helper_Stats::getPro( $post_id, true );
 				$pro     = Helpful_Helper_Stats::getPro( $post_id );
-				update_post_meta( $post_id, 'helpful-pro', $percent );
-				printf( '%d (%s%%)', (int) $pro, esc_html( $percent ) );
+				update_post_meta( $post_id, 'helpful-pro', $pro );
+				printf( '%d (%s%%)', (int) $pro, $percent );
 			} else {
 				$pro = Helpful_Helper_Stats::getPro( $post_id );
 				update_post_meta( $post_id, 'helpful-pro', $pro );
@@ -134,27 +125,12 @@ class Helpful_Table {
 			if ( get_option( 'helpful_percentages' ) ) {
 				$percent = Helpful_Helper_Stats::getContra( $post_id, true );
 				$contra  = Helpful_Helper_Stats::getContra( $post_id );
-				update_post_meta( $post_id, 'helpful-contra', $percent );
-				printf( '%d (%s%%)', (int) $contra, esc_html( $percent ) );
+				update_post_meta( $post_id, 'helpful-contra', $contra );
+				printf( '%d (%s%%)', (int) $contra, $percent );
 			} else {
 				$contra = Helpful_Helper_Stats::getContra( $post_id );
 				update_post_meta( $post_id, 'helpful-contra', $contra );
 				printf( '%s', intval( $contra ) );
-			}
-		}
-	}
-
-	/**
-	 * Register sortable columns
-	 *
-	 * @return void
-	 */
-	public function register_sortable_columns() {
-		$post_types = get_option( 'helpful_post_types' );
-		if ( isset( $post_types ) ) {
-			foreach ( $post_types as $post_type ) {
-				$post_type = esc_attr( $post_type );
-				add_filter( 'manage_edit-' . $post_type . '_sortable_columns', [ $this, 'set_sortable_columns' ] );
 			}
 		}
 	}
@@ -166,9 +142,11 @@ class Helpful_Table {
 	 *
 	 * @return array
 	 */
-	public function set_sortable_columns( $columns ) {
+	public function register_sortable_columns( array $columns ):array
+	{
 		$columns['helpful-pro']    = 'helpful-pro';
 		$columns['helpful-contra'] = 'helpful-contra';
+
 		return $columns;
 	}
 
@@ -179,24 +157,45 @@ class Helpful_Table {
 	 *
 	 * @return void
 	 */
-	public function set_sortable_columns_query( $query ) {
+	public function sort_columns_query( WP_Query $wp_query ):void
+	{
 		if ( ! is_admin() ) {
 			return;
 		}
 
-		$orderby = $query->get( 'orderby' );
+		$orderby = $wp_query->get( 'orderby' );
 
-		if ( $query->is_main_query() ) {
-			switch ( $orderby ) {
-				case 'helpful-pro':
-					$query->set( 'meta_key', 'helpful-pro' );
-					$query->set( 'orderby', 'meta_value_num' );
-					break;
-				case 'helpful-contra':
-					$query->set( 'meta_key', 'helpful-contra' );
-					$query->set( 'orderby', 'meta_value_num' );
-					break;
-			}
+		if ( 'helpful-pro' === $orderby ) {
+
+			$meta_query = [
+				'relation' => 'OR',
+				[
+					'key'     => 'helpful-pro',
+					'compare' => 'NOT EXISTS',
+				],
+				[
+					'key' => 'helpful-pro',
+				],
+			];
+
+			$wp_query->set( 'meta_query', $meta_query );
+			$wp_query->set( 'orderby', 'meta_value' );
+		}
+
+		if ( 'helpful-contra' === $orderby ) {
+			$meta_query = [
+				'relation' => 'OR',
+				[
+					'key'     => 'helpful-contra',
+					'compare' => 'NOT EXISTS',
+				],
+				[
+					'key' => 'helpful-contra',
+				],
+			];
+
+			$wp_query->set( 'meta_query', $meta_query );
+			$wp_query->set( 'orderby', 'meta_value' );
 		}
 	}
 }

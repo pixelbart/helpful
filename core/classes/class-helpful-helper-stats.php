@@ -32,7 +32,8 @@ class Helpful_Helper_Stats {
 	 * @param boolean     $gmt Whether to use GMT timezone. Only applies if timestamp is not provided.
 	 * @return string The date, translated if locale specifies it.
 	 */
-	private static function helpful_date( $format, $timestamp_with_offset = false, $gmt = false ) {
+	private static function helpful_date( $format, $timestamp_with_offset = false, $gmt = false )
+	{
 		if ( function_exists( 'wp_date' ) ) {
 			return wp_date( $format, $timestamp_with_offset, $gmt );
 		} elseif ( function_exists( 'date_i18n' ) ) {
@@ -47,12 +48,13 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb, $post
 	 *
-	 * @param integer $post_id     if null current post id.
-	 * @param bool    $percentages return percentage values on true.
+	 * @param int  $post_id     if null current post id.
+	 * @param bool $percentages return percentage values on true.
 	 *
-	 * @return int count
+	 * @return string
 	 */
-	public static function getPro( $post_id = null, $percentages = false ) {
+	public static function getPro( int $post_id = null, bool $percentages = false ):string
+	{
 		if ( is_null( $post_id ) ) {
 			global $post;
 			$post_id = $post->ID;
@@ -86,15 +88,17 @@ class Helpful_Helper_Stats {
 
 		$pro         = $var ?: 0;
 		$contra      = self::getContra( $post_id );
-		$pro_percent = 0;
+		$percentage  = 0;
 
-		if ( is_int( $pro ) && 0 !== $pro && 0 <= $pro ) {
-			$pro_percent = ( ( $pro / ( $pro + $contra ) ) * 100 );
+		if ( 0 !== $pro ) {
+			$average    = (int) ( $pro - $contra );
+			$total      = (int) ( $pro + $contra );
+			$percentage = ( $pro / $total ) * 100;
+			$percentage = round( $percentage, 2 );
+			$percentage = number_format( $percentage, 2 );
 		}
 
-		$pro_percent = number_format( $pro_percent, 2 );
-
-		return (float) str_replace( '.00', '', $pro_percent );
+		return str_replace( '.00', '', $percentage );
 	}
 
 	/**
@@ -102,12 +106,13 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb, $post
 	 *
-	 * @param integer $post_id     if null current post id.
-	 * @param boolean $percentages return percentage values on true.
+	 * @param int  $post_id     if null current post id.
+	 * @param bool $percentages return percentage values on true.
 	 *
-	 * @return integer
+	 * @return string
 	 */
-	public static function getContra( $post_id = null, $percentages = false ) {
+	public static function getContra( int $post_id = null, bool $percentages = false ):string
+	{
 		if ( is_null( $post_id ) ) {
 			global $post, $wpdb;
 			$post_id = $post->ID;
@@ -139,16 +144,19 @@ class Helpful_Helper_Stats {
 			return $var;
 		}
 
-		$contra         = $var ?: 0;
-		$pro            = self::getPro( $post_id );
-		$contra_percent = 0;
+		$contra      = $var ?: 0;
+		$pro         = self::getPro( $post_id );
+		$percentage  = 0;
 
-		if ( is_int( $contra ) && 0 !== $contra && 0 <= $contra ) {
-			$contra_percent = ( ( $contra / ( $pro + $contra ) ) * 100 );
+		if ( 0 !== $contra ) {
+			$average    = (int) ( $contra - $pro );
+			$total      = (int) ( $contra + $pro );
+			$percentage = ( $contra / $total ) * 100;
+			$percentage = round( $percentage, 2 );
+			$percentage = number_format( $percentage, 2 );
 		}
 
-		$contra_percent = number_format( $contra_percent, 2 );
-		return (float) str_replace( '.00', '', $contra_percent );
+		return str_replace( '.00', '', $percentage );
 	}
 
 	/**
@@ -156,12 +164,12 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param boolean $percentages return percentage values on true.
+	 * @param bool $percentages return percentage values on true.
 	 *
 	 * @return int count
 	 */
-	public static function getProAll( $percentages = false ) {
-
+	public static function getProAll( bool $percentages = false ):string
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -209,7 +217,8 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return int count
 	 */
-	public static function getContraAll( $percentages = false ) {
+	public static function getContraAll( bool $percentages = false ):string
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -254,7 +263,8 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getYears() {
+	public static function getYears():array
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -296,11 +306,12 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param integer $year response year.
+	 * @param int $year response year.
 	 *
 	 * @return array
 	 */
-	public static function getStatsToday( $year ) {
+	public static function getStatsToday( int $year ):array
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -377,11 +388,12 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param integer $year response year.
+	 * @param int $year response year.
 	 *
 	 * @return array
 	 */
-	public static function getStatsYesterday( $year ) {
+	public static function getStatsYesterday( int $year ):array
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -458,11 +470,12 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param integer $year response year.
+	 * @param int $year response year.
 	 *
 	 * @return array
 	 */
-	public static function getStatsWeek( $year ) {
+	public static function getStatsWeek( int $year ):array
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -565,12 +578,13 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param integer $year response year.
-	 * @param integer $month response month.
+	 * @param int $year response year.
+	 * @param int $month response month.
 	 *
 	 * @return array
 	 */
-	public static function getStatsMonth( $year, $month = null ) {
+	public static function getStatsMonth( int $year, int $month = null ):array
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -680,11 +694,12 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param integer $year response year.
+	 * @param int $year response year.
 	 *
 	 * @return array
 	 */
-	public static function getStatsYear( $year ) {
+	public static function getStatsYear( int $year ):array
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -790,7 +805,8 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsRange( $from, $to ) {
+	public static function getStatsRange( string $from, string $to ):array
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -884,7 +900,8 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsTotal() {
+	public static function getStatsTotal():array
+	{
 		global $wpdb;
 
 		$helpful = $wpdb->prefix . 'helpful';
@@ -953,11 +970,12 @@ class Helpful_Helper_Stats {
 	/**
 	 * Get most helpful posts.
 	 *
-	 * @param integer $limit posts per page.
+	 * @param int $limit posts per page.
 	 *
 	 * @return array
 	 */
-	public static function getMostHelpful( $limit = null ) {
+	public static function getMostHelpful( int $limit = null ):array
+	{
 		if ( is_null( $limit ) ) {
 			$limit = intval( get_option( 'helpful_widget_amount' ) );
 		} else {
@@ -1046,11 +1064,12 @@ class Helpful_Helper_Stats {
 	/**
 	 * Get least helpful posts.
 	 *
-	 * @param integer $limit posts per page.
+	 * @param int $limit posts per page.
 	 *
 	 * @return array
 	 */
-	public static function getLeastHelpful( $limit = null ) {
+	public static function getLeastHelpful( int $limit = null ):array
+	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
 		}
@@ -1146,11 +1165,12 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param integer $limit posts per page.
+	 * @param int $limit posts per page.
 	 *
 	 * @return array
 	 */
-	public static function getRecentlyPro( $limit = null ) {
+	public static function getRecentlyPro( int $limit = null ):array
+	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
 		}
@@ -1217,11 +1237,12 @@ class Helpful_Helper_Stats {
 	 *
 	 * @global $wpdb
 	 *
-	 * @param integer $limit posts per page.
+	 * @param int $limit posts per page.
 	 *
 	 * @return array
 	 */
-	public static function getRecentlyContra( $limit = null ) {
+	public static function getRecentlyContra( int $limit = null ):array
+	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
 		}

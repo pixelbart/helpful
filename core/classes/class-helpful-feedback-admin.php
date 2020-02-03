@@ -15,8 +15,11 @@ class Helpful_Feedback_Admin {
 
 	/**
 	 * Class constructor.
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		add_action( 'admin_menu', [ $this, 'add_submenu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'wp_ajax_helpful_admin_feedback_items', [ $this, 'get_feedback_items' ] );
@@ -26,9 +29,10 @@ class Helpful_Feedback_Admin {
 	/**
 	 * Class instance.
 	 *
-	 * @return instance
+	 * @return Helpful_Feedback_Admin
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Feedback_Admin
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -42,7 +46,8 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function add_submenu() {
+	public function add_submenu():void
+	{
 		add_submenu_page(
 			'helpful',
 			__( 'Helpful Feedback', 'helpful' ),
@@ -58,7 +63,8 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function admin_page_callback() {
+	public function admin_page_callback():void
+	{
 		include_once HELPFUL_PATH . 'templates/admin-feedback.php';
 	}
 
@@ -67,7 +73,8 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts():void
+	{
 		$screen = get_current_screen();
 
 		if ( 'helpful_page_helpful_feedback' === $screen->base ) {
@@ -92,7 +99,8 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function get_feedback_items() {
+	public function get_feedback_items():void
+	{
 		check_ajax_referer( 'helpful_admin_feedback_nonce' );
 
 		global $wpdb;
@@ -132,7 +140,8 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function delete_feedback_item() {
+	public function delete_feedback_item():void
+	{
 		check_ajax_referer( 'helpful_admin_feedback_nonce' );
 
 		global $wpdb;
@@ -153,7 +162,8 @@ class Helpful_Feedback_Admin {
 	 *
 	 * @return void
 	 */
-	public function render_template( $feedback ) {
+	public function render_template( $feedback ):void
+	{
 		include HELPFUL_PATH . 'templates/admin-feedback-item.php';
 	}
 }

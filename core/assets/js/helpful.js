@@ -6,7 +6,6 @@
     el: ".helpful",
     vote: "helpful_save_vote",
     feedback: "helpful_save_feedback",
-
     initPlugin: function () {
       const self = this;
 
@@ -38,7 +37,6 @@
         });
       });
     },
-
     feedbackForm: function (currentForm) {
       var self = this;
 
@@ -64,7 +62,6 @@
         });
       });
     },
-
     ajaxRequest: function (data) {
       return $.ajax({
         url: helpful.ajax_url,
@@ -74,6 +71,8 @@
     },
   };
 
-  HelpfulPlugin.initPlugin();
+  $(function () {
+    HelpfulPlugin.initPlugin();
+  });
 
 })(jQuery);

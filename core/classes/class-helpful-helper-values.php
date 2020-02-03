@@ -30,7 +30,8 @@ class Helpful_Helper_Values {
 	 *
 	 * @return array
 	 */
-	public static function getDefaults() {
+	public static function getDefaults():array
+	{
 		global $helpful, $post;
 
 		$post_id      = $post->ID;
@@ -52,7 +53,7 @@ class Helpful_Helper_Values {
 			'count_contra_percent' => Helpful_Helper_Stats::getContra( $post_id, true ),
 			'credits'              => get_option( 'helpful_credits' ),
 			'credits_html'         => $credits_html,
-			'exists'               => ( self::checkUser( $user_id, $post_id ) ? 1 : 0 ),
+			'exists'               => self::checkUser( $user_id, $post_id ) ? 1 : 0,
 			'exists_text'          => self::convertTags( get_option( 'helpful_exists' ), $post_id ),
 			'post_id'              => $post_id,
 		];
@@ -68,7 +69,8 @@ class Helpful_Helper_Values {
 	 *
 	 * @return string
 	 */
-	public static function convertTags( $string, $post_id ) {
+	public static function convertTags( string $string, int $post_id ):string
+	{
 		$post   = get_post( $post_id );
 		$pro    = Helpful_Helper_Stats::getPro( $post->ID );
 		$contra = Helpful_Helper_Stats::getContra( $post->ID );
@@ -95,7 +97,8 @@ class Helpful_Helper_Values {
 	 *
 	 * @return array
 	 */
-	public static function get_tags() {
+	public static function get_tags():array
+	{
 		return [
 			'{pro}',
 			'{contra}',
@@ -110,18 +113,53 @@ class Helpful_Helper_Values {
 	/**
 	 * Get user string
 	 *
-	 * @return string
+	 * @return string/null
 	 */
-	public static function getUser() {
+	public static function getUser()
+	{
+		$user = null;
+
 		if ( isset( $_COOKIE['helpful_user'] ) ) {
-			return sanitize_text_field( $_COOKIE['helpful_user'] );
+			$user = sanitize_text_field( $_COOKIE['helpful_user'] );
 		}
 
 		if ( isset( $_SESSION['helpful_user'] ) ) {
-			return sanitize_text_field( $_SESSION['helpful_user'] );
+			$user = sanitize_text_field( $_SESSION['helpful_user'] );
 		}
 
-		return null;
+		if ( null === $user ) {
+			self::setUser();
+			$user = self::getUser();
+		}
+
+		return $user;
+	}
+
+	/**
+	 * Set user string
+	 *
+	 * @return void
+	 */
+	public static function setUser():void
+	{
+		$string   = bin2hex( openssl_random_pseudo_bytes( 16 ) );
+		$string   = apply_filters( 'helpful_user_string', $string );
+		$lifetime = '+30 days';
+		$lifetime = apply_filters( 'helpful_user_cookie_time', $lifetime );
+
+		if ( ! session_id() ) {
+			session_start();
+		}
+
+		if ( ! isset( $_COOKIE['helpful_user'] ) ) {
+			setcookie( 'helpful_user', $string, strtotime( $lifetime ) );
+		}
+
+		if ( ! isset( $_COOKIE['helpful_user'] ) ) {
+			if ( ! isset( $_SESSION['helpful_user'] ) ) {
+				$_SESSION['helpful_user'] = $string;
+			}
+		}
 	}
 
 	/**
@@ -134,7 +172,8 @@ class Helpful_Helper_Values {
 	 *
 	 * @return boolean
 	 */
-	public static function checkUser( $user_id, $post_id ) {
+	public static function checkUser( string $user_id, int $post_id ):bool
+	{
 		if ( get_option( 'helpful_multiple' ) ) {
 			return false;
 		}
@@ -166,7 +205,8 @@ class Helpful_Helper_Values {
 	 *
 	 * @return mixed
 	 */
-	public static function insertPro( $user, $post_id ) {
+	public static function insertPro( string $user, int $post_id )
+	{
 		global $wpdb;
 
 		$data       = [
@@ -181,10 +221,6 @@ class Helpful_Helper_Values {
 		$wpdb->insert( $table_name, $data );
 
 		update_post_meta( $post_id, 'helpful-pro', Helpful_Helper_Stats::getPro( $post_id ) );
-
-		if ( get_option( 'helpful_percentages' ) ) {
-			update_post_meta( $post_id, 'helpful-pro', Helpful_Helper_Stats::getPro( $post_id, true ) );
-		}
 
 		Helpful_Helper_Optimize::clear_cache();
 
@@ -201,7 +237,8 @@ class Helpful_Helper_Values {
 	 *
 	 * @return mixed
 	 */
-	public static function insertContra( $user, $post_id ) {
+	public static function insertContra( string $user, int $post_id )
+	{
 		global $wpdb;
 
 		$data       = [
@@ -217,10 +254,6 @@ class Helpful_Helper_Values {
 
 		update_post_meta( $post_id, 'helpful-contra', Helpful_Helper_Stats::getContra( $post_id ) );
 
-		if ( get_option( 'helpful_percentages' ) ) {
-			update_post_meta( $post_id, 'helpful-contra', Helpful_Helper_Stats::getContra( $post_id, true ) );
-		}
-
 		Helpful_Helper_Optimize::clear_cache();
 
 		return $wpdb->insert_id;
@@ -235,7 +268,8 @@ class Helpful_Helper_Values {
 	 *
 	 * @return void
 	 */
-	public static function removeData( $post_id ) {
+	public static function removeData( int $post_id ):void
+	{
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'helpful';
@@ -254,9 +288,10 @@ class Helpful_Helper_Values {
 	 *
 	 * @param string $table_name database table name.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public static function tableExists( $table_name ) {
+	public static function tableExists( string $table_name ):array
+	{
 		global $wpdb;
 
 		$response = [];
@@ -280,9 +315,10 @@ class Helpful_Helper_Values {
 	/**
 	 * Setup helpful table
 	 *
-	 * @return boolean
+	 * @return string
 	 */
-	public static function setupHelpfulTable() {
+	public static function setupHelpfulTable():string
+	{
 		global $wpdb;
 
 		$table_name      = $wpdb->prefix . self::$table_helpful;
@@ -311,9 +347,10 @@ class Helpful_Helper_Values {
 	/**
 	 * Setup helpful feedback table
 	 *
-	 * @return boolean
+	 * @return string
 	 */
-	public static function setupHelpfulFeedbackTable() {
+	public static function setupHelpfulFeedbackTable():string
+	{
 		global $wpdb;
 
 		$table_name      = $wpdb->prefix . self::$table_feedback;
@@ -339,5 +376,66 @@ class Helpful_Helper_Values {
 			esc_html_x( "Table '%s' has been created.", 'maintenance response', 'helpful' ),
 			$table_name
 		);
+	}
+
+	/**
+	 * Receive helpful data
+	 *
+	 * @return array
+	 */
+	public static function get_data():array
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'helpful';
+
+		$sql = "SELECT * FROM $table_name";
+
+		$query = $wpdb->get_results( $sql, ARRAY_A );
+
+		$results = [
+			'count' => count( $query ),
+			'items' => $query,
+		];
+
+		return $results;
+	}	
+
+	/**
+	 * Sync post meta
+	 *
+	 * @return void
+	 */
+	public static function sync_post_meta():void
+	{
+		$transient = 'helpful_sync_meta';
+
+		if ( false === ( $query = get_transient( $transient ) ) ) {
+
+			$post_types = get_option( 'helpful_post_types' );
+
+			$args = [
+				'post_type'      => $post_types,
+				'post_status'    => 'publish',
+				'fields'         => 'ids',
+				'posts_per_page' => -1,
+			];
+
+			$query       = new WP_Query( $args );
+			$cache_time  = get_option( 'helpful_cache_time', 'minute' );
+			$cache_times = Helpful_Helper_Cache::get_cache_times( false );
+			$cache_time  = $cache_times[ $cache_time ];
+
+			set_transient( $transient, $query, $cache_time );
+
+			if ( $query->found_posts ) {
+				foreach ( $query->posts as $post_id ) :
+					update_post_meta( $post_id, 'helpful-pro', Helpful_Helper_Stats::getPro( $post_id, false ) );
+					update_post_meta( $post_id, 'helpful-contra', Helpful_Helper_Stats::getContra( $post_id, false ) );
+				endforeach;
+			}
+
+			usleep( 100000 );
+		}
 	}
 }

@@ -1,5 +1,7 @@
 (function($) {
 
+  "use strict";
+
   var HelpfulDesign = {
     initClass: function() {
 
@@ -11,7 +13,6 @@
         this.initCodeMirror();
       }
     },
-
     initThemePreview: function() {
       var themeSelect = $("#helpful_theme");
       var previewContainer = $("#theme-preview");
@@ -49,7 +50,6 @@
         e.preventDefault();
       });
     },
-
     initCodeMirror: function() {
       CodeMirror.fromTextArea(document.getElementById("helpful_css"), {
         lineNumbers: true,

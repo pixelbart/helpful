@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Helpful
  * Description: Add a fancy feedback form under your posts or post-types and ask your visitors a question. Give them the abbility to vote with yes or no.
- * Version: 4.1.4
+ * Version: 4.1.5
  * Author: Pixelbart
  * Author URI: https://pixelbart.de
  * Text Domain: helpful
@@ -15,11 +15,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$file_data = (object) get_file_data( __FILE__, [ 'Version' => 'Version' ] );
+if ( ! function_exists( 'get_plugin_data' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+}
+
+$plugin = get_plugin_data( __FILE__ );
 
 define( 'HELPFUL_FILE', __FILE__ );
 define( 'HELPFUL_PATH', plugin_dir_path( HELPFUL_FILE ) );
-define( 'HELPFUL_VERSION', $file_data->Version );
+define( 'HELPFUL_VERSION', $plugin['Version'] );
 define( 'HELPFUL_PHP_MIN', '5.6.20' );
 
 /* Include config */

@@ -18,22 +18,24 @@ class Helpful_Frontend {
 	/**
 	 * Class Constructor
 	 */
-	public function __construct() {
-		add_action( 'init', [ $this, 'set_user_cookie' ], 1 );
-		add_filter( 'helpful_themes', [ $this, 'default_themes' ], 1 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], PHP_INT_MAX );
-		add_action( 'wp_ajax_helpful_save_vote', [ $this, 'save_vote' ] );
-		add_action( 'wp_ajax_nopriv_helpful_save_vote', [ $this, 'save_vote' ] );
-		add_action( 'wp_ajax_helpful_save_feedback', [ $this, 'save_feedback' ] );
-		add_action( 'wp_ajax_nopriv_helpful_save_feedback', [ $this, 'save_feedback' ] );
+	public function __construct()
+	{
+		add_action( 'init', [ &$this, 'set_user_cookie' ], 1 );
+		add_filter( 'helpful_themes', [ &$this, 'default_themes' ], 1 );
+		add_action( 'wp_enqueue_scripts', [ &$this, 'enqueue_scripts' ], PHP_INT_MAX );
+		add_action( 'wp_ajax_helpful_save_vote', [ &$this, 'save_vote' ] );
+		add_action( 'wp_ajax_nopriv_helpful_save_vote', [ &$this, 'save_vote' ] );
+		add_action( 'wp_ajax_helpful_save_feedback', [ &$this, 'save_feedback' ] );
+		add_action( 'wp_ajax_nopriv_helpful_save_feedback', [ &$this, 'save_feedback' ] );
 	}
 
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return instance
+	 * @return Helpful_Frontend
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Frontend
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -45,25 +47,9 @@ class Helpful_Frontend {
 	 *
 	 * @return void
 	 */
-	public function set_user_cookie() {
-		$string   = bin2hex( openssl_random_pseudo_bytes( 16 ) );
-		$string   = apply_filters( 'helpful_user_string', $string );
-		$lifetime = '+30 days';
-		$lifetime = apply_filters( 'helpful_user_cookie_time', $lifetime );
-
-		if ( ! session_id() ) {
-			session_start();
-		}
-
-		if ( ! isset( $_COOKIE['helpful_user'] ) ) {
-			setcookie( 'helpful_user', $string, strtotime( $lifetime ) );
-		}
-
-		if ( ! isset( $_COOKIE['helpful_user'] ) ) {
-			if ( ! isset( $_SESSION['helpful_user'] ) ) {
-				$_SESSION['helpful_user'] = $string;
-			}
-		}
+	public function set_user_cookie():void
+	{
+		Helpful_Helper_Values::setUser();
 	}
 
 	/**
@@ -73,7 +59,8 @@ class Helpful_Frontend {
 	 *
 	 * @return array
 	 */
-	public function default_themes( $themes ) {
+	public function default_themes( $themes ):array
+	{
 		$themes[] = [
 			'id'         => 'base',
 			'label'      => esc_html_x( 'Base', 'theme name', 'helpful' ),
@@ -124,7 +111,8 @@ class Helpful_Frontend {
 	 *
 	 * @return void
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts():void
+	{
 		$active_theme = get_option( 'helpful_theme' );
 		$themes       = apply_filters( 'helpful_themes', false );
 
@@ -161,7 +149,8 @@ class Helpful_Frontend {
 	 *
 	 * @return void
 	 */
-	public function save_vote() {
+	public function save_vote():void
+	{
 		check_ajax_referer( 'helpful_frontend_nonce' );
 
 		$user_id = sanitize_text_field( $_POST['user_id'] );
@@ -187,7 +176,8 @@ class Helpful_Frontend {
 	 *
 	 * @return void
 	 */
-	public function save_feedback() {
+	public function save_feedback():void
+	{
 		check_ajax_referer( 'helpful_feedback_nonce' );
 
 		if ( ! isset( $_REQUEST['helpful_cancel'] ) ) {
@@ -220,7 +210,8 @@ class Helpful_Frontend {
 	 *
 	 * @return string
 	 */
-	public function after_vote( $type, $post_id ) {
+	public function after_vote( string $type, int $post_id )
+	{
 		$feedback_text = esc_html_x(
 			'Thank you very much. Please write us your opinion, so that we can improve ourselves.',
 			'form user note',

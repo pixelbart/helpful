@@ -12,7 +12,7 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	/**
 	 * Class instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Tabs_Details
 	 */
 	public static $instance;
 
@@ -32,8 +32,11 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 
 	/**
 	 * Class constructor
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		$this->setup_tab();
 
 		add_action( 'admin_init', [ $this, 'register_settings' ] );
@@ -44,9 +47,10 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return voidinstance
+	 * @return Helpful_Tabs_Details
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Tabs_Details
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -59,11 +63,13 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function setup_tab() {
+	public function setup_tab():void
+	{
 		$this->tab_info    = [
 			'id'   => 'details',
 			'name' => esc_html_x( 'Details', 'tab name', 'helpful' ),
 		];
+
 		$this->tab_content = [ $this, 'render_callback' ];
 	}
 
@@ -72,8 +78,8 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_callback() {
-
+	public function render_callback():void
+	{
 		$post_types         = get_post_types( [ 'public' => true ] );
 		$private_post_types = get_post_types( [ 'public' => false ] );
 
@@ -91,7 +97,8 @@ class Helpful_Tabs_Details extends Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function register_settings() {
+	public function register_settings():void
+	{
 		$fields = [
 			'helpful_credits',
 			'helpful_hide_in_content',

@@ -10,16 +10,28 @@
 class Helpful_Notices {
 
 	/**
+	 * Plugin Data
+	 *
+	 * @var object
+	 */
+	private $plugin;
+
+	/**
 	 * Class instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Notices
 	 */
 	public static $instance;
 
 	/**
-	 * Class constructor.
+	 * Class constructor
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct()
+	{
+		$this->set_plugin_data();
+
 		add_action( 'admin_notices', [ $this, 'perform_maintenance_notice' ] );
 		add_action( 'helpful_notices', [ $this, 'perform_maintenance' ] );
 	}
@@ -27,9 +39,10 @@ class Helpful_Notices {
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return instance
+	 * @return Helpful_Notices
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Notices
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -38,18 +51,47 @@ class Helpful_Notices {
 	}
 
 	/**
+	 * Setup Plugin Data
+	 *
+	 * @return void
+	 */
+	private function set_plugin_data():void
+	{
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$this->plugin = get_plugin_data( HELPFUL_FILE );
+	}
+
+	/**
 	 * Informs the user to perform maintenance.
 	 *
 	 * @return void
 	 */
-	public function perform_maintenance_notice() {
+	public function perform_maintenance_notice():void
+	{
 		$screen = get_current_screen();
+		$plugin = $this->plugin;
 
 		if ( 'on' === get_option( 'helpful_notes' ) ) {
 			return;
 		}
 
-		if ( false === get_transient( 'helpful_updated' ) && 'toplevel_page_helpful' !== $screen->base ) {
+		/**
+		 * Deletes the old transient from version 4.1.4
+		 */
+		if ( get_transient( 'helpful_updated' ) ) {
+			delete_transient( 'helpful_updated' );
+		}
+
+		$option = get_option( 'helpful_plugin_version' );
+
+		if ( $option === $plugin['Version'] ) {
+			return;
+		}
+		
+		if ( 'toplevel_page_helpful' !== $screen->base ) {
 
 			$class = 'notice-warning';
 			$url   = wp_nonce_url( admin_url( 'admin.php?page=helpful' ), 'helpful_perform_maintenance', 'action' );
@@ -69,21 +111,20 @@ class Helpful_Notices {
 	 *
 	 * @return void
 	 */
-	public function perform_maintenance() {
+	public function perform_maintenance():void
+	{
 		$screen = get_current_screen();
+		$page   = 'toplevel_page_helpful';
+		$nonce  = 'helpful_perform_maintenance';
+		$plugin = $this->plugin;
 
-		if (
-			isset( $_GET['action'] ) &&
-			wp_verify_nonce( $_GET['action'], 'helpful_perform_maintenance' ) &&
-			'toplevel_page_helpful' === $screen->base
-		) {
-
+		if ( isset( $_GET['action'] ) && wp_verify_nonce( $_GET['action'], $nonce ) && $page === $screen->base ) {
 			$response = Helpful_Helper_Optimize::optimize_plugin();
 			$response = apply_filters( 'helpful_maintenance', $response );
 			$class    = 'notice-success';
 			$notice   = esc_html_x( 'Thank you very much. The database has been updated successfully. ', 'admin notice', 'helpful' );
 			printf( '<div class="notice %s is-dismissible"><p>%s</p></div>', $class, $notice );
-			set_transient( 'helpful_updated', 1, 7 * DAY_IN_SECONDS );
+			update_option( 'helpful_plugin_version', $plugin['Version'] );
 		}
 	}
 }

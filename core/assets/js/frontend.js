@@ -1,5 +1,7 @@
 (function($) {
 
+  "use strict";
+
   var HelpfulPlugin = {
 
     initClass: function() {
@@ -12,8 +14,6 @@
       self.initPro();
       self.initContra();
     },
-
-    // on pro
     initPro: function() {
       var self = this;
 
@@ -36,8 +36,6 @@
         return false;
       });
     },
-
-    // on contra
     initContra: function() {
       var self = this;
 
@@ -60,8 +58,6 @@
         return false;
       });
     },
-
-    // default ajax data for buttons
     ajaxDataButton: function(element, action) {
       var ajaxData = {};
 
@@ -74,8 +70,6 @@
 
       return ajaxData;
     },
-
-    // insert feedback
     feedbackForm: function(parentElement) {
       if( $(".helpful-feedback") ) {
 
@@ -99,8 +93,6 @@
         });
       }
     },
-
-    // contact form 7 support
     contactForm7: function() {
       if( $(".wpcf7").length ) {
         var wpcf7Elm = $( ".wpcf7" );
@@ -119,7 +111,6 @@
         });
       }
     },
-
     ajaxRequest: function(data) {
       return $.ajax({
         url : helpful.ajax_url,

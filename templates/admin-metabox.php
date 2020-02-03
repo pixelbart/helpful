@@ -42,4 +42,4 @@
             </td>
         </tr>
     </tbody>
-</table>
+</table><!-- .form-table.meta_box -->

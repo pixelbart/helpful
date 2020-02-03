@@ -12,14 +12,15 @@ class Helpful_Tabs_Design {
 	/**
 	 * Instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Tabs_Design
 	 */
 	public static $instance;
 
 	/**
 	 * Class constructor.
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		add_filter( 'helpful_admin_tabs', [ $this, 'register_tab' ] );
 		add_action( 'wp_head', [ $this, 'custom_css' ], PHP_INT_MAX );
 	}
@@ -27,9 +28,10 @@ class Helpful_Tabs_Design {
 	/**
 	 * Set instance and fire class
 	 *
-	 * @return instance
+	 * @return Helpful_Tabs_Design
 	 */
-	public static function get_instance() {
+	public static function get_instance():Helpful_Tabs_Design
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
@@ -46,7 +48,8 @@ class Helpful_Tabs_Design {
 	 *
 	 * @return array
 	 */
-	public function register_tab( $tabs ) {
+	public function register_tab( array $tabs ):array
+	{
 		$query                       = [];
 		$query['autofocus[section]'] = 'helpful_design';
 		$section_link                = add_query_arg( $query, admin_url( 'customize.php' ) );
@@ -63,7 +66,8 @@ class Helpful_Tabs_Design {
 	 *
 	 * @return void
 	 */
-	public function custom_css() {
+	public function custom_css():void
+	{
 		if ( get_option( 'helpful_css' ) ) {
 			$custom_css = get_option( 'helpful_css' );
 			printf( '<style>%s</style>', $custom_css );

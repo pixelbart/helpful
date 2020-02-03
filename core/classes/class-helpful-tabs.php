@@ -10,14 +10,14 @@ class Helpful_Tabs {
 	/**
 	 * Stores tab data
 	 *
-	 * @var $tab_info
+	 * @var array
 	 */
 	public $tab_info;
 
 	/**
 	 * Stores tab content
 	 *
-	 * @var $tab_content
+	 * @var array
 	 */
 	public $tab_content;
 
@@ -30,7 +30,8 @@ class Helpful_Tabs {
 	 *
 	 * @return array
 	 */
-	public function register_tab( $tabs ) {
+	public function register_tab( array $tabs ):array
+	{
 		global $helpful;
 
 		$tab        = $this->tab_info;
@@ -55,14 +56,15 @@ class Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function register_menu() {
+	public function register_menu():void
+	{
 		add_submenu_page(
 			'helpful',
 			$this->tab_info['name'],
 			$this->tab_info['name'],
 			'manage_options',
 			'helpful&tab=' . $this->tab_info['id'],
-			[ $this, 'renderAdminPage' ]
+			[ &$this, 'renderAdminPage' ]
 		);
 	}
 
@@ -71,7 +73,8 @@ class Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function render_admin_page() {
+	public function render_admin_page():void
+	{
 		include_once HELPFUL_PATH . 'templates/backend.php';
 	}
 
@@ -82,7 +85,8 @@ class Helpful_Tabs {
 	 *
 	 * @return void
 	 */
-	public function add_tab_content() {
+	public function add_tab_content():void
+	{
 		global $helpful;
 
 		$tab        = $this->tab_info;

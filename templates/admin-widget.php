@@ -1,8 +1,6 @@
 <form class="helpful-widget-form">
-
 	<input type="hidden" name="action" value="helpful_widget_stats">
 	<?php wp_nonce_field( 'helpful_widget_stats' ); ?>
-
 	<div class="helpful-margin-right-small">
 		<select name="range">
 			<option value="today"><?php esc_html_e( 'Today', 'helpful' ); ?></option>
@@ -13,7 +11,6 @@
 			<option value="total" selected><?php esc_html_e( 'Total', 'helpful' ); ?></option>
 		</select>
 	</div>
-
 	<?php if ( ! empty( $years ) ) : ?>
 	<div class="helpful-margin-right-small" hidden>
 		<select name="year">
@@ -23,21 +20,16 @@
 		</select>
 	</div>
 	<?php endif; ?>
-
 	<div class="helpful-margin-left-auto">
 		<button type="button" class="button button-default refresh">
 			<?php esc_html_e( 'Refresh', 'helpful' ); ?>
 		</button>
 	</div>
-
 </form>
-
 <div class="helpful-widget-content">
-	<div class="loader"><i class="dashicons dashicons-image-rotate"></i></div>
+	<div class="loader"><i class="dashicons dashicons-update"></i></div>
 </div>
-
 <div class="helpful-widget-panels">
-
 	<?php if ( ! empty( Helpful_Helper_Stats::getMostHelpful() ) && get_option( 'helpful_widget_pro' ) ) : ?>
 	<div class="helpful-widget-panel">
 		<button type="button">
@@ -55,7 +47,6 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-
 	<?php if ( ! empty( Helpful_Helper_Stats::getLeastHelpful() ) && get_option( 'helpful_widget_contra' ) ) : ?>
 	<div class="helpful-widget-panel">
 		<button type="button">
@@ -73,7 +64,6 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-
 	<?php if ( ! empty( Helpful_Helper_Stats::getRecentlyPro() ) && get_option( 'helpful_widget_pro_recent' ) ) : ?>
 	<div class="helpful-widget-panel">
 		<button type="button">
@@ -90,7 +80,6 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-
 	<?php if ( ! empty( Helpful_Helper_Stats::getRecentlyContra() ) && get_option( 'helpful_widget_contra_recent' ) ) : ?>
 	<div class="helpful-widget-panel">
 		<button type="button">
@@ -107,7 +96,6 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-
 	<?php if ( Helpful_Helper_Feedback::getFeedbackItems() && get_option( 'helpful_feedback_widget' ) ) : ?> 
 	<div class="helpful-widget-panel">
 		<button type="button">
@@ -126,18 +114,15 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-
 </div>
-
 <div class="helpful-widget-footer">
-	<?php echo implode( '', $links ); ?>
-
 	<?php
+	echo implode( '', $links );
+
 	$total  = 0;
 	$total += (int) Helpful_Helper_Stats::getProAll();
 	$total += (int) Helpful_Helper_Stats::getContraAll();
 	?>
-
 	<div class="helpful-widget-total">
 		<?php printf( esc_html__( '%d Votes', 'helpful' ), intval( $total ) ); ?>
 	</div>
