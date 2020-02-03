@@ -81,7 +81,7 @@ class Helpful_Shortcodes {
 
 		if ( 1 === $helpful['exists'] ) {
 			if ( 1 === $helpful['exists-hide'] ) {
-				return;
+				return __return_empty_string();
 			}
 
 			$hidden             = true;
@@ -129,7 +129,7 @@ class Helpful_Shortcodes {
 		$user_id  = Helpful_Helper_Values::getUser();
 
 		if ( get_option( 'helpful_exists_hide' ) && Helpful_Helper_Values::checkUser( $user_id, $post->ID ) ) {
-			return;
+			return __return_empty_string();
 		}
 
 		$helpful = shortcode_atts( $defaults, $atts );
@@ -139,7 +139,7 @@ class Helpful_Shortcodes {
 
 		if ( isset( $helpful['exists'] ) && 1 === $helpful['exists'] ) {
 			if ( 1 === $helpful['exists-hide'] ) {
-				return;
+				return __return_empty_string();
 			}
 
 			$hidden             = true;
