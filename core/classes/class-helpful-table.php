@@ -172,9 +172,11 @@ class Helpful_Table {
 				[
 					'key'     => 'helpful-pro',
 					'compare' => 'NOT EXISTS',
+					'type'    => 'NUMERIC',
 				],
 				[
-					'key' => 'helpful-pro',
+					'key'  => 'helpful-pro',
+					'type' => 'NUMERIC',
 				],
 			];
 

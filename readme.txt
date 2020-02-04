@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6.20
-Stable tag: 4.2.1
+Stable tag: 4.2.2
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,10 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.2.2 =
+* Fixed a bug where the sorting in the tables was not numeric.
+* Date: 04.02.2020
 
 = 4.2.1 =
 * Corrected translations.
