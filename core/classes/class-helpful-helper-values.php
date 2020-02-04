@@ -471,24 +471,28 @@ class Helpful_Helper_Values {
 			],
 			'select'       => [
 				'rows' => [
-					'_' => '%d rows selected',
-					'0' => '',
-					'1' => '1 row selected'
+					'_' => esc_html_x( '%d rows selected', 'datatables previous', 'helpful' ),
+					'0' => esc_html_x( '', 'datatables previous', 'helpful' ),
+					'1' => esc_html_x( '1 row selected' 'datatables previous', 'helpful' ),
 				],
 			],
 			'buttons'      => [
-				'print'      => 'Print',
-				'colvis'      => 'Columns',
-				'copy'       => 'Copy',
-				'copyTitle'   => 'Copy to clipboard',
-				'copyKeys'    => 'Press <i>ctrl</i> or <i>\u2318</i> + <i>C</i> to copy table<br>to temporary storage.<br><br>To cancel, click on the message or press Escape.',
+				'print'       => esc_html_x( 'Print', 'datatables print', 'helpful' ),
+				'colvis'      => esc_html_x( 'Columns', 'datatables colvis', 'helpful' ),
+				'copy'        => esc_html_x( 'Copy', 'datatables copy', 'helpful' ),
+				'copyTitle'   => esc_html_x( 'Copy to clipboard', 'datatables copyTitle', 'helpful' ),
+				'copyKeys'    => esc_html_x(
+					'Press <i>ctrl</i> or <i>\u2318</i> + <i>C</i> to copy table<br>to temporary storage.<br><br>To cancel, click on the message or press Escape.',
+					'datatables copyKeys',
+					'helpful'
+				),
 				'copySuccess' => [
-					'_' => '%d rows copied',
-					'1' => '1 row copied',
+					'_' => esc_html_x( '%d rows copied', 'datatables copySuccess', 'helpful' ),
+					'1' => esc_html_x( '1 row copied', 'datatables copySuccess', 'helpful' ),
 				],
 				'pageLength' => [
-					'-1' => 'Show all rows',
-					'_'  =>  'Show %d rows',
+					'-1' => esc_html_x( 'Show all rows', 'datatables pageLength', 'helpful' ),
+					'_'  =>  esc_html_x( 'Show %d rows', 'datatables pageLength', 'helpful' ),
 				],
 			],
 		];
