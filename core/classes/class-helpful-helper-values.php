@@ -469,6 +469,28 @@ class Helpful_Helper_Values {
 				'sortAscending'  => esc_html_x( ': activate to sort column ascending', 'datatables sortAscending', 'helpful' ),
 				'sortDescending' => esc_html_x( ': activate to sort column descending', 'datatables sortDescending', 'helpful' ),
 			],
+			'select'       => [
+				'rows' => [
+					'_' => '%d rows selected',
+					'0' => '',
+					'1' => '1 row selected'
+				],
+			],
+			'buttons'      => [
+				'print'      => 'Print',
+				'colvis'      => 'Columns',
+				'copy'       => 'Copy',
+				'copyTitle'   => 'Copy to clipboard',
+				'copyKeys'    => 'Press <i>ctrl</i> or <i>\u2318</i> + <i>C</i> to copy table<br>to temporary storage.<br><br>To cancel, click on the message or press Escape.',
+				'copySuccess' => [
+					'_' => '%d rows copied',
+					'1' => '1 row copied',
+				],
+				'pageLength' => [
+					'-1' => 'Show all rows',
+					'_'  =>  'Show %d rows',
+				],
+			],
 		];
 	}
 }
