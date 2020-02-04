@@ -473,10 +473,10 @@ class Helpful_Helper_Values {
 				'rows' => [
 					'_' => esc_html_x( '%d rows selected', 'datatables previous', 'helpful' ),
 					'0' => esc_html_x( '', 'datatables previous', 'helpful' ),
-					'1' => esc_html_x( '1 row selected' 'datatables previous', 'helpful' ),
+					'1' => esc_html_x( '1 row selected', 'datatables previous', 'helpful' ),
 				],
 			],
-			'buttons'      => [
+			'buttons'     => [
 				'print'       => esc_html_x( 'Print', 'datatables print', 'helpful' ),
 				'colvis'      => esc_html_x( 'Columns', 'datatables colvis', 'helpful' ),
 				'copy'        => esc_html_x( 'Copy', 'datatables copy', 'helpful' ),
