@@ -209,7 +209,7 @@ class Helpful_Tabs_Start {
 				$response['data'][] = [
 					'post_id'    => $data['ID'],
 					'post_title' => sprintf(
-						'<a href="%1&s" title="%2$s" target="_blank">%2$s</a>',
+						'<a href="%1$s" title="%2$s" target="_blank">%2$s</a>',
 						esc_url( $data['permalink'] ),
 						esc_html( $data['title'] )
 					),

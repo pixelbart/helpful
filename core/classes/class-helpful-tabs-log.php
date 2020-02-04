@@ -141,7 +141,7 @@ class Helpful_Tabs_Log extends Helpful_Tabs {
 				$response['data'][] = [
 					'post_id' => $post->ID,
 					'post_title' => sprintf(
-						'<a href="%1&s" title="%2$s" target="_blank">%2$s</a>',
+						'<a href="%1$s" title="%2$s" target="_blank">%2$s</a>',
 						get_the_permalink( $post->ID ),
 						$post->post_title
 					),
