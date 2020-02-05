@@ -5,6 +5,12 @@
  * @author Pixelbart <me@pixelbart.de>
  * @package Helpful
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Helpful_Tabs {
 
 	/**

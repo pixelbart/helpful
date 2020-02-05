@@ -6,6 +6,12 @@
  * @package Helpful
  * @author  Pixelbart <me@pixelbart.de>
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Helpful_Elementor_Widget extends \Elementor\Widget_Base {
 
 	/**

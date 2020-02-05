@@ -6,6 +6,12 @@
  * @author  Pixelbart <me@pixelbart.de>
  * @since   4.1.5
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Helpful_Datatables {
 
 	/**

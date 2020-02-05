@@ -7,11 +7,19 @@
  *
  * @since 2.0.0
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 global $helpful;
 
 $settings = $helpful['wp_editor'];
 $tags     = Helpful_Helper_Values::get_tags();
 $tags     = '<code>' . implode( '</code>, <code>', $tags ) . '</code>';
+
+do_action( 'helpful-tab-texts-before' );
 ?>
 
 <h2><?php _ex( 'Texts', 'tab name', 'helpful' ); ?></h2>
@@ -107,3 +115,5 @@ printf( $text, $tags );
 	<?php do_action('helpful-texts-settings-after'); ?>
 	<?php submit_button(__('Save Changes'), 'default'); ?>
 </form>
+
+<?php do_action( 'helpful-tab-helpful-after' ); ?>

@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <article class="helpful-admin-item">
 	<header>
 		<div class="helpful-admin-image">

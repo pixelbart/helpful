@@ -1,5 +1,6 @@
-<?php global $post; ?>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
+<?php global $post; ?>
 <div class="helpful <?php echo esc_attr( $class ); ?>">
 
 	<?php if ( false === $hidden ) : ?>

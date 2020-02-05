@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <table class="form-table meta_box">
     <tbody>
         <tr>

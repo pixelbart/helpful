@@ -7,6 +7,12 @@
  *
  * @since 1.0.0
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 global $helpful;
 
 $settings  = $helpful['wp_editor'];
@@ -16,6 +22,8 @@ ob_start();
 require_once HELPFUL_PATH . 'templates/feedback-email.php';
 $feedback_email_content = ob_get_contents();
 ob_end_clean();
+
+do_action( 'helpful-tab-feedback-before' ); 
 ?>
 
 <h2><?php echo esc_html_x( 'Feedback', 'tab name', 'helpful' ); ?></h2>
@@ -218,3 +226,5 @@ ob_end_clean();
 	<?php submit_button( __( 'Save Changes' ), 'default' ); ?>
 
 </form>
+
+<?php do_action( 'helpful-tab-feedback-after' ); ?>

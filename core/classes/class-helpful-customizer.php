@@ -7,7 +7,43 @@
  *
  * @since 4.0.0
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Helpful_Customizer {
+
+	/**
+	 * Instance
+	 *
+	 * @var Helpful_Customizer
+	 */
+	public static $instance;
+
+	/**
+	 * Set instance and fire class
+	 *
+	 * @return Helpful_Customizer
+	 */
+	public static function get_instance()
+	{
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Class constructor
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+		add_action( 'customize_register', [ &$this, 'register_customizer' ] );
+	}
 
 	/**
 	 * Register custom customizer section/panel

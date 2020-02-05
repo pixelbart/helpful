@@ -6,6 +6,12 @@
  * @author  Pixelbart
  * @see https://codex.wordpress.org/Transients_API
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Helpful_Helper_Cache {
 
 	/**

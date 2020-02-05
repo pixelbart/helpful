@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <form class="helpful-widget-form">
 	<input type="hidden" name="action" value="helpful_widget_stats">
 	<?php wp_nonce_field( 'helpful_widget_stats' ); ?>

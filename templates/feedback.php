@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <?php if ( isset( $feedback_text ) ) : ?>
 <div class="feedback-note">
 	<p><?php echo $feedback_text; ?></p>

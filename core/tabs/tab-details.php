@@ -7,8 +7,16 @@
  *
  * @since 1.0.0
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 global $helpful;
 $settings = $helpful['wp_editor'];
+
+do_action( 'helpful-tab-details-before' ); 
 ?>
 
 <h2><?php _ex('Details', 'tab name', 'helpful'); ?></h2>
@@ -185,3 +193,5 @@ $settings = $helpful['wp_editor'];
 	<?php do_action( 'helpful-details-settings-after' ); ?>
 	<?php submit_button( __( 'Save Changes' ), 'default' ); ?>
 </form>
+
+<?php do_action( 'helpful-tab-details-after' ); ?>

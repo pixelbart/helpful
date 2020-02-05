@@ -6,6 +6,11 @@
  * @author  Pixelbart <me@pixelbart.de>
  */
 
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'helpful_backlist_check' ) ) {
 	/**
 	 * WordPress blacklist checker

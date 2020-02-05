@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <div class="helpful-admin-header">
 	<div class="helpful-admin-logo">
 		<h1><?php esc_html_e( 'Feedback', 'helpful' ); ?></h1>

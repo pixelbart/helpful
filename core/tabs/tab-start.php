@@ -7,7 +7,13 @@
  *
  * @since 1.0.0
  */
-do_action('helpful-tab-start-before'); 
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+do_action( 'helpful-tab-start-before' ); 
 ?>
 
 <div class="helpful-flex range" style="z-index:2 !important">
@@ -50,4 +56,5 @@ do_action('helpful-tab-start-before');
 		</div>
 	</div>
 </div>
-<?php do_action('helpful-tab-start-after'); ?>
+
+<?php do_action( 'helpful-tab-start-after' ); ?>

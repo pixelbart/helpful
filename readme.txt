@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6.20
-Stable tag: 4.2.3
+Stable tag: 4.2.4
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,12 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.2.4 =
+* Security has been improved by not being able to access the files directly anymore.
+* Fixed errors when loading Helpful by using the hook plugins_loaded instead of init.
+* Fixed a bug where the customizer could not be loaded because Helpful had loaded its own customizer options incorrectly.
+* Date: 05.02.2020
 
 = 4.2.3 =
 * Fixed a bug where clicking on a link of a datatable would open the wrong page.

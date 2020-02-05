@@ -8,6 +8,11 @@
  * @since 1.0.0
  */
 
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Plugin Helpers
  *
@@ -68,13 +73,7 @@ Helpful_Notices::get_instance();
 Helpful_Frontend::get_instance();
 Helpful_Shortcodes::get_instance();
 Helpful_Datatables::get_instance();
-
-/**
- * Customizer
- *
- * @since 4.0.0
- */
-add_action( 'customize_register', [ 'Helpful_Customizer', 'register_customizer' ] );
+Helpful_Customizer::get_instance();
 
 /**
  * Frontend Helpers

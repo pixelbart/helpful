@@ -7,7 +7,13 @@
  *
  * @since 4.1.5
  */
-do_action('helpful-tab-log-before'); 
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+do_action( 'helpful-tab-log-before' ); 
 ?>
 
 <h2><?php _ex( 'Log', 'tab name', 'helpful' ); ?></h2>
@@ -35,4 +41,4 @@ do_action('helpful-tab-log-before');
 	</div>
 </div>
 
-<?php do_action('helpful-tab-log-after'); ?>
+<?php do_action( 'helpful-tab-log-after' ); ?>

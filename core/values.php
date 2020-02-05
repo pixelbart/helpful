@@ -8,6 +8,11 @@
  * @since 4.0.0
  */
 
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'helpful_get_pro' ) ) {
 
 	/**

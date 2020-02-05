@@ -7,6 +7,12 @@
  *
  * @since 4.0.0
  */
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Helpful_Tabs_Details extends Helpful_Tabs {
 
 	/**
