@@ -297,7 +297,7 @@ class Helpful_Setup {
 			return;
 		}
 
-		$file = '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css';
+		$file = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css';
 		wp_enqueue_style( 'helpful-chartjs', $file, [], '2.9.3' );
 
 		$file = '//cdn.datatables.net/v/ju/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/r-2.2.3/sc-2.0.1/datatables.min.css';
@@ -315,7 +315,7 @@ class Helpful_Setup {
 		$file = plugins_url( 'core/assets/css/admin.css', HELPFUL_FILE );
 		wp_enqueue_style( 'helpful-backend', $file, [], HELPFUL_VERSION );
 
-		$file = '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js';
+		$file = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js';
 		wp_enqueue_script( 'helpful-chartjs', $file, [], '2.9.3', true );
 
 		$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.min.js', HELPFUL_FILE );

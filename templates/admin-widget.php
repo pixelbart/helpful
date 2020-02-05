@@ -1,7 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <form class="helpful-widget-form">
 	<input type="hidden" name="action" value="helpful_widget_stats">
-	<?php wp_nonce_field( 'helpful_widget_stats' ); ?>
+
+	<?php wp_nonce_field( 'helpful_widget_stats', 'helpful_widget_stats_nonce' ); ?>
+
 	<div class="helpful-margin-right-small">
 		<select name="range">
 			<option value="today"><?php esc_html_e( 'Today', 'helpful' ); ?></option>

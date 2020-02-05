@@ -123,7 +123,7 @@ class Helpful_Tabs_Start {
 
 		$response         = [];
 		$from             = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $_REQUEST['from'] ) ) );
-		$to               = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $_REQUEST['to'] ) ) );
+		$to               = date_i18n( 'Y-m-d', strtotime( '+2 days' . sanitize_text_field( $_REQUEST['to'] ) ) );
 		$response         = Helpful_Helper_Stats::getStatsRange( $from, $to );
 		$response['from'] = $from;
 		$response['to']   = $to;
@@ -212,12 +212,19 @@ class Helpful_Tabs_Start {
 
 				$data = Helpful_Helper_Stats::get_single_post_stats( $post_id );
 
+				$title  = $data['title'];
+				$length = apply_filters( 'helpful_datatables_string_length', 35 );
+
+				if ( strlen( $title ) > $length ) {
+					$title = substr( $title, 0, $length ) . '...';
+				}
+
 				$response['data'][] = [
 					'post_id'    => $data['ID'],
 					'post_title' => sprintf(
 						'<a href="%1$s" title="%2$s" target="_blank">%2$s</a>',
 						esc_url( $data['permalink'] ),
-						esc_html( $data['title'] )
+						esc_html( $title )
 					),
 					'post_type' => [
 						'display' => $data['type']['name'],

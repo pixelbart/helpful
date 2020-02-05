@@ -29,8 +29,8 @@ class Helpful_Widget {
 	 */
 	public function __construct()
 	{
-		add_action( 'wp_dashboard_setup', [ &$this, 'widget_setup' ], 1 );
-		add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
+		add_action( 'wp_dashboard_setup', [ &$this, 'widget_setup' ] );
+		add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ], PHP_INT_MAX );
 		add_action( 'wp_ajax_helpful_widget_stats', [ &$this, 'get_stats'] );
 	}
 
@@ -55,21 +55,27 @@ class Helpful_Widget {
 	 */
 	public function enqueue_scripts()
 	{
+		$screen = get_current_screen();
+
+		if ( 'dashboard' !== $screen->base ) {
+			return;
+		}
+
 		if ( get_option( 'helpful_widget' ) ) {
 			return;
 		}
 
-		$file = '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css';
+		$file = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css';
 		wp_enqueue_style( 'helpful-chartjs', $file, [], '2.9.3' );
 
-		$file = '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js';
+		$file = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js';
 		wp_enqueue_script( 'helpful-chartjs', $file, [], '2.9.3', true );
 
 		$file = plugins_url( 'core/assets/css/admin-widget.css', HELPFUL_FILE );
-		wp_register_style( 'helpful-widget', $file, [], HELPFUL_VERSION );
+		wp_enqueue_style( 'helpful-widget', $file, [], HELPFUL_VERSION );
 
 		$file = plugins_url( 'core/assets/js/admin-widget.js', HELPFUL_FILE );
-		wp_register_script( 'helpful-widget', $file, [ 'jquery' ], HELPFUL_VERSION, true );
+		wp_enqueue_script( 'helpful-widget', $file, [ 'jquery' ], HELPFUL_VERSION, true );
 	}
 
 	/**
@@ -110,11 +116,6 @@ class Helpful_Widget {
 	 */
 	public function widget_callback()
 	{
-		wp_enqueue_style( 'helpful-chartjs' );
-		wp_enqueue_style( 'helpful-widget' );
-		wp_enqueue_script( 'helpful-chartjs' );
-		wp_enqueue_script( 'helpful-widget' );
-
 		$links = [
 			sprintf(
 				'<a href="%s" title="%s">%s</a>',
@@ -148,7 +149,7 @@ class Helpful_Widget {
 	 */
 	public function get_stats()
 	{
-		check_ajax_referer( 'helpful_widget_stats' );
+		check_ajax_referer( 'helpful_widget_stats', 'helpful_widget_stats_nonce' );
 
 		$response            = [];
 		$response['status']  = 'error';
