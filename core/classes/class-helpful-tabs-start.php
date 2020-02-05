@@ -123,7 +123,7 @@ class Helpful_Tabs_Start {
 
 		$response         = [];
 		$from             = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $_REQUEST['from'] ) ) );
-		$to               = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $_REQUEST['to'] ) );
+		$to               = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $_REQUEST['to'] ) ) );
 		$response         = Helpful_Helper_Stats::getStatsRange( $from, $to );
 		$response['from'] = $from;
 		$response['to']   = $to;
