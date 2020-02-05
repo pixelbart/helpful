@@ -54,7 +54,7 @@ class Helpful_Shortcodes {
 	 *
 	 * @return string
 	 */
-	public function add_to_content( string $content )
+	public function add_to_content( $content )
 	{
 		global $post;
 
@@ -126,7 +126,7 @@ class Helpful_Shortcodes {
 	 *
 	 * @return string
 	 */
-	public function shortcode_helpful( array $atts, string $content = '' )
+	public function shortcode_helpful( $atts, $content = '' )
 	{
 		global $post;
 
