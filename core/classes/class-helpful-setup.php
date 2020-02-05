@@ -43,11 +43,10 @@ class Helpful_Setup {
 	 */
 	public function __construct()
 	{
-		register_activation_hook( HELPFUL_FILE, [ &$this, 'delete_transient' ] );
 		register_activation_hook( HELPFUL_FILE, [ &$this, 'setup_helpful_table' ] );
 		register_activation_hook( HELPFUL_FILE, [ &$this, 'setup_feedback_table' ] );
-		register_activation_hook( HELPFUL_FILE, [ &$this, 'setup_defaults' ] );
 
+		add_action( 'init', [ &$this, 'setup_defaults' ] );
 		add_action( 'activated_plugin', [ &$this, 'load_first' ] );
 
 		add_action( 'admin_menu', [ &$this, 'register_admin_menu' ] );
@@ -93,16 +92,6 @@ class Helpful_Setup {
 		update_option( 'helpful_defaults', 1 );
 
 		return true;
-	}
-
-	/**
-	 * Update transient for showing maintenance notice.
-	 *
-	 * @return void
-	 */
-	public function delete_transient()
-	{
-		delete_transient( 'helpful_updated' );
 	}
 
 	/**
