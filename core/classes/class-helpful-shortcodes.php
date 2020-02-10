@@ -95,6 +95,8 @@ class Helpful_Shortcodes {
 			$helpful['content'] = $helpful['exists_text'];
 		}
 
+		$helpful['content'] = do_shortcode( $helpful['content'] );
+
 		ob_start();
 
 		$default_template = HELPFUL_PATH . 'templates/helpful.php';

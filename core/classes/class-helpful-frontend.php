@@ -166,10 +166,10 @@ class Helpful_Frontend {
 		if ( ! Helpful_Helper_Values::checkUser( $user_id, $post_id ) ) {
 			if ( 'pro' === $value ) {
 				Helpful_Helper_Values::insertPro( $user_id, $post_id );
-				$response = $this->after_vote( $value, $post_id );
+				$response = do_shortcode( $this->after_vote( $value, $post_id ) );
 			} else {
 				Helpful_Helper_Values::insertContra( $user_id, $post_id );
-				$response = $this->after_vote( $value, $post_id );
+				$response = do_shortcode( $this->after_vote( $value, $post_id ) );
 			}
 		}
 
@@ -197,11 +197,11 @@ class Helpful_Frontend {
 		}
 
 		if ( 'pro' === $type ) {
-			echo get_option( 'helpful_after_pro' );
+			echo do_shortcode( get_option( 'helpful_after_pro' ) );
 		}
 
 		if ( 'contra' === $type ) {
-			echo get_option( 'helpful_after_contra' );
+			echo do_shortcode( get_option( 'helpful_after_contra' ) );
 		}
 
 		wp_die();
@@ -228,7 +228,7 @@ class Helpful_Frontend {
 			$feedback_text = get_option( 'helpful_feedback_message_pro' );
 
 			if ( ! get_option( 'helpful_feedback_after_pro' ) ) {
-				return get_option( 'helpful_after_pro' );
+				return do_shortcode( get_option( 'helpful_after_pro' ) );
 			}
 		}
 
@@ -236,7 +236,7 @@ class Helpful_Frontend {
 			$feedback_text = get_option( 'helpful_feedback_message_contra' );
 
 			if ( ! get_option( 'helpful_feedback_after_contra' ) ) {
-				return get_option( 'helpful_after_contra' );
+				return do_shortcode( get_option( 'helpful_after_contra' ) );
 			}
 		}
 

@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6.20
-Stable tag: 4.2.5
+Stable tag: 4.2.6
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -85,6 +85,10 @@ First you have to activate the Metabox in the Helpful settings. Once you have do
 Switch to the Helpful settings and click on the System tab. There you will find the item Maintenance. Perform the maintenance once. Helpful will do the rest for you.
 
 == Changelog ==
+
+= 4.2.6 =
+* Fixed a bug where the placement of shortcodes was not possible.
+* Date: 10.02.2020
 
 = 4.2.5 =
 * Fixed a bug where the parameters for the shortcode were wrong.
