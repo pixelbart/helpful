@@ -173,7 +173,7 @@ class Helpful_Setup {
 	 *
 	 * @return bool
 	 */
-	public function set_defaults( bool $status = false )
+	public function set_defaults( $status = false )
 	{
 		if ( false === $status ) {
 			return false;
@@ -335,7 +335,7 @@ class Helpful_Setup {
 	 *
 	 * @return array
 	 */
-	public function plugin_row_meta( array $links, string $file )
+	public function plugin_row_meta( $links, $file )
 	{
 
 		if ( false !== strpos( $file, basename( HELPFUL_FILE ) ) ) {
