@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Tabs_Design {
-
+class Helpful_Tabs_Design
+{
 	/**
 	 * Instance
 	 *
@@ -54,7 +54,7 @@ class Helpful_Tabs_Design {
 	 *
 	 * @return array
 	 */
-	public function register_tab( array $tabs )
+	public function register_tab( $tabs )
 	{
 		$query                       = [];
 		$query['autofocus[section]'] = 'helpful_design';

@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Customizer {
-
+class Helpful_Customizer
+{
 	/**
 	 * Instance
 	 *

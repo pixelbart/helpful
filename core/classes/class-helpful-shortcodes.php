@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Shortcodes {
-
+class Helpful_Shortcodes
+{
 	/**
 	 * Instance
 	 *
@@ -29,8 +29,8 @@ class Helpful_Shortcodes {
 	 */
 	public function __construct()
 	{
-		add_filter( 'the_content', [ $this, 'add_to_content' ] );
-		add_shortcode( 'helpful', [ $this, 'shortcode_helpful' ] );
+		add_filter( 'the_content', [ &$this, 'add_to_content' ] );
+		add_shortcode( 'helpful', [ &$this, 'shortcode_helpful' ] );
 	}
 
 	/**
@@ -49,6 +49,8 @@ class Helpful_Shortcodes {
 
 	/**
 	 * Add helpful to post content
+	 *
+	 * @global $post
 	 *
 	 * @param string $content post content.
 	 *

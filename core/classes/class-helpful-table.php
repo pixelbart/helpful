@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Table {
-
+class Helpful_Table
+{
 	/**
 	 * Instance
 	 *
@@ -48,6 +48,8 @@ class Helpful_Table {
 
 	/**
 	 * Register columns on admin pages
+	 *
+	 * @global $pagenow
 	 *
 	 * @return void
 	 */
@@ -89,7 +91,7 @@ class Helpful_Table {
 	 *
 	 * @return array
 	 */
-	public function register_columns( array $defaults )
+	public function register_columns( $defaults )
 	{
 		$columns = [];
 		foreach ( $defaults as $key => $value ) :
@@ -112,7 +114,7 @@ class Helpful_Table {
 	 *
 	 * @return void
 	 */
-	public function populate_columns( string $column_name, int $post_id )
+	public function populate_columns( $column_name, $post_id )
 	{
 		if ( 'helpful-pro' === $column_name ) {
 			if ( get_option( 'helpful_percentages' ) ) {
@@ -145,10 +147,9 @@ class Helpful_Table {
 	 * Set sortable columns
 	 *
 	 * @param array $columns columns.
-	 *
 	 * @return array
 	 */
-	public function register_sortable_columns( array $columns )
+	public function register_sortable_columns( $columns )
 	{
 		$columns['helpful-pro']    = 'helpful-pro';
 		$columns['helpful-contra'] = 'helpful-contra';
@@ -160,10 +161,9 @@ class Helpful_Table {
 	 * Make values sortable in columns
 	 *
 	 * @param object $query current query.
-	 *
 	 * @return void
 	 */
-	public function sort_columns_query( WP_Query $wp_query )
+	public function sort_columns_query( $wp_query )
 	{
 		if ( ! is_admin() ) {
 			return;

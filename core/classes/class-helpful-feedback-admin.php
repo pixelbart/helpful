@@ -11,11 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Feedback_Admin {
+class Helpful_Feedback_Admin
+{
 	/**
 	 * Instance
 	 *
-	 * @var $instance
+	 * @var Helpful_Feedback_Admin
 	 */
 	public static $instance;
 
@@ -26,10 +27,10 @@ class Helpful_Feedback_Admin {
 	 */
 	public function __construct()
 	{
-		add_action( 'admin_menu', [ $this, 'add_submenu' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-		add_action( 'wp_ajax_helpful_admin_feedback_items', [ $this, 'get_feedback_items' ] );
-		add_action( 'wp_ajax_helpful_remove_feedback', [ $this, 'delete_feedback_item' ] );
+		add_action( 'admin_menu', [ &$this, 'add_submenu' ] );
+		add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
+		add_action( 'wp_ajax_helpful_admin_feedback_items', [ &$this, 'get_feedback_items' ] );
+		add_action( 'wp_ajax_helpful_remove_feedback', [ &$this, 'delete_feedback_item' ] );
 	}
 
 	/**

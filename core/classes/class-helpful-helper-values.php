@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Helper_Values {
-
+class Helpful_Helper_Values
+{
 	/**
 	 * Database table name for helpful
 	 *
@@ -75,7 +75,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return string
 	 */
-	public static function convertTags( string $string, int $post_id )
+	public static function convertTags( $string, $post_id )
 	{
 		$post   = get_post( $post_id );
 		$pro    = Helpful_Helper_Stats::getPro( $post->ID );
@@ -178,7 +178,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return boolean
 	 */
-	public static function checkUser( string $user_id, int $post_id )
+	public static function checkUser( $user_id, $post_id )
 	{
 		if ( get_option( 'helpful_multiple' ) ) {
 			return false;
@@ -211,7 +211,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return mixed
 	 */
-	public static function insertPro( string $user, int $post_id )
+	public static function insertPro( $user, $post_id )
 	{
 		global $wpdb;
 
@@ -243,7 +243,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return mixed
 	 */
-	public static function insertContra( string $user, int $post_id )
+	public static function insertContra( $user, $post_id )
 	{
 		global $wpdb;
 
@@ -274,7 +274,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return void
 	 */
-	public static function removeData( int $post_id )
+	public static function removeData( $post_id )
 	{
 		global $wpdb;
 
@@ -296,7 +296,7 @@ class Helpful_Helper_Values {
 	 *
 	 * @return array
 	 */
-	public static function tableExists( string $table_name )
+	public static function tableExists( $table_name )
 	{
 		global $wpdb;
 
@@ -320,6 +320,8 @@ class Helpful_Helper_Values {
 
 	/**
 	 * Setup helpful table
+	 *
+	 * @global $wpdb
 	 *
 	 * @return string
 	 */
@@ -352,6 +354,8 @@ class Helpful_Helper_Values {
 
 	/**
 	 * Setup helpful feedback table
+	 *
+	 * @global $wpdb
 	 *
 	 * @return string
 	 */

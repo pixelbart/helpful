@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Setup {
-
+class Helpful_Setup
+{
 	/**
 	 * Instance
 	 *
@@ -230,7 +230,6 @@ class Helpful_Setup {
 	 */
 	public function load_first()
 	{
-
 		if ( ! get_option( 'helpful_plugin_first' ) ) {
 			return;
 		}
@@ -370,7 +369,6 @@ class Helpful_Setup {
 	 */
 	public function elementor_widgets()
 	{
-
 		/**
 		 * Register Helpful Widget
 		 *
@@ -386,7 +384,7 @@ class Helpful_Setup {
 	 */
 	public function elementor_controls()
 	{
-
+		// nothing
 	}
 
 	/**
@@ -398,6 +396,6 @@ class Helpful_Setup {
 	 */
 	public function elementor_categories( $elementor )
 	{
-
+		// nothing
 	}
 }

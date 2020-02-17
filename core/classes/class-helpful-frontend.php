@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Frontend {
-
+class Helpful_Frontend
+{
 	/**
 	 * Instance
 	 *
@@ -23,6 +23,8 @@ class Helpful_Frontend {
 
 	/**
 	 * Class Constructor
+	 *
+	 * @return void
 	 */
 	public function __construct()
 	{
@@ -216,7 +218,7 @@ class Helpful_Frontend {
 	 *
 	 * @return string
 	 */
-	public function after_vote( string $type, int $post_id )
+	public function after_vote( $type, $post_id )
 	{
 		$feedback_text = esc_html_x(
 			'Thank you very much. Please write us your opinion, so that we can improve ourselves.',

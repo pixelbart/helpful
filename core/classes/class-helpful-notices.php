@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Notices {
-
+class Helpful_Notices
+{
 	/**
 	 * Plugin Data
 	 *
@@ -38,8 +38,8 @@ class Helpful_Notices {
 	{
 		$this->set_plugin_data();
 
-		add_action( 'admin_notices', [ $this, 'perform_maintenance_notice' ] );
-		add_action( 'helpful_notices', [ $this, 'perform_maintenance' ] );
+		add_action( 'admin_notices', [ &$this, 'perform_maintenance_notice' ] );
+		add_action( 'helpful_notices', [ &$this, 'perform_maintenance' ] );
 	}
 
 	/**

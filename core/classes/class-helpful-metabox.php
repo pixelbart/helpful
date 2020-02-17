@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Metabox {
-
+class Helpful_Metabox
+{
 	/**
 	 * Class instance
 	 *
@@ -31,9 +31,9 @@ class Helpful_Metabox {
 			return;
 		}
 
-		add_action( 'add_meta_boxes', [ $this, 'add_metabox' ] );
-		add_action( 'save_post', [ $this, 'save_metabox_data' ] );
-		add_action( 'save_post', [ $this, 'save_metabox_data' ], 10, 3 );
+		add_action( 'add_meta_boxes', [ &$this, 'add_metabox' ] );
+		add_action( 'save_post', [ &$this, 'save_metabox_data' ] );
+		add_action( 'save_post', [ &$this, 'save_metabox_data' ], 10, 3 );
 	}
 
 	/**

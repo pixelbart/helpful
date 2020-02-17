@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Datatables {
-
+class Helpful_Datatables
+{
 	/**
 	 * Instance
 	 *

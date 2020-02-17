@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Tabs_Log extends Helpful_Tabs {
-
+class Helpful_Tabs_Log extends Helpful_Tabs
+{
 	/**
 	 * Class instance
 	 *

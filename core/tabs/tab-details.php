@@ -16,12 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $helpful;
 $settings = $helpful['wp_editor'];
 
-do_action( 'helpful-tab-details-before' ); 
+do_action( 'helpful-tab-details-before' );
 ?>
 
-<h2><?php _ex('Details', 'tab name', 'helpful'); ?></h2>
+<h2><?php _ex( 'Details', 'tab name', 'helpful' ); ?></h2>
 
-<p><?php _ex('Here you can customize Helpful in detail. You can activate and deactivate many things here. Besides you can decide where Helpful appears and if Helpful appears. If you deactivate Helpful in the posts, you can output Helpful with the help of the shortcut code.', 'tab description', 'helpful'); ?></p>
+<p><?php _ex( 'Here you can customize Helpful in detail. You can activate and deactivate many things here. Besides you can decide where Helpful appears and if Helpful appears. If you deactivate Helpful in the posts, you can output Helpful with the help of the shortcut code.', 'tab description', 'helpful' ); ?></p>
 
 <form method="post" action="options.php">
 
@@ -32,11 +32,11 @@ do_action( 'helpful-tab-details-before' );
 
 	<div class="helpful-admin-panel">
 		<button type="button" class="helpful-admin-panel-header">
-			<span class="title"><?php echo esc_html_x('Post types', 'admin panel title', 'helpful'); ?></span>
+			<span class="title"><?php echo esc_html_x( 'Post types', 'admin panel title', 'helpful' ); ?></span>
 			<span class="icon"></span>
 		</button><!-- .helpful-admin-panel-header -->
 		<div class="helpful-admin-panel-content">
-			<p class="description"><?php echo esc_html_x("Here you can select the post types where Helpful should appear. All selected post types get the table columns for pro and contra, in the wp-admin. Private post types are displayed in light gray and are not always supported.", 'admin panel description', 'helpful'); ?></p>
+			<p class="description"><?php echo esc_html_x( "Here you can select the post types where Helpful should appear. All selected post types get the table columns for pro and contra, in the wp-admin. Private post types are displayed in light gray and are not always supported.", 'admin panel description', 'helpful' ); ?></p>
 			<div class="helpful-admin-group">
 				<?php if ( $post_types ) : ?>
 					<?php foreach ( $post_types as $post_type ) : ?>

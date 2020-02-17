@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Maintenance {
-
+class Helpful_Maintenance
+{
 	/**
 	 * Class instance
 	 *
@@ -27,8 +27,8 @@ class Helpful_Maintenance {
 	 */
 	public function __construct()
 	{
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-		add_action( 'wp_ajax_helpful_perform_maintenance', [ $this, 'perform_maintenance' ] );
+		add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
+		add_action( 'wp_ajax_helpful_perform_maintenance', [ &$this, 'perform_maintenance' ] );
 	}
 
 	/**

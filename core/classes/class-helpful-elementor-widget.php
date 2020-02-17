@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Elementor_Widget extends \Elementor\Widget_Base {
-
+class Helpful_Elementor_Widget extends \Elementor\Widget_Base
+{
 	/**
 	 * Get widget name.
 	 *

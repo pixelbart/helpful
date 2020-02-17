@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Helper_Feedback {
-
+class Helpful_Helper_Feedback
+{
 	/**
 	 * Get feedback data by post object.
 	 *

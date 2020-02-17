@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Tabs {
-
+class Helpful_Tabs
+{
 	/**
 	 * Stores tab data
 	 *
@@ -36,7 +36,7 @@ class Helpful_Tabs {
 	 *
 	 * @return array
 	 */
-	public function register_tab( array $tabs )
+	public function register_tab( $tabs )
 	{
 		global $helpful;
 

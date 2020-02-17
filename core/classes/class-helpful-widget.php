@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Widget {
-
+class Helpful_Widget
+{
 	/**
 	 * Class instance
 	 *
@@ -80,6 +80,8 @@ class Helpful_Widget {
 
 	/**
 	 * Dashboard widget options
+	 *
+	 * @global $wp_meta_boxes
 	 *
 	 * @return void
 	 */
@@ -201,7 +203,7 @@ class Helpful_Widget {
 	 *
 	 * @return void
 	 */
-	public function render_template( array $links, array $years )
+	public function render_template( $links, $years )
 	{
 		include_once HELPFUL_PATH . 'templates/admin-widget.php';
 	}

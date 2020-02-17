@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Tabs_Start {
-
+class Helpful_Tabs_Start
+{
 	/**
 	 * Class instance
 	 *
@@ -162,6 +162,8 @@ class Helpful_Tabs_Start {
 
 	/**
 	 * Get posts data
+	 *
+	 * @return void
 	 */
 	public function ajax_get_posts_data()
 	{

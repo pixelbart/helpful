@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Helper_Stats {
-
+class Helpful_Helper_Stats
+{
 	/**
 	 * Helpful color helper
 	 *
@@ -59,7 +59,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return string
 	 */
-	public static function getPro( int $post_id = null, bool $percentages = false )
+	public static function getPro( $post_id = null, $percentages = false )
 	{
 		if ( is_null( $post_id ) ) {
 			global $post;
@@ -117,7 +117,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return string
 	 */
-	public static function getContra( int $post_id = null, bool $percentages = false )
+	public static function getContra( $post_id = null, $percentages = false )
 	{
 		if ( is_null( $post_id ) ) {
 			global $post, $wpdb;
@@ -174,7 +174,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return int count
 	 */
-	public static function getProAll( bool $percentages = false )
+	public static function getProAll( $percentages = false )
 	{
 		global $wpdb;
 
@@ -223,7 +223,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return int count
 	 */
-	public static function getContraAll( bool $percentages = false )
+	public static function getContraAll( $percentages = false )
 	{
 		global $wpdb;
 
@@ -316,7 +316,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsToday( int $year )
+	public static function getStatsToday( $year )
 	{
 		global $wpdb;
 
@@ -398,7 +398,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsYesterday( int $year )
+	public static function getStatsYesterday( $year )
 	{
 		global $wpdb;
 
@@ -480,7 +480,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsWeek( int $year )
+	public static function getStatsWeek( $year )
 	{
 		global $wpdb;
 
@@ -589,7 +589,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsMonth( int $year, int $month = null )
+	public static function getStatsMonth( $year, $month = null )
 	{
 		global $wpdb;
 
@@ -704,7 +704,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsYear( int $year )
+	public static function getStatsYear( $year )
 	{
 		global $wpdb;
 
@@ -811,7 +811,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getStatsRange( string $from, string $to )
+	public static function getStatsRange( $from, $to )
 	{
 		global $wpdb;
 
@@ -980,7 +980,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getMostHelpful( int $limit = null )
+	public static function getMostHelpful( $limit = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = intval( get_option( 'helpful_widget_amount' ) );
@@ -1067,7 +1067,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getLeastHelpful( int $limit = null )
+	public static function getLeastHelpful( $limit = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
@@ -1154,7 +1154,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getRecentlyPro( int $limit = null )
+	public static function getRecentlyPro( $limit = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
@@ -1220,7 +1220,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function getRecentlyContra( int $limit = null )
+	public static function getRecentlyContra( $limit = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
@@ -1282,7 +1282,7 @@ class Helpful_Helper_Stats {
 	 *
 	 * @return array
 	 */
-	public static function get_single_post_stats( int $post_id )
+	public static function get_single_post_stats( $post_id )
 	{
 		$post       = get_post( $post_id );
 		$pro        = self::getPro( $post->ID ) ? self::getPro( $post->ID ) : 0;

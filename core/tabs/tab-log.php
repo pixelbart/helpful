@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-do_action( 'helpful-tab-log-before' ); 
+do_action( 'helpful-tab-log-before' );
 ?>
 
 <h2><?php _ex( 'Log', 'tab name', 'helpful' ); ?></h2>

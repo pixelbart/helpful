@@ -11,8 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Helper_Optimize {
-
+class Helpful_Helper_Optimize
+{
 	/**
 	 * Executes the methods and returns a response array.
 	 *
@@ -39,6 +39,8 @@ class Helpful_Helper_Optimize {
 	}
 
 	/**
+	 * Optimizes database tables.
+	 * 
 	 * Optimize tables `helpful` and `helpful_feedback`.
 	 * Uses the SQL-Command `OPTIMIZE` for optimization.
 	 *
@@ -69,6 +71,8 @@ class Helpful_Helper_Optimize {
 	}
 
 	/**
+	 * Moves feedback from post type to database table.
+	 *
 	 * Moves the feedback from post type `helpful_feedback` to the database
 	 * table `helpful_feedback` and returns a response array.
 	 *
@@ -133,6 +137,8 @@ class Helpful_Helper_Optimize {
 	}
 
 	/**
+	 * Removes incorrect entries from database tables.
+	 *
 	 * Remove incorrect entries from database tables `helpful`
 	 * and `helpful_feedback`. All entries that do not have a
 	 * user saved are affected.
@@ -190,6 +196,8 @@ class Helpful_Helper_Optimize {
 
 	/**
 	 * Feedback text is cleaned up and slashes removed.
+	 *
+	 * @global $wpdb
 	 *
 	 * @return array
 	 */
@@ -268,7 +276,7 @@ class Helpful_Helper_Optimize {
 			'fields'      => 'ids',
 		];
 
-		$query   = new WP_Query( $args );
+		$query = new WP_Query( $args );
 
 		if ( $query->found_posts ) {
 			foreach ( $query->posts as $post_id ) :

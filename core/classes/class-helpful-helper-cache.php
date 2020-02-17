@@ -12,15 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Helpful_Helper_Cache {
-
+class Helpful_Helper_Cache
+{
 	/**
 	 * Returns the available times for caching with the Transients API from WordPress.
 	 *
 	 * @param boolean $labels Outputs either the miliseconds or the labels for the options.
+	 *
 	 * @return array
 	 */
-	public static function get_cache_times( bool $labels = true )
+	public static function get_cache_times( $labels = true )
 	{
 		$times = [];
 
