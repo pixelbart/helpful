@@ -1,11 +1,16 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; 
+}
 
-<?php global $post; ?>
+global $post;
+?>
+
 <div class="helpful <?php echo esc_attr( $class ); ?>">
 
 	<?php if ( false === $hidden ) : ?>
 	<div class="helpful-header">
-		<h3 class="helpful-headline"><?php echo $helpful['heading']; ?></h3>
+		<?php echo apply_filters( 'helpful_headline_html', '<h3 class="helpful-headline">' . $helpful['heading'] . '</h3>' ); ?>
 	</div><!-- .helpful-header -->
 	<?php endif; ?>
 

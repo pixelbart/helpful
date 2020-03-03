@@ -8,13 +8,14 @@
       this.getFeedbackItems();
       this.deleteFeedbackItem();
       this.changeFeedbackFilter();
+      this.exportFeedback();
     },
     getFeedbackItems: function (filter = "all") {
       const self = this;
       const container = $(".helpful-admin-feedback");
 
-      var request;
-      var data;
+      let request;
+      let data;
 
       $(container).html(self.loader);
       
@@ -41,9 +42,9 @@
     deleteFeedbackItem: function () {
       const self = this;
 
-      var request;
-      var data;
-      var button;
+      let request;
+      let data;
+      let button;
 
       $(document).on("click", ".helpful-delete-item", function (e) {
 
@@ -57,6 +58,32 @@
 
         request = self.ajaxRequest(data);
         $(button).closest("article").fadeOut();
+      });
+    },
+    exportFeedback: function () {
+      const self = this;
+
+      if ($('.helpful-export').length < 1) {
+        return;
+      }
+
+      $('.helpful-export').unbind('click').on('click', function (e) {
+        e.preventDefault();
+
+        let current_button = $(this);
+        let ajax_data = {
+          action: "helpful_export_feedback",
+          _wpnonce: helpful_admin_feedback.nonce,
+          type: $(current_button).data('type'),
+        };
+  
+        let request = self.ajaxRequest(ajax_data);
+
+        request.done(function (response) {
+          if ('success' === response.status) {
+            window.location.href = response.file;
+          }
+        });
       });
     },
     ajaxRequest: function (data) {

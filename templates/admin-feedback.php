@@ -15,6 +15,10 @@
 				<option value="pro"><?php esc_html_e( 'Pro', 'helpful' ); ?></option>
 				<option value="contra"><?php esc_html_e( 'Contra', 'helpful' ); ?></option>
 			</select>
+
+			<button type="button" class="button default helpful-export" data-type="feedback">
+				<?php echo esc_html_x( 'Export', 'export button text', 'helpful' ); ?>
+			</button>
 		</div><!-- .helpful-admin-filter -->
 	
 		<div class="helpful-admin-feedback">

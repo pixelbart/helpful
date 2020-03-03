@@ -29,8 +29,9 @@ class Helpful_Feedback_Admin
 	{
 		add_action( 'admin_menu', [ &$this, 'add_submenu' ] );
 		add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
-		add_action( 'wp_ajax_helpful_admin_feedback_items', [ &$this, 'get_feedback_items' ] );
-		add_action( 'wp_ajax_helpful_remove_feedback', [ &$this, 'delete_feedback_item' ] );
+		add_action( 'wp_ajax_helpful_admin_feedback_items', [ &$this, 'ajax_get_feedback_items' ] );
+		add_action( 'wp_ajax_helpful_remove_feedback', [ &$this, 'ajax_delete_feedback_item' ] );
+		add_action( 'wp_ajax_helpful_export_feedback', [ &$this, 'ajax_export_feedback' ] );
 	}
 
 	/**
@@ -106,7 +107,7 @@ class Helpful_Feedback_Admin
 	 *
 	 * @return void
 	 */
-	public function get_feedback_items()
+	public function ajax_get_feedback_items()
 	{
 		check_ajax_referer( 'helpful_admin_feedback_nonce' );
 
@@ -147,7 +148,7 @@ class Helpful_Feedback_Admin
 	 *
 	 * @return void
 	 */
-	public function delete_feedback_item()
+	public function ajax_delete_feedback_item()
 	{
 		check_ajax_referer( 'helpful_admin_feedback_nonce' );
 
@@ -172,5 +173,86 @@ class Helpful_Feedback_Admin
 	public function render_template( $feedback )
 	{
 		include HELPFUL_PATH . 'templates/admin-feedback-item.php';
+	}
+
+	/**
+	 * Exports the feedback to a CSV.
+	 *
+	 * @return void
+	 */
+	public function ajax_export_feedback()
+	{
+		check_ajax_referer( 'helpful_admin_feedback_nonce' );
+
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'helpful_feedback';
+		$rows  = $wpdb->get_results( "SELECT * FROM $table ORDER BY id DESC" );
+
+		$response = [
+			'status'  => 'error',
+			'file'    => '',
+			'message' => esc_html_x( 'File could not be created.', 'failed upload alert', 'helpful' ),
+		];
+
+		if ( $rows ) {
+			$items = [];
+
+			foreach ( $rows as $row ) :
+				$fields = maybe_unserialize( $row->fields  );
+
+				$items[] = [
+					'post'      => get_the_title( $row->post_id ),
+					'permalink' => get_the_permalink( $row->post_id ),
+					'name'      => $fields['name'],
+					'email'     => $fields['email'],
+					'message'   => $row->message,
+					'pro'       => $row->pro,
+					'contra'    => $row->contra,
+					'time'      => $row->time,
+				];
+			endforeach;
+
+			if ( ! empty( $items ) ) {
+
+				$lines   = [];
+				$lines[] = array_keys( $items[0] );
+
+				foreach ( $items as $item ) :
+					$lines[] = array_values( $item );
+				endforeach;
+				
+				$uploads = wp_upload_dir();		
+
+				if ( ! file_exists( $uploads['basedir'] . '/helpful' ) ) {
+					mkdir( $uploads['basedir'] . '/helpful', 0755, true );
+				}
+
+				$file_name = '/helpful/feedback.csv';
+
+				if ( file_exists( $uploads['basedir'] . $file_name ) ) {
+					unlink( $uploads['basedir'] . $file_name );
+				}
+
+				clearstatcache();
+				
+				$file = fopen( $uploads['basedir'] . $file_name, 'w+' );
+
+				foreach ( $lines as $line ) :
+					fputcsv( $file, $line, ';' );
+				endforeach;
+
+				fclose( $file );
+
+				$file_name = $uploads['baseurl'] . $file_name;
+				
+				$response['status'] = 'success';
+				$response['file']   = $file_name;
+			}
+		}
+
+		header('Content-Type: application/json');
+		echo wp_json_encode( $response );
+		wp_die();
 	}
 }

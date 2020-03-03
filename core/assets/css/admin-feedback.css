@@ -95,17 +95,20 @@
 .helpful-admin-filter {
   padding: 0 0 1rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
-@media all and (max-width: 960px) {
-  .helpful-admin-filter {
-    display: block;
-  }
-  .helpful-admin-filter select {
-    width: 100%;
-    display: block;
-  }
+.helpful-admin-filter .button {	
+	color: rgb(255,255,255);
+	border-color: rgb(137, 192, 88);
+	background: rgb(137, 192, 88);
+}
+
+.helpful-admin-filter .button:hover,
+.helpful-admin-filter .button:focus {	
+	color: rgb(255,255,255);
+	border-color: rgb(137, 192, 88);
+	background: rgba(137, 192, 88, 0.7);
 }
 
 /* Feedback Items */

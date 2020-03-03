@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Helpful
  * Description: Add a fancy feedback form under your posts or post-types and ask your visitors a question. Give them the abbility to vote with yes or no.
- * Version: 4.2.8
+ * Version: 4.2.9
  * Author: Pixelbart
  * Author URI: https://pixelbart.de
  * Text Domain: helpful
@@ -45,4 +45,4 @@ function helpful_load_plugin() {
 /**
  * Fires Helpful.
  */
-add_action( 'plugins_loaded', 'helpful_load_plugin' );
+add_action( 'wp_loaded', 'helpful_load_plugin' );
