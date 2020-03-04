@@ -188,6 +188,20 @@ class Helpful_Frontend
 	{
 		check_ajax_referer( 'helpful_feedback_nonce' );
 
+		/**
+		 * Simple Spam Protection
+		 */
+		$spam_protection = apply_filters( 'helpful_simple_spam_protection', true );
+
+		if ( ! is_bool( $spam_protection ) ) {
+			$spam_protection = true;
+		}
+
+		if ( ! empty( $_REQUEST['website'] ) && true === $spam_protection ) {
+			echo do_shortcode( get_option( 'helpful_feedback_message_spam' ) );
+			wp_die();
+		}
+
 		if ( ! isset( $_REQUEST['helpful_cancel'] ) ) {
 			Helpful_Helper_Feedback::insertFeedback();
 		}
@@ -250,10 +264,25 @@ class Helpful_Frontend
 		do_action( 'helpful_before_feedback_form' );
 
 		echo '<form class="helpful-feedback-form">';
+
 		printf( '<input type="hidden" name="user_id" value="%s">', Helpful_Helper_Values::getUser() );
 		printf( '<input type="hidden" name="action" value="%s">', 'helpful_save_feedback' );
 		printf( '<input type="hidden" name="post_id" value="%s">', $post_id );
 		printf( '<input type="hidden" name="type" value="%s">', $type );
+		
+		/**
+		 * Simple Spam Protection
+		 */
+		$spam_protection = apply_filters( 'helpful_simple_spam_protection', true );
+
+		if ( ! is_bool( $spam_protection ) ) {
+			$spam_protection = true;
+		}
+
+		if ( true === $spam_protection ) {
+			echo '<input type="text" name="website" id="website" style="display:none;">';
+		}
+		
 		wp_nonce_field( 'helpful_feedback_nonce' );
 
 		if ( '' !== $custom_template ) {

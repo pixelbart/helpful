@@ -112,6 +112,12 @@ do_action( 'helpful-tab-feedback-before' );
 				<p class="description"><?php echo esc_html_x( 'This message is displayed if the user has voted negatively.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
+			<div class="helpful-admin-group">
+				<label class="helpful-block" for="helpful_feedback_message_spam"><?php echo esc_html_x( 'Message (spam)', 'option name', 'helpful' ); ?></label>
+				<?php wp_editor( get_option( 'helpful_feedback_message_spam' ), 'helpful_feedback_message_spam', $settings ); ?>
+				<p class="description"><?php echo esc_html_x( 'This message is shown to users who try to send spam through the form.', 'option info', 'helpful' ); ?></p>
+			</div><!-- .helpful-admin-group -->
+
 		</div><!-- .helpful-admin-panel-content -->
 	</div><!-- .helpful-admin-panel -->
 

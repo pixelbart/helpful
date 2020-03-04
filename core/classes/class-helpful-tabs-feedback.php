@@ -117,6 +117,7 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs
 			'helpful_feedback_receivers',
 			'helpful_feedback_subject',
 			'helpful_feedback_email_content',
+			'helpful_feedback_message_spam',
 		];
 
 		$fields = apply_filters( 'helpful_feedback_fields', $fields );
