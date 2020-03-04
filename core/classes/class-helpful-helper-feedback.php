@@ -148,6 +148,14 @@ class Helpful_Helper_Feedback
 			return null;
 		}
 
+		$message = trim( $_REQUEST['message'] );
+
+		if ( '' === $message ) {
+			$message = 'Helpful Notice: Feedback was not saved because the message is empty in %s on line %d.';
+			helpful_error_log( sprintf( $message, __FILE__, __LINE__ ) );
+			return null;
+		}
+
 		if ( helpful_backlist_check( $_REQUEST['message'] ) ) {
 			$message = 'Helpful Notice: Feedback was not saved because the message contains blacklisted words in %s on line %d.';
 			helpful_error_log( sprintf( $message, __FILE__, __LINE__ ) );
