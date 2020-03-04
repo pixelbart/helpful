@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $helpful;
 $settings = $helpful['wp_editor'];
 
+$separators = [ ';', ',' ];
+$separators = apply_filters( 'helpful_export_separators', $separators );
+
 do_action( 'helpful-tab-system-before' );
 ?>
 
@@ -119,6 +122,34 @@ do_action( 'helpful-tab-system-before' );
 					<input id="helpful_classic_editor" type="checkbox" name="helpful_classic_editor" <?php checked( 'on', $value ); ?> />
 					<?php _ex( 'Activate the classic editor and deactivate the block editor', 'label', 'helpful' ); ?>
 				</label>
+			</div><!-- .helpful-admin-group -->
+
+		</div><!-- .helpful-admin-panel-content -->
+	</div><!-- .helpful-admin-panel -->
+
+	<div class="helpful-admin-panel">
+
+		<button type="button" class="helpful-admin-panel-header">
+			<span class="title"><?php _ex('Export', 'admin panel title', 'helpful'); ?></span>
+			<span class="icon"></span>
+		</button><!-- .helpful-admin-panel -->
+
+		<div class="helpful-admin-panel-content">
+
+			<p class="description"><?php _ex( "Here you can make settings that affect the export for feedback.", 'admin panel description', 'helpful' ); ?></p>
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label class="helpful-block" for="helpful_export_separator"><?php _ex( 'Separator (CSV)', 'option name', 'helpful' ); ?></label>
+				<?php $value = get_option( 'helpful_export_separator' ); ?>
+				<select class="regular-text code" name="helpful_export_separator">
+					<?php foreach ( $separators as $separator ) : ?>
+						<?php if ( $separator === $value ) : ?>
+						<option selected><?php echo esc_html( $separator ); ?></option>
+						<?php else: ?>
+						<option><?php echo esc_html( $separator ); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</select>
 			</div><!-- .helpful-admin-group -->
 
 		</div><!-- .helpful-admin-panel-content -->

@@ -117,6 +117,7 @@ class Helpful_Tabs_System extends Helpful_Tabs
 			'helpful_classic_editor',
 			'helpful_caching',
 			'helpful_caching_time',
+			'helpful_export_separator',
 		];
 
 		foreach ( $fields as $field ) {

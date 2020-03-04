@@ -235,11 +235,21 @@ class Helpful_Feedback_Admin
 				}
 
 				clearstatcache();
+
+				$separator  = ';';
+				$separators = [ ';', ',' ];
+				$separators = apply_filters( 'helpful_export_separators', $separators );
+
+				$option = get_option( 'helpful_export_separator' );
+
+				if ( $option && in_array( $option, $separators ) ) {
+					$separator = esc_html( $option );
+				}
 				
 				$file = fopen( $uploads['basedir'] . $file_name, 'w+' );
 
 				foreach ( $lines as $line ) :
-					fputcsv( $file, $line, ';' );
+					fputcsv( $file, $line, $separator );
 				endforeach;
 
 				fclose( $file );
