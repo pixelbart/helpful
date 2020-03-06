@@ -43,8 +43,8 @@ class Helpful_Setup
 	 */
 	public function __construct()
 	{
-		register_activation_hook( HELPFUL_FILE, [ &$this, 'setup_helpful_table' ] );
-		register_activation_hook( HELPFUL_FILE, [ &$this, 'setup_feedback_table' ] );
+		add_action( 'admin_init', [ &$this, 'setup_helpful_table' ] );
+		add_action( 'admin_init', [ &$this, 'setup_feedback_table' ] );
 
 		add_action( 'init', [ &$this, 'setup_defaults' ] );
 		add_action( 'activated_plugin', [ &$this, 'load_first' ] );
@@ -103,12 +103,14 @@ class Helpful_Setup
 	 */
 	public function setup_helpful_table()
 	{
-		if ( 1 === (int) get_option( 'helpful_is_installed' ) ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . $this->table_helpful;
+
+		if ( false !== Helpful_Helper_Database::table_exists( $table_name ) ) {
 			return false;
 		}
 
-		global $wpdb;
-		$table_name      = $wpdb->prefix . $this->table_helpful;
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "
@@ -125,7 +127,7 @@ class Helpful_Setup
 
 		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
-		update_option( 'helpful_is_installed', 1 );
+
 		return true;
 	}
 
@@ -138,12 +140,14 @@ class Helpful_Setup
 	 */
 	public function setup_feedback_table()
 	{
-		if ( 1 === (int) get_option( 'helpful_feedback_is_installed' ) ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . $this->table_feedback;
+
+		if ( false !== Helpful_Helper_Database::table_exists( $table_name ) ) {
 			return false;
 		}
 
-		global $wpdb;
-		$table_name      = $wpdb->prefix . $this->table_feedback;
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "
@@ -162,7 +166,7 @@ class Helpful_Setup
 
 		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
-		update_option( 'helpful_feedback_is_installed', 1 );
+
 		return true;
 	}
 
