@@ -46,9 +46,12 @@ class Helpful_Tabs_System extends Helpful_Tabs
 		$this->setup_tab();
 
 		add_action( 'admin_init', [ &$this, 'register_settings' ] );
+
 		add_filter( 'helpful_admin_tabs', [ &$this, 'register_tab' ] );
 		add_action( 'helpful_tabs_content', [ &$this, 'add_tab_content' ] );
+
 		add_action( 'admin_init', [ &$this, 'reset_plugin' ] );
+		add_action( 'admin_init', [ &$this, 'reset_feedback' ] );
 
 		if ( get_option( 'helpful_classic_editor' ) ) {
 			add_filter( 'use_block_editor_for_post', '__return_false', 10 );
@@ -118,6 +121,7 @@ class Helpful_Tabs_System extends Helpful_Tabs
 			'helpful_caching',
 			'helpful_caching_time',
 			'helpful_export_separator',
+			'helpful_uninstall_feedback',
 		];
 
 		foreach ( $fields as $field ) {
@@ -167,5 +171,25 @@ class Helpful_Tabs_System extends Helpful_Tabs
 		}
 
 		update_option( 'helpful_is_installed', 0 );
+	}
+
+	/**
+	 * Reset helpful feedback database
+	 *
+	 * @global $wpdb
+	 *
+	 * @return void
+	 */
+	public function reset_feedback()
+	{
+		if ( ! get_option( 'helpful_uninstall_feedback' ) ) {
+			return;
+		}
+
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'helpful_feedback';
+		$wpdb->query( "TRUNCATE TABLE $table_name" );
+		update_option( 'helpful_uninstall_feedback', false );
 	}
 }

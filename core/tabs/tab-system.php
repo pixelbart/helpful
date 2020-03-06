@@ -189,11 +189,19 @@ do_action( 'helpful-tab-system-before' );
 
 			<p class="description"><?php _ex( 'Here you can reset Helpful. This affects all entries in the database as well as the feedback. Settings are not affected. This action is irreversible, so be careful with it. If you want to reset individual posts, you only have to activate the meta box under Details. Then switch to the post and reset Helpful there.', 'admin panel description', 'helpful' ); ?></p>
 
-			<div class="helpful-admin-group">
+			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-danger">
 					<?php $value = get_option( 'helpful_uninstall' ); ?>
 					<input id="helpful_uninstall" type="checkbox" name="helpful_uninstall" <?php checked( 'on', $value ); ?> />
 					<?php _ex( 'Reset Helpful', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group">
+				<label class="helpful-danger">
+					<?php $value = get_option( 'helpful_uninstall_feedback' ); ?>
+					<input id="helpful_uninstall_feedback" type="checkbox" name="helpful_uninstall_feedback" <?php checked( 'on', $value ); ?> />
+					<?php _ex( 'Reset Feedback', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
 
