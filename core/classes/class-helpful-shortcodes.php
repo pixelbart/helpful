@@ -87,8 +87,8 @@ class Helpful_Shortcodes
 		$hidden  = false;
 		$class   = '';
 
-		if ( isset( $helpful['exists'] ) && 1 === intval( $helpful['exists'] ) ) {
-			if ( isset( $helpful['exists-hide'] ) && 1 === intval( $helpful['exists-hide'] ) ) {
+		if ( isset( $helpful['exists'] ) && 1 === $helpful['exists'] ) {
+			if ( isset( $helpful['exists-hide'] ) && 1 === $helpful['exists-hide'] ) {
 				return __return_empty_string();
 			}
 
@@ -149,8 +149,8 @@ class Helpful_Shortcodes
 		$hidden = false;
 		$class  = '';
 
-		if ( isset( $helpful['exists'] ) && 1 === intval( $helpful['exists'] ) ) {
-			if ( isset( $helpful['exists-hide'] ) && 1 === intval( $helpful['exists-hide'] ) ) {
+		if ( isset( $helpful['exists'] ) && 1 === $helpful['exists'] ) {
+			if ( isset( $helpful['exists-hide'] ) && 1 === $helpful['exists-hide'] ) {
 				return __return_empty_string();
 			}
 
