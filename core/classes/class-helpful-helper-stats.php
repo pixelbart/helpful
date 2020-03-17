@@ -1049,11 +1049,11 @@ class Helpful_Helper_Stats
 			}
 		}
 
-		usort( $results, function( $a, $b ) {
-			return $b['percentage'] - $a['percentage'];
-		} );
-
 		if ( is_array( $results ) ) {
+			usort( $results, function( $a, $b ) {
+				return $b['percentage'] - $a['percentage'];
+			} );
+
 			$results = array_filter( $results );
 		}
 
@@ -1134,11 +1134,11 @@ class Helpful_Helper_Stats
 			}
 		}
 
-		usort( $results, function( $a, $b ) {
-			return $a['percentage'] - $b['percentage'];
-		} );
-
 		if ( is_array( $results ) ) {
+			usort( $results, function( $a, $b ) {
+				return $a['percentage'] - $b['percentage'];
+			} );
+
 			$results = array_filter( $results );
 		}
 

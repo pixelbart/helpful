@@ -154,7 +154,7 @@ class Helpful_Helper_Values
 		$lifetime = '+30 days';
 		$lifetime = apply_filters( 'helpful_user_cookie_time', $lifetime );
 
-		if ( ! session_id() ) {
+		if ( PHP_SESSION_NONE == session_status() ) {
 			session_start();
 		}
 
