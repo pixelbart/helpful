@@ -240,10 +240,13 @@ class Helpful_Frontend
 			'helpful'
 		);
 
+		$hide_feedback = get_post_meta( $post_id, 'helpful_hide_feedback_on_post', true );
+		$hide_feedback = ( 'on' === $hide_feedback ) ? true : false;
+
 		if ( 'pro' === $type ) {
 			$feedback_text = get_option( 'helpful_feedback_message_pro' );
 
-			if ( ! get_option( 'helpful_feedback_after_pro' ) ) {
+			if ( ! get_option( 'helpful_feedback_after_pro' ) || false !== $hide_feedback ) {
 				return do_shortcode( get_option( 'helpful_after_pro' ) );
 			}
 		}
@@ -251,7 +254,7 @@ class Helpful_Frontend
 		if ( 'contra' === $type ) {
 			$feedback_text = get_option( 'helpful_feedback_message_contra' );
 
-			if ( ! get_option( 'helpful_feedback_after_contra' ) ) {
+			if ( ! get_option( 'helpful_feedback_after_contra' ) || false !== $hide_feedback ) {
 				return do_shortcode( get_option( 'helpful_after_contra' ) );
 			}
 		}

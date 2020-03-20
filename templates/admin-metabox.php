@@ -11,23 +11,34 @@
         </tr>
         <tr>
             <th style="width:20%">
-                <label for="helpful_remove_data"><?php _ex( 'Reset Post', 'meta box label', 'helpful' ); ?></label>
+                <label for="helpful_hide_on_post"><?php _ex( 'Disable Helpful', 'meta box label', 'helpful' ); ?></label>
             </th>
             <td>
-                <input type="checkbox" name="helpful_remove_data" id="helpful_remove_data" value="yes">
-                <label for="helpful_remove_data">
-                    <span class="description"><?php _ex( 'Select to reset the entries of Helpful for this post.', 'checkbox label', 'helpful' ); ?></span>
+                <input type="checkbox" name="helpful_hide_on_post" id="helpful_hide_on_post" value="yes" <?php checked( $hide, 'on' ); ?>>
+                <label for="helpful_hide_on_post">
+                    <span class="description"><?php _ex( 'Select to disable Helpful in this post.', 'checkbox label', 'helpful' ); ?></span>
                 </label>
             </td>
         </tr>
         <tr>
             <th style="width:20%">
-                <label for="helpful_hide_on_post"><?php _ex( 'Hide Helpful', 'meta box label', 'helpful' ); ?></label>
+                <label for="helpful_hide_feedback_on_post"><?php _ex( 'Disable Feedback', 'meta box label', 'helpful' ); ?></label>
             </th>
             <td>
-                <input type="checkbox" name="helpful_hide_on_post" id="helpful_hide_on_post" value="yes" <?php checked( $hide, 'on' ); ?>>
-                <label for="helpful_hide_on_post">
-                    <span class="description"><?php _ex( 'Select to hide Helpful in this post.', 'checkbox label', 'helpful' ); ?></span>
+                <input type="checkbox" name="helpful_hide_feedback_on_post" id="helpful_hide_feedback_on_post" value="yes" <?php checked( $hide_feedback, 'on' ); ?>>
+                <label for="helpful_hide_feedback_on_post">
+                    <span class="description"><?php _ex( 'Select to disable Feedback in this post.', 'checkbox label', 'helpful' ); ?></span>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <th style="width:20%">
+                <label for="helpful_remove_data"><font color="#b52727"><?php _ex( 'Reset Post', 'meta box label', 'helpful' ); ?></font></label>
+            </th>
+            <td>
+                <input type="checkbox" name="helpful_remove_data" id="helpful_remove_data" value="yes">
+                <label for="helpful_remove_data">
+                    <span class="description"><?php _ex( 'Select to reset the entries of Helpful for this post.', 'checkbox label', 'helpful' ); ?></span>
                 </label>
             </td>
         </tr>
