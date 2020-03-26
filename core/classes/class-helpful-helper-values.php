@@ -155,6 +155,8 @@ class Helpful_Helper_Values
 		$lifetime = apply_filters( 'helpful_user_cookie_time', $lifetime );
 
 		if ( PHP_SESSION_NONE == session_status() ) {
+			session_cache_limiter( '' );
+			header( "Cache-Control: public, s-maxage=60" );
 			session_start();
 		}
 
