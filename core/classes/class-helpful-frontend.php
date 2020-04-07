@@ -28,7 +28,7 @@ class Helpful_Frontend
 	 */
 	public function __construct()
 	{
-		add_action( 'init', [ &$this, 'set_user_cookie' ], 1 );
+		add_action( 'wp', [ &$this, 'set_user_cookie' ], 1 );
 		add_filter( 'helpful_themes', [ &$this, 'default_themes' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ &$this, 'enqueue_scripts' ], PHP_INT_MAX );
 		add_action( 'wp_ajax_helpful_save_vote', [ &$this, 'save_vote' ] );
