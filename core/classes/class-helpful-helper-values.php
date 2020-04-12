@@ -176,10 +176,10 @@ class Helpful_Helper_Values
 	 *
 	 * @global $wpdb
 	 *
-	 * @param string  $user_id user id.
-	 * @param integer $post_id post id.
+	 * @param string $user_id user id.
+	 * @param int    $post_id post id.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function checkUser( $user_id, $post_id )
 	{
@@ -193,6 +193,7 @@ class Helpful_Helper_Values
 		SELECT user, post_id
 		FROM {$table_name}
 		WHERE user = %s AND post_id = %d
+		LIMIT 1
 		";
 		$query      = $wpdb->prepare( $sql, $user_id, $post_id );
 		$results    = $wpdb->get_results( $query );
@@ -202,6 +203,69 @@ class Helpful_Helper_Values
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks by a Post-ID whether a vote has already been taken for this post.
+	 *
+	 * @global $post
+	 *
+	 * @param int|null $post_id
+	 * @param bool     $bool Returns the vote status (pro, contra, none) if true.
+	 *
+	 * @return bool|string
+	 */
+	public static function has_user_voted( $post_id = null, $bool = true )
+	{
+		if ( null === $post_id ) {
+			global $post;
+			$post_id = $post->ID;
+		}
+
+		$user_id = self::getUser();
+
+		if ( true !== $bool ) {
+			return self::get_user_vote_status( $user_id, $post_id );
+		}
+
+		if ( self::checkUser( $user_id, $post_id ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the vote status for a user and a post. Can be pro, contra and none.
+	 *
+	 * @global $wpdb
+	 * 
+	 * @param string $user_id
+	 * @param int    $post_id
+	 *
+	 * @return string
+	 */
+	public static function get_user_vote_status( $user_id, $post_id )
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'helpful';
+		$sql        = "
+		SELECT pro, contra
+		FROM {$table_name}
+		WHERE user = %s AND post_id = %d
+		LIMIT 1
+		";
+		$query      = $wpdb->prepare( $sql, $user_id, $post_id );
+		$results    = $wpdb->get_row( $query );
+
+		if ( 1 === intval( $results->pro ) ) {
+			return 'pro';
+		} else if ( 1 === intval( $results->contra ) ) {
+			return 'contra';
+		} else {
+			return 'none';
+		}
 	}
 
 	/**

@@ -78,3 +78,19 @@ if ( ! function_exists( 'helpful_error_log' ) ) {
 		}
 	}
 }
+
+if ( ! function_exists( 'helpful_has_user_voted' ) ) {
+	/**
+	 * Checks by a Post-ID whether a vote has already been taken for this post.
+	 *
+	 * @global $post
+	 *
+	 * @param int|null $post_id
+	 * @param bool     $bool Returns the vote status (pro, contra, none) if true.
+	 *
+	 * @return bool|string
+	 */
+	function helpful_has_user_voted( $post_id = null, $bool = true ) {
+		return Helpful_Helper_Values::has_user_voted( $post_id, $bool );
+	}
+}
