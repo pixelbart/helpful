@@ -233,9 +233,6 @@ class Helpful_Helper_Feedback
 			return;
 		}
 
-		/* email headers */
-		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
-
 		/* email subject */
 		$subject = get_option( 'helpful_feedback_subject' );
 
@@ -289,11 +286,19 @@ class Helpful_Helper_Feedback
 			return;
 		}
 
+		/* email headers */
+		$headers   = [];		
+		$headers[] = 'Content-Type: text/html; charset=UTF-8';
+
+		if ( $feedback['fields']['email'] ) {
+			$headers[] = sprintf( 'Reply-To: %s', $feedback['fields']['email'] );
+		}
+
 		/* filters */
-		$receivers = apply_filters( 'helpful_feedback_email_receivers', $receivers );
-		$subject   = apply_filters( 'helpful_feedback_email_subject', $subject );
-		$body      = apply_filters( 'helpful_feedback_email_body', $body );
-		$headers   = apply_filters( 'helpful_feedback_email_headers', $headers );
+		$receivers = apply_filters( 'helpful_feedback_email_receivers', $receivers, $feedback );
+		$subject   = apply_filters( 'helpful_feedback_email_subject', $subject, $feedback );
+		$body      = apply_filters( 'helpful_feedback_email_body', $body, $feedback );
+		$headers   = apply_filters( 'helpful_feedback_email_headers', $headers, $feedback );
 
 		$response = wp_mail( $receivers, $subject, $body, $headers );
 
