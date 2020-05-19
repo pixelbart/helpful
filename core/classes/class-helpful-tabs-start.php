@@ -173,6 +173,10 @@ class Helpful_Tabs_Start
 
 		$post_types = get_option( 'helpful_post_types' );
 
+		if ( ! $post_types ) {
+			$post_types = 'any';
+		}
+
 		$response = [
 			'status' => 'success',
 			'data'   => [],

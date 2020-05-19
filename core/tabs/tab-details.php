@@ -50,7 +50,7 @@ do_action( 'helpful-tab-details-before' );
 						<?php else : ?>
 							<label class="helpful-inline helpful-margin-right">
 								<input type="checkbox" name="helpful_post_types[]" id="helpful_post_types[]" value="<?php echo esc_html( $post_type ); ?>"/>
-								<?php echo esc_html( $label ); ?>
+								<?php echo $label; ?>
 							</label>
 						<?php endif; ?>
 					<?php endforeach; ?>
