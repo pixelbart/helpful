@@ -171,11 +171,15 @@ class Helpful_Tabs_Start
 
 		Helpful_Helper_Values::sync_post_meta();
 
+		/*
 		$post_types = get_option( 'helpful_post_types' );
 
 		if ( ! $post_types ) {
 			$post_types = 'any';
 		}
+		*/
+
+		$post_types = 'any';
 
 		$response = [
 			'status' => 'success',
