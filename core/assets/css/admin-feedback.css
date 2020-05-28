@@ -101,7 +101,8 @@
 .helpful-admin-filter .button {	
 	color: rgb(255,255,255);
 	border-color: rgb(137, 192, 88);
-	background: rgb(137, 192, 88);
+  background: rgb(137, 192, 88);
+  margin-bottom: 0px;
 }
 
 .helpful-admin-filter .button:hover,

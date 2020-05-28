@@ -229,6 +229,10 @@ class Helpful_Tabs_Start
 					$title = substr( $title, 0, $length ) . '...';
 				}
 
+				if ( '' === $title || 0 === strlen( $title ) ) {
+					$title = esc_html_x( 'No title found', 'message if no post title was found', 'helpful' );
+				}
+
 				$response['data'][] = [
 					'post_id'    => $data['ID'],
 					'post_title' => sprintf(

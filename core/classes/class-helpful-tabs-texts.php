@@ -103,6 +103,7 @@ class Helpful_Tabs_Texts extends Helpful_Tabs
 			'helpful_contra',
 			'helpful_column_pro',
 			'helpful_column_contra',
+			'helpful_column_feedback',
 			'helpful_after_pro',
 			'helpful_after_contra',
 		];

@@ -109,7 +109,7 @@ class Helpful_Feedback_Admin
 	 */
 	public function ajax_get_feedback_items()
 	{
-		check_ajax_referer( 'helpful_admin_feedback_nonce' );
+		check_ajax_referer( 'helpful_admin_feedback_filter' );
 
 		global $wpdb;
 
@@ -118,16 +118,24 @@ class Helpful_Feedback_Admin
 		$sql        = "SELECT * FROM $table_name";
 
 		if ( isset( $_REQUEST['filter'] ) && in_array( $_REQUEST['filter'], $filters ) ) {
-			if ( 'pro' == $_REQUEST['filter'] ) {
-				$sql = $sql . ' WHERE pro = 1';
+			if ( 'pro' === $_REQUEST['filter'] ) {
+				$sql .= ' WHERE pro = 1';
 			}
 
-			if ( 'contra' == $_REQUEST['filter'] ) {
-				$sql = $sql . ' WHERE contra = 1';
+			if ( 'contra' === $_REQUEST['filter'] ) {
+				$sql .= ' WHERE contra = 1';
 			}
 		}
 
-		$sql = $sql . ' ORDER BY time DESC';
+		if ( isset( $_REQUEST['post_id'] ) && is_numeric( $_REQUEST['post_id'] ) ) {
+			if ( strpos( $sql, 'WHERE' ) ) {
+				$sql .= ' AND post_id = ' . intval( $_REQUEST['post_id'] );
+			} else {
+				$sql .= ' WHERE post_id = ' . intval( $_REQUEST['post_id'] );
+			}
+		}
+
+		$sql .= ' ORDER BY time DESC';
 
 		$posts = $wpdb->get_results( $sql );
 

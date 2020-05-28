@@ -5,12 +5,31 @@
   const HelpfulAdminFeedback = {
     loader: "<div class=\"helpful_loader\"><i class=\"dashicons dashicons-update\"></i></div>",
     initClass: function () {
-      this.getFeedbackItems();
+      this.resetFeedback();
       this.deleteFeedbackItem();
       this.changeFeedbackFilter();
       this.exportFeedback();
     },
-    getFeedbackItems: function (filter = "all") {
+    resetFeedback: function () {
+      const self = this;
+      const filter_form = $(".helpful-admin-filter");
+
+      if ($('[name="post_id"]').length) {
+        $(".helpful-reset").show();
+      }
+
+      $(".helpful-reset").on("click", function (e) {
+        e.preventDefault();
+  
+        $(this).hide();
+        $('[name="post_id"]').remove();
+
+        let ajax_data = $(filter_form).serializeArray();
+  
+        self.getFeedackItems(ajax_data);
+      });
+    },
+    getFeedackItems: function (ajax_data) {
       const self = this;
       const container = $(".helpful-admin-feedback");
 
@@ -18,25 +37,25 @@
       let data;
 
       $(container).html(self.loader);
-      
-      data = {
-        action: "helpful_admin_feedback_items",
-        _wpnonce: helpful_admin_feedback.nonce,
-        filter: filter,
-      };
 
-      request = self.ajaxRequest(data);
+      request = self.ajaxRequest(ajax_data);
 
-      $.when(request).done(function (items) {
+      request.done(function (items) {
         $(container).html(items);
-      });
+      });      
     },
     changeFeedbackFilter: function () {
       const self = this;
-      const filter = $(".helpful-admin-filter").find("select");
+      const filter_form = $(".helpful-admin-filter");
 
-      $(filter).on("change", function () {
-        self.getFeedbackItems($(filter).val());
+      let ajax_data = $(filter_form).serializeArray();
+      self.getFeedackItems(ajax_data);
+
+      $(filter_form).on("change", function (e) {
+        e.preventDefault();
+        let ajax_data = $(this).serializeArray();
+        self.getFeedackItems(ajax_data);
+        return false;
       });
     },
     deleteFeedbackItem: function () {

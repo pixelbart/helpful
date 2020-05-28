@@ -307,4 +307,31 @@ class Helpful_Helper_Feedback
 			helpful_error_log( sprintf( $message, __FILE__, __LINE__ ) );
 		}
 	}
+
+	/**
+	 * Outputs the amount of feedback for a post.
+	 *
+	 * @global $wpdb
+	 *
+	 * @param int|null $post_id
+	 *
+	 * @return int
+	 */
+	public static function get_feedback_count( $post_id = null )
+	{
+		global $wpdb;
+
+		$helpful = $wpdb->prefix . 'helpful_feedback';
+
+		if ( null === $post_id || ! is_numeric( $post_id ) ) {
+			$sql = "SELECT COUNT(*) FROM $helpful";
+
+			return $wpdb->get_var( $sql );
+		}
+
+		$post_id = intval( $post_id );
+		$sql     = "SELECT COUNT(*) FROM $helpful WHERE post_id = %d";
+
+		return $wpdb->get_var( $wpdb->prepare( $sql, $post_id ) );
+	}
 }

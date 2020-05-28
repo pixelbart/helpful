@@ -100,6 +100,7 @@ class Helpful_Table
 			if ( 'title' === $key ) {
 				$columns['helpful-pro']    = get_option( 'helpful_column_pro' ) ? get_option( 'helpful_column_pro' ) : _x( 'Pro', 'column name', 'helpful' );
 				$columns['helpful-contra'] = get_option( 'helpful_column_contra' ) ? get_option( 'helpful_column_contra' ) : _x( 'Contra', 'column name', 'helpful' );
+				$columns['helpful-feedback'] = get_option( 'helpful_column_feedback' ) ? get_option( 'helpful_column_feedback' ) : _x( 'Feedback', 'column name', 'helpful' );
 			}
 		endforeach;
 
@@ -124,8 +125,9 @@ class Helpful_Table
 				printf( '%d (%s%%)', (int) $pro, $percent );
 			} else {
 				$pro = Helpful_Helper_Stats::getPro( $post_id );
+				$pro = intval( $pro );
 				update_post_meta( $post_id, 'helpful-pro', $pro );
-				printf( '%s', intval( $pro ) );
+				echo $pro;
 			}
 		}
 
@@ -137,8 +139,23 @@ class Helpful_Table
 				printf( '%d (%s%%)', (int) $contra, $percent );
 			} else {
 				$contra = Helpful_Helper_Stats::getContra( $post_id );
+				$contra = intval( $contra );
 				update_post_meta( $post_id, 'helpful-contra', $contra );
-				printf( '%s', intval( $contra ) );
+				echo $contra;
+			}
+		}
+
+		if ( 'helpful-feedback' === $column_name ) {
+			$count = Helpful_Helper_Feedback::get_feedback_count( $post_id );
+			$count = intval( $count );
+
+			update_post_meta( $post_id, 'helpful-feedback-count', $count );
+
+			if ( 0 < $count ) {
+				$url = admin_url( 'admin.php?page=helpful_feedback&post_id=' . $post_id );
+				printf( '<a href="%s" target="_blank">%s</a>', esc_url( $url ), intval( $count ) );
+			} else {
+				echo $count;
 			}
 		}
 	}
@@ -151,8 +168,9 @@ class Helpful_Table
 	 */
 	public function register_sortable_columns( $columns )
 	{
-		$columns['helpful-pro']    = 'helpful-pro';
-		$columns['helpful-contra'] = 'helpful-contra';
+		$columns['helpful-pro']      = 'helpful-pro';
+		$columns['helpful-contra']   = 'helpful-contra';
+		$columns['helpful-feedback'] = 'helpful-feedback';
 
 		return $columns;
 	}
@@ -172,7 +190,6 @@ class Helpful_Table
 		$orderby = $wp_query->get( 'orderby' );
 
 		if ( 'helpful-pro' === $orderby ) {
-
 			$meta_query = [
 				'relation' => 'OR',
 				[
@@ -199,6 +216,24 @@ class Helpful_Table
 				],
 				[
 					'key' => 'helpful-contra',
+				],
+			];
+
+			$wp_query->set( 'meta_query', $meta_query );
+			$wp_query->set( 'orderby', 'meta_value' );
+		}
+
+		if ( 'helpful-feedback' === $orderby ) {
+			$meta_query = [
+				'relation' => 'OR',
+				[
+					'key'     => 'helpful-feedback-count',
+					'compare' => 'NOT EXISTS',
+					'type'    => 'NUMERIC',
+				],
+				[
+					'key'  => 'helpful-feedback-count',
+					'type' => 'NUMERIC',
 				],
 			];
 

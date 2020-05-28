@@ -124,15 +124,22 @@ printf( $text, $tags );
 		<div class="helpful-admin-panel-content">
 
 			<div class="helpful-admin-group">
-				<label class="helpful-block" for="helpful_contra"><?php _ex( 'Column (pro)', 'option name', 'helpful' ); ?></label>
+				<label class="helpful-block" for="helpful_column_pro"><?php _ex( 'Column (pro)', 'option name', 'helpful' ); ?></label>
 				<input type="text" id="helpful_column_pro" name="helpful_column_pro" class="regular-text" value="<?php echo esc_attr( get_option( 'helpful_column_pro' ) ); ?>"/>
 				<p class="description"><?php _ex( 'Here you can define your own text for the pro column in the post edit list.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
 			<div class="helpful-admin-group">
-				<label class="helpful-block" for="helpful_contra"><?php _ex( 'Column (contra)', 'option name', 'helpful' ); ?></label>
+				<label class="helpful-block" for="helpful_column_contra"><?php _ex( 'Column (contra)', 'option name', 'helpful' ); ?></label>
 				<input type="text" id="helpful_column_contra" name="helpful_column_contra" class="regular-text" value="<?php echo esc_attr( get_option( 'helpful_column_contra' ) ); ?>"/>
 				<p class="description"><?php _ex( 'Here you can define your own text for the contra column in the post edit list.', 'option info', 'helpful' ); ?></p>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group">
+				<?php $value = get_option( 'helpful_column_feedback' ) ?: _x( 'Feedback', 'column name', 'helpful' ); ?>
+				<label class="helpful-block" for="helpful_column_feedback"><?php _ex( 'Column (feedback)', 'option name', 'helpful' ); ?></label>
+				<input type="text" id="helpful_column_feedback" name="helpful_column_feedback" class="regular-text" value="<?php echo esc_attr( $value ); ?>"/>
+				<p class="description"><?php _ex( 'Here you can define your own text for the feedback column in the post edit list.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
 		</div><!-- .helpful-admin-panel-content -->

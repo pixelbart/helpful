@@ -8,10 +8,8 @@
     feedback: "helpful_save_feedback",
     initPlugin: function () {
       const self = this;
-
-      if (self.el.length < 1) {
-        return;
-      }
+  
+      if (self.el.length < 1) return;
 
       $(document).on("click", ".helpful .helpful-controls button", function (e) {
         if (e.target !== e.currentTarget) {

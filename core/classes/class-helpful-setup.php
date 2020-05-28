@@ -198,6 +198,7 @@ class Helpful_Setup
 			'helpful_contra'                 => _x( 'No', 'text contra button', 'helpful' ),
 			'helpful_column_pro'             => _x( 'Pro', 'column name', 'helpful' ),
 			'helpful_column_contra'          => _x( 'Contra', 'column name', 'helpful' ),
+			'helpful_column_feedback'        => _x( 'Feedback', 'column name', 'helpful' ),
 			'helpful_feedback_label_message' => _x( 'Message', 'label for feedback form field', 'helpful' ),
 			'helpful_feedback_label_name'    => _x( 'Name', 'label for feedback form field', 'helpful' ),
 			'helpful_feedback_label_email'   => _x( 'Email', 'label for feedback form field', 'helpful' ),
