@@ -11,6 +11,7 @@
     <key name="helpful_after_contra"/>
     <key name="helpful_column_pro"/>
     <key name="helpful_column_contra"/>
+    <key name="helpful_column_feedback"/>
     <key name="helpful_feedback_message_pro"/>
     <key name="helpful_feedback_message_contra"/>
     <key name="helpful_feedback_name"/>
