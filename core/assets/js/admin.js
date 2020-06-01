@@ -182,7 +182,7 @@
 							"sort": "post_author.sort",
 							"filter": "post_author.display",
 						},
-						"visible": true,
+						"visible": false,
 						"type": "html",
 
 					},
@@ -212,6 +212,15 @@
 						},
 						"visible": true,
 						"type": "num",
+					},
+					{
+						"data": {
+							"display": "feedback.display",
+							"sort": "feedback.sort",
+							"filter": "feedback.display",
+						},
+						"visible": true,
+						"type": "html",
 					},
 					{
 						"data": {

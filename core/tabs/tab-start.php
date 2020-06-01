@@ -48,6 +48,7 @@ do_action( 'helpful-tab-start-before' );
 							<th><?php echo esc_html_x( 'Pro', 'datatable head', 'helpful' ); ?></th>
 							<th><?php echo esc_html_x( 'Contra', 'datatable head', 'helpful' ); ?></th>
 							<th><?php echo esc_html_x( 'Helpful', 'datatable head', 'helpful' ); ?></th>
+							<th><?php echo esc_html_x( 'Feedback', 'datatable head', 'helpful' ); ?></th>
 							<th><?php echo esc_html_x( 'Published', 'datatable head', 'helpful' ); ?></th>
 						</tr>
 					</thead>

@@ -233,6 +233,19 @@ class Helpful_Tabs_Start
 					$title = esc_html_x( 'No title found', 'message if no post title was found', 'helpful' );
 				}
 
+				$feedback = Helpful_Helper_Feedback::get_feedback_count( $post_id );
+				$feedback = intval( $feedback );
+	
+				update_post_meta( $post_id, 'helpful-feedback-count', $feedback );
+				
+				$feedback_url = admin_url( 'admin.php?page=helpful_feedback&post_id=' . $post_id );
+
+				$feedback_display = 0;
+
+				if ( 0 < $feedback ) {
+					$feedback_display = sprintf( '<a href="%s">%d</a>', $feedback_url, $feedback );
+				}
+
 				$response['data'][] = [
 					'post_id'    => $data['ID'],
 					'post_title' => sprintf(
@@ -263,6 +276,10 @@ class Helpful_Tabs_Start
 					'post_date'   => [
 						'display' => $data['time']['date'],
 						'sort'    => $data['time']['timestamp'],
+					],
+					'feedback'    => [
+						'display' => $feedback_display,
+						'sort'    => $feedback,
 					],
 				];
 
