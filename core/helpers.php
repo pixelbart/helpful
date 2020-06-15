@@ -94,3 +94,22 @@ if ( ! function_exists( 'helpful_has_user_voted' ) ) {
 		return Helpful_Helper_Values::has_user_voted( $post_id, $bool );
 	}
 }
+
+if ( ! function_exists( 'helpful_is_amp' ) ) {
+	/**
+	 * Checks if AMP is used and outputs either TRUE or FALSE. Is used to avoid including Helpful in AMP.
+	 * @return bool
+	 */
+	function helpful_is_amp()
+	{
+		if ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
+			return true;
+		}
+		
+		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+			return true;
+		}
+
+		return false;
+	}
+}

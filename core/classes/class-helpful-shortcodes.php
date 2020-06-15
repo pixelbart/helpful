@@ -60,7 +60,7 @@ class Helpful_Shortcodes
 	{
 		global $post;
 
-		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+		if ( helpful_is_amp() ) {
 			return $content;
 		}
 
@@ -138,7 +138,7 @@ class Helpful_Shortcodes
 	{
 		global $post;
 
-		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+		if ( helpful_is_amp() ) {
 			return __return_empty_string();
 		}
 

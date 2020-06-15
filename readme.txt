@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.5
 Requires PHP: 5.6.20
-Stable tag: 4.2.22
+Stable tag: 4.2.23
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -62,7 +62,7 @@ Important are the PHP version and the plugin version. You can check the settings
 
 = Is AMP supported by the plugin? =
 
-I'm afraid not. I have not dealt with it and only know that there are problems with Javascript. If you have a solution, you are welcome to share it in the forum.
+I'm afraid not. Helpful does not support AMP because Helpful works with jQuery. If you know a solution, you are welcome to share it on [Github](https://github.com/pixelbart/helpful).
 
 = I'm a programmer, can I help? =
 

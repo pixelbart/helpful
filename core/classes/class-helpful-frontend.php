@@ -121,7 +121,7 @@ class Helpful_Frontend
 	 */
 	public function enqueue_scripts()
 	{
-		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+		if ( helpful_is_amp() ) {
 			return __return_empty_string();
 		}
 
