@@ -121,6 +121,10 @@ class Helpful_Frontend
 	 */
 	public function enqueue_scripts()
 	{
+		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+			return __return_empty_string();
+		}
+
 		$active_theme = get_option( 'helpful_theme' );
 		$themes       = apply_filters( 'helpful_themes', false );
 

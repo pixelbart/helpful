@@ -60,6 +60,10 @@ class Helpful_Shortcodes
 	{
 		global $post;
 
+		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+			return $content;
+		}
+
 		$post_types = get_option( 'helpful_post_types' );
 		$user_id    = Helpful_Helper_Values::getUser();
 
@@ -133,6 +137,10 @@ class Helpful_Shortcodes
 	public function shortcode_helpful( $atts, $content = '' )
 	{
 		global $post;
+
+		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+			return __return_empty_string();
+		}
 
 		$defaults = Helpful_Helper_Values::getDefaults();
 		$defaults = apply_filters( 'helpful_shortcode_defaults', $defaults );
