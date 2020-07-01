@@ -17,7 +17,7 @@
     initPro: function() {
       var self = this;
 
-      $("body").on("click", ".helpful-pro", function(e) {
+      $("body").on("click", "button.helpful-pro", function(e) {
         e.preventDefault();
 
         var helpfulContainer = $(this).closest(".helpful");
@@ -39,7 +39,7 @@
     initContra: function() {
       var self = this;
 
-      $("body").on("click", ".helpful-con", function(e) {
+      $("body").on("click", "button.helpful-con", function(e) {
         e.preventDefault();
 
         var helpfulContainer = $(this).closest(".helpful");

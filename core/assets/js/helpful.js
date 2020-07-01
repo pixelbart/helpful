@@ -11,9 +11,10 @@
   
       if (self.el.length < 1) return;
 
-      $(document).on("click", ".helpful .helpful-controls button", function (e) {
+      $(document).unbind().on("click", ".helpful .helpful-controls button", function (e) {
+        e.preventDefault();
         if (e.target !== e.currentTarget) {
-          return;
+          // return;
         }
 
         var currentButton = $(this);
@@ -36,7 +37,7 @@
     feedbackForm: function (currentForm) {
       var self = this;
 
-      $(currentForm).find('.helpful-cancel').click(function (e) {
+      $(currentForm).find('.helpful-cancel').unbind().click(function (e) {
         e.preventDefault();
         var ajaxData = [
           { name: 'action', value: 'helpful_save_feedback' },
@@ -50,7 +51,7 @@
         });
       });
       
-      $(currentForm).on("submit", ".helpful-feedback-form", function (e) {
+      $(currentForm).unbind().on("submit", ".helpful-feedback-form", function (e) {
         e.preventDefault();
         var ajaxData = $(this).serializeArray();
         self.ajaxRequest(ajaxData).done(function (response) {
