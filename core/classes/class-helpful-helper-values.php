@@ -118,6 +118,18 @@ class Helpful_Helper_Values
 	}
 
 	/**
+	 * Returns the available options for Same-Site cookies.
+	 *
+	 * @return array
+	 */
+	public static function getSamesiteOptions()
+	{
+		$defaults = [ 'None', 'Lax', 'Strict' ];
+
+		return apply_filters( 'helpful_samesite_options', $defaults );
+	}
+
+	/**
 	 * Get user string
 	 *
 	 * @return string|null
@@ -149,22 +161,56 @@ class Helpful_Helper_Values
 	 */
 	public static function setUser()
 	{
-		$string   = bin2hex( openssl_random_pseudo_bytes( 16 ) );
-		$string   = apply_filters( 'helpful_user_string', $string );
+		$string = bin2hex( openssl_random_pseudo_bytes( 16 ) );
+		$string = apply_filters( 'helpful_user_string', $string );
+
 		$lifetime = '+30 days';
 		$lifetime = apply_filters( 'helpful_user_cookie_time', $lifetime );
 
-		if ( PHP_SESSION_NONE == session_status() ) {
-			session_cache_limiter( '' );
-			header( "Cache-Control: public, s-maxage=60" );
-			session_start();
+		$samesite = get_option( 'helpful_cookies_samesite' ) ?: 'Strict';
+
+		if ( ! defined( 'PHP_VERSION_ID' ) ) {
+			$version = explode( '.', PHP_VERSION );		
+			define( 'PHP_VERSION_ID', ( $version[0] * 10000 + $version[1] * 100 + $version[2] ) );
 		}
 
 		if ( ! isset( $_COOKIE['helpful_user'] ) ) {
-			setcookie( 'helpful_user', $string, strtotime( $lifetime ) );
+			if ( 70300 <= PHP_VERSION_ID ) {
+
+				if ( ! in_array( $samesite, self::getSamesiteOptions() ) ) {
+					$samesite = 'Strict';
+				}
+
+				$cookie_options = [
+					'expires'  => strtotime( $lifetime ),
+					'path'     => '/',
+					'secure'   => true,
+					'httponly' => true,
+					'samesite' => $samesite,
+				];
+
+				setcookie( 'helpful_user', $string, $cookie_options );
+			}
+		
+			if ( 70300 > PHP_VERSION_ID ) {
+				setcookie( 'helpful_user', $string, strtotime( $lifetime ), '/' );
+			}
 		}
 
-		if ( ! isset( $_COOKIE['helpful_user'] ) ) {
+		$session_start     = apply_filters( 'helpful_session_start', true );
+		$sessions_disabled = get_option( 'helpful_sessions_false' );
+
+		if ( ! is_bool( $session_start ) ) {
+			$session_start = true;
+		}
+
+		if ( 'on' !== $sessions_disabled && ! isset( $_COOKIE['helpful_user'] ) ) {
+			if ( PHP_SESSION_NONE == session_status() && true === $session_start ) {
+				session_cache_limiter( '' );
+				header( "Cache-Control: public, s-maxage=60" );
+				session_start();
+			}
+
 			if ( ! isset( $_SESSION['helpful_user'] ) ) {
 				$_SESSION['helpful_user'] = $string;
 			}

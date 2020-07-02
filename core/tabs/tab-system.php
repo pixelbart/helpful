@@ -130,13 +130,60 @@ do_action( 'helpful-tab-system-before' );
 	<div class="helpful-admin-panel">
 
 		<button type="button" class="helpful-admin-panel-header">
+			<span class="title"><?php _ex('Cookies & Sessions', 'admin panel title', 'helpful'); ?></span>
+			<span class="icon"></span>
+		</button><!-- .helpful-admin-panel -->
+
+		<div class="helpful-admin-panel-content">
+
+			<p class="description"><?php _ex( "Here you can make settings that affect cookies and sessions. Starting with PHP 7.3, cookies are set with Samesite Strict. In previous versions of PHP, this can cause problems, so Samesite is only used on PHP 7.3 or higher.", 'admin panel description', 'helpful' ); ?></p>
+
+			<p class="description"><?php _ex( "Note that if you disable sessions and cookies cannot be set, an error will occur and your site will not work. So you should know what you are doing when you change this setting.", 'admin panel description', 'helpful' ); ?></p>
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_sessions_false' ); ?>
+					<input id="helpful_sessions_false" type="checkbox" name="helpful_sessions_false" <?php checked( 'on', $value ); ?> />
+					<?php _ex( 'Disable sessions', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<?php if ( 70300 <= PHP_VERSION_ID ) : ?>
+			<div class="helpful-admin-group">
+
+				<label for="helpful_cookies_samesite" class="helpful-block">
+					<?php _ex( 'Cookie Samesite', 'label', 'helpful' ); ?>
+				</label>
+
+				<?php $option = get_option( 'helpful_cookies_samesite' ) ?: 'Strict'; ?>
+				<?php $values = Helpful_Helper_Values::getSamesiteOptions(); ?>
+
+				<select id="helpful_cookies_samesite" name="helpful_cookies_samesite" class="regular-text">
+					<?php foreach ( $values as $value ) :?>
+						<?php if ( $value === $option ) : ?>
+						<option selected><?php echo esc_html( $value ); ?></option>
+						<?php else : ?>
+						<option><?php echo esc_html( $value ); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</select>
+
+			</div><!-- .helpful-admin-group -->
+			<?php endif; ?>
+
+		</div><!-- .helpful-admin-panel-content -->
+	</div><!-- .helpful-admin-panel -->
+
+	<div class="helpful-admin-panel">
+
+		<button type="button" class="helpful-admin-panel-header">
 			<span class="title"><?php _ex('Export', 'admin panel title', 'helpful'); ?></span>
 			<span class="icon"></span>
 		</button><!-- .helpful-admin-panel -->
 
 		<div class="helpful-admin-panel-content">
 
-			<p class="description"><?php _ex( "Here you can make settings that affect the export for feedback.", 'admin panel description', 'helpful' ); ?></p>
+			<p class="description"><?php _ex( "Here you can make settings that affect the export for feedback. ", 'admin panel description', 'helpful' ); ?></p>
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-block" for="helpful_export_separator"><?php _ex( 'Separator (CSV)', 'option name', 'helpful' ); ?></label>
