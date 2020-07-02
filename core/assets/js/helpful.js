@@ -11,7 +11,7 @@
   
       if (self.el.length < 1) return;
 
-      $(document).unbind().on("click", ".helpful .helpful-controls button", function (e) {
+      $(document).on("click", ".helpful .helpful-controls button", function (e) {
         e.preventDefault();
         if (e.target !== e.currentTarget) {
           // return;
@@ -51,7 +51,7 @@
         });
       });
       
-      $(currentForm).unbind().on("submit", ".helpful-feedback-form", function (e) {
+      $(currentForm).on("submit", ".helpful-feedback-form", function (e) {
         e.preventDefault();
         var ajaxData = $(this).serializeArray();
         self.ajaxRequest(ajaxData).done(function (response) {
