@@ -223,7 +223,7 @@ class Helpful_Helper_Feedback
 	 */
 	public static function send_email( $feedback )
 	{
-		if ( ! get_option( 'helpful_feedback_email' ) ) {
+		if ( 'on' !== get_option( 'helpful_feedback_send_email' ) ) {
 			return;
 		}
 
