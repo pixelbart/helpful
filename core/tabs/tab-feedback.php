@@ -208,8 +208,8 @@ do_action( 'helpful-tab-feedback-before' );
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option( 'helpful_feedback_email' ); ?>
-					<input id="helpful_feedback_email" type="checkbox" name="helpful_feedback_email" <?php checked( 'on', $value ); ?> />
+					<?php $value = get_option( 'helpful_feedback_send_email' ); ?>
+					<input id="helpful_feedback_send_email" type="checkbox" name="helpful_feedback_send_email" <?php checked( 'on', $value ); ?> />
 					<?php echo esc_html_x( 'Receive feedback by email', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
