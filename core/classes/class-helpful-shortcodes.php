@@ -60,10 +60,6 @@ class Helpful_Shortcodes
 	{
 		global $post;
 
-		if ( ! is_singular() || is_archive() || is_home() || is_front_page() ) {
-			return $content;
-		}
-
 		if ( helpful_is_amp() ) {
 			return $content;
 		}
@@ -84,6 +80,12 @@ class Helpful_Shortcodes
 		}
 
 		if ( get_option( 'helpful_exists_hide' ) && Helpful_Helper_Values::checkUser( $user_id, $post->ID ) ) {
+			return $content;
+		}
+
+		$conditions = $this->get_conditions();
+
+		if ( ! empty( $conditions ) ) {
 			return $content;
 		}
 
@@ -190,5 +192,33 @@ class Helpful_Shortcodes
 		ob_end_clean();
 
 		return $content;
+	}
+
+	/**
+	 * Filter the conditions and check if you are for example on the homepage and not in the single view.
+	 *
+	 * @return array
+	 */
+	public function get_conditions()
+	{
+		$conditions = [];
+
+		if ( ! is_singular() ) {
+			$conditions[] = 'is_not_singular';
+		}
+
+		if ( is_archive() ) {
+			$conditions[] = 'is_archive';
+		}
+
+		if ( is_home() ) {
+			$conditions[] = 'is_home';
+		}
+
+		if ( is_front_page() ) {
+			$conditions[] = 'is_front_page';
+		}
+
+		return apply_filters( 'helpful_conditions', $conditions );
 	}
 }
