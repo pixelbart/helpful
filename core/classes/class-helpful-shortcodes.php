@@ -60,6 +60,10 @@ class Helpful_Shortcodes
 	{
 		global $post;
 
+		if ( ! is_singular() || is_archive() || is_home() || is_front_page() ) {
+			return $content;
+		}
+
 		if ( helpful_is_amp() ) {
 			return $content;
 		}
@@ -80,10 +84,6 @@ class Helpful_Shortcodes
 		}
 
 		if ( get_option( 'helpful_exists_hide' ) && Helpful_Helper_Values::checkUser( $user_id, $post->ID ) ) {
-			return $content;
-		}
-
-		if ( ! is_singular() ) {
 			return $content;
 		}
 
