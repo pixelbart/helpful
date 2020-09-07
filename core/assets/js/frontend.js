@@ -86,7 +86,9 @@
           ajaxData["_ajax_nonce"] = $(currentContainer).data("nonce");
 
           if( ajaxData["post_content"].length > 0 ) {
-            self.ajaxRequest(ajaxData).done(function(response) {
+            var request = self.ajaxRequest(ajaxData);
+            
+            request.done(function (response) {
               $(parentElement).html(response);
             });
           }
@@ -112,6 +114,10 @@
       }
     },
     ajaxRequest: function(data) {
+      if (typeof helpful.ajax_session !== 'undefined') {
+        data.session = helpful.ajax_session;
+      }
+
       return $.ajax({
         url : helpful.ajax_url,
         data : data,

@@ -106,7 +106,7 @@ do_action( 'helpful-tab-feedback-before' );
 				<p class="description"><?php echo esc_html_x( 'This message is displayed if the user has voted positively.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
-			<div class="helpful-admin-group">
+			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-block" for="helpful_feedback_message_contra"><?php echo esc_html_x( 'Message (contra)', 'option name', 'helpful' ); ?></label>
 				<?php wp_editor( get_option( 'helpful_feedback_message_contra' ), 'helpful_feedback_message_contra', $settings ); ?>
 				<p class="description"><?php echo esc_html_x( 'This message is displayed if the user has voted negatively.', 'option info', 'helpful' ); ?></p>
@@ -160,6 +160,34 @@ do_action( 'helpful-tab-feedback-before' );
 				<label class="helpful-block" for="helpful_feedback_label_cancel"><?php echo esc_html_x( 'Cancel', 'option name', 'helpful' ); ?></label>
 				<?php $value = get_option( 'helpful_feedback_label_cancel', _x( 'Cancel', 'label for feedback form field', 'helpful' ) ); ?>
 				<input class="regular-text" type="text" name="helpful_feedback_label_cancel" value="<?php echo $value; ?>">
+			</div><!-- .helpful-admin-group -->
+
+		</div><!-- .helpful-admin-panel-content -->
+	</div><!-- .helpful-admin-panel -->
+
+	<div class="helpful-admin-panel">
+
+		<button type="button" class="helpful-admin-panel-header">
+			<span class="title"><?php echo esc_html_x( 'Already Voted', 'admin panel title', 'helpful' ); ?></span>
+			<span class="icon"></span>
+		</button><!-- .helpful-admin-panel-header -->
+
+		<div class="helpful-admin-panel-content">
+
+			<p class="description"><?php echo esc_html_x( 'The settings you make here affect every feedback form that is displayed despite the votes cast. This option activates the form at any time, even after a vote has been cast.', 'admin panel description', 'helpful' ); ?></p>
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_feedback_after_vote' ); ?>
+					<input id="helpful_feedback_after_vote" type="checkbox" name="helpful_feedback_after_vote" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Always show the form, even if it has already been voted.', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group">
+				<label class="helpful-block" for="helpful_feedback_message_voted"><?php echo esc_html_x( 'Message (already voted)', 'option name', 'helpful' ); ?></label>
+				<?php wp_editor( get_option( 'helpful_feedback_message_voted' ), 'helpful_feedback_message_voted', $settings ); ?>
+				<p class="description"><?php echo esc_html_x( 'This message is shown if the user has already voted.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
 		</div><!-- .helpful-admin-panel-content -->

@@ -118,6 +118,8 @@ class Helpful_Tabs_Feedback extends Helpful_Tabs
 			'helpful_feedback_subject',
 			'helpful_feedback_email_content',
 			'helpful_feedback_message_spam',
+			'helpful_feedback_after_vote',
+			'helpful_feedback_message_voted',
 		];
 
 		$fields = apply_filters( 'helpful_feedback_fields', $fields );

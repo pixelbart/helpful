@@ -153,6 +153,10 @@ class Helpful_Frontend
 			],
 		];
 
+		if ( isset( $_SESSION ) ) {
+			$vars['ajax_session'] = apply_filters( 'helpful_ajax_session', $_SESSION );
+		}
+
 		wp_localize_script( 'helpful', 'helpful', $vars );
 	}
 
@@ -165,6 +169,8 @@ class Helpful_Frontend
 	{
 		check_ajax_referer( 'helpful_frontend_nonce' );
 
+		do_action( 'helpful_ajax_save_vote' );
+
 		$user_id = sanitize_text_field( $_POST['user_id'] );
 		$post_id = intval( $_POST['post'] );
 		$value   = sanitize_text_field( $_POST['value'] );
@@ -172,10 +178,10 @@ class Helpful_Frontend
 		if ( ! Helpful_Helper_Values::checkUser( $user_id, $post_id ) ) {
 			if ( 'pro' === $value ) {
 				Helpful_Helper_Values::insertPro( $user_id, $post_id );
-				$response = do_shortcode( $this->after_vote( $value, $post_id ) );
+				$response = do_shortcode( Helpful_Helper_Feedback::after_vote( $post_id ) );
 			} else {
 				Helpful_Helper_Values::insertContra( $user_id, $post_id );
-				$response = do_shortcode( $this->after_vote( $value, $post_id ) );
+				$response = do_shortcode( Helpful_Helper_Feedback::after_vote( $post_id ) );
 			}
 		}
 
@@ -191,6 +197,8 @@ class Helpful_Frontend
 	public function save_feedback()
 	{
 		check_ajax_referer( 'helpful_feedback_nonce' );
+
+		do_action( 'helpful_ajax_save_feedback' );
 
 		/**
 		 * Simple Spam Protection
@@ -225,86 +233,5 @@ class Helpful_Frontend
 		}
 
 		wp_die();
-	}
-
-	/**
-	 * Render after messages or feedback form, after vote.
-	 * Checks if custom template exists.
-	 *
-	 * @param string  $type feedback type pro or contra.
-	 * @param integer $post_id       post id.
-	 *
-	 * @return string
-	 */
-	public function after_vote( $type, $post_id )
-	{
-		$feedback_text = esc_html_x(
-			'Thank you very much. Please write us your opinion, so that we can improve ourselves.',
-			'form user note',
-			'helpful'
-		);
-
-		$hide_feedback = get_post_meta( $post_id, 'helpful_hide_feedback_on_post', true );
-		$hide_feedback = ( 'on' === $hide_feedback ) ? true : false;
-
-		if ( 'pro' === $type ) {
-			$feedback_text = get_option( 'helpful_feedback_message_pro' );
-
-			if ( ! get_option( 'helpful_feedback_after_pro' ) || false !== $hide_feedback ) {
-				return do_shortcode( get_option( 'helpful_after_pro' ) );
-			}
-		}
-
-		if ( 'contra' === $type ) {
-			$feedback_text = get_option( 'helpful_feedback_message_contra' );
-
-			if ( ! get_option( 'helpful_feedback_after_contra' ) || false !== $hide_feedback ) {
-				return do_shortcode( get_option( 'helpful_after_contra' ) );
-			}
-		}
-
-		ob_start();
-
-		$default_template = HELPFUL_PATH . 'templates/feedback.php';
-		$custom_template  = locate_template( 'helpful/feedback.php' );
-
-		do_action( 'helpful_before_feedback_form' );
-
-		echo '<form class="helpful-feedback-form">';
-
-		printf( '<input type="hidden" name="user_id" value="%s">', Helpful_Helper_Values::getUser() );
-		printf( '<input type="hidden" name="action" value="%s">', 'helpful_save_feedback' );
-		printf( '<input type="hidden" name="post_id" value="%s">', $post_id );
-		printf( '<input type="hidden" name="type" value="%s">', $type );
-		
-		/**
-		 * Simple Spam Protection
-		 */
-		$spam_protection = apply_filters( 'helpful_simple_spam_protection', true );
-
-		if ( ! is_bool( $spam_protection ) ) {
-			$spam_protection = true;
-		}
-
-		if ( true === $spam_protection ) {
-			echo '<input type="text" name="website" id="website" style="display:none;">';
-		}
-		
-		wp_nonce_field( 'helpful_feedback_nonce' );
-
-		if ( '' !== $custom_template ) {
-			include $custom_template;
-		} else {
-			include $default_template;
-		}
-
-		echo '</form>';
-
-		do_action( 'helpful_after_feedback_form' );
-
-		$content = ob_get_contents();
-		ob_end_clean();
-
-		return $content;
 	}
 }

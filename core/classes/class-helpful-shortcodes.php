@@ -90,6 +90,7 @@ class Helpful_Shortcodes
 		}
 
 		$helpful = Helpful_Helper_Values::getDefaults();
+		$exists  = false;
 		$hidden  = false;
 		$class   = '';
 
@@ -98,9 +99,15 @@ class Helpful_Shortcodes
 				return __return_empty_string();
 			}
 
+			$exists             = true;
 			$hidden             = true;
 			$class              = 'helpful-exists';
 			$helpful['content'] = $helpful['exists_text'];
+		}
+
+		if ( false !== $exists && get_option( 'helpful_feedback_after_vote' ) ) {
+			$content .= Helpful_Helper_Feedback::after_vote( $helpful['post_id'], true );
+			return $content;
 		}
 
 		$helpful['content'] = do_shortcode( $helpful['content'] );
@@ -156,6 +163,7 @@ class Helpful_Shortcodes
 		$helpful = shortcode_atts( $defaults, $atts );
 		$helpful = apply_filters( 'helpful_shortcode_atts', $helpful );
 
+		$exists = false;
 		$hidden = false;
 		$class  = '';
 
@@ -164,6 +172,7 @@ class Helpful_Shortcodes
 				return __return_empty_string();
 			}
 
+			$exists             = true;
 			$hidden             = true;
 			$class              = 'helpful-exists';
 			$helpful['content'] = $helpful['exists_text'];
@@ -177,16 +186,25 @@ class Helpful_Shortcodes
 			}
 		}
 
+		if ( false !== $exists && get_option( 'helpful_feedback_after_vote' ) ) {
+			$content .= Helpful_Helper_Feedback::after_vote( $helpful['post_id'], true );
+			return $content;
+		}
+
 		ob_start();
 
 		$default_template = HELPFUL_PATH . 'templates/helpful.php';
 		$custom_template  = locate_template( 'helpful/helpful.php' );
+
+		do_action( 'helpful_before' );
 
 		if ( '' !== $custom_template ) {
 			include $custom_template;
 		} else {
 			include $default_template;
 		}
+
+		do_action( 'helpful_after' );
 
 		$content .= ob_get_contents();
 		ob_end_clean();

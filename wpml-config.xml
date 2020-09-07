@@ -14,6 +14,7 @@
     <key name="helpful_column_feedback"/>
     <key name="helpful_feedback_message_pro"/>
     <key name="helpful_feedback_message_contra"/>
+    <key name="helpful_feedback_message_voted"/>
     <key name="helpful_feedback_name"/>
     <key name="helpful_feedback_email"/>
     <key name="helpful_feedback_label_message"/>

@@ -167,7 +167,13 @@ class Helpful_Helper_Feedback
 				$fields[ $key ] = sanitize_text_field( $value );
 			}
 
-			$fields = apply_filters( 'helpful_feedback_submit_fields', $fields );
+			$session = [];
+
+			if ( isset( $_REQUEST['session'] ) ) {
+				$session = $_REQUEST['session'];
+			}
+
+			$fields = apply_filters( 'helpful_feedback_submit_fields', $fields, $session );
 		}
 
 		if ( is_user_logged_in() ) {
@@ -333,5 +339,107 @@ class Helpful_Helper_Feedback
 		$sql     = "SELECT COUNT(*) FROM $helpful WHERE post_id = %d";
 
 		return $wpdb->get_var( $wpdb->prepare( $sql, $post_id ) );
+	}
+
+	
+
+	/**
+	 * Render after messages or feedback form, after vote.
+	 * Checks if custom template exists.
+	 *
+	 * @param integer $post_id post id.
+	 * @param bool $show_feedback show feedback form anyway.
+	 *
+	 * @return string
+	 */
+	public static function after_vote( $post_id, $show_feedback = false )
+	{
+		$feedback_text = esc_html_x(
+			'Thank you very much. Please write us your opinion, so that we can improve ourselves.',
+			'form user note',
+			'helpful'
+		);
+
+		$hide_feedback = get_post_meta( $post_id, 'helpful_hide_feedback_on_post', true );
+		$hide_feedback = ( 'on' === $hide_feedback ) ? true : false;
+
+		$user_id = Helpful_Helper_Values::getUser();
+		$type    = Helpful_Helper_Values::get_user_vote_status( $user_id, $post_id );
+
+		if ( 'pro' === $type ) {
+			$feedback_text = get_option( 'helpful_feedback_message_pro' );
+
+			if ( true !== $show_feedback ) {
+				if ( ! get_option( 'helpful_feedback_after_pro' ) || false !== $hide_feedback ) {
+					return do_shortcode( get_option( 'helpful_after_pro' ) );
+				}
+			}
+		}
+
+		if ( 'contra' === $type ) {
+			$feedback_text = get_option( 'helpful_feedback_message_contra' );
+
+			if ( true !== $show_feedback ) {
+				if ( ! get_option( 'helpful_feedback_after_contra' ) || false !== $hide_feedback ) {
+					return do_shortcode( get_option( 'helpful_after_contra' ) );
+				}
+			}
+		}
+
+		if ( false !== $show_feedback ) {
+			$feedback_text = get_option( 'helpful_feedback_message_voted' );
+		}
+
+		if ( '' === trim( $feedback_text ) ) {
+			$feedback_text = false;
+		}
+
+		ob_start();
+
+		$default_template = HELPFUL_PATH . 'templates/feedback.php';
+		$custom_template  = locate_template( 'helpful/feedback.php' );
+
+		do_action( 'helpful_before_feedback_form' );
+
+		echo '<form class="helpful-feedback-form">';
+
+		printf( '<input type="hidden" name="user_id" value="%s">', $user_id );
+		printf( '<input type="hidden" name="action" value="%s">', 'helpful_save_feedback' );
+		printf( '<input type="hidden" name="post_id" value="%s">', $post_id );
+		printf( '<input type="hidden" name="type" value="%s">', $type );
+		
+		/**
+		 * Simple Spam Protection
+		 */
+		$spam_protection = apply_filters( 'helpful_simple_spam_protection', true );
+
+		if ( ! is_bool( $spam_protection ) ) {
+			$spam_protection = true;
+		}
+
+		if ( true === $spam_protection ) {
+			echo '<input type="text" name="website" id="website" style="display:none;">';
+		}
+		
+		wp_nonce_field( 'helpful_feedback_nonce' );
+
+		if ( '' !== $custom_template ) {
+			include $custom_template;
+		} else {
+			include $default_template;
+		}
+
+		echo '</form>';
+
+		do_action( 'helpful_after_feedback_form' );
+
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		if ( false !== $show_feedback ) {
+			$content = '<div class="helpful helpful-prevent-form"><div class="helpful-content" role="alert">' . $content . '</div></div>';
+		}
+
+		return $content;
 	}
 }
