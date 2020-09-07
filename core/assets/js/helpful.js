@@ -16,7 +16,7 @@
         e.preventDefault();
 
         var currentButton = $(this);
-        var currentForm = $(currentButton).closest('.helpful');
+        var currentForm = $(currentButton).closest(".helpful");
         var ajaxData = {};
 
         $.extend(ajaxData, helpful.ajax_data);
@@ -36,8 +36,7 @@
 
       $.each($(".helpful"), function () {
         var current_container = $(this);
-        if ($(current_container).is('.helpful-prevent-form')) {
-          console.log(current_container);
+        if ($(current_container).is(".helpful-prevent-form")) {
           self.feedbackForm($(current_container));
         }
       });
@@ -45,14 +44,14 @@
     feedbackForm: function (currentForm) {
       var self = this;
 
-      $(currentForm).find('.helpful-cancel').unbind().click(function (e) {
+      $(currentForm).find(".helpful-cancel").unbind().click(function (e) {
         e.preventDefault();
 
         var ajaxData = {
-          action: 'helpful_save_feedback',
+          action: "helpful_save_feedback",
           cancel: 1,
           type: $(currentForm).find('[name="type"]').val(),
-          '_wpnonce': $(currentForm).find('[name="_wpnonce"]').val(),
+          "_wpnonce": $(currentForm).find('[name="_wpnonce"]').val(),
         };
 
         var request = self.ajaxRequest(ajaxData);
@@ -80,11 +79,9 @@
       });
     },
     ajaxRequest: function (data) {
-      if (typeof this.helpful.ajax_session !== 'undefined') {
+      if (typeof this.helpful.ajax_session !== "undefined") {
         data.session = this.helpful.ajax_session;
       }
-
-      console.log('ajaxRequest', data);
 
       return $.ajax({
         url: this.helpful.ajax_url,
