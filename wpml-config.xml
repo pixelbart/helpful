@@ -9,6 +9,7 @@
     <key name="helpful_contra"/>
     <key name="helpful_after_pro"/>
     <key name="helpful_after_contra"/>
+    <key name="helpful_after_fallback"/>
     <key name="helpful_column_pro"/>
     <key name="helpful_column_contra"/>
     <key name="helpful_column_feedback"/>
