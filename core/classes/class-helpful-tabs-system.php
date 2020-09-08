@@ -123,6 +123,7 @@ class Helpful_Tabs_System extends Helpful_Tabs
 			'helpful_export_separator',
 			'helpful_uninstall_feedback',
 			'helpful_sessions_false',
+			'helpful_user_random',
 		];
 
 		foreach ( $fields as $field ) {

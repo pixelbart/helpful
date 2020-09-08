@@ -31,10 +31,14 @@ class Helpful_Frontend
 		add_action( 'wp', [ &$this, 'set_user_cookie' ], 1 );
 		add_filter( 'helpful_themes', [ &$this, 'default_themes' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ &$this, 'enqueue_scripts' ], PHP_INT_MAX );
+
 		add_action( 'wp_ajax_helpful_save_vote', [ &$this, 'save_vote' ] );
 		add_action( 'wp_ajax_nopriv_helpful_save_vote', [ &$this, 'save_vote' ] );
 		add_action( 'wp_ajax_helpful_save_feedback', [ &$this, 'save_feedback' ] );
 		add_action( 'wp_ajax_nopriv_helpful_save_feedback', [ &$this, 'save_feedback' ] );
+
+		add_action( 'helpful_the_content', [ &$this, 'replace_tags' ], 10, 2 );
+		add_action( 'helpful_the_shortcode', [ &$this, 'replace_tags' ], 10, 2 );
 	}
 
 	/**
@@ -226,12 +230,23 @@ class Helpful_Frontend
 
 		if ( 'pro' === $type ) {
 			echo do_shortcode( get_option( 'helpful_after_pro' ) );
-		}
-
-		if ( 'contra' === $type ) {
+		} elseif ( 'contra' === $type ) {
 			echo do_shortcode( get_option( 'helpful_after_contra' ) );
+		} else {
+			echo do_shortcode( get_option( 'helpful_after_fallback' ) );
 		}
 
 		wp_die();
+	}
+
+	/**
+	 * @param string $content
+	 * @return string
+	 */
+	public function replace_tags( $content, $post_id )
+	{
+		$content = Helpful_Helper_Values::convertTags( $content, $post_id );
+
+		return $content;
 	}
 }

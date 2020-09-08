@@ -140,11 +140,21 @@ do_action( 'helpful-tab-system-before' );
 
 			<p class="description"><?php _ex( "Note that if you disable sessions and cookies cannot be set, an error will occur and your site will not work. So you should know what you are doing when you change this setting.", 'admin panel description', 'helpful' ); ?></p>
 
+			<p class="description"><?php _ex( "If your server has problems with PHP sessions, you can try the plugin from Pantheon: ", 'admin panel description', 'helpful' ); ?> <a href="https://wordpress.org/plugins/wp-native-php-sessions/" target="_blank">WordPress Native PHP Sessions</a></p>
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_user_random' ); ?>
+					<input id="helpful_user_random" type="checkbox" name="helpful_user_random" <?php checked( 'on', $value ); ?> />
+					<?php _ex( 'Disable cookies and sessions. Users can vote as often as they want, as it is no longer possible to check whether a user has already voted.', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
 					<?php $value = get_option( 'helpful_sessions_false' ); ?>
 					<input id="helpful_sessions_false" type="checkbox" name="helpful_sessions_false" <?php checked( 'on', $value ); ?> />
-					<?php _ex( 'Disable sessions', 'label', 'helpful' ); ?>
+					<?php _ex( 'Disable sessions. Always uses cookies to identify the user.', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
 

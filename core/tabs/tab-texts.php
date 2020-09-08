@@ -30,6 +30,12 @@ $text = esc_html_x( 'Most texts can be changed here. You can also leave fields b
 printf( $text, $tags );
 ?></p>
 
+<p><?php
+/* translators: %s feedback_form tag */
+$text = esc_html_x( '%s should only be used in the texts after the user has voted. Otherwise it can lead to bugs and Helpful does not save feedback properly!', 'tab description', 'helpful' );
+printf( $text, '<code>{feedback_form}</code>' );
+?></p>
+
 <form method="post" action="options.php">
 	<?php settings_fields( 'helpful-texts-settings-group' ); ?>
 	<?php do_settings_sections( 'helpful-texts-settings-group' ); ?>
@@ -87,6 +93,12 @@ printf( $text, $tags );
 				<p class="description"><?php _ex( 'The text that is displayed, after a negative vote (shortcodes <b>without Ajax</b> are also possible!)', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
+			<div class="helpful-admin-group">
+				<label class="helpful-block" for="helpful_after_fallback"><?php _ex( 'After voting (fallback)', 'option name', 'helpful' ); ?></label>
+				<?php wp_editor( get_option( 'helpful_after_fallback' ), 'helpful_after_fallback', $settings ); ?>
+				<p class="description"><?php _ex( 'This text is shown whenever the above texts cannot be displayed (shortcodes <b>without Ajax</b> are also possible!)', 'option info', 'helpful' ); ?></p>
+			</div><!-- .helpful-admin-group -->
+
 		</div><!-- .helpful-admin-panel-content -->
 	</div><!-- .helpful-admin-panel -->
 
@@ -102,13 +114,13 @@ printf( $text, $tags );
 			<div class="helpful-admin-group">
 				<label class="helpful-block" for="helpful_pro"><?php _ex( 'Button (pro)', 'option name', 'helpful' ); ?></label>
 				<input type="text" id="helpful_pro" name="helpful_pro" class="regular-text" value="<?php echo esc_attr( get_option( 'helpful_pro' ) ); ?>"/>
-				<p class="description"><?php _ex( 'Here you can define your own text for the pro button.', 'option info', 'helpful' ); ?></p>
+				<p class="description"><?php _ex( 'Here you can define your own text for the pro button. You can use HTML to use e.g. Font Awesome.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
 			<div class="helpful-admin-group">
 				<label class="helpful-block" for="helpful_contra"><?php _ex( 'Button (contra)', 'option name', 'helpful' ); ?></label>
 				<input type="text" id="helpful_contra" name="helpful_contra" class="regular-text" value="<?php echo esc_attr( get_option( 'helpful_contra' ) ); ?>"/>
-				<p class="description"><?php _ex( 'Here you can define your own text for the contra button.', 'option info', 'helpful' ); ?></p>
+				<p class="description"><?php _ex( 'Here you can define your own text for the contra button. You can use HTML to use e.g. Font Awesome.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
 		</div><!-- .helpful-admin-panel-content -->

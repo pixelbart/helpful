@@ -90,6 +90,7 @@ class Helpful_Helper_Values
 			'{author}'         => get_the_author_meta( 'display_name', $post->post_author ),
 			'{pro_percent}'    => Helpful_Helper_Stats::getPro( $post->ID, true ),
 			'{contra_percent}' => Helpful_Helper_Stats::getContra( $post->ID, true ),
+			'{feedback_form}'  => Helpful_Helper_Feedback::after_vote( $post->ID, true ),
 		];
 
 		$tags = apply_filters( 'helpful_tags', $tags );
@@ -114,6 +115,7 @@ class Helpful_Helper_Values
 			'{contra_percent}',
 			'{permalink}',
 			'{author}',
+			'{feedback_form}',
 		];
 	}
 
@@ -138,6 +140,13 @@ class Helpful_Helper_Values
 	{
 		$user = null;
 
+		/**
+		 * No more user is set using sessions or cookies.
+		 */
+		if ( 'on' === get_option( 'helpful_user_random' ) ) {
+			return self::get_user_string();
+		}
+
 		if ( isset( $_COOKIE['helpful_user'] ) ) {
 			$user = sanitize_text_field( $_COOKIE['helpful_user'] );
 		}
@@ -155,19 +164,43 @@ class Helpful_Helper_Values
 	}
 
 	/**
+	 * Returns a string that should identify the user.
+	 *
+	 * @return string
+	 */
+	public static function get_user_string()
+	{
+		$length  = apply_filters( 'helpful_user_bytes', 16 );
+
+		if ( function_exists( '') ) {
+			$bytes = random_bytes( $length );
+		} else {
+			$bytes = openssl_random_pseudo_bytes( $length );
+		}
+
+		$string = bin2hex( $bytes );
+
+		return apply_filters( 'helpful_user_string', $string );
+	}
+
+	/**
 	 * Set user string
 	 *
 	 * @return void
 	 */
 	public static function setUser()
 	{
-		$string = bin2hex( openssl_random_pseudo_bytes( 16 ) );
-		$string = apply_filters( 'helpful_user_string', $string );
-
+		$string   = self::get_user_string();
 		$lifetime = '+30 days';
 		$lifetime = apply_filters( 'helpful_user_cookie_time', $lifetime );
-
 		$samesite = get_option( 'helpful_cookies_samesite' ) ?: 'Strict';
+
+		/**
+		 * No more user is set using sessions or cookies.
+		 */
+		if ( 'on' === get_option( 'helpful_user_random' ) ) {
+			return;
+		}
 
 		if ( ! defined( 'PHP_VERSION_ID' ) ) {
 			$version = explode( '.', PHP_VERSION );		
@@ -205,7 +238,7 @@ class Helpful_Helper_Values
 		}
 
 		if ( 'on' !== $sessions_disabled && ! isset( $_COOKIE['helpful_user'] ) ) {
-			if ( PHP_SESSION_NONE == session_status() && true === $session_start ) {
+			if ( function_exists( 'session_status' ) && PHP_SESSION_ACTIVE == session_status() && true === $session_start ) {
 				session_cache_limiter( '' );
 				header( "Cache-Control: public, s-maxage=60" );
 				session_start();

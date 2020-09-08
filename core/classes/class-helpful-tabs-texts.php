@@ -106,6 +106,7 @@ class Helpful_Tabs_Texts extends Helpful_Tabs
 			'helpful_column_feedback',
 			'helpful_after_pro',
 			'helpful_after_contra',
+			'helpful_after_fallback',
 		];
 
 		foreach ( $fields as $field ) {

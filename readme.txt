@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.6
 Requires PHP: 5.6.20
-Stable tag: 4.3.1
+Stable tag: 4.3.2
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 

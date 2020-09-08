@@ -130,6 +130,8 @@ class Helpful_Shortcodes
 		$content .= ob_get_contents();
 		ob_end_clean();
 
+		$content = apply_filters( 'helpful_the_content', $content, $helpful['post_id'] );
+
 		return $content;
 	}
 
@@ -208,6 +210,8 @@ class Helpful_Shortcodes
 
 		$content .= ob_get_contents();
 		ob_end_clean();
+
+		$content = apply_filters( 'helpful_the_shortcode', $content, $helpful['post_id'] );
 
 		return $content;
 	}
