@@ -43,7 +43,6 @@ class Feedback
 		);
 
 		if ( $entry->fields ) {
-			$fields = [];
 			$items  = maybe_unserialize( $entry->fields );
 			if ( is_array( $items ) ) {
 				foreach ( $items as $label => $value ) {
