@@ -62,7 +62,7 @@
           var canvas = $(container).find(".chart")[0].getContext("2d");
 
           // show percentages on doughnuts
-          if ("doughnut" == response.type) {
+          if ("doughnut" === response.type) {
             response.options.tooltips = {
               callbacks: {
                 label: function (tooltipItem, data) {
