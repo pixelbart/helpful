@@ -59,14 +59,14 @@ class Optimize
 
 		/* OPTIMIZE helpful table */
 		$table_name = $wpdb->prefix . 'helpful';
-		if ( $wpdb->query( "OPTIMIZE TABLE {$table_name}" ) ) {
+		if ( $wpdb->query( "OPTIMIZE TABLE $table_name" ) ) {
 			/* translators: %s = table name */
 			$response[] = sprintf( esc_html_x( "Table '%s' has been optimized.", 'maintenance response', 'helpful' ), $table_name );
 		}
 
 		/* OPTIMIZE helpful_feedback table */
 		$table_name = $wpdb->prefix . 'helpful_feedback';
-		if ( $wpdb->query( "OPTIMIZE TABLE {$table_name}" ) ) {
+		if ( $wpdb->query( "OPTIMIZE TABLE $table_name" ) ) {
 			/* translators: %s = table name */
 			$response[] = sprintf( esc_html_x( "Table '%s' has been optimized.", 'maintenance response', 'helpful' ), $table_name );
 		}
@@ -159,7 +159,7 @@ class Optimize
 
 		/* Remove incorrect entries from 'helpful' table */
 		$table_name = $wpdb->prefix . 'helpful';
-		$query      = $wpdb->prepare( "SELECT id, user FROM {$table_name} WHERE user = %s", '' );
+		$query      = $wpdb->prepare( "SELECT id, user FROM $table_name WHERE user = %s", '' );
 		$items      = $wpdb->get_results( $query );
 
 		if ( $items ) {
@@ -178,7 +178,7 @@ class Optimize
 
 		/* Remove incorrect entries from 'helpful_feedback' table */
 		$table_name = $wpdb->prefix . 'helpful_feedback';
-		$query      = $wpdb->prepare( "SELECT id, user FROM {$table_name} WHERE user = %s", '' );
+		$query      = $wpdb->prepare( "SELECT id, user FROM $table_name WHERE user = %s", '' );
 		$items      = $wpdb->get_results( $query );
 
 		if ( $items ) {
@@ -211,7 +211,7 @@ class Optimize
 
 		$response   = [];
 		$table_name = $wpdb->prefix . 'helpful_feedback';
-		$query      = "SELECT id, message FROM {$table_name}";
+		$query      = "SELECT id, message FROM $table_name";
 		$items      = $wpdb->get_results( $query );
 		$fixes      = [];
 
