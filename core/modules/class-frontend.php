@@ -185,9 +185,21 @@ class Frontend
 
 		do_action( 'helpful_ajax_save_vote' );
 
-		$user_id = sanitize_text_field( $_POST['user_id'] );
-		$post_id = intval( $_POST['post'] );
-		$value   = sanitize_text_field( $_POST['value'] );
+		$user_id = null;
+		$post_id = null;
+		$value   = null;
+
+		if ( isset( $_POST['user_id'] ) ) {
+			$user_id = sanitize_text_field( $_POST['user_id'] );
+		}
+
+		if ( isset( $_POST['post'] ) ) {
+			$post_id = intval( $_POST['post'] );
+		}
+
+		if ( isset( $_POST['value'] ) ) {
+			$value = sanitize_text_field( $_POST['value'] );
+		}
 
 		if ( ! Helpers\User::check_user( $user_id, $post_id ) ) {
 			if ( 'pro' === $value ) {

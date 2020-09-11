@@ -41,10 +41,10 @@
           self.feedbackForm(current_container);
         }
 
-        if ($(current_container).find('.helpful-toggle-feedback').length) {
-          $(current_container).find('.helpful-toggle-feedback').click(function (e) {
+        if ($(current_container).find(".helpful-toggle-feedback").length) {
+          $(current_container).find(".helpful-toggle-feedback").click(function (e) {
             e.preventDefault();
-            $(this).parent().find('div').removeAttr('hidden');
+            $(this).parent().find("div").removeAttr("hidden");
             $(this).remove();
           });
         }

@@ -44,7 +44,7 @@ class Values
 
 		$post_id = null;
 
-		if ( ! isset( $post->ID ) && ! isset( $helpful['post_id'] ) ) {
+		if ( ! isset( $post->ID ) ) {
 			if ( false !== get_the_ID() ) {
 				$post_id = get_the_ID();
 			}

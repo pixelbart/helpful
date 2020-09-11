@@ -277,9 +277,7 @@ class Core
 	 * @return array
 	 */
 	public function debug_fields( $fields )
-	{
-		$plugin = Helper::get_plugin_data();
-		
+	{		
 		$fields['datatables'] = [
 			'label' => esc_html_x( 'DataTables version', 'debug field label', 'helpful' ),
 			'value' => '1.10.20',

@@ -58,7 +58,7 @@
       let ajax_data = $(filter_form).serializeArray();
       self.getFeedackItems(ajax_data);
 
-      $(filter_form).find("[name='filter']").on('change', function () {
+      $(filter_form).find("[name='filter']").on("change", function () {
         $(filter_form).find("[name='paginate']").val(1);
       });
 

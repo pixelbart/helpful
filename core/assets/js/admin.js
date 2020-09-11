@@ -47,7 +47,10 @@
 			});
 		},
 		datePicker: function () {
-			if (!$(".helpful-date").length) return;
+			if (!$(".helpful-date").length) {
+				return;
+			}
+
 			$(".helpful-date").datepicker({
 				changeMonth: true,
 				changeYear: true,
@@ -60,7 +63,9 @@
 			var el = $(".helpful-range");
 			var form = $(".helpful-range-form");
 
-			if (!$(form).length) return;
+			if (!$(form).length) {
+				return;
+			}
 
 			var data = $(form).serializeArray();
 
@@ -129,7 +134,9 @@
 			var canvas;
 			var el = $(".helpful-total");
 
-			if (!$(el).length) return;
+			if (!$(el).length) {
+				return;
+			}
 
 			var data = { "action": "helpful_total_stats", "_wpnonce": helpful_admin.nonce };
 
@@ -151,7 +158,9 @@
 		datatablePosts: function () {
 			var container = $('#helpful-table-posts');
 
-			if (!$(container).length) return;
+			if (!$(container).length) {
+				return;
+			}
 
 			var options = this.tableOptions();
 
@@ -252,9 +261,9 @@
 
 			var table = $(container).DataTable(options);
 
-			table.column('0:visible').order('desc').draw();
+			table.column("0:visible").order("desc").draw();
 
-			table.on( 'buttons-action', function () {
+			table.on( "buttons-action", function () {
 				table.ajax.reload()
 			} );
 		},
@@ -275,9 +284,9 @@
 		registerAlerts: function () {
 			const self = this;
 			
-			$('.helpful-alert[data-close]').each(function () {
+			$(".helpful-alert[data-close]").each(function () {
 				let $el = $(this);
-				let timer = $el.data('close');
+				let timer = $el.data("close");
 				setTimeout(function () {
 					$el.fadeOut();
 				}, timer);
