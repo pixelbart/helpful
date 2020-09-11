@@ -4,23 +4,23 @@
 /********************************************************/
 
 /* Helpers */
-.helpful-block { display: block !important }
-.helpful-inline { display: inline-block !important }
-.helpful-margin-top { margin-top: 1em !important }
-.helpful-margin-right { margin-right: 1em !important }
-.helpful-margin-bottom { margin-bottom: 1em !important }
-.helpful-margin-left { margin-left: 1em !important }
-.helpful-margin-auto-top { margin-top: auto !important }
-.helpful-margin-auto-right { margin-right: auto !important }
-.helpful-margin-auto-bottom { margin-bottom: auto !important }
-.helpful-margin-auto-left { margin-left: auto !important }
-.helpful-muted { color: rgb(153, 153, 153) }
-.helpful-danger { color: rgb(239, 81, 110) }
+.helpful-block { display: block !important; }
+.helpful-inline { display: inline-block !important; }
+.helpful-margin-top { margin-top: 1em !important; }
+.helpful-margin-right { margin-right: 1em !important; }
+.helpful-margin-bottom { margin-bottom: 1em !important; }
+.helpful-margin-left { margin-left: 1em !important; }
+.helpful-margin-auto-top { margin-top: auto !important; }
+.helpful-margin-auto-right { margin-right: auto !important; }
+.helpful-margin-auto-bottom { margin-bottom: auto !important; }
+.helpful-margin-auto-left { margin-left: auto !important; }
+.helpful-muted { color: rgb(153, 153, 153); }
+.helpful-danger { color: rgb(239, 81, 110); }
 
 /* Base */
 
-.toplevel_page_helpful #wpcontent { padding-left: 0px !important }
-.toplevel_page_helpful #wpcontent * { box-sizing: border-box }
+.toplevel_page_helpful #wpcontent { padding-left: 0px !important; }
+.toplevel_page_helpful #wpcontent * { box-sizing: border-box; }
 .toplevel_page_helpful #wpcontent code { 
 	background-color: rgb(249, 249, 249);
 	border-radius: 3px;
@@ -245,13 +245,13 @@
 	border-color: rgb(85, 93, 102);
 	border-style: solid;
 	border-width: 0 2px 2px 0;
-	height: .6rem;
+	height: 0.6rem;
 	pointer-events: none;
 	position: absolute;
 	right: 1.5em;
 	top: 50%;
 	transform: translateY(-70%) rotate(45deg);
-	width: .6rem;
+	width: 0.6rem;
 }
 
 .helpful-admin-panel.active .icon {
@@ -269,7 +269,7 @@
 
 .helpful-admin-panel-content label {
 	font-weight: 600;
-	margin: 0 0 .35em 0;
+	margin: 0 0 0.35em 0;
 }
 
 .helpful-admin-panel.active .helpful-admin-panel-content{

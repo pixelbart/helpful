@@ -1,7 +1,7 @@
 /* WP Blue: #0073aa */
 
-.helpful-red { color: #ed7161 }
-.helpful-green { color: #88c057 }
+.helpful-red { color: #ed7161; }
+.helpful-green { color: #88c057; }
 
 /* Helpers */
 .helpful-margin-top-auto { margin-top: auto; }
