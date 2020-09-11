@@ -78,7 +78,6 @@
 					canvas = $(el).find(".chart")[0].getContext("2d");
 
 					// show percentages on doughnuts
-					// since 4.0.1
 					if ("doughnut" === response.type) {
 						response.options.tooltips = {
 							callbacks: {
@@ -89,7 +88,7 @@
 									var currentValue = dataset.data[tooltipItem.index];
 									var percentage = parseFloat((currentValue / total * 100).toFixed(1));
 									percentage = (isNaN(percentage)) ? 0 : percentage;
-									return currentValue + ' (' + percentage + '%)';
+									return currentValue + " (" + percentage + "%)";
 								},
 								title: function (tooltipItem, data) {
 									return data.labels[tooltipItem[0].index];
@@ -112,7 +111,7 @@
 									var currentValue = dataset.data[tooltipItem.index];
 									var percentage = parseFloat((currentValue / total * 100).toFixed(1));
 									percentage = (isNaN(percentage)) ? 0 : percentage;
-									return currentValue + ' (' + percentage + '%)';
+									return currentValue + " (" + percentage + "%)";
 								},
 								title: function (tooltipItem, data) {
 									return data.labels[tooltipItem[0].index];
@@ -156,7 +155,7 @@
 			return;
 		},
 		datatablePosts: function () {
-			var container = $('#helpful-table-posts');
+			var container = $("#helpful-table-posts");
 
 			if (!$(container).length) {
 				return;
@@ -256,7 +255,7 @@
 						"visible": true,
 						"type": "num",
 					}
-				],
+				]
 			});
 
 			var table = $(container).DataTable(options);
@@ -264,14 +263,14 @@
 			table.column("0:visible").order("desc").draw();
 
 			table.on( "buttons-action", function () {
-				table.ajax.reload()
+				table.ajax.reload();
 			} );
 		},
 		tableOptions: function () {
 			return {
-				"dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>'+
+				"dom": "<\"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr\"Blfr>"+
 				"t" +
-				'<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+				"<\"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br\"ip>",
 				"buttons": [ "colvis" ],
 				"scrollY": 275,
 				"deferRender": true,

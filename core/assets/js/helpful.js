@@ -10,7 +10,9 @@
     initPlugin: function () {
       const self = this;
   
-      if (self.el.length < 1) return;
+      if (self.el.length < 1) {
+        return;
+      }
 
       $(document).on("click", ".helpful .helpful-controls button", function (e) {
         e.preventDefault();
@@ -59,8 +61,8 @@
         var ajaxData = {
           action: "helpful_save_feedback",
           cancel: 1,
-          type: $(currentForm).find('[name="type"]').val(),
-          "_wpnonce": $(currentForm).find('[name="_wpnonce"]').val(),
+          type: $(currentForm).find("[name='type']").val(),
+          "_wpnonce": $(currentForm).find("[name='_wpnonce']").val(),
         };
 
         var request = self.ajaxRequest(ajaxData);

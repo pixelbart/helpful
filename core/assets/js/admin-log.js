@@ -40,7 +40,7 @@
 			
 			var table = $(self.container).DataTable(options);
 			
-			table.column('5').order('desc').draw();
+			table.column("5").order("desc").draw();
 		},
 		tableOptions: function () {
 			return {

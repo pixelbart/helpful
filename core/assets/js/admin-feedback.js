@@ -14,7 +14,7 @@
       const self = this;
       const filter_form = $(".helpful-admin-filter");
 
-      if ($('[name="post_id"]').length) {
+      if ($("[name='post_id']").length) {
         $(".helpful-reset").show();
       }
 
@@ -22,7 +22,7 @@
         e.preventDefault();
   
         $(this).hide();
-        $('[name="post_id"]').remove();
+        $("[name='post_id']").remove();
 
         let ajax_data = $(filter_form).serializeArray();
   
@@ -93,24 +93,24 @@
     exportFeedback: function () {
       const self = this;
 
-      if ($('.helpful-export').length < 1) {
+      if ($(".helpful-export").length < 1) {
         return;
       }
 
-      $('.helpful-export').unbind('click').on('click', function (e) {
+      $(".helpful-export").unbind("click").on("click", function (e) {
         e.preventDefault();
 
         let current_button = $(this);
         let ajax_data = {
           action: "helpful_export_feedback",
           _wpnonce: helpful_admin_feedback.nonce,
-          type: $(current_button).data('type'),
+          type: $(current_button).data("type"),
         };
   
         let request = self.ajaxRequest(ajax_data);
 
         request.done(function (response) {
-          if ('success' === response.status) {
+          if ("success" === response.status) {
             response = response.data;
             window.location.href = response.file;
           }
