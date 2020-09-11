@@ -1,22 +1,60 @@
-/* WP Blue: #0073aa */
-
-.helpful-red { color: #ed7161; }
-.helpful-green { color: #88c057; }
-
 /* Helpers */
 
-.helpful-margin-top-auto { margin-top: auto; }
-.helpful-margin-right-auto { margin-right: auto; }
-.helpful-margin-bottom-auto { margin-bottom: auto; }
-.helpful-margin-left-auto { margin-left: auto; }
-.helpful-margin-top { margin-top: 12px; }
-.helpful-margin-right { margin-right: 12px; }
-.helpful-margin-bottom { margin-bottom: 12px; }
-.helpful-margin-left { margin-left: 12px; }
-.helpful-margin-top-small { margin-top: 6px; }
-.helpful-margin-right-small { margin-right: 6px; }
-.helpful-margin-bottom-small { margin-bottom: 6px; }
-.helpful-margin-left-small { margin-left: 6px; }
+.helpful-red {
+  color: #ed7161;
+}
+
+.helpful-green {
+  color: #88c057;
+}
+
+.helpful-margin-top-auto {
+  margin-top: auto;
+}
+
+.helpful-margin-right-auto {
+  margin-right: auto;
+}
+
+.helpful-margin-bottom-auto {
+  margin-bottom: auto;
+}
+
+.helpful-margin-left-auto {
+  margin-left: auto;
+}
+
+.helpful-margin-top {
+  margin-top: 12px;
+}
+
+.helpful-margin-right {
+  margin-right: 12px;
+}
+
+.helpful-margin-bottom {
+  margin-bottom: 12px;
+}
+
+.helpful-margin-left {
+  margin-left: 12px;
+}
+
+.helpful-margin-top-small {
+  margin-top: 6px;
+}
+
+.helpful-margin-right-small {
+  margin-right: 6px;
+}
+
+.helpful-margin-bottom-small {
+  margin-bottom: 6px;
+}
+
+.helpful-margin-left-small {
+  margin-left: 6px;
+}
 
 /* Form */
 
@@ -72,7 +110,7 @@
   background-color: rgb(249, 249, 249);
 }
 
-.helpful-widget-panel button .icon {  
+.helpful-widget-panel button .icon {
 	border-color: #82878c;
 	border-style: solid;
 	border-width: 0 2px 2px 0;
