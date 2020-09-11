@@ -102,10 +102,20 @@ class Start
 	public function ajax_get_stats_range()
 	{
 		check_ajax_referer( 'helpful_range_stats' );
+		
+		$from = null;
+		if ( isset( $_REQUEST['from'] ) ) {
+			$from = $_REQUEST['from'];
+		}
+
+		$to = null;
+		if ( isset( $_REQUEST['to'] ) ) {
+			$to = $_REQUEST['to'];
+		}
 
 		$response         = [];
-		$from             = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $_REQUEST['from'] ) ) );
-		$to               = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $_REQUEST['to'] ) ) );
+		$from             = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $from ) ) );
+		$to               = date_i18n( 'Y-m-d', strtotime( sanitize_text_field( $to ) ) );
 		$response         = Helpers\Stats::get_stats_range( $from, $to );
 		$response['from'] = $from;
 		$response['to']   = $to;
