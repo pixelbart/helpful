@@ -1,9 +1,5 @@
-/********************************************************/
-/* Primary Color: 89c058 */
-/* WordPress Color: 007cba */
-/********************************************************/
-
 /* Helpers */
+
 .helpful-block { display: block !important; }
 .helpful-inline { display: inline-block !important; }
 .helpful-margin-top { margin-top: 1em !important; }
@@ -43,6 +39,7 @@
 	overflow: auto;
 	margin: 0 0 12px;
 }
+
 /* Admin Header */
 
 .helpful-admin-header {
@@ -270,6 +267,7 @@
 }
 
 /* Admin Loading Icon */
+
 .helpful_loader {
 	text-align: center;
 	padding: 12px;
