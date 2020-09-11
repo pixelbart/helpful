@@ -110,13 +110,14 @@ class Votes
 			$contra = 1;
 		}
 
-		$data       = [
+		$data = [
 			'time'    => current_time( 'mysql' ),
 			'user'    => esc_attr( $user ),
-			'pro'     => $contra,
-			'contra'  => $pro,
+			'pro'     => $pro,
+			'contra'  => $contra,
 			'post_id' => absint( $post_id ),
 		];
+
 		$table_name = $wpdb->prefix . 'helpful';
 
 		$status = $wpdb->insert( $table_name, $data );
