@@ -1,4 +1,21 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php
+/**
+ * Callback for admin feedback item.
+ *
+ * @package Helpful
+ * @author  Pixelbart <me@pixelbart.de>
+ *
+ * @since 1.0.0
+ */
+use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Helper;
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
+
 <article class="helpful-admin-item">
 
 	<header>

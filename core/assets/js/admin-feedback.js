@@ -31,6 +31,7 @@
     },
     getFeedackItems: function (ajax_data) {
       const self = this;
+      const filter_form = $(".helpful-admin-filter");
       const container = $(".helpful-admin-feedback");
 
       let request;
@@ -40,8 +41,14 @@
 
       request = self.ajaxRequest(ajax_data);
 
-      request.done(function (items) {
-        $(container).html(items);
+      request.done(function (response) {
+        $(container).html(response);
+
+        $(container).find("[data-page]").unbind().click(function (e) {
+          let page = $(this).data("page");
+          $(filter_form).find("[name='paginate']").val(page);
+          $(filter_form).change();
+        });
       });      
     },
     changeFeedbackFilter: function () {
@@ -50,6 +57,10 @@
 
       let ajax_data = $(filter_form).serializeArray();
       self.getFeedackItems(ajax_data);
+
+      $(filter_form).find("[name='filter']").on('change', function () {
+        $(filter_form).find("[name='paginate']").val(1);
+      });
 
       $(filter_form).on("change", function (e) {
         e.preventDefault();
@@ -100,6 +111,7 @@
 
         request.done(function (response) {
           if ('success' === response.status) {
+            response = response.data;
             window.location.href = response.file;
           }
         });

@@ -1,10 +1,4 @@
-<?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; 
-}
-
-global $post;
-?>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <div class="helpful <?php echo esc_attr( $class ); ?>">
 

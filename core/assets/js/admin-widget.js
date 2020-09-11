@@ -55,7 +55,9 @@
       $(container).html(self.loader);
 
       self.ajaxRequest(data).done(function (response) {
+        response = response.data;
         if (!("status" in response)) {
+
           $(container).html(self.canvas);
           var canvas = $(container).find(".chart")[0].getContext("2d");
 

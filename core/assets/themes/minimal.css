@@ -46,8 +46,12 @@
 /* CONTROLS */
 
 .helpful > .helpful-controls {
-  display: flex;
+	display: flex;
 	margin-top: 12.5px;
+}
+
+.helpful .helpful-content .helpful-button {
+	width: auto;
 }
 
 @media all and (max-width: 992px) {
@@ -66,17 +70,18 @@
 }
 
 .helpful > .helpful-controls > div:first-child {
-  margin-right: 15px;
+	margin-right: 15px;
 }
 
 @media all and (max-width: 992px) {
 	.helpful > .helpful-controls > div {
 		width: 100%;
 		display: block;
-		margin: 0px 0px 10px 0px;
+		margin: 0 0 10px 0;
 	}
 }
 
+.helpful .helpful-content .helpful-button,
 .helpful > .helpful-controls > div > .helpful-button {
 	padding: 12px 30px;
 	height: 56px;
@@ -97,6 +102,7 @@
 	transition: all .2s;
 }
 
+.helpful .helpful-content .helpful-button:hover,
 .helpful > .helpful-controls > div > .helpful-button:hover {
 	color: #fff;
 	background: #000;
@@ -110,7 +116,7 @@
 		width: calc( 100% );
 		float: none;
 		display: block;
-		margin: 0px 0px 10px 0px;
+		margin: 0 0 10px 0;
 	}
 }
 
@@ -154,7 +160,7 @@
 
 /* FEEDBACK */
 .helpful > .helpful-contet > .helpful-feedback-form req {
-  color: #ff0000;
+	color: #ff0000;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form {
@@ -165,7 +171,7 @@
 .helpful > .helpful-content > .helpful-feedback-form > .feedback-note > p,
 .helpful > .helpful-content > .helpful-feedback-form > .group {
 	color: #000;
-  margin: 0 0 12.5px;
+	margin: 0 0 12.5px;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form textarea,
@@ -173,15 +179,15 @@
 .helpful > .helpful-content > .helpful-feedback-form input[type="email"],
 .helpful > .helpful-content > .helpful-feedback-form input[type="url"],
 .helpful > .helpful-content > .helpful-feedback-form input[type="number"] {
-  color: #000;
-  display: block;
+	color: #000;
+	display: block;
 	width: 100%;
 	padding: 7.5px 15px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #000;
 	background-color: #fff;
-	border-radius: 0px;
+	border-radius: 0;
 	font-size: 1rem;
 	line-height: 1.6rem;
 }
@@ -198,7 +204,7 @@
 	border-style: solid;
 	border-width: 1px;
 	border-color: #000;
-  background-color: #fff;
+	background-color: #fff;
 	font-size: 1rem;
 	line-height: 1.6rem;
 }
@@ -209,29 +215,29 @@
 	max-height: 56px;
 	font-size: 1rem;
 	line-height: 1.6rem;
-  color: #000;
-  min-width: 150px;
-  text-align: center;
+	color: #000;
+	min-width: 150px;
+	text-align: center;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #000;
 	background-color: #fff;
-  margin: 12.5px 0 0;
-  cursor: pointer;
+	margin: 12.5px 0 0;
+	cursor: pointer;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form > .helpful-button:hover {
-  color: #fff;
-  background-color: #000;
+	color: #fff;
+	background-color: #000;
 }
 
 @media all and (max-width: 992px) {
-  .helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
-    min-width: 100%;
-    width: 100%;
-    display: block;
-  }
+	.helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
+		min-width: 100%;
+		width: 100%;
+		display: block;
+	}
 }

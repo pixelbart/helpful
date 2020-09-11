@@ -8,14 +8,14 @@
 	border-style: solid;
 	border-color: #34495e;
 	border-width: 1px;
-  color: #eff2f6;
+	color: #eff2f6;
 	padding: 25px;
 	margin: 25px 0 0 0;
 	font-size: 1rem;
 	line-height: 1.6rem;
-	box-shadow: 0px 2px 5px 0px #2c3e50;
-	-moz-box-shadow: 0px 2px 5px 0px #2c3e50;
-	-webkit-box-shadow: 0px 2px 5px 0px #2c3e50;
+	box-shadow: 0 2px 5px 0 #2c3e50;
+	-moz-box-shadow: 0 2px 5px 0 #2c3e50;
+	-webkit-box-shadow: 0 2px 5px 0 #2c3e50;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -23,7 +23,7 @@
 /* HEADING */
 
 .helpful > .helpful-header > .helpful-headline {
-  color: #eff2f6;
+	color: #eff2f6;
 	font-size: 1.4rem;
 	font-weight: 700;
 	margin: 0 0 12.5px;
@@ -32,7 +32,7 @@
 /* CONTENT */
 
 .helpful > .helpful-content {
-  color: #eff2f6;
+	color: #eff2f6;
 	font-size: 1rem;
 	line-height: 1.6rem;
 }
@@ -54,6 +54,10 @@
 	margin-top: 12.5px;
 }
 
+.helpful .helpful-content .helpful-button {
+	width: auto;
+}
+
 @media all and (max-width: 992px) {
 	.helpful > .helpful-controls {
 		flex-direction: column;
@@ -70,17 +74,18 @@
 }
 
 .helpful > .helpful-controls > div:first-child {
-  margin-right: 15px;
+	margin-right: 15px;
 }
 
 @media all and (max-width: 992px) {
 	.helpful > .helpful-controls > div {
 		width: 100%;
 		display: block;
-		margin: 0px 0px 10px 0px;
+		margin: 0 0 10px 0;
 	}
 }
 
+.helpful .helpful-content .helpful-button,
 .helpful > .helpful-controls > div > .helpful-button {
 	padding: 12px 30px;
 	height: 56px;
@@ -92,18 +97,19 @@
 	opacity: 1;
 	width: 100%;
 	display: block;
-  color: #eff2f6;
-  text-align: left;
+	color: #eff2f6;
+	text-align: left;
 	border: 1px solid #2c3e50;
 	background-color: #34495e;
 	transition: opacity .2s ease-in-out;
 	-moz-transition: opacity .2s ease-in-out;
 	-webkit-transition: opacity .2s ease-in-out;
-	box-shadow: 0px 2px 5px 0px #2c3e50;
-	-moz-box-shadow: 0px 2px 5px 0px #2c3e50;
-	-webkit-box-shadow: 0px 2px 5px 0px #2c3e50;
+	box-shadow: 0 2px 5px 0 #2c3e50;
+	-moz-box-shadow: 0 2px 5px 0 #2c3e50;
+	-webkit-box-shadow: 0 2px 5px 0 #2c3e50;
 }
 
+.helpful .helpful-content .helpful-button:hover,
 .helpful > .helpful-controls > div > .helpful-button:hover {
 	opacity: 0.5;
 	transition: opacity 0.2s ease-in-out;
@@ -120,7 +126,7 @@
 }
 
 .helpful > .helpful-controls > div > .helpful-button > .helpful-counter {
-  color: #eff2f6;
+	color: #eff2f6;
 	position: absolute;
 	right: 25px;
 	top: 50%;
@@ -133,9 +139,9 @@
 	padding: 12.5px;
 	border-radius: 35px;
 	border: 1px solid #2c3e50;
-	box-shadow: inset 0px 2px 5px 0px #2c3e50;
-	-moz-box-shadow: inset 0px 2px 5px 0px #2c3e50;
-	-webkit-box-shadow: inset 0px 2px 5px 0px #2c3e50;
+	box-shadow: inset 0 2px 5px 0 #2c3e50;
+	-moz-box-shadow: inset 0 2px 5px 0 #2c3e50;
+	-webkit-box-shadow: inset 0 2px 5px 0 #2c3e50;
 }
 
 /* CREDITS */
@@ -161,11 +167,11 @@
 .helpful > .helpful-content > .helpful-feedback-form > .feedback-note > p,
 .helpful > .helpful-content > .helpful-feedback-form > .group {
 	color: #eff2f6;
-  margin: 0 0 12.5px;
+	margin: 0 0 12.5px;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form req {
-  color: #ed7161;
+	color: #ed7161;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form textarea,
@@ -173,17 +179,17 @@
 .helpful > .helpful-content > .helpful-feedback-form input[type="email"],
 .helpful > .helpful-content > .helpful-feedback-form input[type="url"],
 .helpful > .helpful-content > .helpful-feedback-form input[type="number"] {
-  color: #eff2f6;
-  width: 100%;
-  display: block;
+	color: #eff2f6;
+	width: 100%;
+	display: block;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #2c3e50;
-	border-radius: 0px;
-  background-color: #34495e;
-	box-shadow: inset 0px 2px 5px 0px #2c3e50;
-	-moz-box-shadow: inset 0px 2px 5px 0px #2c3e50;
-	-webkit-box-shadow: inset 0px 2px 5px 0px #2c3e50;
+	border-radius: 0;
+	background-color: #34495e;
+	box-shadow: inset 0 2px 5px 0 #2c3e50;
+	-moz-box-shadow: inset 0 2px 5px 0 #2c3e50;
+	-webkit-box-shadow: inset 0 2px 5px 0 #2c3e50;
 	font-size: 1rem;
 	line-height: 1.6rem;
 	padding: 7.5px 15px;
@@ -198,21 +204,21 @@
 
 .helpful > .helpful-content > .helpful-feedback-form input[type="checkbox"],
 .helpful > .helpful-content > .helpful-feedback-form input[type="radio"] {
-  color: #eff2f6;
+	color: #eff2f6;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #2c3e50;
-	border-radius: 0px;
-  background-color: #34495e;
-	box-shadow: inset 0px 2px 5px 0px #2c3e50;
-	-moz-box-shadow: inset 0px 2px 5px 0px #2c3e50;
-	-webkit-box-shadow: inset 0px 2px 5px 0px #2c3e50;
+	border-radius: 0;
+	background-color: #34495e;
+	box-shadow: inset 0 2px 5px 0 #2c3e50;
+	-moz-box-shadow: inset 0 2px 5px 0 #2c3e50;
+	-webkit-box-shadow: inset 0 2px 5px 0 #2c3e50;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
-  color: #fff;
-  min-width: 150px;
-  text-align: center;
+	color: #fff;
+	min-width: 150px;
+	text-align: center;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #88c057;
@@ -222,27 +228,27 @@
 	max-height: 56px;
 	font-size: 1rem;
 	line-height: 1.6rem;
-  margin: 12.5px 0 0;
-  cursor: pointer;
+	margin: 12.5px 0 0;
+	cursor: pointer;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form > .helpful-button:hover {
-  background-color: #88c057;
-	box-shadow: 0px 2px 5px 0px #2c3e50;
-	-moz-box-shadow: 0px 2px 5px 0px #2c3e50;
-	-webkit-box-shadow: 0px 2px 5px 0px #2c3e50;
+	background-color: #88c057;
+	box-shadow: 0 2px 5px 0 #2c3e50;
+	-moz-box-shadow: 0 2px 5px 0 #2c3e50;
+	-webkit-box-shadow: 0 2px 5px 0 #2c3e50;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
 	-webkit-transition: all .2s ease-in-out;
 }
 
 @media all and (max-width: 992px) {
-  .helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
-    min-width: 100%;
-    width: 100%;
-    display: block;
-  }
+	.helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
+		min-width: 100%;
+		width: 100%;
+		display: block;
+	}
 }

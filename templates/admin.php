@@ -1,16 +1,30 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php
+/**
+ * Callback for admin page.
+ *
+ * @package Helpful
+ * @author  Pixelbart <me@pixelbart.de>
+ *
+ * @since 1.0.0
+ */
+use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Helper;
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 
 <div class="helpful-admin-header">
 
 	<div class="helpful-admin-logo">
-		<h1><img src="<?php echo plugins_url( 'core/assets/images/helpful-heart.svg', HELPFUL_FILE ); ?>"> <?php _e( 'Helpful', 'helpful' ); ?></h1>
+		<h1><img src="<?php echo Helper::get_logo(); ?>"> <?php _e( 'Helpful', 'helpful' ); ?></h1>
 	</div><!-- .helpful-admin-logo -->
-
-	<?php $tabs = apply_filters( 'helpful_admin_tabs', [] ); ?>
 
 	<nav class="helpful-admin-tabs">
 		<?php foreach ( $tabs as $tab ) : ?>
-			<a href="<?php echo $tab['href']; ?>" class="helpful-admin-tab <?php echo isset( $tab['class'] ) ? $tab['class'] : ''; ?>">
+			<a href="<?php echo $tab['href']; ?>" class="helpful-admin-tab <?php echo $tab['class']; ?>">
 				<?php echo $tab['name']; ?>
 			</a>
 		<?php endforeach; ?>

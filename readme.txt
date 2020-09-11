@@ -5,7 +5,7 @@ Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
 Tested up to: 5.6
 Requires PHP: 5.6.20
-Stable tag: 4.3.2
+Stable tag: 4.4.0
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 
@@ -58,7 +58,7 @@ You can. Just use the shortcode `[helpful]` to output Helpful.
 
 = Do I need to consider anything when reporting problems? =
 
-Important are the PHP version and the plugin version. You can check the settings of the plugin. In the sidebar you will find what you are looking for.
+In WordPress you can click on Tools, Site Health and then on Report. There should be a point Helpful. The information there might be useful for support.
 
 = Is AMP supported by the plugin? =
 

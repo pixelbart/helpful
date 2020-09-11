@@ -49,9 +49,9 @@
 }
 
 .toplevel_page_helpful .ui-datepicker-header > a {
-    top: 50% !important;
-    transform: translateY(-50%);
-    margin: 0 5px;
+	top: 50% !important;
+	transform: translateY(-50%);
+	margin: 0 5px;
 }
 
 .helpful-padding-remove {
@@ -438,4 +438,35 @@
 		-o-transform: rotate(360deg);
 		transform: rotate(360deg);
 	}
+}
+
+/* Alerts */
+
+.helpful-alert {
+	padding: 15px;
+	display: block;
+	background-color: rgb(255, 255, 255);
+	border-color: rgb(226, 228, 231);
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 3px;
+	margin-bottom: 1rem;
+}
+
+.helpful-alert.helpful-alert-info {
+	background-color: rgb(164, 208, 238);
+	border-color: rgb(72, 160, 220);
+	color: rgb(27, 60, 82);
+}
+
+.helpful-alert.helpful-alert-danger {
+	background-color: rgb(246, 185, 177);
+	border-color: rgb(237, 113, 97);
+	color: rgb(88, 42, 36);
+}
+
+.helpful-alert.helpful-alert-success {
+	background-color: rgb(196, 224, 172);
+	border-color: rgb(136, 192, 87);
+	color: rgb(51, 72, 33);
 }

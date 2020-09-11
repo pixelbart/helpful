@@ -1,4 +1,20 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php
+/**
+ * Callback for feedback page.
+ *
+ * @package Helpful
+ * @author  Pixelbart <me@pixelbart.de>
+ *
+ * @since 1.0.0
+ */
+use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Helper;
+
+/* Prevent direct access */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 
 <div class="helpful-admin-header">
 	<div class="helpful-admin-logo">
@@ -11,6 +27,7 @@
 		<form method="POST" action="" class="helpful-admin-filter">
 			<?php wp_nonce_field( 'helpful_admin_feedback_filter' ); ?>
 			<input type="hidden" name="action" value="helpful_admin_feedback_items">
+			<input type="hidden" name="paginate" value="1">
 			
 			<?php if ( isset( $_GET['post_id'] ) && is_numeric( $_GET['post_id'] ) ) : ?>
 			<input type="hidden" name="post_id" value="<?php echo intval( $_GET['post_id'] ); ?>">

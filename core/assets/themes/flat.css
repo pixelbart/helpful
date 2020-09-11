@@ -46,8 +46,12 @@
 /* CONTROLS */
 
 .helpful .helpful-controls {
-  display: flex;
+	display: flex;
 	margin-top: 12.5px;
+}
+
+.helpful .helpful-content .helpful-button {
+	width: auto;
 }
 
 @media all and (max-width: 992px) {
@@ -66,17 +70,18 @@
 }
 
 .helpful .helpful-controls > div:first-child {
-  margin-right: 15px;
+	margin-right: 15px;
 }
 
 @media all and (max-width: 992px) {
 	.helpful .helpful-controls > div {
 		width: 100%;
 		display: block;
-		margin: 0px 0px 10px 0px;
+		margin: 0 0 10px 0;
 	}
 }
 
+.helpful .helpful-content .helpful-button,
 .helpful .helpful-controls > div  > .helpful-button {
 	padding: 12px 30px;
 	height: 56px;
@@ -90,16 +95,17 @@
 	display: block;
 	text-align: left;
 	color: #fff;
-	border: 0px;
+	border: 0;
 	border-radius: 35px;
 	transition: opacity .2s ease-in-out;
 	-moz-transition: opacity .2s ease-in-out;
 	-webkit-transition: opacity .2s ease-in-out;
-	box-shadow: 0px 2px 5px 0px #f4f4f4;
-	-moz-box-shadow: 0px 2px 5px 0px #f4f4f4;
-	-webkit-box-shadow: 0px 2px 5px 0px #f4f4f4;
+	box-shadow: 0 2px 5px 0 #f4f4f4;
+	-moz-box-shadow: 0 2px 5px 0 #f4f4f4;
+	-webkit-box-shadow: 0 2px 5px 0 #f4f4f4;
 }
 
+.helpful .helpful-content .helpful-button:hover,
 .helpful .helpful-controls > div > .helpful-button:hover {
 	opacity: .5;
 	transition: all .2s ease-in-out;
@@ -155,18 +161,18 @@
 }
 
 .helpful > .helpful-content > .helpful-feedback-form req {
-  color: #ed7161;
+	color: #ed7161;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form p {
-  margin: 0 0 12.5px;
+	margin: 0 0 12.5px;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form > p,
 .helpful > .helpful-content > .helpful-feedback-form > .feedback-note > p,
 .helpful > .helpful-content > .helpful-feedback-form > .group {
 	color: #333;
-  margin: 0 0 12.5px;
+	margin: 0 0 12.5px;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form textarea,
@@ -174,8 +180,8 @@
 .helpful > .helpful-content > .helpful-feedback-form input[type="email"],
 .helpful > .helpful-content > .helpful-feedback-form input[type="url"],
 .helpful > .helpful-content > .helpful-feedback-form input[type="number"] {
-  color: #333;
-  display: block;
+	color: #333;
+	display: block;
 	width: 100%;
 	font-size: 1rem;
 	line-height: 1.6rem;
@@ -183,11 +189,11 @@
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
-  background-color: #fff;
+	background-color: #fff;
 	border-radius: 3px;
-	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
-	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
-	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+	box-shadow: inset 0 2px 5px 0 #f4f4f4;
+	-moz-box-shadow: inset 0 2px 5px 0 #f4f4f4;
+	-webkit-box-shadow: inset 0 2px 5px 0 #f4f4f4;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form textarea {
@@ -202,19 +208,19 @@
 	border-style: solid;
 	border-width: 1px;
 	border-color: #e5e5e5;
-  background-color: #fff;
-  border-radius: 3px;
+	background-color: #fff;
+	border-radius: 3px;
 	font-size: 1rem;
 	line-height: 1.6rem;
-	box-shadow: inset 0px 2px 5px 0px #f4f4f4;
-	-moz-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
-	-webkit-box-shadow: inset 0px 2px 5px 0px #f4f4f4;
+	box-shadow: inset 0 2px 5px 0 #f4f4f4;
+	-moz-box-shadow: inset 0 2px 5px 0 #f4f4f4;
+	-webkit-box-shadow: inset 0 2px 5px 0 #f4f4f4;
 }
 
 .helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
-  color: #fff;
-  min-width: 150px;
-  text-align: center;
+	color: #fff;
+	min-width: 150px;
+	text-align: center;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #88c057;
@@ -224,8 +230,8 @@
 	max-height: 56px;
 	font-size: 1rem;
 	line-height: 1.6rem;
-  margin: 12.5px 0 0;
-  cursor: pointer;
+	margin: 12.5px 0 0;
+	cursor: pointer;
 	border-radius: 35px;
 	transition: all .2s ease-in-out;
 	-moz-transition: all .2s ease-in-out;
@@ -233,16 +239,16 @@
 }
 
 .helpful > .helpful-content > .helpful-feedback-form > .helpful-button:hover {
-  background-color: #88c057;
-	box-shadow: 0px 2px 5px 0px #f4f4f4;
-	-moz-box-shadow: 0px 2px 5px 0px #f4f4f4;
-	-webkit-box-shadow: 0px 2px 5px 0px #f4f4f4;
+	background-color: #88c057;
+	box-shadow: 0 2px 5px 0 #f4f4f4;
+	-moz-box-shadow: 0 2px 5px 0 #f4f4f4;
+	-webkit-box-shadow: 0 2px 5px 0 #f4f4f4;
 }
 
 @media all and (max-width: 992px) {
-  .helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
-    min-width: 100%;
-    width: 100%;
-    display: block;
-  }
+	.helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
+		min-width: 100%;
+		width: 100%;
+		display: block;
+	}
 }
