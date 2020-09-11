@@ -19,7 +19,7 @@
 
 /* Base */
 
-.helpful_page_helpful_feedback #wpcontent { padding-left: 0px !important }
+.helpful_page_helpful_feedback #wpcontent { padding-left: 0 !important }
 .helpful_page_helpful_feedback #wpcontent * { box-sizing: border-box }
 .helpful_page_helpful_feedback #wpcontent code { 
 	background-color: rgb(249, 249, 249);
@@ -28,7 +28,7 @@
 }
 
 .helpful_page_helpful_feedback #wpbody *:focus {
-	box-shadow: 0px 0px 3px 0px rgb(137, 192, 88) !important;
+	box-shadow: 0 0 3px 0 rgb(137, 192, 88) !important;
 	border-color: rgb(137, 192, 88) !important;
 }
 
@@ -102,7 +102,7 @@
 	color: rgb(255,255,255);
 	border-color: rgb(137, 192, 88);
 	background: rgb(137, 192, 88);
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 .helpful-admin-container .button:hover,
@@ -155,7 +155,7 @@
 	display: flex;
 	flex-direction: row;
 	padding: 1.5em;
-	border-width: 0px 0px 1px;
+	border-width: 0 0 1px;
 	border-color: rgb(226, 228, 231);
 	border-style: solid;
 	align-items: center;
@@ -204,7 +204,7 @@
 	top: 0;
 	right: 0;
 	background: #333;
-	box-shadow: 0px 0px 0px 3px #fff;
+	box-shadow: 0 0 0 3px #fff;
 }
 
 .helpful-admin-image .type.pro {
@@ -241,7 +241,7 @@
 
 .helpful-admin-item footer {
 	padding: 1.5em;
-	border-width: 1px 0px 0px;
+	border-width: 1px 0 0;
 	border-color: rgb(226, 228, 231);
 	border-style: solid;
 	background: #f8f8f8;

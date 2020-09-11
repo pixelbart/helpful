@@ -34,12 +34,12 @@
 /* Content */
 .helpful-widget-content {
   position: relative;
-  margin: 0px 0px 12px;
+  margin: 0 0 12px;
 }
 
 /* Panels */
 .helpful-widget-panels {
-  margin: 0px -12px;
+  margin: 0 -12px;
 }
 
 .helpful-widget-panel {
@@ -50,7 +50,7 @@
 	display: block;
 	color: rgb(50, 55, 60);
 	text-decoration: none;
-	border: 0px;
+	border: 0;
 	background: none;
 	position: relative;
 	font-weight: 600;
@@ -59,7 +59,7 @@
 	text-align: left;
 	cursor: pointer;
   padding: 12px;
-  border-width: 1px 0px 0px;
+  border-width: 1px 0 0;
   border-color: #eee;
   border-style: solid;
 }
@@ -97,13 +97,13 @@
   display: block;
   padding: 0;
   margin: 0;
-  border-width: 1px 0px 0px;
+  border-width: 1px 0 0;
   border-color: #eee;
   border-style: solid;
 }
 
 .helpful-widget-panel ul li {
-  padding: 6px 12px 0px;
+  padding: 6px 12px 0;
 }
 
 /* Loading Icon */
@@ -122,7 +122,7 @@
 
 /* Footer */
 .helpful-widget-footer {
-  margin: 0px -12px -12px;
+  margin: 0 -12px -12px;
   color: #82878c;
   background-color: #f5f5f5;
   border-top: 1px solid #eee;
@@ -131,7 +131,7 @@
 .helpful-widget-footer a {
   padding: 12px;
   display: inline-block;
-  border-width: 0px 1px 0px 0px;
+  border-width: 0 1px 0 0;
   border-color: #eee;
   border-style: solid;
   color: #82878c;
