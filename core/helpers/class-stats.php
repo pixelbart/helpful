@@ -1289,14 +1289,21 @@ class Stats
 	public static function get_single_post_stats( $post_id )
 	{
 		$post       = get_post( $post_id );
-		$pro        = self::get_pro( $post->ID ) ? self::get_pro( $post->ID ) : 0;
-		$contra     = self::get_contra( $post->ID ) ? self::get_contra( $post->ID ) : 0;
+		$pro        = self::get_pro( $post->ID ) ? intval( self::get_pro( $post->ID ) ) : 0;
+		$contra     = self::get_contra( $post->ID ) ? intval( self::get_contra( $post->ID ) ) : 0;
 		$prop       = self::get_pro( $post->ID, true );
 		$conp       = self::get_contra( $post->ID, true );
-		$average    = (int) ( $pro - $contra );
-		$total      = (int) ( $pro + $contra );
-		$percentage = ( $pro / $total ) * 100;
-		$percentage = round( $percentage, 2 );
+
+		$average    = 0;
+		$total      = 0;
+		$percentage = 0;
+
+		if ( 0 !== $pro ) {
+			$average    = (int) ( $pro - $contra );
+			$total      = (int) ( $pro + $contra );
+			$percentage = ( $pro / $total ) * 100;
+			$percentage = round( $percentage, 2 );
+		}
 
 		$post_type = get_post_type_object( $post->post_type );
 
