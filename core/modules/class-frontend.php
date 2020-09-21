@@ -281,6 +281,10 @@ class Frontend
 			return $content;
 		}
 
+		if ( ! isset( $post->ID ) ) {
+			return $content;
+		}
+
 		$helpful    = Helpers\Values::get_defaults();
 		$post_types = get_option( 'helpful_post_types' );
 		$user_id    = Helpers\User::get_user();
