@@ -77,6 +77,7 @@ class Core
 	public function setup_defaults()
 	{
 		$status = intval( get_option( 'helpful_defaults' ) );
+	
 		if ( 1 === $status ) {
 			return false;
 		}
@@ -167,7 +168,9 @@ class Core
 		$options = apply_filters( 'helpful_options', $options );
 
 		foreach ( $options as $slug => $value ) :
-			update_option( $slug, $value );
+			if ( ! get_option( $slug ) ) {
+				update_option( $slug, $value );
+			}
 		endforeach;
 
 		return true;
