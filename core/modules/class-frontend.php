@@ -352,12 +352,12 @@ class Frontend
 
 		do_action( 'helpful_after' );
 
-		$content .= ob_get_contents();
+		$shortcode = ob_get_contents();
 		ob_end_clean();
 
-		$content = apply_filters( 'helpful_the_content', $content, $helpful['post_id'] );
+		$shortcode = apply_filters( 'helpful_the_content', $shortcode, $helpful['post_id'] );
 
-		return $content;
+		return $content . $shortcode;
 	}
 
 	/**
@@ -429,12 +429,12 @@ class Frontend
 
 		do_action( 'helpful_after' );
 
-		$content .= ob_get_contents();
+		$shortcode = ob_get_contents();
 		ob_end_clean();
 
-		$content = apply_filters( 'helpful_the_shortcode', $content, $helpful['post_id'] );
+		$shortcode = apply_filters( 'helpful_the_shortcode', $shortcode, $helpful['post_id'] );
 
-		return $content;
+		return $content . $shortcode;
 	}
 
 	/**
