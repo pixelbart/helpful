@@ -85,6 +85,11 @@ class Values
 	public static function convert_tags( $string, $post_id )
 	{
 		$post   = get_post( $post_id );
+
+		if ( ! isset( $post->ID ) ) {
+			return $string;
+		}
+
 		$pro    = Stats::get_pro( $post->ID );
 		$contra = Stats::get_contra( $post->ID );
 

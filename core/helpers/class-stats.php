@@ -67,6 +67,11 @@ class Stats
 	{
 		if ( is_null( $post_id ) ) {
 			global $post;
+
+			if ( ! isset( $post->ID ) ) {
+				return 0;
+			}
+
 			$post_id = $post->ID;
 		}
 
@@ -125,6 +130,11 @@ class Stats
 	{
 		if ( is_null( $post_id ) ) {
 			global $post, $wpdb;
+
+			if ( ! isset( $post->ID ) ) {
+				return 0;
+			}
+			
 			$post_id = $post->ID;
 		}
 
