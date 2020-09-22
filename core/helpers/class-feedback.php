@@ -363,6 +363,12 @@ class Feedback
 			}
 		}
 
+		if ( 'none' === $type ) {
+			if ( ! get_option( 'helpful_feedback_after_pro' ) && ! get_option( 'helpful_feedback_after_contra' ) && true !== $show_feedback ) {
+				return do_shortcode( get_option( 'helpful_after_fallback' ) );
+			}
+		}
+
 		if ( false !== $show_feedback ) {
 			$feedback_text = get_option( 'helpful_feedback_message_voted' );
 		}

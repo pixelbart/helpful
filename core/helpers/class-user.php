@@ -152,6 +152,10 @@ class User
 			return false;
 		}
 
+		if ( 'on' === get_option( 'helpful_user_random' ) ) {
+			return false;
+		}
+
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'helpful';
 		$sql        = "

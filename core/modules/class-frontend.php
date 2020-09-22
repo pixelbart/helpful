@@ -211,7 +211,7 @@ class Frontend
 			}
 		}
 
-		echo $response;
+		echo apply_filters( 'helpful_the_content', $response, $post_id );
 		wp_die();
 	}
 
@@ -226,6 +226,12 @@ class Frontend
 
 		do_action( 'helpful_ajax_save_feedback' );
 
+		$post_id = null;
+
+		if ( isset( $_REQUEST['post_id'] ) && is_numeric( $_REQUEST['post_id'] ) ) {
+			$post_id = intval( $_REQUEST['post_id'] );
+		}
+
 		/**
 		 * Simple Spam Protection
 		 */
@@ -238,7 +244,8 @@ class Frontend
 		}
 
 		if ( ! empty( $_REQUEST['website'] ) && true === $spam_protection ) {
-			echo do_shortcode( get_option( 'helpful_feedback_message_spam' ) );
+			$message = do_shortcode( get_option( 'helpful_feedback_message_spam' ) );
+			echo apply_filters( 'helpful_the_content', $message, $post_id );
 			wp_die();
 		}
 
@@ -253,12 +260,14 @@ class Frontend
 		}
 
 		if ( 'pro' === $type ) {
-			echo do_shortcode( get_option( 'helpful_after_pro' ) );
+			$message = do_shortcode( get_option( 'helpful_after_pro' ) );
 		} elseif ( 'contra' === $type ) {
-			echo do_shortcode( get_option( 'helpful_after_contra' ) );
+			$message = do_shortcode( get_option( 'helpful_after_contra' ) );
 		} else {
-			echo do_shortcode( get_option( 'helpful_after_fallback' ) );
+			$message = do_shortcode( get_option( 'helpful_after_fallback' ) );
 		}
+
+		echo apply_filters( 'helpful_the_content', $message, $post_id );
 
 		wp_die();
 	}
