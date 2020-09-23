@@ -84,28 +84,29 @@ class Values
 	 */
 	public static function convert_tags( $string, $post_id )
 	{
-		$post   = get_post( $post_id );
+		$pro    = Stats::get_pro( $post_id );
+		$contra = Stats::get_contra( $post_id );
 
-		if ( ! isset( $post->ID ) ) {
-			return $string;
+		$display_name = '';
+		$author_id    = get_post_field( 'post_author', $post_id );
+
+		if ( $author_id ) {
+			$display_name = get_the_author_meta( 'display_name', $author_id );
 		}
-
-		$pro    = Stats::get_pro( $post->ID );
-		$contra = Stats::get_contra( $post->ID );
 
 		$tags   = [
 			'{pro}'             => $pro,
 			'{contra}'          => $contra,
 			'{total}'           => ( (int) $pro + (int) $contra ),
-			'{permalink}'       => esc_url( get_permalink( $post->ID ) ),
-			'{author}'          => get_the_author_meta( 'display_name', $post->post_author ),
-			'{pro_percent}'     => Stats::get_pro( $post->ID, true ),
-			'{contra_percent}'  => Stats::get_contra( $post->ID, true ),
-			'{feedback_form}'   => Feedback::after_vote( $post->ID, true ),
+			'{permalink}'       => esc_url( get_permalink( $post_id ) ),
+			'{author}'          => $display_name,
+			'{pro_percent}'     => Stats::get_pro( $post_id, true ),
+			'{contra_percent}'  => Stats::get_contra( $post_id, true ),
+			'{feedback_form}'   => Feedback::after_vote( $post_id, true ),
 			'{feedback_toggle}' => sprintf(
 				'<div class="helpful-feedback-toggle-container"><button class="helpful-button helpful-toggle-feedback" type="button" role="button">%s</button><div hidden>%s</div></div>',
 				_x( 'Give feedback', 'toggle feedback button', 'helpful' ),
-				Feedback::after_vote( $post->ID, true )
+				Feedback::after_vote( $post_id, true )
 			),
 		];
 

@@ -48,14 +48,14 @@ class Frontend
 		add_action( 'wp', [ &$this, 'set_user_cookie' ], 1 );
 		add_filter( 'helpful_themes', [ &$this, 'default_themes' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ &$this, 'enqueue_scripts' ], PHP_INT_MAX );
+
 		add_action( 'wp_ajax_helpful_save_vote', [ &$this, 'save_vote' ] );
 		add_action( 'wp_ajax_helpful_save_feedback', [ &$this, 'save_feedback' ] );
 		add_action( 'wp_ajax_nopriv_helpful_save_vote', [ &$this, 'save_vote' ] );
 		add_action( 'wp_ajax_nopriv_helpful_save_feedback', [ &$this, 'save_feedback' ] );
+
 		add_filter( 'the_content', [ &$this, 'the_content' ] );
 		add_shortcode( 'helpful', [ &$this, 'helpful' ] );
-		add_action( 'helpful_the_content', [ &$this, 'replace_tags' ], 10, 2 );
-		add_action( 'helpful_the_shortcode', [ &$this, 'replace_tags' ], 10, 2 );
 	}
 
 	/**
@@ -211,7 +211,7 @@ class Frontend
 			}
 		}
 
-		echo apply_filters( 'helpful_the_content', $response, $post_id );
+		echo Helpers\Values::convert_tags( $response, $post_id );
 		wp_die();
 	}
 
@@ -245,7 +245,7 @@ class Frontend
 
 		if ( ! empty( $_REQUEST['website'] ) && true === $spam_protection ) {
 			$message = do_shortcode( get_option( 'helpful_feedback_message_spam' ) );
-			echo apply_filters( 'helpful_the_content', $message, $post_id );
+			echo Helpers\Values::convert_tags( $message, $post_id );
 			wp_die();
 		}
 
@@ -267,8 +267,7 @@ class Frontend
 			$message = do_shortcode( get_option( 'helpful_after_fallback' ) );
 		}
 
-		echo apply_filters( 'helpful_the_content', $message, $post_id );
-
+		echo Helpers\Values::convert_tags( $message, $post_id );
 		wp_die();
 	}
 	
@@ -364,7 +363,7 @@ class Frontend
 		$shortcode = ob_get_contents();
 		ob_end_clean();
 
-		$shortcode = apply_filters( 'helpful_the_content', $shortcode, $helpful['post_id'] );
+		$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
 
 		return $content . $shortcode;
 	}
@@ -441,19 +440,8 @@ class Frontend
 		$shortcode = ob_get_contents();
 		ob_end_clean();
 
-		$shortcode = apply_filters( 'helpful_the_shortcode', $shortcode, $helpful['post_id'] );
+		$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
 
 		return $content . $shortcode;
-	}
-
-	/**
-	 * @param string
-	 * @return string
-	 */
-	public function replace_tags( $content, $post_id )
-	{
-		$content = Helpers\Values::convert_tags( $content, $post_id );
-
-		return $content;
 	}
 }

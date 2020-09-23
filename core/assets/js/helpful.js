@@ -37,14 +37,14 @@
       });
 
       $.each($(".helpful"), function () {
-        var current_container = $(this);
+        var currentContainer = $(this);
 
-        if ($(current_container).is(".helpful-prevent-form")) {
-          self.feedbackForm(current_container);
+        if ($(currentContainer).is(".helpful-prevent-form")) {
+          self.feedbackForm(currentContainer);
         }
 
-        if ($(current_container).find(".helpful-toggle-feedback").length) {
-          $(current_container).find(".helpful-toggle-feedback").click(function (e) {
+        if ($(currentContainer).find(".helpful-toggle-feedback").length) {
+          $(currentContainer).find(".helpful-toggle-feedback").click(function (e) {
             e.preventDefault();
             $(this).parent().find("div").removeAttr("hidden");
             $(this).remove();
@@ -59,10 +59,11 @@
         e.preventDefault();
 
         var ajaxData = {
-          action: "helpful_save_feedback",
-          cancel: 1,
-          type: $(currentForm).find("[name='type']").val(),
+          "action": "helpful_save_feedback",
+          "cancel": 1,
+          "type": $(currentForm).find("[name='type']").val(),
           "_wpnonce": $(currentForm).find("[name='_wpnonce']").val(),
+          "post_id": $(currentForm).find("[name='post_id']").val(),
         };
 
         var request = self.ajaxRequest(ajaxData);
