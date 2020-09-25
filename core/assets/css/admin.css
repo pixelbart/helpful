@@ -317,6 +317,11 @@
 	color: #444;
 }
 
+.helpful-admin-panel-content hr {
+    margin: 15px -20px;
+    background: rgb(226, 228, 231);
+}
+
 /* Admin Loading Icon */
 
 .helpful_loader {

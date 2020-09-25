@@ -140,15 +140,15 @@ class Feedback
 			return null;
 		}
 
+		$session = [];
+
+		if ( isset( $_REQUEST['session'] ) ) {
+			$session = $_REQUEST['session'];
+		}
+
 		if ( isset( $_REQUEST['fields'] ) ) {
 			foreach ( $_REQUEST['fields'] as $key => $value ) {
 				$fields[ $key ] = sanitize_text_field( $value );
-			}
-
-			$session = [];
-
-			if ( isset( $_REQUEST['session'] ) ) {
-				$session = $_REQUEST['session'];
 			}
 
 			$fields = apply_filters( 'helpful_feedback_submit_fields', $fields, $session );
@@ -161,7 +161,7 @@ class Feedback
 			$fields['name']  = $user->display_name;
 			$fields['email'] = $user->user_email;
 
-			$fields = apply_filters( 'helpful_feedback_submit_fields', $fields );
+			$fields = apply_filters( 'helpful_feedback_submit_fields', $fields, $session );
 		}
 
 		if ( isset( $_REQUEST['message'] ) ) {
@@ -187,7 +187,7 @@ class Feedback
 			'contra'  => $contra,
 			'post_id' => $post_id,
 			'message' => $message,
-			'fields'  => maybe_serialize( $fields ),
+			'fields'  => maybe_unserialize( $fields ),
 		];
 
 		/* send email */
@@ -207,6 +207,11 @@ class Feedback
 	 */
 	public static function send_email( $feedback )
 	{
+		/**
+		 * Send email to voter.
+		 */
+		self::send_email_voter( $feedback );
+	
 		if ( 'on' !== get_option( 'helpful_feedback_send_email' ) ) {
 			return;
 		}
@@ -217,8 +222,23 @@ class Feedback
 			return;
 		}
 
+		/* tags */
+		$tags = [
+			'{type}'       => $type,
+			'{name}'       => isset( $feedback['fields']['name'] ) ? $feedback['fields']['name'] : '',
+			'{email}'      => isset( $feedback['fields']['email'] ) ? $feedback['fields']['email'] : '',
+			'{message}'    => $feedback['message'],
+			'{post_url}'   => get_permalink( $post ),
+			'{post_title}' => $post->post_title,
+			'{blog_name}'  => get_bloginfo( 'name' ),
+			'{blog_url}'   => site_url(),
+		];
+
+		$tags = apply_filters( 'helpful_feedback_email_tags', $tags );
+
 		/* email subject */
 		$subject = get_option( 'helpful_feedback_subject' );
+		$subject = str_replace( array_keys( $tags ), array_values( $tags ), $subject );
 
 		/* unserialize feedback fields */
 		$feedback['fields'] = maybe_unserialize( $feedback['fields'] );
@@ -228,19 +248,7 @@ class Feedback
 			$type = esc_html__( 'negative', 'helpful' );
 		}
 
-		/* body tags */
-		$tags = [
-			'{type}'       => $type,
-			'{name}'       => $feedback['fields']['name'],
-			'{email}'      => $feedback['fields']['email'],
-			'{message}'    => $feedback['message'],
-			'{post_url}'   => get_permalink( $post ),
-			'{post_title}' => $post->post_title,
-			'{blog_name}'  => get_bloginfo( 'name' ),
-			'{blog_url}'   => site_url(),
-		];
-
-		$tags = apply_filters( 'helpful_feedback_email_tags', $tags );
+		/* body */
 		$body = get_option( 'helpful_feedback_email_content' );
 		$body = str_replace( array_keys( $tags ), array_values( $tags ), $body );
 
@@ -283,6 +291,85 @@ class Feedback
 		$subject   = apply_filters( 'helpful_feedback_email_subject', $subject, $feedback );
 		$body      = apply_filters( 'helpful_feedback_email_body', $body, $feedback );
 		$headers   = apply_filters( 'helpful_feedback_email_headers', $headers, $feedback );
+
+		$response = wp_mail( $receivers, $subject, $body, $headers );
+
+		if ( false === $response ) {
+			$message = 'Helpful Warning: Email could not be sent in %s on line %d.';
+			helpful_error_log( sprintf( $message, __FILE__, __LINE__ ) );
+		}
+	}
+
+	/**
+	 * Send feedback email to voter.
+	 *
+	 * @param array $feedback feedback data.
+	 *
+	 * @return void
+	 */
+	public static function send_email_voter( $feedback )
+	{
+		if ( 'on' !== get_option( 'helpful_feedback_send_email_voter' ) ) {
+			return;
+		}
+
+		$post = get_post( $feedback['post_id'] );
+
+		if ( ! $post ) {
+			return;
+		}
+
+		/* tags */
+		$tags = [
+			'{type}'       => $type,
+			'{name}'       => isset( $feedback['fields']['name'] ) ? $feedback['fields']['name'] : '',
+			'{email}'      => isset( $feedback['fields']['email'] ) ? $feedback['fields']['email'] : '',
+			'{message}'    => $feedback['message'],
+			'{post_url}'   => get_permalink( $post ),
+			'{post_title}' => $post->post_title,
+			'{blog_name}'  => get_bloginfo( 'name' ),
+			'{blog_url}'   => site_url(),
+		];
+
+		$tags = apply_filters( 'helpful_feedback_email_tags', $tags );
+
+		/* subject */
+		$subject = get_option( 'helpful_feedback_subject_voter' );
+		$subject = str_replace( array_keys( $tags ), array_values( $tags ), $subject );
+
+		/* unserialize feedback fields */
+		$feedback['fields'] = maybe_unserialize( $feedback['fields'] );
+
+		$type = esc_html__( 'positive', 'helpful' );
+		if ( 1 === $feedback['contra'] ) { 
+			$type = esc_html__( 'negative', 'helpful' );
+		}
+
+		/* Body */
+		$body = get_option( 'helpful_feedback_email_content_voter' );
+		$body = str_replace( array_keys( $tags ), array_values( $tags ), $body );
+
+		/* Receivers */
+		$receivers = [];
+
+		if ( isset( $feedback['fields']['email'] ) && '' !== trim( $feedback['fields']['email'] ) ) {
+			$receivers[] = sanitize_email( $feedback['fields']['email'] );
+		}
+
+		/* receivers array is empty */
+		if ( empty( $receivers ) ) {
+			return;
+		}
+
+		/* email headers */
+		$headers   = [];		
+		$headers[] = 'Content-Type: text/html; charset=UTF-8';
+
+		/* filters */
+		$receivers = apply_filters( 'helpful_feedback_email_receivers_voter', $receivers, $feedback );
+		$subject   = apply_filters( 'helpful_feedback_email_subject_voter', $subject, $feedback );
+		$body      = apply_filters( 'helpful_feedback_email_body_voter', $body, $feedback );
+		$headers   = apply_filters( 'helpful_feedback_email_headers_voter', $headers, $feedback );
 
 		$response = wp_mail( $receivers, $subject, $body, $headers );
 
@@ -433,8 +520,35 @@ class Feedback
 	 */
 	public static function get_email_content()
 	{
+		$file = HELPFUL_PATH . 'templates/feedback-email.php';
+
+		if ( ! file_exists( $file ) ) {
+			return '';
+		}
+
 		ob_start();
-		require_once HELPFUL_PATH . 'templates/feedback-email.php';
+		require_once $file;
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		return $content;
+	}
+
+	/**
+	 * Get feedback email content for voters.
+	 *
+	 * @return string
+	 */
+	public static function get_email_content_voter()
+	{
+		$file = HELPFUL_PATH . 'templates/feedback-email-voter.php';
+
+		if ( ! file_exists( $file ) ) {
+			return '';
+		}
+
+		ob_start();
+		require_once $file;
 		$content = ob_get_contents();
 		ob_end_clean();
 

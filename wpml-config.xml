@@ -24,5 +24,7 @@
     <key name="helpful_feedback_label_cancel"/>
     <key name="helpful_feedback_subject"/>
     <key name="helpful_feedback_email_content"/>
+    <key name="helpful_feedback_subject_voter"/>
+    <key name="helpful_feedback_email_content_voter"/>
   </admin-texts>
 </wpml-config>

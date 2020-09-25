@@ -339,8 +339,9 @@ class Frontend
 		}
 
 		if ( false !== $exists && get_option( 'helpful_feedback_after_vote' ) ) {
-			$content .= Helpers\Feedback::after_vote( $helpful['post_id'], true );
-			return $content;
+			$shortcode = Helpers\Feedback::after_vote( $helpful['post_id'], true );
+			$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
+			return $content . $shortcode;
 		}
 
 		$helpful['content'] = do_shortcode( $helpful['content'] );
@@ -419,7 +420,9 @@ class Frontend
 		}
 
 		if ( false !== $exists && 'on' === get_option( 'helpful_feedback_after_vote' ) ) {
-			return Helpers\Feedback::after_vote( $helpful['post_id'], true );
+			$shortcode = Helpers\Feedback::after_vote( $helpful['post_id'], true );
+			$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
+			return $shortcode;
 		}
 
 		ob_start();

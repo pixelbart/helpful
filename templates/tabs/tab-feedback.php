@@ -15,8 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$settings  = apply_filters( 'helpful_editor_settings', false );
-$feedback_email_content = Helpers\Feedback::get_email_content();
+$settings                     = apply_filters( 'helpful_editor_settings', false );
+$feedback_email_content       = Helpers\Feedback::get_email_content();
+$feedback_email_content_voter = Helpers\Feedback::get_email_content_voter();
 
 do_action( 'helpful_tab_feedback_before' );
 ?>
@@ -233,8 +234,12 @@ do_action( 'helpful_tab_feedback_before' );
 		</button><!-- .helpful-admin-panel-header -->
 
 		<div class="helpful-admin-panel-content">
+			
+			<?php $tags = [ '{name}', '{email}', '{message}', '{type}', '{post_url}', '{post_title}', '{blog_name}', '{blog_url}' ]; ?>
 
 			<p class="description"><?php echo esc_html_x( 'Here you can specify whether a copy of your feedback should be sent by email. You can specify individual receivers in the metabox below posts. The emails are not spam protected. The emails are sent with wp_mail(). So you can control how these emails are sent with certain plugins.', 'admin panel description', 'helpful' ); ?></p>
+			
+			<p class="description"><?php echo esc_html_x( 'Available tags: ', 'admin panel description', 'helpful' ); ?><code><?php echo implode( '</code>, <code>', $tags ); ?></code></p>
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
@@ -263,7 +268,36 @@ do_action( 'helpful_tab_feedback_before' );
 				<?php $value = ( '' === trim( $value ) ) ? $feedback_email_content : $value; ?>
 				<label class="helpful-block" for="helpful_feedback_email_content"><?php echo esc_html_x( 'Email Content', 'option name', 'helpful' ); ?></label>
 				<?php wp_editor( $value, 'helpful_feedback_email_content', $settings ); ?>
-				<p class="description"><?php echo esc_html_x( 'Here you can define the content of the e-mail. Available tags: {name}, {email}, {message}, {type}, {post_url}, {post_title}, {blog_name}, {blog_url}', 'option info', 'helpful' ); ?></p>
+				<p class="description"><?php echo esc_html_x( 'Here you can define the content of the e-mail.', 'option info', 'helpful' ); ?></p>
+			</div><!-- .helpful-admin-group -->
+
+			<hr>
+
+			<p class="description"><?php echo esc_html_x( 'Here you can determine whether the person who has voted and deposited an email will also receive an email. You can also define the text for the e-mail.', 'admin panel description', 'helpful' ); ?></p>
+			
+			<p class="description"><?php echo esc_html_x( 'Available tags: ', 'admin panel description', 'helpful' ); ?><code><?php echo implode( '</code>, <code>', $tags ); ?></code></p>
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_feedback_send_email_voter' ); ?>
+					<input id="helpful_feedback_send_email_voter" type="checkbox" name="helpful_feedback_send_email_voter" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Voting person receives e-mail', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<?php $value = get_option( 'helpful_feedback_subject_voter', _x( 'Thanks for your feedback!', 'voters feedback email subject', 'helpful' ) ); ?>
+				<label class="helpful-block" for="helpful_feedback_subject_voter"><?php echo esc_html_x( 'Email Subject', 'option name', 'helpful' ); ?></label>
+				<input class="regular-text" type="text" name="helpful_feedback_subject_voter" value="<?php echo $value; ?>" />
+				<p class="description"><?php echo esc_html_x( 'Here you can set the subject of the email.', 'option info', 'helpful' ); ?></p>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group">
+				<?php $value = get_option( 'helpful_feedback_email_content_voter', $feedback_email_content_voter ); ?>
+				<?php $value = ( '' === trim( $value ) ) ? $feedback_email_content_voter : $value; ?>
+				<label class="helpful-block" for="helpful_feedback_email_content_voter"><?php echo esc_html_x( 'Email Content', 'option name', 'helpful' ); ?></label>
+				<?php wp_editor( $value, 'helpful_feedback_email_content_voter', $settings ); ?>
+				<p class="description"><?php echo esc_html_x( 'Here you can define the content of the e-mail.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
 		</div><!-- .helpful-admin-panel-content -->

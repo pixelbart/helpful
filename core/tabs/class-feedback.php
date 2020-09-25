@@ -77,14 +77,17 @@ class Feedback
 			'helpful_feedback_label_submit',
 			'helpful_feedback_label_cancel',
 			'helpful_feedback_gravatar',
-			'helpful_feedback_send_email',
-			'helpful_feedback_receivers',
-			'helpful_feedback_subject',
-			'helpful_feedback_email_content',
 			'helpful_feedback_message_spam',
 			'helpful_feedback_after_vote',
 			'helpful_feedback_message_voted',
 			'helpful_feedback_amount',
+			'helpful_feedback_send_email',
+			'helpful_feedback_receivers',
+			'helpful_feedback_subject',
+			'helpful_feedback_email_content',
+			'helpful_feedback_send_email_voter',
+			'helpful_feedback_subject_voter',
+			'helpful_feedback_email_content_voter',
 		];
 
 		$fields = apply_filters( 'helpful_feedback_fields', $fields );
