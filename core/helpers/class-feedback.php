@@ -187,7 +187,7 @@ class Feedback
 			'contra'  => $contra,
 			'post_id' => $post_id,
 			'message' => $message,
-			'fields'  => maybe_unserialize( $fields ),
+			'fields'  => maybe_serialize( $fields ),
 		];
 
 		/* send email */
