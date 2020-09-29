@@ -402,7 +402,9 @@ class Feedback
 		$post_id = intval( $post_id );
 		$sql     = "SELECT COUNT(*) FROM $helpful WHERE post_id = %d";
 
-		return $wpdb->get_var( $wpdb->prepare( $sql, $post_id ) );
+		$count = $wpdb->get_var( $wpdb->prepare( $sql, $post_id ) );
+
+		return apply_filters( 'helpful_pre_get_feedback_count', $count, $post_id );
 	}
 
 	
@@ -435,7 +437,8 @@ class Feedback
 
 			if ( true !== $show_feedback ) {
 				if ( ! get_option( 'helpful_feedback_after_pro' ) || false !== $hide_feedback ) {
-					return do_shortcode( get_option( 'helpful_after_pro' ) );
+					$content = do_shortcode( get_option( 'helpful_after_pro' ) );
+					return apply_filters( 'helpful_pre_after_pro', $content, $post_id );
 				}
 			}
 		}
@@ -445,19 +448,22 @@ class Feedback
 
 			if ( true !== $show_feedback ) {
 				if ( ! get_option( 'helpful_feedback_after_contra' ) || false !== $hide_feedback ) {
-					return do_shortcode( get_option( 'helpful_after_contra' ) );
+					$content = do_shortcode( get_option( 'helpful_after_contra' ) );
+					return apply_filters( 'helpful_pre_after_contra', $content, $post_id );
 				}
 			}
 		}
 
 		if ( 'none' === $type ) {
 			if ( ! get_option( 'helpful_feedback_after_pro' ) && ! get_option( 'helpful_feedback_after_contra' ) && true !== $show_feedback ) {
-				return do_shortcode( get_option( 'helpful_after_fallback' ) );
+				$content = do_shortcode( get_option( 'helpful_after_fallback' ) );
+				return apply_filters( 'helpful_pre_after_fallback', $content, $post_id );
 			}
 		}
 
 		if ( false !== $show_feedback ) {
 			$feedback_text = get_option( 'helpful_feedback_message_voted' );
+			$feedback_text = apply_filters( 'helpful_pre_feedback_message_voted', $feedback_text, $post_id );
 		}
 
 		if ( '' === trim( $feedback_text ) ) {
@@ -509,8 +515,8 @@ class Feedback
 		if ( false !== $show_feedback ) {
 			$content = '<div class="helpful helpful-prevent-form"><div class="helpful-content" role="alert">' . $content . '</div></div>';
 		}
-
-		return $content;
+	
+		return apply_filters( 'helpful_pre_feedback', $content, $post_id );
 	}
 
 	/**
@@ -531,7 +537,7 @@ class Feedback
 		$content = ob_get_contents();
 		ob_end_clean();
 
-		return $content;
+		return apply_filters( 'helpful_pre_get_email_content', $content );
 	}
 
 	/**
@@ -552,6 +558,6 @@ class Feedback
 		$content = ob_get_contents();
 		ob_end_clean();
 
-		return $content;
+		return apply_filters( 'helpful_pre_get_email_content_voter', $content );
 	}
 }

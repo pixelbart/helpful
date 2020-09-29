@@ -204,14 +204,15 @@ class Frontend
 		if ( ! Helpers\User::check_user( $user_id, $post_id ) ) {
 			if ( 'pro' === $value ) {
 				Helpers\Values::insert_pro( $user_id, $post_id );
-				$response = do_shortcode( Helpers\Feedback::after_vote( $post_id ) );
 			} else {
 				Helpers\Values::insert_contra( $user_id, $post_id );
-				$response = do_shortcode( Helpers\Feedback::after_vote( $post_id ) );
 			}
+
+			$response = do_shortcode( Helpers\Feedback::after_vote( $post_id ) );
 		}
 
-		echo Helpers\Values::convert_tags( $response, $post_id );
+		$response = Helpers\Values::convert_tags( $response, $post_id );
+		echo apply_filters( 'helpful_pre_save_vote', $response, $post_id );
 		wp_die();
 	}
 
@@ -245,6 +246,7 @@ class Frontend
 
 		if ( ! empty( $_REQUEST['website'] ) && true === $spam_protection ) {
 			$message = do_shortcode( get_option( 'helpful_feedback_message_spam' ) );
+			$message = apply_filters( 'helpful_pre_feedback_message_spam', $message, $post_id );
 			echo Helpers\Values::convert_tags( $message, $post_id );
 			wp_die();
 		}
@@ -261,13 +263,17 @@ class Frontend
 
 		if ( 'pro' === $type ) {
 			$message = do_shortcode( get_option( 'helpful_after_pro' ) );
+			$message = apply_filters( 'helpful_pre_after_pro', $message, $post_id );
 		} elseif ( 'contra' === $type ) {
 			$message = do_shortcode( get_option( 'helpful_after_contra' ) );
+			$message = apply_filters( 'helpful_pre_after_contra', $message, $post_id );
 		} else {
 			$message = do_shortcode( get_option( 'helpful_after_fallback' ) );
+			$message = apply_filters( 'helpful_pre_after_fallback', $message, $post_id );
 		}
 
-		echo Helpers\Values::convert_tags( $message, $post_id );
+		$message = Helpers\Values::convert_tags( $message, $post_id );
+		echo apply_filters( 'helpful_pre_save_feedback', $message, $post_id );
 		wp_die();
 	}
 	

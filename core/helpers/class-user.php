@@ -162,6 +162,7 @@ class User
 		SELECT user, post_id
 		FROM {$table_name}
 		WHERE user = %s AND post_id = %d
+		ORDER BY id DESC
 		LIMIT 1
 		";
 		$query      = $wpdb->prepare( $sql, $user_id, $post_id );
@@ -223,6 +224,7 @@ class User
 		SELECT pro, contra
 		FROM {$table_name}
 		WHERE user = %s AND post_id = %d
+		ORDER BY id DESC
 		LIMIT 1
 		";
 		$query      = $wpdb->prepare( $sql, $user_id, $post_id );
