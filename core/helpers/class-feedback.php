@@ -222,6 +222,8 @@ class Feedback
 			return;
 		}
 
+		$feedback['fields'] = maybe_unserialize( $feedback['fields'] );
+
 		/* tags */
 		$tags = [
 			'{type}'       => $type,
@@ -318,6 +320,8 @@ class Feedback
 		if ( ! $post ) {
 			return;
 		}
+
+		$feedback['fields'] = maybe_unserialize( $feedback['fields'] );
 
 		/* tags */
 		$tags = [
