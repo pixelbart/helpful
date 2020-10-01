@@ -50,8 +50,9 @@ class Metabox
 		}
 
 		add_action( 'add_meta_boxes', [ &$this, 'add_metabox' ] );
-		add_action( 'save_post', [ &$this, 'save_metabox_data' ] );
-		add_action( 'save_post', [ &$this, 'save_metabox_data' ], 10, 3 );
+
+		add_action( 'save_post', [ &$this, 'save_data' ] );
+		add_action( 'save_post', [ &$this, 'save_data' ], 10, 1 );
 	}
 
 	/**
@@ -92,7 +93,16 @@ class Metabox
 		$hide_feedback  = get_post_meta( $post->ID, 'helpful_hide_feedback_on_post', true );
 		$receivers      = get_post_meta( $post->ID, 'helpful_feedback_receivers', true );
 
-		wp_nonce_field( 'helpful_remove_data', 'helpful_remove_data_nonce' );
+		$helpful_heading        = get_post_meta( $post->ID, 'helpful_heading', true );
+		$helpful_pro            = get_post_meta( $post->ID, 'helpful_pro', true );
+		$helpful_contra         = get_post_meta( $post->ID, 'helpful_contra', true );
+		$helpful_exists         = get_post_meta( $post->ID, 'helpful_exists', true );
+		$helpful_after_pro      = get_post_meta( $post->ID, 'helpful_after_pro', true );
+		$helpful_after_contra   = get_post_meta( $post->ID, 'helpful_after_contra', true );
+		$helpful_after_fallback = get_post_meta( $post->ID, 'helpful_after_fallback', true );
+
+		wp_nonce_field( 'helpful_save_metabox', 'helpful_metabox_nonce' );
+
 		include HELPFUL_PATH . 'templates/admin-metabox.php';
 	}
 
@@ -103,13 +113,9 @@ class Metabox
 	 *
 	 * @return void
 	 */
-	public function save_metabox_data( $post_id )
+	public function save_data( $post_id )
 	{
-		if ( ! isset( $_POST['helpful_remove_data_nonce'] ) ) {
-			return;
-		}
-
-		if ( ! wp_verify_nonce( $_POST['helpful_remove_data_nonce'], 'helpful_remove_data' ) ) {
+		if ( ! isset( $_POST['helpful_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['helpful_metabox_nonce'], 'helpful_save_metabox' ) ) {
 			return;
 		}
 
@@ -129,9 +135,24 @@ class Metabox
 			update_post_meta( $post_id, 'helpful_hide_feedback_on_post', 'off' );
 		}
 
-		if ( isset( $_POST['helpful_feedback_receivers'] ) ) {
-			$receivers = sanitize_text_field( wp_unslash( $_POST['helpful_feedback_receivers'] ) );
-			update_post_meta( $post_id, 'helpful_feedback_receivers', $receivers );
-		}
+		$metas = [
+			'helpful_heading',
+			'helpful_pro',
+			'helpful_contra',
+			'helpful_exists',
+			'helpful_after_pro',
+			'helpful_after_contra',
+			'helpful_after_fallback',
+			'helpful_feedback_receivers',
+		];
+
+		foreach ( $metas as $meta ) :
+			if ( isset( $_POST[ $meta ] ) && '' !== trim( $_POST[ $meta ] ) ) {
+				$value = sanitize_text_field( wp_unslash( $_POST[ $meta ] ) );
+				update_post_meta( $post_id, $meta, $value );
+			} else {
+				delete_post_meta( $post_id, $meta );
+			}
+		endforeach;
 	}
 }

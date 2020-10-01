@@ -442,6 +442,11 @@ class Feedback
 			if ( true !== $show_feedback ) {
 				if ( ! get_option( 'helpful_feedback_after_pro' ) || false !== $hide_feedback ) {
 					$content = do_shortcode( get_option( 'helpful_after_pro' ) );
+
+					if ( get_post_meta( $post_id, 'helpful_after_pro', true ) ) {
+						$content = do_shortcode( get_post_meta( $post_id, 'helpful_after_pro', true ) );
+					}
+
 					return apply_filters( 'helpful_pre_after_pro', $content, $post_id );
 				}
 			}
@@ -453,6 +458,11 @@ class Feedback
 			if ( true !== $show_feedback ) {
 				if ( ! get_option( 'helpful_feedback_after_contra' ) || false !== $hide_feedback ) {
 					$content = do_shortcode( get_option( 'helpful_after_contra' ) );
+
+					if ( get_post_meta( $post_id, 'helpful_after_contra', true ) ) {
+						$content = do_shortcode( get_post_meta( $post_id, 'helpful_after_contra', true ) );
+					}
+
 					return apply_filters( 'helpful_pre_after_contra', $content, $post_id );
 				}
 			}
@@ -461,6 +471,11 @@ class Feedback
 		if ( 'none' === $type ) {
 			if ( ! get_option( 'helpful_feedback_after_pro' ) && ! get_option( 'helpful_feedback_after_contra' ) && true !== $show_feedback ) {
 				$content = do_shortcode( get_option( 'helpful_after_fallback' ) );
+
+				if ( get_post_meta( $post_id, 'helpful_after_fallback', true ) ) {
+					$content = do_shortcode( get_post_meta( $post_id, 'helpful_after_fallback', true ) );
+				}
+
 				return apply_filters( 'helpful_pre_after_fallback', $content, $post_id );
 			}
 		}
