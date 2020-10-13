@@ -29,7 +29,7 @@ class Database
 	public static function table_exists( $table_name )
 	{
 		global $wpdb;
-		
+
 		if ( $table_name != $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) ) {
 			return false;
 		}

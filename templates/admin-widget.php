@@ -14,6 +14,8 @@ use Helpful\Core\Helper;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$widget_stats = Helpers\Stats::get_widget_stats();
 ?>
 
 <form class="helpful-widget-form">
@@ -55,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="helpful-widget-panels">
 
-	<?php if ( ! empty( Helpers\Stats::get_most_helpful() ) && get_option( 'helpful_widget_pro' ) ) : ?>
+	<?php if ( isset( $widget_stats['most_helpful'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -64,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</button>
 
 		<ul>
-			<?php foreach ( Helpers\Stats::get_most_helpful() as $post ) : ?>
+			<?php foreach ( $widget_stats['most_helpful'] as $post ) : ?>
 			<li>
 				<div><a href="<?php echo esc_url( $post['url'] ); ?>" target="_blank"><?php echo esc_html( $post['name'] ); ?></a></div>
 				<div><?php printf( esc_html_x( '%d helpful / %d not helpful (%s%% helpful in total)', 'widget item info', 'helpful' ), intval( $post['pro'] ), intval( $post['contra'] ), $post['percentage'] ); ?></div>
@@ -76,7 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<?php endif; ?>
 
-	<?php if ( ! empty( Helpers\Stats::get_least_helpful() ) && get_option( 'helpful_widget_contra' ) ) : ?>
+	<?php if ( isset( $widget_stats['least_helpful'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -85,7 +87,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</button>
 
 		<ul>
-			<?php foreach ( Helpers\Stats::get_least_helpful() as $post ) : ?>
+			<?php foreach ( $widget_stats['least_helpful'] as $post ) : ?>
 			<li>
 				<div><a href="<?php echo esc_url( $post['url'] ); ?>" target="_blank"><?php echo esc_html( $post['name'] ); ?></a></div>
 				<div><?php printf( esc_html_x( '%d helpful / %d not helpful (%s%% helpful in total)', 'widget item info', 'helpful' ), intval( $post['pro'] ), intval( $post['contra'] ), $post['percentage'] ); ?></div>
@@ -97,7 +99,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<?php endif; ?>
 
-	<?php if ( ! empty( Helpers\Stats::get_recently_pro() ) && get_option( 'helpful_widget_pro_recent' ) ) : ?>
+	<?php if ( isset( $widget_stats['recently_pro'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -106,7 +108,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</button>
 
 		<ul>
-		<?php foreach ( Helpers\Stats::get_recently_pro() as $post ) : ?>
+		<?php foreach ( $widget_stats['recently_pro'] as $post ) : ?>
 			<li>
 				<div><a href="<?php echo esc_url( $post['url'] ); ?>" target="_blank"><?php echo esc_html( $post['name'] ); ?></a></div>
 				<?php echo esc_html( $post['time'] ); ?>
@@ -117,7 +119,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<?php endif; ?>
 
-	<?php if ( ! empty( Helpers\Stats::get_recently_contra() ) && get_option( 'helpful_widget_contra_recent' ) ) : ?>
+	<?php if ( isset( $widget_stats['recently_contra'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -126,7 +128,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</button>
 
 		<ul>
-			<?php foreach ( Helpers\Stats::get_recently_contra() as $post ) : ?>
+			<?php foreach ( $widget_stats['recently_contra'] as $post ) : ?>
 			<li>
 				<div><a href="<?php echo esc_url( $post['url'] ); ?>" target="_blank"><?php echo esc_html( $post['name'] ); ?></a></div>
 				<?php echo esc_html( $post['time'] ); ?>
@@ -137,7 +139,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<?php endif; ?>
 
-	<?php if ( Helpers\Feedback::get_feedback_items() && get_option( 'helpful_feedback_widget' ) ) : ?>
+	<?php if ( isset( $widget_stats['feedback_items'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -146,7 +148,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</button>
 
 		<ul>
-			<?php foreach ( Helpers\Feedback::get_feedback_items() as $feedback ) : ?>
+			<?php foreach ( $widget_stats['feedback_items'] as $feedback ) : ?>
 				<?php $feedback = Helpers\Feedback::get_feedback( $feedback ); ?>
 			<li>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=helpful_feedback' ) ); ?>">
@@ -165,8 +167,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	echo implode( '', $links );
 
 	$total  = 0;
-	$total += (int) Helpers\Stats::get_pro_all();
-	$total += (int) Helpers\Stats::get_contra_all();
+	$total += isset( $widget_stats['pro_total'] ) ? $widget_stats['pro_total'] : 0;
+	$total += isset( $widget_stats['contra_total'] ) ? $widget_stats['contra_total'] : 0;
 	?>
 	<div class="helpful-widget-total">
 		<?php printf( esc_html__( '%d Votes', 'helpful' ), intval( $total ) ); ?>

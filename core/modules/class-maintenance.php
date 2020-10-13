@@ -124,5 +124,7 @@ class Maintenance
 		}
 
 		$response = Helpers\Optimize::optimize_plugin();
+
+		update_option( 'helpful_plugin_version', $plugin['Version'] );
 	}
 }

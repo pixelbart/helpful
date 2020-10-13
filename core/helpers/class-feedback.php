@@ -195,6 +195,9 @@ class Feedback
 
 		$table_name = $wpdb->prefix . 'helpful_feedback';
 		$wpdb->insert( $table_name, $data );
+
+		Stats::delete_widget_transient();
+
 		return $wpdb->insert_id;
 	}
 

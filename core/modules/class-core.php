@@ -98,7 +98,10 @@ class Core
 	 */
 	public function setup_helpful_table()
 	{
-		return Helpers\Database::setup_helpful_table();
+		if ( false === get_transient( 'setup_helpful_table' ) ) {
+			Helpers\Database::setup_helpful_table();
+			set_transient( 'setup_helpful_table', 1, WEEK_IN_SECONDS );
+		}
 	}
 
 	/**
@@ -110,7 +113,10 @@ class Core
 	 */
 	public function setup_feedback_table()
 	{
-		return Helpers\Database::setup_feedback_table();
+		if ( false === get_transient( 'setup_feedback_table' ) ) {
+			Helpers\Database::setup_feedback_table();
+			set_transient( 'setup_feedback_table', 1, WEEK_IN_SECONDS );
+		}
 	}
 
 	/**

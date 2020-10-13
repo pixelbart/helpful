@@ -1347,4 +1347,61 @@ class Stats
 
 		return $results;
 	}
+
+	/**
+	 * Returns everything at once and saves the result in a transient to reduce the number of queries for the widget.
+	 *
+	 * @return array
+	 */
+	public static function get_widget_stats()
+	{
+		$cache_name   = 'helpful_widget_stats';
+		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
+		$cache_active = get_option( 'helpful_caching', 'off' );
+		$cache_times  = Cache::get_cache_times( false );
+		$cache_time   = $cache_times[ $cache_time ];
+		$results      = get_transient( $cache_name );
+
+		if ( 'on' !== $cache_active ) {
+			$results = [
+				'most_helpful'    => get_option( 'helpful_widget_pro' ) ? self::get_most_helpful() : null,
+				'least_helpful'   => get_option( 'helpful_widget_contra' ) ? self::get_least_helpful() : null,
+				'recently_pro'    => get_option( 'helpful_widget_pro_recent' ) ? self::get_recently_pro() : null,
+				'recently_contra' => get_option( 'helpful_widget_contra_recent' ) ? self::get_recently_contra() : null,
+				'feedback_items'  => get_option( 'helpful_feedback_widget' ) ? Feedback::get_feedback_items() : null,
+				'pro_total'       => intval( self::get_pro_all() ),
+				'contra_total'    => intval( self::get_contra_all() ),
+			];
+
+			return $results;
+		}
+		
+		if ( false === $results ) {
+			$results = [
+				'most_helpful'    => get_option( 'helpful_widget_pro' ) ? self::get_most_helpful() : null,
+				'least_helpful'   => get_option( 'helpful_widget_contra' ) ? self::get_least_helpful() : null,
+				'recently_pro'    => get_option( 'helpful_widget_pro_recent' ) ? self::get_recently_pro() : null,
+				'recently_contra' => get_option( 'helpful_widget_contra_recent' ) ? self::get_recently_contra() : null,
+				'feedback_items'  => get_option( 'helpful_feedback_widget' ) ? Feedback::get_feedback_items() : null,
+				'pro_total'       => intval( self::get_pro_all() ),
+				'contra_total'    => intval( self::get_contra_all() ),
+			];
+
+			set_transient( $cache_name, maybe_serialize( $results ), $cache_time );
+		}
+
+		$results = maybe_unserialize( $results );
+
+		return $results;
+	}
+
+	/**
+	 * Removes the transient for the widget so that current data can be transferred.
+	 *
+	 * @return void
+	 */
+	public static function delete_widget_transient()
+	{
+		delete_transient( 'helpful_widget_stats' );
+	}
 }

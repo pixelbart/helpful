@@ -260,8 +260,8 @@ class Feedback_Admin
 				$items[] = [
 					'post'      => get_the_title( $row->post_id ),
 					'permalink' => get_the_permalink( $row->post_id ),
-					'name'      => $fields['name'],
-					'email'     => $fields['email'],
+					'name'      => isset( $fields['name'] ) ? $fields['name'] : '',
+					'email'     => isset( $fields['email'] ) ? $fields['email'] : '',
 					'message'   => $row->message,
 					'pro'       => $row->pro,
 					'contra'    => $row->contra,

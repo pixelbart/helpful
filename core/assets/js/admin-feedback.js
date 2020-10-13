@@ -111,7 +111,6 @@
 
         request.done(function (response) {
           if ("success" === response.status) {
-            response = response.data;
             window.location.href = response.file;
           }
         });

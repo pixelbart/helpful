@@ -147,7 +147,11 @@ class Values
 	 */
 	public static function insert_pro( $user, $post_id )
 	{
-		return Votes::insert_vote( $user, $post_id, 'pro' );
+		$status = Votes::insert_vote( $user, $post_id, 'pro' );
+
+		Stats::delete_widget_transient();
+
+		return $status;
 	}
 
 	/**
@@ -160,7 +164,11 @@ class Values
 	 */
 	public static function insert_contra( $user, $post_id )
 	{
-		return Votes::insert_vote( $user, $post_id, 'contra' );
+		$status = Votes::insert_vote( $user, $post_id, 'contra' );
+
+		Stats::delete_widget_transient();
+
+		return $status;
 	}
 
 	/**
