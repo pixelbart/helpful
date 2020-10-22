@@ -61,7 +61,7 @@ class Admin
 		add_menu_page(
 			__( 'Helpful', 'helpful' ),
 			__( 'Helpful', 'helpful' ),
-			'manage_options',
+			get_option( 'helpful_capability', 'manage_options' ),
 			'helpful',
 			[ &$this, 'callback_admin_page' ],
 			'dashicons-thumbs-up',
@@ -72,7 +72,7 @@ class Admin
 			'helpful',
 			__( 'Settings', 'helpful' ),
 			__( 'Settings', 'helpful' ),
-			'manage_options',
+			get_option( 'helpful_settings_capability', 'manage_options' ),
 			'helpful',
 			[ &$this, 'callback_admin_page' ]
 		);

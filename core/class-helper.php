@@ -396,4 +396,34 @@ class Helper
 
 		return false;
 	}
+
+	/**
+	 * Sets a capability.
+	 *
+	 * @param string $option
+	 * @param string $value
+	 *
+	 * @return void
+	 */
+	public static function set_capability( $option, $value )
+	{
+		$options = [
+			'helpful_capability',
+			'helpful_settings_capability',
+			'helpful_feedback_capability',
+		];
+
+		if ( ! in_array( $option, $options ) ) {
+			return;
+		}
+
+		if ( null === $value || false === $value ) {
+			delete_option( $option );
+		}
+
+		update_option(
+			sanitize_text_field( $option ),
+			sanitize_text_field( $value )
+		);
+	}
 }

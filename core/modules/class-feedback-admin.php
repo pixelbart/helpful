@@ -67,7 +67,7 @@ class Feedback_Admin
 			'helpful',
 			__( 'Helpful Feedback', 'helpful' ),
 			__( 'Feedback', 'helpful' ),
-			'publish_posts',
+			apply_filters( 'helpful_feedback_capability', 'publish_posts' ),
 			'helpful_feedback',
 			[ &$this, 'admin_page_callback' ]
 		);
