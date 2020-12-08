@@ -47,6 +47,11 @@ class Feedback
 	public function __construct()
 	{
 		add_action( 'admin_init', [ &$this, 'register_settings' ] );
+		
+		if ( Helper::is_feedback_disabled() ) :
+			return;
+		endif;
+
 		add_filter( 'helpful_get_admin_tabs', [ &$this, 'register_tab' ], 10, 2 );
 		add_action( 'helpful_tabs_content', [ &$this, 'register_tab_content' ] );
 

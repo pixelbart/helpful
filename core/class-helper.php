@@ -426,4 +426,18 @@ class Helper
 			sanitize_text_field( $value )
 		);
 	}
+
+	/**
+	 * Checks if the feedback was deactivated by option.
+	 *
+	 * @return bool
+	 */
+	public static function is_feedback_disabled()
+	{
+		if ( 'on' !== get_option( 'helpful_feedback_disabled' ) ) {
+			return false;
+		}
+
+		return true;
+	}
 }

@@ -32,6 +32,10 @@ class Feedback_Admin
 	 */
 	public function __construct()
 	{
+		if ( Helper::is_feedback_disabled() ) :
+			return;
+		endif;
+
 		add_action( 'admin_menu', [ &$this, 'add_submenu' ] );
 		add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
 

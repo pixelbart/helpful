@@ -50,7 +50,9 @@ do_action( 'helpful_tab_start_before' );
 							<th><?php echo esc_html_x( 'Pro', 'datatable head', 'helpful' ); ?></th>
 							<th><?php echo esc_html_x( 'Contra', 'datatable head', 'helpful' ); ?></th>
 							<th><?php echo esc_html_x( 'Helpful', 'datatable head', 'helpful' ); ?></th>
+							<?php if ( ! Helper::is_feedback_disabled() ) : ?>
 							<th><?php echo esc_html_x( 'Feedback', 'datatable head', 'helpful' ); ?></th>
+							<?php endif; ?>
 							<th><?php echo esc_html_x( 'Published', 'datatable head', 'helpful' ); ?></th>
 						</tr>
 					</thead>

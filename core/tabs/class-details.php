@@ -83,6 +83,7 @@ class Details
 			'helpful_widget_hide_publication',
 			'helpful_hide_admin_columns',
 			'helpful_feedback_widget',
+			'helpful_feedback_disabled',
 		];
 
 		$fields = apply_filters( 'helpful_details_settings_group', $fields );

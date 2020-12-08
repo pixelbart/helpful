@@ -234,7 +234,7 @@ class Start
 					$feedback_display = sprintf( '<a href="%s">%d</a>', $feedback_url, $feedback );
 				}
 
-				$response['data'][] = [
+				$row = [
 					'post_id'    => $data['ID'],
 					'post_title' => sprintf(
 						'<a href="%1$s" title="%2$s" target="_blank">%2$s</a>',
@@ -265,11 +265,16 @@ class Start
 						'display' => $data['time']['date'],
 						'sort'    => $data['time']['timestamp'],
 					],
-					'feedback'    => [
+				];
+				
+				if ( ! Helper::is_feedback_disabled() ) {
+					$row['feedback'] = [
 						'display' => $feedback_display,
 						'sort'    => $feedback,
-					],
-				];
+					];
+				}
+
+				$response['data'][] = $row;
 
 			endforeach;
 		}

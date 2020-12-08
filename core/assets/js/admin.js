@@ -163,6 +163,95 @@
 
 			var options = this.tableOptions();
 
+			var columns = [
+				{
+					"data": {
+						"display": "post_id",
+						"sort": "post_id",
+						"filter": "post_id",
+					},
+					"visible": false,
+					"type": "num",
+				},
+				{
+					"data": {
+						"display": "post_title",
+						"sort": "post_title",
+						"filter": "post_title",
+					},
+					"visible": true,
+					"type": "html",
+				},
+				{
+					"data": {
+						"display": "post_type.display",
+						"sort": "post_type.sort",
+						"filter": "post_type.display",
+					},
+					"visible": false,
+					"type": "html",
+				},
+				{
+					"data": {
+						"display": "post_author.display",
+						"sort": "post_author.sort",
+						"filter": "post_author.display",
+					},
+					"visible": false,
+					"type": "html",
+
+				},
+				{
+					"data": {
+						"display": "pro.display",
+						"sort": "pro.sort",
+						"filter": "pro.display",
+					},
+					"visible": true,
+					"type": "num",
+				},
+				{
+					"data": {
+						"display": "contra.display",
+						"sort": "contra.sort",
+						"filter": "contra.display",
+					},
+					"visible": true,
+					"type": "num",
+				},
+				{
+					"data": {
+						"display": "helpful.display",
+						"sort": "helpful.sort",
+						"filter": "helpful.display",
+					},
+					"visible": true,
+					"type": "num",
+				},
+			];
+
+			if (helpful_admin.feedback) {
+				columns.push({
+					"data": {
+						"display": "feedback.display",
+						"sort": "feedback.sort",
+						"filter": "feedback.display",
+					},
+					"visible": true,
+					"type": "html",
+				});				
+			}
+
+			columns.push({
+				"data": {
+					"display": "post_date.display",
+					"sort": "post_date.sort",
+					"filter": "post_date.display",
+				},
+				"visible": true,
+				"type": "num",
+			});
+
 			$.extend(options, {
 				"ajax": {
 					"url": helpful_admin.ajax_url,
@@ -172,90 +261,7 @@
 					},
 				},
 				"language": helpful_admin.language,
-				"columns": [
-					{
-						"data": {
-							"display": "post_id",
-							"sort": "post_id",
-							"filter": "post_id",
-						},
-						"visible": false,
-						"type": "num",
-					},
-					{
-						"data": {
-							"display": "post_title",
-							"sort": "post_title",
-							"filter": "post_title",
-						},
-						"visible": true,
-						"type": "html",
-					},
-					{
-						"data": {
-							"display": "post_type.display",
-							"sort": "post_type.sort",
-							"filter": "post_type.display",
-						},
-						"visible": false,
-						"type": "html",
-					},
-					{
-						"data": {
-							"display": "post_author.display",
-							"sort": "post_author.sort",
-							"filter": "post_author.display",
-						},
-						"visible": false,
-						"type": "html",
-
-					},
-					{
-						"data": {
-							"display": "pro.display",
-							"sort": "pro.sort",
-							"filter": "pro.display",
-						},
-						"visible": true,
-						"type": "num",
-					},
-					{
-						"data": {
-							"display": "contra.display",
-							"sort": "contra.sort",
-							"filter": "contra.display",
-						},
-						"visible": true,
-						"type": "num",
-					},
-					{
-						"data": {
-							"display": "helpful.display",
-							"sort": "helpful.sort",
-							"filter": "helpful.display",
-						},
-						"visible": true,
-						"type": "num",
-					},
-					{
-						"data": {
-							"display": "feedback.display",
-							"sort": "feedback.sort",
-							"filter": "feedback.display",
-						},
-						"visible": true,
-						"type": "html",
-					},
-					{
-						"data": {
-							"display": "post_date.display",
-							"sort": "post_date.sort",
-							"filter": "post_date.display",
-						},
-						"visible": true,
-						"type": "num",
-					}
-				]
+				"columns": columns
 			});
 
 			var table = $(container).DataTable(options);

@@ -115,11 +115,19 @@ do_action( 'helpful_tab_details_before' );
 				</label>
 			</div><!-- .helpful-admin-group -->
 
-			<div class="helpful-admin-group">
+			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
 					<?php $value = get_option( 'helpful_hide_admin_columns' ); ?>
 					<input id="helpful_hide_admin_columns" type="checkbox" name="helpful_hide_admin_columns" <?php checked( 'on', $value ); ?> />
 					<?php echo esc_html_x( 'Hide Helpful Admin Columns', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+		
+			<div class="helpful-admin-group">
+				<label>
+					<?php $value = get_option( 'helpful_feedback_disabled' ); ?>
+					<input id="helpful_feedback_disabled" type="checkbox" name="helpful_feedback_disabled" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Disable feedback completely.', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
 		</div><!-- .helpful-admin-panel-content -->
@@ -190,6 +198,7 @@ do_action( 'helpful_tab_details_before' );
 				</label>
 			</div><!-- .helpful-admin-group -->
 
+			<?php if ( ! Helper::is_feedback_disabled() ) : ?>
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
 					<?php $value = get_option( 'helpful_feedback_widget' ); ?>
@@ -197,6 +206,7 @@ do_action( 'helpful_tab_details_before' );
 					<?php echo esc_html_x( 'Show last feedback in Dashboard Widget', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
+			<?php endif; ?>
 	
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>

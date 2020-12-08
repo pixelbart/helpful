@@ -155,7 +155,12 @@ class Admin
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'nonce'    => wp_create_nonce( 'helpful_admin_nonce' ),
 			'language' => $language,
+			'feedback' => true,
 		];
+
+		if ( Helper::is_feedback_disabled() ) {
+			$vars['feedback'] = false;
+		}
 
 		$vars = apply_filters( 'helpful_admin_ajax_vars', $vars );
 

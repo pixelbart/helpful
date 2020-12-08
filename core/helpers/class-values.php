@@ -124,7 +124,7 @@ class Values
 	 */
 	public static function get_tags()
 	{
-		return [
+		$tags = [
 			'{pro}',
 			'{contra}',
 			'{total}',
@@ -132,9 +132,14 @@ class Values
 			'{contra_percent}',
 			'{permalink}',
 			'{author}',
-			'{feedback_form}',
-			'{feedback_toggle}',
 		];
+
+		if ( ! Helper::is_feedback_disabled() ) :
+			$tags[] = '{feedback_form}';
+			$tags[] = '{feedback_toggle}';		
+		endif;
+
+		return $tags;
 	}
 
 	/**

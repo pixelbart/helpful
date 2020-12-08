@@ -30,11 +30,13 @@ $text = esc_html_x( 'Most texts can be changed here. You can also leave fields b
 printf( $text, $tags );
 ?></p>
 
+<?php if ( ! Helper::is_feedback_disabled() ) : ?>
 <p><?php
 /* translators: %s feedback_form tag */
 $text = esc_html_x( '%s should only be used in the texts after the user has voted. Otherwise it can lead to bugs and Helpful does not save feedback properly!', 'tab description', 'helpful' );
 printf( $text, '<code>{feedback_form}</code>, <code>{feedback_toggle}</code>' );
 ?></p>
+<?php endif; ?>
 
 <form method="post" action="options.php">
 	<?php settings_fields( 'helpful-texts-settings-group' ); ?>
