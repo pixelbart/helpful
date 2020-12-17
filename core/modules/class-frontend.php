@@ -163,6 +163,9 @@ class Frontend
 				'user_id'  => $user,
 				'_wpnonce' => $nonce,
 			],
+			'translations' => [
+				'fieldIsRequired' => __( 'This field is required.', 'helpful' ),
+			],
 		];
 
 		if ( isset( $_SESSION ) ) {
@@ -457,9 +460,11 @@ class Frontend
 		}
 
 		if ( false !== $exists && 'on' === get_option( 'helpful_feedback_after_vote' ) ) {
-			$shortcode = Helpers\Feedback::after_vote( $helpful['post_id'], true );
-			$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
-			return $shortcode;
+			if ( ! Helper::is_feedback_disabled() ) {
+				$shortcode = Helpers\Feedback::after_vote( $helpful['post_id'], true );
+				$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
+				return $shortcode;
+			}
 		}
 
 		if ( get_post_meta( $helpful['post_id'], 'helpful_heading', true ) ) {

@@ -75,7 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <label for="helpful_heading"><?php _ex( 'Headline', 'meta box label', 'helpful' ); ?></label>
             </th>
             <td>
-                <input type="text" class="widefat" name="helpful_heading" id="helpful_heading" value="<?php echo $helpful_headline; ?>"><br>
+                <textarea class="widefat" name="helpful_heading" id="helpful_heading"><?php echo $helpful_heading; ?></textarea><br>
                 <span class="description">You can also use HTML.</span>
             </td>
         </tr>
@@ -120,7 +120,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <label for="helpful_pro"><?php _ex( 'Button (pro)', 'meta box label', 'helpful' ); ?></label>
             </th>
             <td>
-                <input type="text" class="widefat" name="helpful_pro" id="helpful_pro" value="<?php echo $helpful_pro; ?>"><br>
+                <textarea class="widefat" name="helpful_pro" id="helpful_pro"><?php echo $helpful_pro; ?></textarea><br>
                 <span class="description">You can also use HTML.</span>
             </td>
         </tr>
@@ -129,7 +129,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <label for="helpful_contra"><?php _ex( 'Button (contra)', 'meta box label', 'helpful' ); ?></label>
             </th>
             <td>
-                <input type="text" class="widefat" name="helpful_contra" id="helpful_contra" value="<?php echo $helpful_contra; ?>"><br>
+                <textarea class="widefat" name="helpful_contra" id="helpful_contra"><?php echo $helpful_contra; ?></textarea><br>
                 <span class="description">You can also use HTML.</span>
             </td>
         </tr>

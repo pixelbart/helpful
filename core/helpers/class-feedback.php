@@ -436,6 +436,10 @@ class Feedback
 		$hide_feedback = get_post_meta( $post_id, 'helpful_hide_feedback_on_post', true );
 		$hide_feedback = ( 'on' === $hide_feedback ) ? true : false;
 
+		if( Helper::is_feedback_disabled() ) {
+			$hide_feedback = true;
+		}
+
 		$user_id = User::get_user();
 		$type    = User::get_user_vote_status( $user_id, $post_id );
 

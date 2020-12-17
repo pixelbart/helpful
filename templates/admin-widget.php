@@ -57,7 +57,7 @@ $widget_stats = Helpers\Stats::get_widget_stats();
 
 <div class="helpful-widget-panels">
 
-	<?php if ( isset( $widget_stats['most_helpful'] ) ) : ?>
+	<?php if ( isset( $widget_stats['most_helpful'] ) && ! empty( $widget_stats['most_helpful'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -78,7 +78,7 @@ $widget_stats = Helpers\Stats::get_widget_stats();
 	</div>
 	<?php endif; ?>
 
-	<?php if ( isset( $widget_stats['least_helpful'] ) ) : ?>
+	<?php if ( isset( $widget_stats['least_helpful'] ) && ! empty( $widget_stats['least_helpful'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -99,7 +99,7 @@ $widget_stats = Helpers\Stats::get_widget_stats();
 	</div>
 	<?php endif; ?>
 
-	<?php if ( isset( $widget_stats['recently_pro'] ) ) : ?>
+	<?php if ( isset( $widget_stats['recently_pro'] ) && ! empty( $widget_stats['recently_pro'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -119,7 +119,7 @@ $widget_stats = Helpers\Stats::get_widget_stats();
 	</div>
 	<?php endif; ?>
 
-	<?php if ( isset( $widget_stats['recently_contra'] ) ) : ?>
+	<?php if ( isset( $widget_stats['recently_contra'] ) && ! empty( $widget_stats['recently_contra'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">
@@ -139,7 +139,7 @@ $widget_stats = Helpers\Stats::get_widget_stats();
 	</div>
 	<?php endif; ?>
 
-	<?php if ( isset( $widget_stats['feedback_items'] ) ) : ?>
+	<?php if ( isset( $widget_stats['feedback_items'] ) && ! empty( $widget_stats['feedback_items'] ) ) : ?>
 	<div class="helpful-widget-panel">
 
 		<button type="button">

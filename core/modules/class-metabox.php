@@ -148,8 +148,7 @@ class Metabox
 
 		foreach ( $metas as $meta ) :
 			if ( isset( $_POST[ $meta ] ) && '' !== trim( $_POST[ $meta ] ) ) {
-				$value = sanitize_text_field( wp_unslash( $_POST[ $meta ] ) );
-				update_post_meta( $post_id, $meta, $value );
+				update_post_meta( $post_id, $meta, $_POST[ $meta ] );
 			} else {
 				delete_post_meta( $post_id, $meta );
 			}

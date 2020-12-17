@@ -125,25 +125,29 @@ class Widget
 	public function widget_callback()
 	{
 		$links = [
-			sprintf(
+			'settings' => sprintf(
 				'<a href="%s" title="%s">%s</a>',
 				admin_url( 'admin.php?page=helpful&tab=texts' ),
 				__( 'Settings', 'helpful' ),
 				'<span class="dashicons dashicons-admin-settings"></span>'
 			),
-			sprintf(
+			'feedback' => sprintf(
 				'<a href="%s" title="%s">%s</a>',
 				admin_url( 'admin.php?page=helpful_feedback' ),
 				__( 'Feedback', 'helpful' ),
 				'<span class="dashicons dashicons-testimonial"></span>'
 			),
-			sprintf(
+			'stats' => sprintf(
 				'<a href="%s" title="%s">%s</a>',
 				admin_url( 'admin.php?page=helpful' ),
 				__( 'Statistics', 'helpful' ),
 				'<span class="dashicons dashicons-chart-area"></span>'
 			),
 		];
+
+		if ( Helper::is_feedback_disabled() ) {
+			unset( $links['feedback'] );
+		}
 
 		$years = Helpers\Stats::get_years();
 
