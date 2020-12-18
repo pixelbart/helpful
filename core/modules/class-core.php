@@ -98,6 +98,9 @@ class Core
 	 */
 	public function setup_helpful_table()
 	{
+		// Updates database tables.
+		Helpers\Database::update_tables();
+
 		if ( false === get_transient( 'setup_helpful_table' ) ) {
 			Helpers\Database::setup_helpful_table();
 			set_transient( 'setup_helpful_table', 1, WEEK_IN_SECONDS );
