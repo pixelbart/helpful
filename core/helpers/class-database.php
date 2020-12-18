@@ -89,12 +89,12 @@ class Database
 
 		$sql = "
 		CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		id bigint(20) NOT NULL AUTO_INCREMENT,
 		time datetime DEFAULT '0000-00-00 00:00:00',
 		user varchar(55) DEFAULT NULL,
 		pro mediumint(1) DEFAULT NULL,
 		contra mediumint(1) DEFAULT NULL,
-		post_id mediumint(9) DEFAULT NULL,
+		post_id bigint(20) DEFAULT NULL,
 		PRIMARY KEY  (id)
 		) $charset_collate;
 		";
@@ -126,12 +126,12 @@ class Database
 
 		$sql = "
 		CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT, 
+		id bigint(20) NOT NULL AUTO_INCREMENT, 
 		time datetime DEFAULT '0000-00-00 00:00:00', 
 		user varchar(55) DEFAULT NULL, 
 		pro mediumint(1) DEFAULT NULL, 
 		contra mediumint(1) DEFAULT NULL, 
-		post_id mediumint(9) DEFAULT NULL, 
+		post_id bigint(20) DEFAULT NULL, 
 		message text DEFAULT NULL, 
 		fields text DEFAULT NULL, 
 		PRIMARY KEY  (id)
