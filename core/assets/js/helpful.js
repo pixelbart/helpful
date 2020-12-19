@@ -89,12 +89,10 @@
 				let required = [];
 
 				$(currentForm).find("[required]").each(function () {
-					let currentField = $(this);
-
-					if (!$(currentField).val().trim.length) {
+					if (!$.trim(this.value).length) {
 						$(this).after("<req class=\"danger\">" + helpful.translations.fieldIsRequired + "</req>");
 						required.push(key);
-					}					
+					}
 				});
 				
 				if (required.length) {
