@@ -80,6 +80,8 @@ class System
 			'helpful_uninstall_feedback',
 			'helpful_sessions_false',
 			'helpful_user_random',
+			'helpful_disable_frontend_nonce',
+			'helpful_disable_feedback_nonce',
 		];
 
 		$fields = apply_filters( 'helpful_system_settings_group', $fields );

@@ -56,6 +56,8 @@ class Frontend
 
 		add_filter( 'the_content', [ &$this, 'the_content' ] );
 		add_shortcode( 'helpful', [ &$this, 'helpful' ] );
+
+		add_filter( 'init', [ &$this, 'filter_nonces' ] );
 	}
 
 	/**
@@ -184,7 +186,11 @@ class Frontend
 	 */
 	public function save_vote()
 	{
-		check_ajax_referer( 'helpful_frontend_nonce' );
+		if ( apply_filters( 'helpful_verify_frontend_nonce', true ) ) {
+			check_ajax_referer( 'helpful_frontend_nonce' );
+		}
+
+		var_dump( apply_filters( 'helpful_verify_frontend_nonce', true ) );
 
 		do_action( 'helpful_ajax_save_vote' );
 
@@ -226,7 +232,11 @@ class Frontend
 	 */
 	public function save_feedback()
 	{
-		check_ajax_referer( 'helpful_feedback_nonce' );
+		if ( apply_filters( 'helpful_verify_feedback_nonce', true ) ) {
+			check_ajax_referer( 'helpful_feedback_nonce' );
+		}
+
+		var_dump( apply_filters( 'helpful_feedback_nonce', true ) );
 
 		do_action( 'helpful_ajax_save_feedback' );
 
@@ -500,5 +510,21 @@ class Frontend
 		$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
 
 		return $content . $shortcode;
+	}
+
+	/**
+	 * Filters the frontend nonces and set the value to false, using option.
+	 *
+	 * @return void
+	 */
+	public function filter_nonces()
+	{
+		if ( 'on' === get_option( 'helpful_disable_frontend_nonce' ) ) {
+			add_filter( 'helpful_verify_frontend_nonce', '__return_false' );
+		}
+
+		if ( 'on' === get_option( 'helpful_disable_feedback_nonce' ) ) {
+			add_filter( 'helpful_verify_feedback_nonce', '__return_false' );
+		}
 	}
 }

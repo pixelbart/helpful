@@ -115,11 +115,27 @@ do_action( 'helpful_tab_system_before' );
 				</label>
 			</div><!-- .helpful-admin-group -->
 
-			<div class="helpful-admin-group">
+			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
 					<?php $value = get_option( 'helpful_classic_editor' ); ?>
 					<input id="helpful_classic_editor" type="checkbox" name="helpful_classic_editor" <?php checked( 'on', $value ); ?> />
 					<?php _ex( 'Activate the classic editor and deactivate the block editor', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_disable_frontend_nonce' ); ?>
+					<input id="helpful_disable_frontend_nonce" type="checkbox" name="helpful_disable_frontend_nonce" <?php checked( 'on', $value ); ?> />
+					<?php _ex( 'Disable frontend nonce (not recommended)', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group">
+				<label>
+					<?php $value = get_option( 'helpful_disable_feedback_nonce' ); ?>
+					<input id="helpful_disable_feedback_nonce" type="checkbox" name="helpful_disable_feedback_nonce" <?php checked( 'on', $value ); ?> />
+					<?php _ex( 'Disable feedback nonce (not recommended)', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
 
