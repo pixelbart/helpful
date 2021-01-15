@@ -190,8 +190,6 @@ class Frontend
 			check_ajax_referer( 'helpful_frontend_nonce' );
 		}
 
-		var_dump( apply_filters( 'helpful_verify_frontend_nonce', true ) );
-
 		do_action( 'helpful_ajax_save_vote' );
 
 		$user_id = null;
@@ -235,8 +233,6 @@ class Frontend
 		if ( apply_filters( 'helpful_verify_feedback_nonce', true ) ) {
 			check_ajax_referer( 'helpful_feedback_nonce' );
 		}
-
-		var_dump( apply_filters( 'helpful_feedback_nonce', true ) );
 
 		do_action( 'helpful_ajax_save_feedback' );
 
