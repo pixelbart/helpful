@@ -50,7 +50,9 @@ class Core
 		add_action( 'admin_init', [ &$this, 'setup_helpful_table' ] );
 		add_action( 'admin_init', [ &$this, 'setup_feedback_table' ] );
 
-		add_action( 'init', [ &$this, 'setup_defaults' ] );
+		// Causes problems and was therefore commented out.
+		// add_action( 'init', [ &$this, 'setup_defaults' ] );
+
 		add_action( 'activated_plugin', [ &$this, 'load_first' ] );
 
 		add_filter( 'plugin_row_meta', [ &$this, 'plugin_row_meta' ], 10, 2 );
