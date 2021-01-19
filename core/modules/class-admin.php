@@ -185,6 +185,9 @@ class Admin
 			return;
 		}
 
+		/* Allows filtering the content afterwards */
+		$post_types = apply_filters( 'helpful_admin_columns_post_types', $post_types );
+
 		if ( ! isset( $post_types ) || ! is_array( $post_types ) ) {
 			return;
 		}
