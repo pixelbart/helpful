@@ -55,7 +55,7 @@ class Values
 		$credits = Helper::get_credits_data();
 		$user_id = User::get_user();
 
-		return [
+		$values = [
 			'heading_tag'          => 'h3',
 			'heading'              => self::convert_tags( get_option( 'helpful_heading' ), $post_id ),
 			'content'              => self::convert_tags( get_option( 'helpful_content' ), $post_id ),
@@ -72,6 +72,8 @@ class Values
 			'exists_text'          => self::convert_tags( get_option( 'helpful_exists' ), $post_id ),
 			'post_id'              => $post_id,
 		];
+
+		return apply_filters( 'helpful_default_values', $values );
 	}
 
 	/**
