@@ -373,9 +373,11 @@ class Frontend
 		}
 
 		if ( false !== $exists && get_option( 'helpful_feedback_after_vote' ) ) {
-			$shortcode = Helpers\Feedback::after_vote( $helpful['post_id'], true );
-			$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
-			return $content . $shortcode;
+			if ( ! Helper::is_feedback_disabled() ) {
+				$shortcode = Helpers\Feedback::after_vote( $helpful['post_id'], true );
+				$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
+				return $content . $shortcode;
+			}
 		}
 
 		$helpful['content'] = do_shortcode( $helpful['content'] );
@@ -465,7 +467,7 @@ class Frontend
 			return esc_html__( 'No post found. Helpful must be placed in a post loop.', 'helpful' );
 		}
 
-		if ( false !== $exists && 'on' === get_option( 'helpful_feedback_after_vote' ) ) {
+		if ( false !== $exists && get_option( 'helpful_feedback_after_vote' ) ) {
 			if ( ! Helper::is_feedback_disabled() ) {
 				$shortcode = Helpers\Feedback::after_vote( $helpful['post_id'], true );
 				$shortcode = Helpers\Values::convert_tags( $shortcode, $helpful['post_id'] );
