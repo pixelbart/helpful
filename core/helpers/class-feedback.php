@@ -427,11 +427,7 @@ class Feedback
 	 */
 	public static function after_vote( $post_id, $show_feedback = false )
 	{
-		$feedback_text = esc_html_x(
-			'Thank you very much. Please write us your opinion, so that we can improve ourselves.',
-			'form user note',
-			'helpful'
-		);
+		// $feedback_text = esc_html_x( 'Thank you very much. Please write us your opinion, so that we can improve ourselves.', 'form user note', 'helpful' );
 
 		$hide_feedback = get_post_meta( $post_id, 'helpful_hide_feedback_on_post', true );
 		$hide_feedback = ( 'on' === $hide_feedback ) ? true : false;
@@ -492,7 +488,11 @@ class Feedback
 			$feedback_text = apply_filters( 'helpful_pre_feedback_message_voted', $feedback_text, $post_id );
 		}
 
-		if ( '' === trim( $feedback_text ) ) {
+		if ( isset( $feedback_text ) && '' === trim( $feedback_text ) ) {
+			$feedback_text = false;
+		}
+
+		if ( ! isset( $feedback_text ) ) {
 			$feedback_text = false;
 		}
 

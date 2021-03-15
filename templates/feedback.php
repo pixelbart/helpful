@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
-<?php if ( isset( $feedback_text ) ) : ?>
+<?php if ( isset( $feedback_text ) && false !== $feedback_text ) : ?>
 <div class="feedback-note">
 	<p><?php echo $feedback_text; ?></p>
 </div>
