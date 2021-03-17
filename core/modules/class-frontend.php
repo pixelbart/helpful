@@ -208,7 +208,7 @@ class Frontend
 			$value = sanitize_text_field( $_POST['value'] );
 		}
 
-		if ( ! Helpers\User::check_user( $user_id, $post_id ) ) {
+		if ( false === Helpers\User::check_user( $user_id, $post_id ) ) {
 			if ( 'pro' === $value ) {
 				Helpers\Values::insert_pro( $user_id, $post_id );
 			} else {
@@ -264,11 +264,17 @@ class Frontend
 			Helpers\Feedback::insert_feedback();
 		}
 
+		/* OLD STYLE */
+		/*
 		$type = 'pro';
 
 		if ( isset( $_REQUEST['type'] ) ) {
 			$type = sanitize_text_field( $_REQUEST['type'] );
 		}
+		*/
+
+		$user_id = Helpers\User::get_user();
+		$type    = Helpers\User::get_user_vote_status( $user_id, $post_id );
 
 		if ( 'pro' === $type ) {
 			$message = do_shortcode( get_option( 'helpful_after_pro' ) );

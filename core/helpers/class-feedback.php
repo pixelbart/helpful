@@ -439,11 +439,16 @@ class Feedback
 		$user_id = User::get_user();
 		$type    = User::get_user_vote_status( $user_id, $post_id );
 
+		if ( true === $show_feedback ) {
+			$feedback_text = get_option( 'helpful_feedback_message_voted' );
+			$feedback_text = apply_filters( 'helpful_pre_feedback_message_voted', $feedback_text, $post_id );
+		}
+
 		if ( 'pro' === $type ) {
 			$feedback_text = get_option( 'helpful_feedback_message_pro' );
 
-			if ( true !== $show_feedback ) {
-				if ( ! get_option( 'helpful_feedback_after_pro' ) || false !== $hide_feedback ) {
+			if ( false === $show_feedback ) {
+				if ( ! get_option( 'helpful_feedback_after_pro' ) || true === $hide_feedback ) {
 					$content = do_shortcode( get_option( 'helpful_after_pro' ) );
 
 					if ( get_post_meta( $post_id, 'helpful_after_pro', true ) ) {
@@ -458,8 +463,8 @@ class Feedback
 		if ( 'contra' === $type ) {
 			$feedback_text = get_option( 'helpful_feedback_message_contra' );
 
-			if ( true !== $show_feedback ) {
-				if ( ! get_option( 'helpful_feedback_after_contra' ) || false !== $hide_feedback ) {
+			if ( false === $show_feedback ) {
+				if ( ! get_option( 'helpful_feedback_after_contra' ) || true === $hide_feedback ) {
 					$content = do_shortcode( get_option( 'helpful_after_contra' ) );
 
 					if ( get_post_meta( $post_id, 'helpful_after_contra', true ) ) {
@@ -472,7 +477,7 @@ class Feedback
 		}
 
 		if ( 'none' === $type ) {
-			if ( ! get_option( 'helpful_feedback_after_pro' ) && ! get_option( 'helpful_feedback_after_contra' ) && true !== $show_feedback ) {
+			if ( ! get_option( 'helpful_feedback_after_pro' ) && ! get_option( 'helpful_feedback_after_contra' ) && false === $show_feedback ) {
 				$content = do_shortcode( get_option( 'helpful_after_fallback' ) );
 
 				if ( get_post_meta( $post_id, 'helpful_after_fallback', true ) ) {
@@ -481,11 +486,6 @@ class Feedback
 
 				return apply_filters( 'helpful_pre_after_fallback', $content, $post_id );
 			}
-		}
-
-		if ( false !== $show_feedback ) {
-			$feedback_text = get_option( 'helpful_feedback_message_voted' );
-			$feedback_text = apply_filters( 'helpful_pre_feedback_message_voted', $feedback_text, $post_id );
 		}
 
 		if ( isset( $feedback_text ) && '' === trim( $feedback_text ) ) {
