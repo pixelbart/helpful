@@ -174,6 +174,10 @@ class Frontend
 			$vars['ajax_session'] = apply_filters( 'helpful_ajax_session', $_SESSION );
 		}
 
+		if ( false === apply_filters( 'helpful_verify_frontend_nonce', true ) && isset( $vars['ajax_data' ] ) ) {
+			$vars['ajax_data'] = [];
+		}
+
 		$vars = apply_filters( 'helpful_frontend_ajax_vars', $vars );
 
 		wp_localize_script( 'helpful', 'helpful', $vars );

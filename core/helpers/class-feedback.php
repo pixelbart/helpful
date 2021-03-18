@@ -439,6 +439,14 @@ class Feedback
 		$user_id = User::get_user();
 		$type    = User::get_user_vote_status( $user_id, $post_id );
 
+		$accepted_types = [ 'pro', 'contra', 'none' ];
+
+		if ( isset( $_REQUEST['value'] ) && 'none' === $type ) {
+			if ( in_array( $_REQUEST['value'], $accepted_types ) ) {
+				$type = sanitize_text_field( wp_unslash( $_REQUEST['value'] ) );
+			}
+		}
+
 		if ( true === $show_feedback ) {
 			$feedback_text = get_option( 'helpful_feedback_message_voted' );
 			$feedback_text = apply_filters( 'helpful_pre_feedback_message_voted', $feedback_text, $post_id );

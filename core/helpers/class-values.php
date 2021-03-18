@@ -86,8 +86,6 @@ class Values
 	 */
 	public static function convert_tags( $string, $post_id )
 	{
-		$pro    = Stats::get_pro( $post_id );
-		$contra = Stats::get_contra( $post_id );
 
 		$display_name = '';
 		$author_id    = get_post_field( 'post_author', $post_id );
@@ -96,20 +94,24 @@ class Values
 			$display_name = get_the_author_meta( 'display_name', $author_id );
 		}
 
+		$pro    = 0;
+		$contra = 0;
+
+		if ( self::tag_exists( '{pro},{contra},{total}', $string ) ) {
+			$pro    = Stats::get_pro( $post_id );
+			$contra = Stats::get_contra( $post_id );
+		}
+
 		$tags   = [
-			'{pro}'             => $pro,
-			'{contra}'          => $contra,
-			'{total}'           => ( (int) $pro + (int) $contra ),
-			'{permalink}'       => esc_url( get_permalink( $post_id ) ),
-			'{author}'          => $display_name,
-			'{pro_percent}'     => Stats::get_pro( $post_id, true ),
-			'{contra_percent}'  => Stats::get_contra( $post_id, true ),
-			'{feedback_form}'   => Feedback::after_vote( $post_id, true ),
-			'{feedback_toggle}' => sprintf(
-				'<div class="helpful-feedback-toggle-container"><button class="helpful-button helpful-toggle-feedback" type="button" role="button">%s</button><div hidden>%s</div></div>',
-				_x( 'Give feedback', 'toggle feedback button', 'helpful' ),
-				Feedback::after_vote( $post_id, true )
-			),
+			'{pro}'             => self::tag_exists( '{pro}', $string ) ? (int) $pro : null,
+			'{contra}'          => self::tag_exists( '{contra}', $string ) ? (int) $contra : null,
+			'{total}'           => self::tag_exists( '{total}', $string ) ? ( (int) $pro + (int) $contra ) : null,
+			'{permalink}'       => self::tag_exists( '{permalink}', $string ) ? esc_url( get_permalink( $post_id ) ) : null,
+			'{author}'          => self::tag_exists( '{author}', $string ) ? $display_name : null,
+			'{pro_percent}'     => self::tag_exists( '{pro_percent}', $string ) ? Stats::get_pro( $post_id, true ) : null,
+			'{contra_percent}'  => self::tag_exists( '{contra_percent}', $string ) ? Stats::get_contra( $post_id, true ) : null,
+			'{feedback_form}'   => self::tag_exists( '{feedback_form}', $string ) ? Feedback::after_vote( $post_id, true ) : null,
+			'{feedback_toggle}' => self::tag_exists( '{feedback_toggle}', $string ) ? self::get_post_feedback_toggle( $post_id ) : null,
 		];
 
 		$tags = apply_filters( 'helpful_tags', $tags );
@@ -117,6 +119,59 @@ class Values
 		$string = str_replace( array_keys( $tags ), array_values( $tags ), $string );
 
 		return $string;
+	}
+
+	/**
+	 * Checks if the string contains a specific tag and returns bool.
+	 *
+	 * @param string $tag
+	 * @param string $string
+	 *
+	 * @return bool
+	 */
+	public static function tag_exists( $tag, $string )
+	{
+		/* multiple tags */
+		if ( strpos( $tag, ',' ) ) {
+			$tags = explode( ',', $tag );
+
+			$matches = [];
+
+			foreach ( $tags as $tag ) {
+				if ( true === self::tag_exists( $tag, $string ) ) {
+					$matches[] = $tag;
+				}
+			}
+
+			if ( ! empty( $matches ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/* single tag */
+		if ( strpos( $string, $tag ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the feedback toggle button for a specific post.
+	 *
+	 * @param int $post_id
+	 *
+	 * @return string
+	 */
+	public static function get_post_feedback_toggle( $post_id )
+	{
+		return sprintf(
+			'<div class="helpful-feedback-toggle-container"><button class="helpful-button helpful-toggle-feedback" type="button" role="button">%s</button><div hidden>%s</div></div>',
+			_x( 'Give feedback', 'toggle feedback button', 'helpful' ),
+			Feedback::after_vote( $post_id, true )
+		);
 	}
 
 	/**
