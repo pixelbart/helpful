@@ -277,8 +277,12 @@ class Frontend
 		}
 		*/
 
+		global $helpful_type;
+
 		$user_id = Helpers\User::get_user();
 		$type    = Helpers\User::get_user_vote_status( $user_id, $post_id );
+
+		$helpful_type[ $post_id ] = $type;
 
 		if ( 'pro' === $type ) {
 			$message = do_shortcode( get_option( 'helpful_after_pro' ) );

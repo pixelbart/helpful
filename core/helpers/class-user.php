@@ -217,7 +217,11 @@ class User
 	 */
 	public static function get_user_vote_status( $user_id, $post_id )
 	{
-		global $wpdb;
+		global $wpdb, $helpful_type;
+
+		if ( isset( $helpful_votestatus[ $post_id ] ) ) {
+			return $helpful_type[ $post_id ];
+		} 
 
 		$table_name = $wpdb->prefix . 'helpful';
 		$sql        = "
