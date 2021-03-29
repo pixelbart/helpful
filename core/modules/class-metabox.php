@@ -119,7 +119,7 @@ class Metabox
 			return;
 		}
 
-		if ( 'yes' === $_POST['helpful_remove_data'] ) {
+		if ( isset( $_POST['helpful_remove_data'] ) && 'yes' === $_POST['helpful_remove_data'] ) {
 			Helpers\Values::remove_data( $post_id );
 		}
 

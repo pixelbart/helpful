@@ -290,7 +290,7 @@ class Stats
 		$helpful = $wpdb->prefix . 'helpful';
 		$sql     = "SELECT time FROM $helpful ORDER BY time DESC";
 
-		$cache_name   = 'helpful_years';
+		$cache_name   = 'helpful/stats/years';
 		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
 		$cache_active = get_option( 'helpful_caching', 'off' );
 		$cache_times  = Cache::get_cache_times( false );
@@ -344,7 +344,7 @@ class Stats
 
 		$sql = $wpdb->prepare( $query, intval( $year ) );
 
-		$cache_name   = 'helpful_today';
+		$cache_name   = 'helpful/stats/today/' . $year;
 		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
 		$cache_active = get_option( 'helpful_caching', 'off' );
 		$cache_times  = Cache::get_cache_times( false );
@@ -426,7 +426,7 @@ class Stats
 
 		$sql = $wpdb->prepare( $query, intval( $year ) );
 
-		$cache_name   = 'helpful_yesterday';
+		$cache_name   = 'helpful/stats/yesterday/' . $year;
 		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
 		$cache_active = get_option( 'helpful_caching', 'off' );
 		$cache_times  = Cache::get_cache_times( false );
@@ -508,7 +508,7 @@ class Stats
 
 		$sql = $wpdb->prepare( $query, intval( $year ) );
 
-		$cache_name   = 'helpful_week';
+		$cache_name   = 'helpful/stats/week/' . $year;
 		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
 		$cache_active = get_option( 'helpful_caching', 'off' );
 		$cache_times  = Cache::get_cache_times( false );
@@ -624,7 +624,7 @@ class Stats
 
 		$sql = $wpdb->prepare( $query, intval( $month ), intval( $year ) );
 
-		$cache_name   = 'helpful_month';
+		$cache_name   = 'helpful/stats/month/' . $month . '/' . $year;
 		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
 		$cache_active = get_option( 'helpful_caching', 'off' );
 		$cache_times  = Cache::get_cache_times( false );
@@ -731,7 +731,7 @@ class Stats
 
 		$sql = $wpdb->prepare( $query, intval( $year ) );
 
-		$cache_name   = 'helpful_year';
+		$cache_name   = 'helpful/stats/year/' . $year;
 		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
 		$cache_active = get_option( 'helpful_caching', 'off' );
 		$cache_times  = Cache::get_cache_times( false );
@@ -839,7 +839,7 @@ class Stats
 
 		$sql = $wpdb->prepare( $query, $from, $to );
 
-		$cache_name   = 'helpful_from_' . $from . '_to_' . $to;
+		$cache_name   = 'helpful/stats/range/' . $from . '/' . $to;
 		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
 		$cache_active = get_option( 'helpful_caching', 'off' );
 		$cache_times  = Cache::get_cache_times( false );
@@ -927,7 +927,7 @@ class Stats
 		$helpful = $wpdb->prefix . 'helpful';
 		$sql   = "SELECT pro, contra, time FROM $helpful";
 
-		$cache_name   = 'helpful_total';
+		$cache_name   = 'helpful/stats/total';
 		$cache_time   = get_option( 'helpful_cache_time', 'minute' );
 		$cache_active = get_option( 'helpful_caching', 'off' );
 		$cache_times  = Cache::get_cache_times( false );

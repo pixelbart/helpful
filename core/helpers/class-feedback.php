@@ -448,6 +448,7 @@ class Feedback
 		}
 
 		if ( true === $show_feedback ) {
+			$type          = 'none';
 			$feedback_text = get_option( 'helpful_feedback_message_voted' );
 			$feedback_text = apply_filters( 'helpful_pre_feedback_message_voted', $feedback_text, $post_id );
 		}
