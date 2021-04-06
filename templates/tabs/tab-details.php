@@ -122,6 +122,14 @@ do_action( 'helpful_tab_details_before' );
 					<?php echo esc_html_x( 'Hide Helpful Admin Columns', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_shrink_admin_columns' ); ?>
+					<input id="helpful_shrink_admin_columns" type="checkbox" name="helpful_shrink_admin_columns" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Shrink Helpful Admin Columns', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
 		
 			<div class="helpful-admin-group">
 				<label>

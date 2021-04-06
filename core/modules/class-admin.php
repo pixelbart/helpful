@@ -113,6 +113,12 @@ class Admin
 	 */
 	public function enqueue_scripts( $hook_suffix )
 	{
+		/* shrink admin columns */
+		if ( 'on' === get_option( 'helpful_shrink_admin_columns' ) ) {
+			$file = plugins_url( 'core/assets/css/admin-columns.css', HELPFUL_FILE );
+			wp_enqueue_style( 'helpful-admin-columns', $file );
+		}
+
 		if ( 'toplevel_page_helpful' !== $hook_suffix ) {
 			return;
 		}

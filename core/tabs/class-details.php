@@ -82,6 +82,7 @@ class Details
 			'helpful_metabox',
 			'helpful_widget_hide_publication',
 			'helpful_hide_admin_columns',
+			'helpful_shrink_admin_columns',
 			'helpful_feedback_widget',
 			'helpful_feedback_disabled',
 		];
