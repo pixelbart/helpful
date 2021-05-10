@@ -1,7 +1,5 @@
 <?php
 /**
- * ...
- *
  * @package Helpful\Core\Helpers
  * @author  Pixelbart <me@pixelbart.de>
  * @version 4.3.0
@@ -24,26 +22,18 @@ class User
      */
     public static function get_user()
     {
-        $user = null;
+        $user = self::get_user_string();
 
-        /**
-         * No more user is set using sessions or cookies.
-         */
         if ('on' === get_option('helpful_user_random')) {
             return self::get_user_string();
         }
 
-        if (isset($_COOKIE['helpful_user'])) {
+        if (isset($_COOKIE['helpful_user']) && '' !== trim($_COOKIE['helpful_user'])) {
             $user = sanitize_text_field($_COOKIE['helpful_user']);
         }
 
-        if (isset($_SESSION['helpful_user'])) {
+        if (isset($_SESSION['helpful_user']) && '' !== trim($_SESSION['helpful_user'])) {
             $user = sanitize_text_field($_SESSION['helpful_user']);
-        }
-
-        if (null === $user) {
-            self::set_user();
-            $user = self::get_user();
         }
 
         return $user;
@@ -113,6 +103,10 @@ class User
 
             if (70300 > PHP_VERSION_ID) {
                 setcookie('helpful_user', $string, strtotime($lifetime), '/');
+            }
+
+            if (isset($_SESSION['helpful_user']) && isset($_COOKIE['helpful_user'])) {
+                unset($_SESSION['helpful_user']);
             }
         }
 

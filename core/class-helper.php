@@ -9,435 +9,435 @@
 namespace Helpful\Core;
 
 /* Prevent direct access */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+    exit;
 }
 
 class Helper
 {
-	/**
-	 * Returns the WordPress information about the plugin.
-	 *
-	 * @version 4.3.0
-	 * @return array
-	 */
-	public static function get_plugin_data()
-	{		
-		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
+    /**
+     * Returns the WordPress information about the plugin.
+     *
+     * @version 4.3.0
+     * @return array
+     */
+    public static function get_plugin_data()
+    {
+        if (!function_exists('get_plugin_data')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
 
-		$transient_name = 'helpful_plugin_data';
+        $transient_name = 'helpful_plugin_data';
 
-		$plugin_data = get_transient( $transient_name );
+        $plugin_data = get_transient($transient_name);
 
-		if ( false === $plugin_data ) {
-			$plugin_data = get_plugin_data( HELPFUL_FILE );
+        if (false === $plugin_data) {
+            $plugin_data = get_plugin_data(HELPFUL_FILE);
 
-			set_transient( $transient_name, maybe_serialize( $plugin_data ), HOUR_IN_SECONDS );
-		}
+            set_transient($transient_name, maybe_serialize($plugin_data), HOUR_IN_SECONDS);
+        }
 
-		return maybe_unserialize( $plugin_data );
-	}
+        return maybe_unserialize($plugin_data);
+    }
 
-	/**
-	 * Set custom timezone if set in the options.
-	 *
-	 * @version 4.3.0
-	 * @return void
-	 */
-	public static function set_timezone()
-	{
-		$timezone = get_option( 'helpful_timezone' );
+    /**
+     * Set custom timezone if set in the options.
+     *
+     * @version 4.3.0
+     * @return void
+     */
+    public static function set_timezone()
+    {
+        $timezone = get_option('helpful_timezone');
 
-		if ( isset( $timezone ) && '' !== trim( $timezone ) ) {
-			date_default_timezone_set( $timezone );
-		}
-	}
+        if (isset($timezone) && '' !== trim($timezone)) {
+            date_default_timezone_set($timezone);
+        }
+    }
 
-	/**
-	 * Returns the available options for Same-Site cookies.
-	 *
-	 * @return array
-	 */
-	public static function get_samesite_options()
-	{
-		$defaults = [ 'None', 'Lax', 'Strict' ];
+    /**
+     * Returns the available options for Same-Site cookies.
+     *
+     * @return array
+     */
+    public static function get_samesite_options()
+    {
+        $defaults = ['None', 'Lax', 'Strict'];
 
-		return apply_filters( 'helpful_samesite_options', $defaults );
-	}
+        return apply_filters('helpful_samesite_options', $defaults);
+    }
 
-	/**
-	 * Checks if the current tab is in use.
-	 *
-	 * @param string $tab
-	 *
-	 * @return bool
-	 */
-	public static function is_active_tab( $tab )
-	{
-		$screen = get_current_screen();
+    /**
+     * Checks if the current tab is in use.
+     *
+     * @param string $tab
+     *
+     * @return bool
+     */
+    public static function is_active_tab($tab)
+    {
+        $screen = get_current_screen();
 
-		if ( 'toplevel_page_helpful' !== $screen->base ) {
-			return false;
-		}
+        if ('toplevel_page_helpful' !== $screen->base) {
+            return false;
+        }
 
-		$current = apply_filters( 'helpful_current_tab', false );
-		
-		if ( $tab !== $current ) {
-			return false;
-		}
+        $current = apply_filters('helpful_current_tab', false);
 
-		return true;
-	}
+        if ($tab !== $current) {
+            return false;
+        }
 
-	/**
-	 * Get credits array.
-	 *
-	 * @return array
-	 */
-	public static function get_credits_data()
-	{
-		$credits = [			
-			'url'  => apply_filters( 'helpful_credits_url', 'https://helpful-plugin.info' ),
-			'name' => apply_filters( 'helpful_credits_name', 'Helpful' ),
-			'rel'  => apply_filters( 'helpful_credits_rel', 'noopener' ),
-		];
+        return true;
+    }
 
-		$html = '<a href="%1$s" target="_blank" rel="%2$s">%3$s</a>';
-		$html = apply_filters( 'helpful_credits_html', $html );
+    /**
+     * Get credits array.
+     *
+     * @return array
+     */
+    public static function get_credits_data()
+    {
+        $credits = [
+            'url' => apply_filters('helpful_credits_url', 'https://helpful-plugin.info'),
+            'name' => apply_filters('helpful_credits_name', 'Helpful'),
+            'rel' => apply_filters('helpful_credits_rel', 'noopener'),
+        ];
 
-		$credits['html'] = sprintf( $html, $credits['url'], $credits['rel'], $credits['name'] );
+        $html = '<a href="%1$s" target="_blank" rel="%2$s">%3$s</a>';
+        $html = apply_filters('helpful_credits_html', $html);
 
-		return apply_filters( 'helpful_default_credits', $credits );
-	}
+        $credits['html'] = sprintf($html, $credits['url'], $credits['rel'], $credits['name']);
 
-	/**
-	 * Get admin tabs.
-	 *
-	 * @return array
-	 */
-	public static function get_admin_tabs()
-	{
-		$current = apply_filters( 'helpful_current_tab', false );
-		return apply_filters( 'helpful_get_admin_tabs', __return_empty_array(), $current );
-	}
+        return apply_filters('helpful_default_credits', $credits);
+    }
 
-	/**
-	 * Get tab url.
-	 *
-	 * @param string $tab
-	 *
-	 * @return string
-	 */
-	public static function get_tab_url( $tab )
-	{
-		$tab = sanitize_text_field( wp_unslash( $tab ) );
-		return apply_filters( 'helpful_get_tab_url', admin_url( 'admin.php?page=helpful&tab=' . $tab ) );
-	}
+    /**
+     * Get admin tabs.
+     *
+     * @return array
+     */
+    public static function get_admin_tabs()
+    {
+        $current = apply_filters('helpful_current_tab', false);
+        return apply_filters('helpful_get_admin_tabs', __return_empty_array(), $current);
+    }
 
-	/**
-	 * Get tab class.
-	 *
-	 * @param string $tab
-	 *
-	 * @return string
-	 */
-	public static function get_tab_class( $tab )
-	{
-		$tab = sanitize_text_field( wp_unslash( $tab ) );
+    /**
+     * Get tab url.
+     *
+     * @param string $tab
+     *
+     * @return string
+     */
+    public static function get_tab_url($tab)
+    {
+        $tab = sanitize_text_field(wp_unslash($tab));
+        return apply_filters('helpful_get_tab_url', admin_url('admin.php?page=helpful&tab=' . $tab));
+    }
 
-		$class = '';
-		
-		if ( self::is_active_tab( $tab ) ) {
-			$class = 'active';
-		}
-		
-		return apply_filters( 'helpful_get_tab_class', $class );
-	}
+    /**
+     * Get tab class.
+     *
+     * @param string $tab
+     *
+     * @return string
+     */
+    public static function get_tab_class($tab)
+    {
+        $tab = sanitize_text_field(wp_unslash($tab));
 
-	/**
-	 * Get tab attribute.
-	 *
-	 * @param string $tab
-	 *
-	 * @return string
-	 */
-	public static function get_tab_attr( $tab )
-	{
-		$tab = sanitize_text_field( wp_unslash( $tab ) );
+        $class = '';
 
-		$attr = '';
-		
-		if ( self::is_active_tab( $tab ) ) {
-			$attr = 'selected';
-		}
-		
-		return apply_filters( 'helpful_get_tab_attr', $attr );
-	}
+        if (self::is_active_tab($tab)) {
+            $class = 'active';
+        }
 
-	/**
-	 * Returns the URL of the logo.
-	 *
-	 * @return string
-	 */
-	public static function get_logo()
-	{
-		$logo = plugins_url( 'core/assets/images/helpful-heart.svg', HELPFUL_FILE );
-		return apply_filters( 'helpful_logo', $logo );
-	}
+        return apply_filters('helpful_get_tab_class', $class);
+    }
 
-	/**
-	 * Returns an array of media data from Helpful.
-	 *
-	 * @return array 
-	 */
-	public static function get_plugin_media_data()
-	{
-		$media = [
-			'logo'  => self::get_logo(),
-			'color' => '#88c057',
-		];
+    /**
+     * Get tab attribute.
+     *
+     * @param string $tab
+     *
+     * @return string
+     */
+    public static function get_tab_attr($tab)
+    {
+        $tab = sanitize_text_field(wp_unslash($tab));
 
-		return apply_filters( 'helpful_media_data', $media );
-	}
+        $attr = '';
 
-	/**
-	 * Plugins URL
-	 *
-	 * @param string $path
-	 *
-	 * @return string
-	 */
-	public static function plugins_url( $path )
-	{
-		return plugins_url( $path, HELPFUL_FILE );
-	}
+        if (self::is_active_tab($tab)) {
+            $attr = 'selected';
+        }
 
-	/**
-	 * Filter the conditions and check if you are for example on the homepage and not in the single view.
-	 *
-	 * @version 4.3.0
-	 *
-	 * @return array
-	 */
-	public static function get_conditions()
-	{
-		$conditions = [];
+        return apply_filters('helpful_get_tab_attr', $attr);
+    }
 
-		if ( ! is_singular() ) {
-			$conditions[] = 'is_not_singular';
-		}
+    /**
+     * Returns the URL of the logo.
+     *
+     * @return string
+     */
+    public static function get_logo()
+    {
+        $logo = plugins_url('core/assets/images/helpful-heart.svg', HELPFUL_FILE);
+        return apply_filters('helpful_logo', $logo);
+    }
 
-		if ( is_archive() ) {
-			$conditions[] = 'is_archive';
-		}
+    /**
+     * Returns an array of media data from Helpful.
+     *
+     * @return array
+     */
+    public static function get_plugin_media_data()
+    {
+        $media = [
+            'logo' => self::get_logo(),
+            'color' => '#88c057',
+        ];
 
-		if ( is_home() ) {
-			$conditions[] = 'is_home';
-		}
+        return apply_filters('helpful_media_data', $media);
+    }
 
-		if ( is_front_page() ) {
-			$conditions[] = 'is_front_page';
-		}
+    /**
+     * Plugins URL
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function plugins_url($path)
+    {
+        return plugins_url($path, HELPFUL_FILE);
+    }
 
-		return apply_filters( 'helpful_conditions', $conditions );
-	}
+    /**
+     * Filter the conditions and check if you are for example on the homepage and not in the single view.
+     *
+     * @version 4.3.0
+     *
+     * @return array
+     */
+    public static function get_conditions()
+    {
+        $conditions = [];
 
-	/**
-	 * Get html output for alerts.
-	 *
-	 * @param string $message
-	 * @param string $type
-	 * @param int $close
-	 *
-	 * @return string
-	 */
-	public static function get_alert( $message, $type = 'none', $close = 2500 )
-	{
-		$classes = 'helpful-alert helpful-auto-close';
+        if (!is_singular()) {
+            $conditions[] = 'is_not_singular';
+        }
 
-		$types = [ 'success', 'danger', 'info' ];
+        if (is_archive()) {
+            $conditions[] = 'is_archive';
+        }
 
-		if ( in_array( $type, $types ) ) {
-			$classes .= ' helpful-alert-' . $type;
-		}
+        if (is_home()) {
+            $conditions[] = 'is_home';
+        }
 
-		$close = intval( $close );
+        if (is_front_page()) {
+            $conditions[] = 'is_front_page';
+        }
 
-		return sprintf( '<div class="%s" data-close="%s">%s</div>', $classes, $close, $message );
-	}
+        return apply_filters('helpful_conditions', $conditions);
+    }
 
-	/**
-	 * Translatable Datatables Language String
-	 *
-	 * @return array
-	 */
-	public static function datatables_language_string()
-	{
-		$language = [
-			'decimal'        => esc_html_x( '', 'datatables decimal', 'helpful' ),
-			'emptyTable'     => esc_html_x( 'No data available in table', 'datatables emptyTable', 'helpful' ),
-			'info'           => esc_html_x( 'Showing _START_ to _END_ of _TOTAL_ entries', 'datatables info', 'helpful' ),
-			'infoEmpty'      => esc_html_x( 'Showing 0 to 0 of 0 entries', 'datatables infoEmpty', 'helpful' ),
-			'infoFiltered'   => esc_html_x( '(filtered from _MAX_ total entries)', 'datatables infoFiltered', 'helpful' ),
-			'infoPostFix'    => esc_html_x( '', 'datatables infoPostFix', 'helpful' ),
-			'thousands'      => esc_html_x( ',', 'datatables thousands', 'helpful' ),
-			'lengthMenu'     => esc_html_x( 'Show _MENU_ entries', 'datatables lengthMenu', 'helpful' ),
-			'loadingRecords' => esc_html_x( 'Loading...', 'datatables loadingRecords', 'helpful' ),
-			'processing'     => esc_html_x( 'Processing...', 'datatables processing', 'helpful' ),
-			'search'         => esc_html_x( 'Search:', 'datatables search', 'helpful' ),
-			'zeroRecords'    => esc_html_x( 'No matching records found', 'datatables zeroRecords', 'helpful' ),
-			'paginate'       => [
-				'first'    => esc_html_x( 'First', 'datatables first', 'helpful' ),
-				'last'     => esc_html_x( 'Last', 'datatables last', 'helpful' ),
-				'next'     => esc_html_x( 'Next', 'datatables next', 'helpful' ),
-				'previous' => esc_html_x( 'Previous', 'datatables previous', 'helpful' ),
-			],
-			'aria'         => [
-				'sortAscending'  => esc_html_x( ': activate to sort column ascending', 'datatables sortAscending', 'helpful' ),
-				'sortDescending' => esc_html_x( ': activate to sort column descending', 'datatables sortDescending', 'helpful' ),
-			],
-			'select'       => [
-				'rows' => [
-					'_' => esc_html_x( '%d rows selected', 'datatables previous', 'helpful' ),
-					'0' => esc_html_x( '', 'datatables previous', 'helpful' ),
-					'1' => esc_html_x( '1 row selected', 'datatables previous', 'helpful' ),
-				],
-			],
-			'buttons'     => [
-				'print'       => esc_html_x( 'Print', 'datatables print', 'helpful' ),
-				'colvis'      => esc_html_x( 'Columns', 'datatables colvis', 'helpful' ),
-				'copy'        => esc_html_x( 'Copy', 'datatables copy', 'helpful' ),
-				'copyTitle'   => esc_html_x( 'Copy to clipboard', 'datatables copyTitle', 'helpful' ),
-				'copyKeys'    => esc_html_x(
-					'Press <i>ctrl</i> or <i>\u2318</i> + <i>C</i> to copy table<br>to temporary storage.<br><br>To cancel, click on the message or press Escape.',
-					'datatables copyKeys',
-					'helpful'
-				),
-				'copySuccess' => [
-					'_' => esc_html_x( '%d rows copied', 'datatables copySuccess', 'helpful' ),
-					'1' => esc_html_x( '1 row copied', 'datatables copySuccess', 'helpful' ),
-				],
-				'pageLength' => [
-					'-1' => esc_html_x( 'Show all rows', 'datatables pageLength', 'helpful' ),
-					'_'  =>  esc_html_x( 'Show %d rows', 'datatables pageLength', 'helpful' ),
-				],
-			],
-		];
+    /**
+     * Get html output for alerts.
+     *
+     * @param string $message
+     * @param string $type
+     * @param int $close
+     *
+     * @return string
+     */
+    public static function get_alert($message, $type = 'none', $close = 2500)
+    {
+        $classes = 'helpful-alert helpful-auto-close';
 
-		return apply_filters( 'helpful_datatables_language', $language );
-	}
+        $types = ['success', 'danger', 'info'];
 
-	/**
-	 * Returns non-permitted characters and words from the WordPress blacklist.
-	 *
-	 * @return string
-	 */
-	public static function get_disallowed_keys()
-	{
-		if ( version_compare( get_bloginfo( 'version' ), '5.5.0' ) >= 0 ) {
-			return trim( get_option( 'disallowed_keys' ) );
-		}
-		
-		return trim( get_option( 'blacklist_keys' ) );
-	}
+        if (in_array($type, $types)) {
+            $classes .= ' helpful-alert-' . $type;
+        }
 
-	/**
-	 * Checks if the content is set on the internal blacklist of WordPress
-	 * 
-	 * @param string $content the content to be checked.
-	 *
-	 * @return bool
-	 */
-	public static function backlist_check( $content )
-	{
-		$mod_keys = self::get_disallowed_keys();
+        $close = intval($close);
 
-		if ( '' === $mod_keys ) {
-			return false;
-		}
+        return sprintf('<div class="%s" data-close="%s">%s</div>', $classes, $close, $message);
+    }
 
-		$without_html = wp_strip_all_tags( $content );
-		$words        = explode( "\n", $mod_keys );
+    /**
+     * Translatable Datatables Language String
+     *
+     * @return array
+     */
+    public static function datatables_language_string()
+    {
+        $language = [
+            'decimal' => esc_html_x('', 'datatables decimal', 'helpful'),
+            'emptyTable' => esc_html_x('No data available in table', 'datatables emptyTable', 'helpful'),
+            'info' => esc_html_x('Showing _START_ to _END_ of _TOTAL_ entries', 'datatables info', 'helpful'),
+            'infoEmpty' => esc_html_x('Showing 0 to 0 of 0 entries', 'datatables infoEmpty', 'helpful'),
+            'infoFiltered' => esc_html_x('(filtered from _MAX_ total entries)', 'datatables infoFiltered', 'helpful'),
+            'infoPostFix' => esc_html_x('', 'datatables infoPostFix', 'helpful'),
+            'thousands' => esc_html_x(',', 'datatables thousands', 'helpful'),
+            'lengthMenu' => esc_html_x('Show _MENU_ entries', 'datatables lengthMenu', 'helpful'),
+            'loadingRecords' => esc_html_x('Loading...', 'datatables loadingRecords', 'helpful'),
+            'processing' => esc_html_x('Processing...', 'datatables processing', 'helpful'),
+            'search' => esc_html_x('Search:', 'datatables search', 'helpful'),
+            'zeroRecords' => esc_html_x('No matching records found', 'datatables zeroRecords', 'helpful'),
+            'paginate' => [
+                'first' => esc_html_x('First', 'datatables first', 'helpful'),
+                'last' => esc_html_x('Last', 'datatables last', 'helpful'),
+                'next' => esc_html_x('Next', 'datatables next', 'helpful'),
+                'previous' => esc_html_x('Previous', 'datatables previous', 'helpful'),
+            ],
+            'aria' => [
+                'sortAscending' => esc_html_x(': activate to sort column ascending', 'datatables sortAscending', 'helpful'),
+                'sortDescending' => esc_html_x(': activate to sort column descending', 'datatables sortDescending', 'helpful'),
+            ],
+            'select' => [
+                'rows' => [
+                    '_' => esc_html_x('%d rows selected', 'datatables previous', 'helpful'),
+                    '0' => esc_html_x('', 'datatables previous', 'helpful'),
+                    '1' => esc_html_x('1 row selected', 'datatables previous', 'helpful'),
+                ],
+            ],
+            'buttons' => [
+                'print' => esc_html_x('Print', 'datatables print', 'helpful'),
+                'colvis' => esc_html_x('Columns', 'datatables colvis', 'helpful'),
+                'copy' => esc_html_x('Copy', 'datatables copy', 'helpful'),
+                'copyTitle' => esc_html_x('Copy to clipboard', 'datatables copyTitle', 'helpful'),
+                'copyKeys' => esc_html_x(
+                    'Press <i>ctrl</i> or <i>\u2318</i> + <i>C</i> to copy table<br>to temporary storage.<br><br>To cancel, click on the message or press Escape.',
+                    'datatables copyKeys',
+                    'helpful'
+                ),
+                'copySuccess' => [
+                    '_' => esc_html_x('%d rows copied', 'datatables copySuccess', 'helpful'),
+                    '1' => esc_html_x('1 row copied', 'datatables copySuccess', 'helpful'),
+                ],
+                'pageLength' => [
+                    '-1' => esc_html_x('Show all rows', 'datatables pageLength', 'helpful'),
+                    '_' => esc_html_x('Show %d rows', 'datatables pageLength', 'helpful'),
+                ],
+            ],
+        ];
 
-		foreach ( (array) $words as $word ) :
-			$word = trim( $word );
+        return apply_filters('helpful_datatables_language', $language);
+    }
 
-			if ( empty( $word ) ) {
-				continue;
-			}
+    /**
+     * Returns non-permitted characters and words from the WordPress blacklist.
+     *
+     * @return string
+     */
+    public static function get_disallowed_keys()
+    {
+        if (version_compare(get_bloginfo('version'), '5.5.0') >= 0) {
+            return trim(get_option('disallowed_keys'));
+        }
 
-			$word    = preg_quote( $word, '#' );
-			$pattern = "#$word#i";
+        return trim(get_option('blacklist_keys'));
+    }
 
-			if ( preg_match( $pattern, $content ) || preg_match( $pattern, $without_html ) ) {
-				return true;
-			}
-		endforeach;
+    /**
+     * Checks if the content is set on the internal blacklist of WordPress
+     *
+     * @param string $content the content to be checked.
+     *
+     * @return bool
+     */
+    public static function backlist_check($content)
+    {
+        $mod_keys = self::get_disallowed_keys();
 
-		return false;
-	}
+        if ('' === $mod_keys) {
+            return false;
+        }
 
-	/**
-	 * Checks if the current page uses AMP.
-	 *
-	 * @return bool
-	 */
-	public static function is_amp()
-	{
-		if ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
-			return true;
-		}
-		
-		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
-			return true;
-		}
+        $without_html = wp_strip_all_tags($content);
+        $words = explode("\n", $mod_keys);
 
-		return false;
-	}
+        foreach ((array) $words as $word):
+            $word = trim($word);
 
-	/**
-	 * Sets a capability.
-	 *
-	 * @param string $option
-	 * @param string $value
-	 *
-	 * @return void
-	 */
-	public static function set_capability( $option, $value )
-	{
-		$options = [
-			'helpful_capability',
-			'helpful_settings_capability',
-			'helpful_feedback_capability',
-		];
+            if (empty($word)) {
+                continue;
+            }
 
-		if ( ! in_array( $option, $options ) ) {
-			return;
-		}
+            $word = preg_quote($word, '#');
+            $pattern = "#$word#i";
 
-		if ( null === $value || false === $value ) {
-			delete_option( $option );
-		}
+            if (preg_match($pattern, $content) || preg_match($pattern, $without_html)) {
+                return true;
+            }
+        endforeach;
 
-		update_option(
-			sanitize_text_field( $option ),
-			sanitize_text_field( $value )
-		);
-	}
+        return false;
+    }
 
-	/**
-	 * Checks if the feedback was deactivated by option.
-	 *
-	 * @return bool
-	 */
-	public static function is_feedback_disabled()
-	{
-		if ( 'on' !== get_option( 'helpful_feedback_disabled' ) ) {
-			return false;
-		}
+    /**
+     * Checks if the current page uses AMP.
+     *
+     * @return bool
+     */
+    public static function is_amp()
+    {
+        if (function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint()) {
+            return true;
+        }
 
-		return true;
-	}
+        if (function_exists('is_amp_endpoint') && is_amp_endpoint()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Sets a capability.
+     *
+     * @param string $option
+     * @param string $value
+     *
+     * @return void
+     */
+    public static function set_capability($option, $value)
+    {
+        $options = [
+            'helpful_capability',
+            'helpful_settings_capability',
+            'helpful_feedback_capability',
+        ];
+
+        if (!in_array($option, $options)) {
+            return;
+        }
+
+        if (null === $value || false === $value) {
+            delete_option($option);
+        }
+
+        update_option(
+            sanitize_text_field($option),
+            sanitize_text_field($value)
+        );
+    }
+
+    /**
+     * Checks if the feedback was deactivated by option.
+     *
+     * @return bool
+     */
+    public static function is_feedback_disabled()
+    {
+        if ('on' !== get_option('helpful_feedback_disabled')) {
+            return false;
+        }
+
+        return true;
+    }
 }
