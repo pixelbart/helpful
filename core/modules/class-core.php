@@ -80,7 +80,9 @@ class Core
      */
     public function set_user_cookie()
     {
+        ob_start();
         Helpers\User::set_user();
+        ob_end_flush();
     }
 
     /**
