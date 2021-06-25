@@ -42,6 +42,7 @@ class Feedback_Admin
 		add_action( 'wp_ajax_helpful_admin_feedback_items', [ &$this, 'ajax_get_feedback_items' ] );
 		add_action( 'wp_ajax_helpful_remove_feedback', [ &$this, 'ajax_delete_feedback_item' ] );
 		add_action( 'wp_ajax_helpful_export_feedback', [ &$this, 'ajax_export_feedback' ] );
+		add_action( 'wp_ajax_helpful_delete_all_feedback', [ & $this, 'ajax_delete_all_feedback']);
 	}
 
 	/**
@@ -113,6 +114,9 @@ class Feedback_Admin
 		$vars = [
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'nonce'    => wp_create_nonce( 'helpful_admin_feedback_nonce' ),
+			'texts'   => [
+				'delete_feedback' => esc_html__('Are you sure you want to delete all your feedback?', 'helpful'),
+			],
 		];
 
 		wp_localize_script( 'helpful-admin-feedback', 'helpful_admin_feedback', $vars );
@@ -322,5 +326,31 @@ class Feedback_Admin
 		}
 
 		wp_send_json( $response );
+	}
+
+	/**
+	 * Empties the feedback table and optimizes it afterwards.
+	 *
+	 * @return void
+	 */
+	public function ajax_delete_all_feedback()
+	{
+		check_ajax_referer( 'helpful_admin_feedback_nonce' );
+
+		global $wpdb;
+		$table_name  = $wpdb->prefix . 'helpful_feedback';
+
+		$wpdb->query("TRUNCATE TABLE $table_name");
+		$wpdb->query("OPTIMIZE TABLE $table_name");
+
+		$rows = $wpdb->get_var("SELECT count(*) FROM $table_name");
+
+		if (!$rows) {
+			wp_send_json_success(_x('Your feedback has been deleted.', 'success message', 'helpful'));
+		}
+
+		$message = _x('Your feedback could not be deleted. Try again or report the error in the WordPress Support Forum: %s', 'error message', 'helpful');
+		$message = sprintf($message, 'https://wordpress.org/support/plugin/helpful/');
+		wp_send_json_error($message);
 	}
 }

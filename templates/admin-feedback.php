@@ -39,8 +39,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<option value="contra"><?php esc_html_e( 'Contra', 'helpful' ); ?></option>
 			</select>
 
-			<button type="button" class="button default helpful-reset" style="margin-right: auto; margin-left: 5px; display: none;">
+			<button type="button" class="button default helpful-reset" style="margin-right: 15px; margin-left: 5px; display: none;">
 				<?php echo esc_html_x( 'Reset filter', 'button text', 'helpful' ); ?>
+			</button>
+			
+			<button type="button" class="button danger helpful-delete-feedback" style="margin-right: auto; margin-left: 5px;">
+				<?php _ex( 'Delete all', 'admin delete all feedback button', 'helpful'); ?>
 			</button>
 
 			<button type="button" class="button default helpful-export" data-type="feedback">
