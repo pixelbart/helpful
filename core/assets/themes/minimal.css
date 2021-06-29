@@ -1,243 +1,296 @@
-.helpful-red { color: #ed7161 }
-.helpful-green { color: #88c057 }
-.helpful * { box-sizing: border-box; }
+.helpful-red {
+    color: #ed7161
+}
+
+.helpful-green {
+    color: #88c057
+}
+
+.helpful * {
+    box-sizing: border-box;
+}
 
 .helpful {
-	position: relative;
-	border-style: solid;
-	border-color: #000;
-	border-width: 1px;
-	color: #000;
-	padding: 25px;
-	margin: 25px 0 0 0;
-	font-size: 1rem;
-	line-height: 1.6rem;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    position: relative;
+    border-style: solid;
+    border-color: #000;
+    border-width: 1px;
+    color: #000;
+    padding: 25px;
+    margin: 25px 0 0 0;
+    font-size: 1rem;
+    line-height: 1.6rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
 
 /* HEADING */
 
-.helpful .helpful-header > .helpful-headline {
-	color: #000;
-	font-size: 1.4rem;
-	font-weight: 700;
-	margin: 0 0 12.5px;
+.helpful .helpful-header>.helpful-headline {
+    color: #000;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 12.5px;
 }
+
 
 /* CONTENT */
 
-.helpful > .helpful-content {
-	color: #000;
-	font-size: 1rem;
-	line-height: 1.6rem;
+.helpful>.helpful-content {
+    color: #000;
+    font-size: 1rem;
+    line-height: 1.6rem;
 }
 
-.helpful > .helpful-content > a {
-	color: #000;
-	text-decoration: underline;
+.helpful>.helpful-content>a {
+    color: #000;
+    text-decoration: underline;
 }
 
-.helpful > .helpful-content > a:hover {
-	color: #000;
-	text-decoration: none;
+.helpful>.helpful-content>a:hover {
+    color: #000;
+    text-decoration: none;
 }
+
 
 /* CONTROLS */
 
-.helpful > .helpful-controls {
-	display: flex;
-	margin-top: 12.5px;
+.helpful>.helpful-controls {
+    display: flex;
+    margin-top: 12.5px;
 }
 
 .helpful .helpful-content .helpful-button {
-	width: auto;
+    width: auto;
 }
 
 @media all and (max-width: 992px) {
-	.helpful > .helpful-controls {
-		flex-direction: column;
-	}
+    .helpful>.helpful-controls {
+        flex-direction: column;
+    }
 }
 
-.helpful > .helpful-controls:after {
-	clear: both;
+.helpful>.helpful-controls:after {
+    clear: both;
 }
 
-.helpful > .helpful-controls > div {
-	flex: 0 1 auto;
-	width: 50%;
+.helpful>.helpful-controls>div {
+    flex: 0 1 auto;
+    width: 50%;
 }
 
-.helpful > .helpful-controls > div:first-child {
-	margin-right: 15px;
+.helpful>.helpful-controls>div:first-child {
+    margin-right: 15px;
 }
 
 @media all and (max-width: 992px) {
-	.helpful > .helpful-controls > div {
-		width: 100%;
-		display: block;
-		margin: 0 0 10px 0;
-	}
+    .helpful>.helpful-controls>div {
+        width: 100%;
+        display: block;
+        margin: 0 0 10px 0;
+    }
 }
 
 .helpful .helpful-content .helpful-button,
-.helpful > .helpful-controls > div > .helpful-button {
-	padding: 12px 30px;
-	height: 56px;
-	max-height: 56px;
-	font-size: 1rem;
-	line-height: 1rem;
-	color: #000;
-	position: relative;
-	cursor: pointer;
-	opacity: 1;
-	width: 100%;
-	display: block;
-	text-align: left;
-	font-size: 1rem;
-	line-height: 1rem;
-	background-color: #fff;
-	border: 1px solid #000;
-	transition: all .2s;
+.helpful>.helpful-controls>div>.helpful-button {
+    padding: 12px 30px;
+    height: 56px;
+    max-height: 56px;
+    font-size: 1rem;
+    line-height: 1rem;
+    color: #000;
+    position: relative;
+    cursor: pointer;
+    opacity: 1;
+    width: 100%;
+    display: block;
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1rem;
+    background-color: #fff;
+    border: 1px solid #000;
+    transition: all .2s;
 }
 
 .helpful .helpful-content .helpful-button:hover,
-.helpful > .helpful-controls > div > .helpful-button:hover {
-	color: #fff;
-	background: #000;
-	border: 1px solid #000;
-	transition: all .2s;
+.helpful>.helpful-controls>div>.helpful-button:hover {
+    color: #fff;
+    background: #000;
+    border: 1px solid #000;
+    transition: all .2s;
 }
 
 @media all and (max-width: 992px) {
-	.helpful > .helpful-controls > div > .helpful-button {
-		width: 100%;
-		width: calc( 100% );
-		float: none;
-		display: block;
-		margin: 0 0 10px 0;
-	}
+    .helpful>.helpful-controls>div>.helpful-button {
+        width: 100%;
+        width: calc( 100%);
+        float: none;
+        display: block;
+        margin: 0 0 10px 0;
+    }
 }
 
-.helpful > .helpful-controls > div > .helpful-button > .helpful-counter {
-	position: absolute;
-	right: 25px;
-	top: 50%;
-	line-height: 0;
-	-webkit-transform: translateY(-50%);
-	-moz-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	-o-transform: translateY(-50%);
-	transform: translateY(-50%);
-	padding: 12.5px;
-	color: #000;
-	background: #fff;
-	border: 1px solid #000;
-	transition: all .2s;
+.helpful>.helpful-controls>div>.helpful-button>.helpful-counter {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    line-height: 0;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    padding: 12.5px;
+    color: #000;
+    background: #fff;
+    border: 1px solid #000;
+    transition: all .2s;
 }
 
-.helpful > .helpful-controls > div > .helpful-button:hover > .helpful-counter {
-	color: #fff;
-	background-color: #000;
-	border: 1px solid #fff;
-	transition: all .2s;
+.helpful>.helpful-controls>div>.helpful-button:hover>.helpful-counter {
+    color: #fff;
+    background-color: #000;
+    border: 1px solid #fff;
+    transition: all .2s;
 }
+
 
 /* CREDITS */
 
-.helpful > .helpful-footer {
-	color: #bbb;
-	font-size: .7rem;
-	position: absolute;
-	right: 5px;
-	bottom: 2px;
+.helpful>.helpful-footer {
+    color: #bbb;
+    font-size: .7rem;
+    position: absolute;
+    right: 5px;
+    bottom: 2px;
 }
 
-.helpful > .helpful-footer > a {
-	color: #bbb;
+.helpful>.helpful-footer>a {
+    color: #bbb;
 }
+
 
 /* FEEDBACK */
-.helpful > .helpful-contet > .helpful-feedback-form req {
-	color: #ff0000;
+
+.helpful>.helpful-contet>.helpful-feedback-form req {
+    color: #ff0000;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form {
-	color: #000;
+.helpful>.helpful-content>.helpful-feedback-form {
+    color: #000;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form > p,
-.helpful > .helpful-content > .helpful-feedback-form > .feedback-note > p,
-.helpful > .helpful-content > .helpful-feedback-form > .group {
-	color: #000;
-	margin: 0 0 12.5px;
+.helpful>.helpful-content>.helpful-feedback-form>p,
+.helpful>.helpful-content>.helpful-feedback-form>.feedback-note>p,
+.helpful>.helpful-content>.helpful-feedback-form>.group {
+    color: #000;
+    margin: 0 0 12.5px;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form textarea,
-.helpful > .helpful-content > .helpful-feedback-form input[type="text"],
-.helpful > .helpful-content > .helpful-feedback-form input[type="email"],
-.helpful > .helpful-content > .helpful-feedback-form input[type="url"],
-.helpful > .helpful-content > .helpful-feedback-form input[type="number"] {
-	color: #000;
-	display: block;
-	width: 100%;
-	padding: 7.5px 15px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000;
-	background-color: #fff;
-	border-radius: 0;
-	font-size: 1rem;
-	line-height: 1.6rem;
+.helpful>.helpful-content>.helpful-feedback-form textarea,
+.helpful>.helpful-content>.helpful-feedback-form input[type="text"],
+.helpful>.helpful-content>.helpful-feedback-form input[type="email"],
+.helpful>.helpful-content>.helpful-feedback-form input[type="url"],
+.helpful>.helpful-content>.helpful-feedback-form input[type="number"] {
+    color: #000;
+    display: block;
+    width: 100%;
+    padding: 7.5px 15px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000;
+    background-color: #fff;
+    border-radius: 0;
+    font-size: 1rem;
+    line-height: 1.6rem;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form textarea {
-	min-height: 150px;
-	max-width: 100%;
-	font-size: 1rem;
-	line-height: 1.6rem;
+.helpful>.helpful-content>.helpful-feedback-form textarea {
+    min-height: 150px;
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.6rem;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form input[type="checkbox"],
-.helpful > .helpful-content > .helpful-feedback-form input[type="radio"] {
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000;
-	background-color: #fff;
-	font-size: 1rem;
-	line-height: 1.6rem;
+.helpful>.helpful-content>.helpful-feedback-form input[type="checkbox"],
+.helpful>.helpful-content>.helpful-feedback-form input[type="radio"] {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000;
+    background-color: #fff;
+    font-size: 1rem;
+    line-height: 1.6rem;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
-	padding: 12px 15px;
-	height: 56px;
-	max-height: 56px;
-	font-size: 1rem;
-	line-height: 1.6rem;
-	color: #000;
-	min-width: 150px;
-	text-align: center;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000;
-	background-color: #fff;
-	margin: 12.5px 0 0;
-	cursor: pointer;
-	transition: all .2s ease-in-out;
-	-moz-transition: all .2s ease-in-out;
-	-webkit-transition: all .2s ease-in-out;
+.helpful>.helpful-content>.helpful-feedback-form>.helpful-button {
+    padding: 12px 15px;
+    height: 56px;
+    max-height: 56px;
+    font-size: 1rem;
+    line-height: 1.6rem;
+    color: #000;
+    min-width: 150px;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000;
+    background-color: #fff;
+    margin: 12.5px 0 0;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
 }
 
-.helpful > .helpful-content > .helpful-feedback-form > .helpful-button:hover {
-	color: #fff;
-	background-color: #000;
+.helpful>.helpful-content>.helpful-feedback-form>.helpful-button:hover {
+    color: #fff;
+    background-color: #000;
 }
 
 @media all and (max-width: 992px) {
-	.helpful > .helpful-content > .helpful-feedback-form > .helpful-button {
-		min-width: 100%;
-		width: 100%;
-		display: block;
-	}
+    .helpful>.helpful-content>.helpful-feedback-form>.helpful-button {
+        min-width: 100%;
+        width: 100%;
+        display: block;
+    }
+}
+
+
+/* Helpful Feedback Items */
+
+.helpful-feedback-items {
+    margin: 0;
+    padding: 0;
+}
+
+.helpful-feedback-items .helpful-feedback-item {
+    display: block;
+    list-style: none;
+    border: 1px solid #000;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.helpful-feedback-author {
+    margin-bottom: 12.5px;
+}
+
+.helpful-feedback-items .--flex {
+    display: flex;
+    align-items: center;
+}
+
+.helpful-feedback-items .--avatar {
+    margin-right: 15px;
+}
+
+.helpful-feedback-items .--avatar img {
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+}
+
+.helpful-feedback-items .--name {
+    font-weight: 600;
 }

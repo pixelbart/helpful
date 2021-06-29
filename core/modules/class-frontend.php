@@ -55,6 +55,7 @@ class Frontend
 
         add_filter('the_content', [ & $this, 'the_content']);
         add_shortcode('helpful', [ & $this, 'helpful']);
+        add_shortcode('helpful-feedback', [ & $this, 'helpful_feedback']);
 
         add_filter('init', [ & $this, 'filter_nonces']);
     }
@@ -526,5 +527,70 @@ class Frontend
         if ('on' === get_option('helpful_disable_feedback_nonce')) {
             add_filter('helpful_verify_feedback_nonce', '__return_false');
         }
+    }
+
+    /**
+     * Allows to output feedback for the current or a specific post.
+     *
+     * @global $wpdb
+     *
+     * @param array $atts
+     *
+     * @return string
+     */
+    public function helpful_feedback($atts)
+    {
+        global $post;
+
+        $defaults = [
+            'post' => $post->ID,
+            'gravatar' => false,
+        ];
+
+        $atts = shortcode_atts($defaults, $atts);
+
+        if (!is_numeric($atts['post'])) {
+            $atts['post'] = $post->ID;
+        }
+
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . 'helpful_feedback';
+
+        $query = "SELECT * FROM $table_name WHERE post_id = %d ORDER BY id DESC";
+
+        $rows = $wpdb->get_results($wpdb->prepare($query, intval($atts['post'])));
+
+        if ($rows) {
+            $items = [];
+
+            foreach ($rows as $row):
+                $fields = maybe_unserialize($row->fields);
+                $class = (isset($row->contra) && 1 === intval($row->contra)) ? 'contra' : 'pro';
+                $author = (isset($fields['name']) && '' !== trim($fields['name'])) ? esc_html($fields['name']) : esc_html__('Anonymous', 'helpful');
+                $email = (isset($fields['email']) && '' !== trim($fields['email'])) ? sanitize_email($fields['email']) : '';
+                $message = (isset($row->message) && '' !== trim($row->message)) ? esc_html($row->message) : null;
+
+                if (is_null($message)) {
+                    continue;
+                }
+
+                if (false !== $atts['gravatar']) {
+                    $avatar = get_avatar_url($email);
+                }
+
+                if (isset($avatar)) {
+                    $html = '<li class="helpful-feedback-item helpful-feedback-item-%1$s"><div class="helpful-feedback-author --flex"><div class="--avatar"><img src="%2$s" alt="%3$s"></div><div class="--name">%3$s</div></div><div class="helpful-feedback-message">%4$s</div></li>';
+                    $items[] = sprintf($html, $class, $avatar, $author, $message);
+                } else {
+                    $html = '<li class="helpful-feedback-item helpful-feedback-item-%1$s"><div class="helpful-feedback-author"><div class="--name">%2$s</div></div><div class="helpful-feedback-message">%3$s</div></li>';
+                    $items[] = sprintf($html, $class, $author, $message);
+                }
+            endforeach;
+
+            return sprintf('<ul class="helpful-feedback-items">%s</ul>', implode('', $items));
+        }
+
+        return '';
     }
 }
