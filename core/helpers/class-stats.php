@@ -991,10 +991,11 @@ class Stats
 	 * Get most helpful posts.
 	 *
 	 * @param int $limit posts per page.
+	 * @param string|array $post_type
 	 *
 	 * @return array
 	 */
-	public static function get_most_helpful( $limit = null )
+	public static function get_most_helpful( $limit = null, $post_type = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = intval( get_option( 'helpful_widget_amount' ) );
@@ -1002,8 +1003,12 @@ class Stats
 			$limit = intval( $limit );
 		}
 
+		if ( is_null($post_type)) {
+			$post_type = get_option( 'helpful_post_types' );
+		}
+
 		$args  = [
-			'post_type'      => get_option( 'helpful_post_types' ),
+			'post_type'      => $post_type,
 			'post_status'    => 'any',
 			'posts_per_page' => -1,
 			'fields'         => 'ids',
@@ -1078,17 +1083,22 @@ class Stats
 	 * Get least helpful posts.
 	 *
 	 * @param int $limit posts per page.
+	 * @param string|array $post_type
 	 *
 	 * @return array
 	 */
-	public static function get_least_helpful( $limit = null )
+	public static function get_least_helpful( $limit = null, $post_type = null )
 	{
 		if ( is_null( $limit ) ) {
 			$limit = absint( get_option( 'helpful_widget_amount' ) );
 		}
 
+		if ( is_null($post_type)) {
+			$post_type = get_option( 'helpful_post_types' );
+		}
+
 		$args  = [
-			'post_type'      => get_option( 'helpful_post_types' ),
+			'post_type'      => $post_type,
 			'post_status'    => 'any',
 			'posts_per_page' => -1,
 			'fields'         => 'ids',
