@@ -85,6 +85,7 @@ class Details
 			'helpful_shrink_admin_columns',
 			'helpful_feedback_widget',
 			'helpful_feedback_disabled',
+			'helpful_wordpress_user',
 		];
 
 		$fields = apply_filters( 'helpful_details_settings_group', $fields );

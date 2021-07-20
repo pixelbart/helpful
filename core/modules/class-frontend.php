@@ -201,6 +201,10 @@ class Frontend
             $value = sanitize_text_field($_POST['value']);
         }
 
+        if (is_user_logged_in() && 'on' === get_option('helpful_wordpress_user')) {
+            $user_id = get_current_user_id();
+        }
+
         if (false === Helpers\User::check_user($user_id, $post_id)) {
             if ('pro' === $value) {
                 Helpers\Values::insert_pro($user_id, $post_id);

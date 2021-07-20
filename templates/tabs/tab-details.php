@@ -130,12 +130,20 @@ do_action( 'helpful_tab_details_before' );
 					<?php echo esc_html_x( 'Shrink Helpful Admin Columns', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
-		
-			<div class="helpful-admin-group">
+
+			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
 					<?php $value = get_option( 'helpful_feedback_disabled' ); ?>
 					<input id="helpful_feedback_disabled" type="checkbox" name="helpful_feedback_disabled" <?php checked( 'on', $value ); ?> />
 					<?php echo esc_html_x( 'Disable feedback completely.', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+		
+			<div class="helpful-admin-group">
+				<label>
+					<?php $value = get_option( 'helpful_wordpress_user' ); ?>
+					<input id="helpful_wordpress_user" type="checkbox" name="helpful_wordpress_user" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Use the WordPress user instead of the Helpful ID (if the user is logged in and votes).', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
 		</div><!-- .helpful-admin-panel-content -->
