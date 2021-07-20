@@ -161,6 +161,9 @@ class Log
 					$title = esc_html_x( 'No title found', 'message if no post title was found', 'helpful' );
 				}
 
+				$user_string = ($row->user) ? 1 : 0;
+				$user_string = apply_filters('helpful/logs/user_string', $user_string, $row);
+
 				$data = [
 					'post_id' => $post->ID,
 					'post_title' => sprintf(
@@ -170,7 +173,7 @@ class Log
 					),
 					'pro'    => $row->pro,
 					'contra' => $row->contra,
-					'user'   => $row->user ? 1 : 0,
+					'user'   => $user_string,
 					'time'   => [
 						'display'   => date_i18n( 'Y-m-d H:i:s', strtotime( $row->time ) ),
 						'timestamp' => date_i18n( 'U', strtotime( $row->time ) ),
