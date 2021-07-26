@@ -119,6 +119,7 @@ class User
 
         if ('on' !== $sessions_disabled && !isset($_COOKIE['helpful_user'])) {
             if (function_exists('session_status') && PHP_SESSION_NONE == session_status() && true === $session_start) {
+                ob_start();
                 session_cache_limiter('');
                 header("Cache-Control: public, s-maxage=60");
                 session_start();
