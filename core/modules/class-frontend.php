@@ -188,6 +188,7 @@ class Frontend
         $user_id = null;
         $post_id = null;
         $value = null;
+        $response = '';
 
         if (isset($_POST['user_id'])) {
             $user_id = sanitize_text_field($_POST['user_id']);
