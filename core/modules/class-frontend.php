@@ -58,6 +58,9 @@ class Frontend
         add_shortcode('helpful-feedback', [ & $this, 'helpful_feedback']);
 
         add_filter('init', [ & $this, 'filter_nonces']);
+
+        add_action('wp_ajax_helpful_has_user_voted', [ & $this, 'has_user_voted']);
+        add_action('wp_ajax_nopriv_helpful_has_user_voted', [ & $this, 'has_user_voted']);
     }
 
     /**
@@ -117,6 +120,7 @@ class Frontend
     /**
      * Enqueue styles and scripts
      *
+     * @global $post
      * @return void
      */
     public function enqueue_scripts()
@@ -146,17 +150,27 @@ class Frontend
         $file = Helper::plugins_url('core/assets/js/helpful.js');
         wp_enqueue_script('helpful', $file, ['jquery'], $plugin['Version'], true);
 
-        $user = Helpers\User::get_user();
-        $nonce = wp_create_nonce('helpful_frontend_nonce');
+        global $post;
+
+        $post_id = (isset($post->ID)) ? $post->ID : 0;
+        $user_id = Helpers\User::get_user();
+
         $vars = [
             'ajax_url' => admin_url('admin-ajax.php'),
             'ajax_data' => [
-                'user_id' => $user,
-                '_wpnonce' => $nonce,
+                'user_id' => $user_id,
+                '_wpnonce' => wp_create_nonce('helpful_frontend_nonce'),
             ],
             'translations' => [
                 'fieldIsRequired' => __('This field is required.', 'helpful'),
             ],
+            'user_voted' => [
+                'user_id' => $user_id,
+                'post_id' => $post_id,
+                'action' => 'helpful_has_user_voted',
+                '_wpnonce' => wp_create_nonce('helpful_has_user_voted'),
+            ],
+            'post_id' => $post_id,
         ];
 
         if (isset($_SESSION)) {
@@ -597,5 +611,41 @@ class Frontend
         }
 
         return '';
+    }
+
+    /**
+     * @return void
+     */
+    public function has_user_voted()
+    {
+        check_ajax_referer('helpful_has_user_voted');
+
+        $errors = [];
+        $post_id = null;
+        $user_id = null;
+
+        if (isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id'])) {
+            $post_id = intval($_REQUEST['post_id']);
+        } else {
+            $errors[] = _x('No post has been found.', 'ajax error message', 'helpful');
+        }
+
+        if (isset($_REQUEST['user_id']) && '' !== trim($_REQUEST['user_id'])) {
+            $user_id = sanitize_text_field(wp_unslash($_REQUEST['user_id']));
+        } else {
+            $errors[] = _x('No user has been found.', 'ajax error message', 'helpful');
+        }
+
+        if (!empty($errors)) {
+            wp_send_json_error($errors);
+        }
+
+        $status = Helpers\User::check_user($user_id, $post_id);
+
+        if (!$status) {
+            $status = 0;
+        }
+
+        wp_send_json_success($status);
     }
 }
