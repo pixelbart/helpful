@@ -61,7 +61,7 @@
         feedbackForm: function(currentForm) {
             var self = this;
 
-            $(currentForm).find(".helpful-cancel").unbind().click(function(e) {
+            $(currentForm).on("click", ".helpful-cancel", function(e) {
                 e.preventDefault();
 
                 var ajaxData = {

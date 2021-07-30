@@ -109,6 +109,12 @@ class Frontend
         ];
 
         $themes[] = [
+            'id' => 'landkit',
+            'label' => esc_html_x('Landkit', 'theme name', 'helpful'),
+            'stylesheet' => plugins_url('core/assets/themes/landkit.css', HELPFUL_FILE),
+        ];
+
+        $themes[] = [
             'id' => 'blank',
             'label' => esc_html_x('Blank', 'theme name', 'helpful'),
             'stylesheet' => null,
@@ -345,6 +351,10 @@ class Frontend
             return $content;
         }
 
+        if (apply_filters('helpful/the_content/disabled', false, $post)) {
+            return $content;
+        }
+
         $helpful = Helpers\Values::get_defaults();
         $post_types = get_option('helpful_post_types');
         $user_id = Helpers\User::get_user();
@@ -456,6 +466,10 @@ class Frontend
 
         if (helpful_is_amp()) {
             return __return_empty_string();
+        }
+
+        if (apply_filters('helpful/shortcode/disabled', false, $post)) {
+            return $content;
         }
 
         $defaults = Helpers\Values::get_defaults();

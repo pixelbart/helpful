@@ -29,6 +29,7 @@ do_action( 'helpful_tab_log_before' );
 				<table id="helpful-table-log" class="helpful-table display" width="100%">
 					<thead>
 						<tr>
+							<th><?php echo esc_html_x( 'ID', 'log table head', 'helpful' ); ?></th>
 							<th><?php echo esc_html_x( 'Post', 'log table head', 'helpful' ); ?></th>
 							<th><?php echo esc_html_x( 'Title', 'log table head', 'helpful' ); ?></th>
 							<th><?php echo esc_html_x( 'Pro', 'log table head', 'helpful' ); ?></th>
@@ -42,5 +43,11 @@ do_action( 'helpful_tab_log_before' );
 		</div>
 	</div>
 </div>
+
+<style>
+span.select-info { margin-left: 5px }
+span.select-info:before { content: "(" }
+span.select-info:after { content: ")" }
+</style>
 
 <?php do_action( 'helpful_tab_log_after' ); ?>

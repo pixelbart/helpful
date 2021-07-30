@@ -149,7 +149,7 @@ class Admin
 		$file = plugins_url( 'core/assets/vendor/jqueryui/jquery-ui.min.js', HELPFUL_FILE );
 		wp_enqueue_script( 'helpful-jquery', $file, [], $plugin['Version'], true );
 
-		$file = '//cdn.datatables.net/v/ju/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/r-2.2.3/sc-2.0.1/datatables.min.js';
+		$file = '//cdn.datatables.net/v/ju/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/r-2.2.3/sc-2.0.1/sl-1.3.3/datatables.min.js';
 		wp_enqueue_script( 'helpful-datatables', $file, [], '1.10.20', true );
 
 		$file = plugins_url( 'core/assets/js/admin.js', HELPFUL_FILE );
