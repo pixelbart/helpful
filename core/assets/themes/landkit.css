@@ -6,6 +6,10 @@
     position: relative;
 }
 
+.helpful p:empty {
+    display: none;
+}
+
 .helpful .helpful-headline {
     font-weight: 600;
     margin-bottom: 1.563rem;
@@ -93,8 +97,4 @@
 
 .helpful .group:last-child {
     margin-bottom: 0;
-}
-
-.helpful p:empty {
-    display: none;
 }

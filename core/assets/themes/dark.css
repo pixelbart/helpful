@@ -10,6 +10,10 @@
     box-sizing: border-box;
 }
 
+.helpful p:empty {
+    display: none;
+}
+
 .helpful {
     position: relative;
     background-color: #34495e;
@@ -60,7 +64,8 @@
 
 /* CONTROLS */
 
-.helpful>.helpful-controls {
+.helpful>.helpful-controls,
+.helpful .helpful-feedback-controls {
     display: flex;
     margin-top: 12.5px;
 }
@@ -69,27 +74,32 @@
     width: auto;
 }
 
-@media all and (max-width: 992px) {
-    .helpful>.helpful-controls {
+@media all and (max-width: 991.98px) {
+    .helpful .helpful-controls,
+    .helpful .helpful-feedback-controls {
         flex-direction: column;
     }
 }
 
-.helpful>.helpful-controls:after {
+.helpful .helpful-controls:after,
+.helpful .helpful-feedback-controls:after {
     clear: both;
 }
 
-.helpful>.helpful-controls>div {
+.helpful .helpful-controls>div,
+.helpful .helpful-feedback-controls>div {
     flex: 0 1 auto;
     width: 50%;
 }
 
-.helpful>.helpful-controls>div:first-child {
+.helpful .helpful-controls>div:first-child,
+.helpful .helpful-feedback-controls>div:first-child {
     margin-right: 15px;
 }
 
-@media all and (max-width: 992px) {
-    .helpful>.helpful-controls>div {
+@media all and (max-width: 991.98px) {
+    .helpful .helpful-controls>div,
+    .helpful .helpful-feedback-controls>div {
         width: 100%;
         display: block;
         margin: 0 0 10px 0;
@@ -97,7 +107,8 @@
 }
 
 .helpful .helpful-content .helpful-button,
-.helpful>.helpful-controls>div>.helpful-button {
+.helpful .helpful-controls .helpful-button,
+.helpful .helpful-feedback-controls .helpful-button {
     padding: 12px 30px;
     height: 56px;
     max-height: 56px;
@@ -121,7 +132,8 @@
 }
 
 .helpful .helpful-content .helpful-button:hover,
-.helpful>.helpful-controls>div>.helpful-button:hover {
+.helpful .helpful-controls .helpful-button:hover,
+.helpful .helpful-feedback-controls .helpful-button:hover {
     opacity: 0.5;
     transition: opacity 0.2s ease-in-out;
     -moz-transition: opacity 0.2s ease-in-out;
@@ -229,7 +241,8 @@
     -webkit-box-shadow: inset 0 2px 5px 0 #2c3e50;
 }
 
-.helpful>.helpful-content>.helpful-feedback-form>.helpful-button {
+.helpful>.helpful-content>.helpful-feedback-form>.helpful-button,
+.helpful .helpful-feedback-controls .helpful-button {
     color: #fff;
     min-width: 150px;
     text-align: center;
@@ -249,7 +262,8 @@
     -webkit-transition: all .2s ease-in-out;
 }
 
-.helpful>.helpful-content>.helpful-feedback-form>.helpful-button:hover {
+.helpful>.helpful-content>.helpful-feedback-form>.helpful-button:hover,
+.helpful .helpful-feedback-controls .helpful-button:hover {
     background-color: #88c057;
     box-shadow: 0 2px 5px 0 #2c3e50;
     -moz-box-shadow: 0 2px 5px 0 #2c3e50;
@@ -259,8 +273,9 @@
     -webkit-transition: all .2s ease-in-out;
 }
 
-@media all and (max-width: 992px) {
-    .helpful>.helpful-content>.helpful-feedback-form>.helpful-button {
+@media all and (max-width: 991.98px) {
+    .helpful>.helpful-content>.helpful-feedback-form>.helpful-button,
+    .helpful .helpful-feedback-controls .helpful-button {
         min-width: 100%;
         width: 100%;
         display: block;
