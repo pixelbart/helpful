@@ -66,6 +66,40 @@ if (!class_exists('HelpfulPlugin')) {
 
             /* Initializes the classes and functions. */
             $this->init();
+
+            add_action('admin_init', [ & $this, 'shedule_cron_events']);
+
+            register_deactivation_hook(HELPFUL_FILE, [ & $this, 'unshedule_cron_events']);
+        }
+
+        /**
+         * Outputs the current Helpful version, which is stored in the plugin file as a comment.
+         *
+         * @return string
+         */
+        public function get_plugin_version()
+        {
+            $plugin_data = get_plugin_data(HELPFUL_FILE);
+            return (isset($plugin_data['Version'])) ? $plugin_data['Version'] : '1.0.0';
+        }
+
+        /**
+         * Outputs the Helpful version that was stored in the database.
+         *
+         * @return string
+         */
+        public function get_option_version()
+        {
+            return get_option('helpful/version', '1.0.0');
+        }
+
+        /**
+         * @return void
+         */
+        public function refresh_option_version()
+        {
+            do_action('helpful/version/refresh', $this->get_plugin_version(), $this->get_option_version());
+            update_option('helpful/version', $this->get_plugin_version());
         }
 
         /**
@@ -128,6 +162,38 @@ if (!class_exists('HelpfulPlugin')) {
             Helpful\Core\Tabs\Log::get_instance();
 
             include_once HELPFUL_PATH . 'core/functions/values.php';
+        }
+
+        /**
+         * Unshedules the events created by Helpful for the crons.
+         *
+         * @return void
+         */
+        public function unshedule_cron_events()
+        {
+            wp_unschedule_event(wp_next_scheduled('helpful/dashboard/build_cache'), 'helpful/dashboard/build_cache');
+        }
+
+        /**
+         * Shedules the events created by Helpful for the crons. Updates the version in the database,
+         * with the current version, if the versions do not match.
+         *
+         * @return void
+         */
+        public function shedule_cron_events()
+        {
+            $plugin_version = $this->get_plugin_version();
+            $option_version = $this->get_option_version();
+
+            if ($plugin_version !== $option_version) {
+                /* dashboard cron */
+                if (!wp_next_scheduled('helpful/dashboard/build_cache')) {
+                    wp_schedule_event(time(), 'twicedaily', 'helpful/dashboard/build_cache');
+                }
+
+                /* refresh version in database */
+                $this->refresh_option_version();
+            }
         }
     }
 }

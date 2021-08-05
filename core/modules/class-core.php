@@ -63,11 +63,6 @@ class Core
         add_filter('helpful_current_tab', [ & $this, 'current_tab']);
         add_filter('helpful_editor_settings', [ & $this, 'editor_settings']);
 
-        /**
-         * Load Elementor Widgets
-         *
-         * @since 4.1.2
-         */
         add_action('elementor/widgets/widgets_registered', [ & $this, 'elementor_widgets']);
         add_action('elementor/controls/controls_registered', [ & $this, 'elementor_controls']);
         add_action('elementor/elements/categories_registered', [ & $this, 'elementor_categories']);
