@@ -12,22 +12,26 @@
 		<span><?php echo $helpful['content']; ?></span>
 	</div><!-- .helpful-content -->
 
-	<?php if ( false === $hidden ) : ?>
+	<?php if ( false === $hidden && !(1 === $helpful['button_pro_disabled'] && 1 === $helpful['button_contra_disabled']) ) : ?>
 	<div class="helpful-controls">
 
+		<?php if (1 !== $helpful['button_pro_disabled']) : ?>
 		<div>
 			<button class="helpful-pro helpful-button" type="button" data-value="pro" data-post="<?php echo $helpful['post_id']; ?>" role="button">
 				<?php echo $helpful['button_pro']; ?>
 				<?php echo $helpful['counter'] ? sprintf( '<span class="helpful-counter">%s</span>', $helpful['count_pro'] ) : ''; ?>
 			</button>
 		</div>
+		<?php endif; ?>
 
+		<?php if (1 !== $helpful['button_contra_disabled']) : ?>
 		<div>
 			<button class="helpful-contra helpful-button" type="button" data-value="contra" data-post="<?php echo $helpful['post_id']; ?>" role="button">
 				<?php echo $helpful['button_contra']; ?>
 				<?php echo $helpful['counter'] ? sprintf( '<span class="helpful-counter">%s</span>', $helpful['count_contra'] ) : ''; ?>
 			</button>
 		</div>
+		<?php endif; ?>
 
 	</div><!-- .helpful-controls -->
 	<?php endif; ?>

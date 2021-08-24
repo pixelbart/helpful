@@ -61,6 +61,8 @@ class Values
             'content' => self::convert_tags(get_option('helpful_content'), $post_id),
             'button_pro' => get_option('helpful_pro'),
             'button_contra' => get_option('helpful_contra'),
+            'button_pro_disabled' => ('on' === get_option('helpful_pro_disabled')) ? 1 : 0,
+            'button_contra_disabled' => ('on' === get_option('helpful_contra_disabled')) ? 1 : 0,
             'counter' => (!get_option('helpful_count_hide')),
             'count_pro' => Stats::get_pro($post_id),
             'count_pro_percent' => Stats::get_pro($post_id, true),
