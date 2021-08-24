@@ -482,7 +482,7 @@ class Frontend
 
         $user_id = Helpers\User::get_user();
 
-        if (get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'])) {
+        if ('on' === get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'])) {
             return __return_empty_string();
         }
 
