@@ -112,19 +112,33 @@ printf( $text, '<code>{feedback_form}</code>, <code>{feedback_toggle}</code>' );
 		</button><!-- .helpful-admin-panel-header -->
 
 		<div class="helpful-admin-panel-content">
-
 			<div class="helpful-admin-group">
 				<label class="helpful-block" for="helpful_pro"><?php _ex( 'Button (pro)', 'option name', 'helpful' ); ?></label>
 				<input type="text" id="helpful_pro" name="helpful_pro" class="regular-text" value="<?php echo esc_attr( get_option( 'helpful_pro' ) ); ?>"/>
 				<p class="description"><?php _ex( 'Here you can define your own text for the pro button. You can use HTML to use e.g. Font Awesome.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
-			<div class="helpful-admin-group">
+			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-block" for="helpful_contra"><?php _ex( 'Button (contra)', 'option name', 'helpful' ); ?></label>
 				<input type="text" id="helpful_contra" name="helpful_contra" class="regular-text" value="<?php echo esc_attr( get_option( 'helpful_contra' ) ); ?>"/>
 				<p class="description"><?php _ex( 'Here you can define your own text for the contra button. You can use HTML to use e.g. Font Awesome.', 'option info', 'helpful' ); ?></p>
 			</div><!-- .helpful-admin-group -->
 
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_pro_disabled' ); ?>
+					<input id="helpful_pro_disabled" type="checkbox" name="helpful_pro_disabled" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Disable the pro button', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group">
+				<label>
+					<?php $value = get_option( 'helpful_contra_disabled' ); ?>
+					<input id="helpful_contra_disabled" type="checkbox" name="helpful_contra_disabled" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Disable the contra button', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
 		</div><!-- .helpful-admin-panel-content -->
 	</div><!-- .helpful-admin-panel -->
 

@@ -28,6 +28,18 @@ class User
             return self::get_user_string();
         }
 
+        if ('on' === get_option('helpful_wordpress_user')) {
+            if (is_user_logged_in()) {
+                return get_current_user_id();
+            }
+        }
+
+        if ('on' === get_option('helpful_ip_user')) {
+            if (isset($_SERVER['REMOTE_ADDR'])) {
+                return sanitize_text_field($_SERVER['REMOTE_ADDR']);
+            }
+        }
+
         if (isset($_COOKIE['helpful_user']) && '' !== trim($_COOKIE['helpful_user'])) {
             $user = sanitize_text_field($_COOKIE['helpful_user']);
         }

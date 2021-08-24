@@ -138,6 +138,14 @@ do_action( 'helpful_tab_details_before' );
 					<?php echo esc_html_x( 'Disable feedback completely.', 'label', 'helpful' ); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = get_option( 'helpful_ip_user' ); ?>
+					<input id="helpful_ip_user" type="checkbox" name="helpful_ip_user" <?php checked( 'on', $value ); ?> />
+					<?php echo esc_html_x( 'Use the IP address instead of the Helpful ID.', 'label', 'helpful' ); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
 		
 			<div class="helpful-admin-group">
 				<label>

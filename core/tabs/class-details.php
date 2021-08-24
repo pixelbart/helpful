@@ -86,6 +86,7 @@ class Details
 			'helpful_feedback_widget',
 			'helpful_feedback_disabled',
 			'helpful_wordpress_user',
+			'helpful_ip_user',
 		];
 
 		$fields = apply_filters( 'helpful_details_settings_group', $fields );

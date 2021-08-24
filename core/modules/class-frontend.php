@@ -367,11 +367,11 @@ class Frontend
             return $content;
         }
 
-        if (get_option('helpful_hide_in_content')) {
+        if ('on' === get_option('helpful_hide_in_content')) {
             return $content;
         }
 
-        if (get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'])) {
+        if ('on' === get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'])) {
             return $content;
         }
 
@@ -385,9 +385,11 @@ class Frontend
         $hidden = false;
         $class = '';
 
+        $content .= sprintf('<pre>%s</pre>', print_r($helpful, true));
+
         if (isset($helpful['exists']) && 1 === $helpful['exists']) {
-            if (isset($helpful['exists-hide']) && 1 === $helpful['exists-hide']) {
-                return __return_empty_string();
+            if (isset($helpful['exists_hide']) && 1 === $helpful['exists_hide']) {
+                return $content;
             }
 
             $exists = true;
@@ -401,7 +403,7 @@ class Frontend
         }
 
         if (null === $helpful['post_id']) {
-            return esc_html__('No post found. Helpful must be placed in a post loop.', 'helpful');
+            return $content;
         }
 
         if (false !== $exists && get_option('helpful_feedback_after_vote')) {
