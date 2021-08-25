@@ -385,8 +385,6 @@ class Frontend
         $hidden = false;
         $class = '';
 
-        $content .= sprintf('<pre>%s</pre>', print_r($helpful, true));
-
         if (isset($helpful['exists']) && 1 === $helpful['exists']) {
             if (isset($helpful['exists_hide']) && 1 === $helpful['exists_hide']) {
                 return $content;
