@@ -134,7 +134,6 @@ class Core
     public function setup_instances_table()
     {
         $transient = 'helpful/setup_database/instances';
-        delete_transient($transient);
         if (false === get_transient($transient)) {
             Helpers\Database::setup_instances_table();
             set_transient($transient, 1, WEEK_IN_SECONDS);
