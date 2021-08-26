@@ -38,6 +38,26 @@ class Votes
 	}
 
 	/**
+	 * @global $wpdb
+	 * 
+	 * @param int $vote_id
+	 * @param output_type $type
+	 * 
+	 * @return array
+	 */
+	public static function get_vote($vote_id, $type = OBJECT)
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'helpful';
+
+		$sql = "SELECT * FROM $table_name WHERE id = %d LIMIT 1";
+		$sql = $wpdb->prepare($sql, $vote_id);
+
+		return $wpdb->get_row( $sql, $type );
+	}
+
+	/**
 	 * Delete a vote item by id from database.
 	 *
 	 * @global $wpdb
@@ -57,6 +77,7 @@ class Votes
 		];
 		
 		$status = $wpdb->delete( $table_name, $where );
+        $wpdb->query("OPTIMIZE TABLE $table_name");
 
 		if ( false !== $status ) {
 			Optimize::clear_cache();

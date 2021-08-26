@@ -113,6 +113,8 @@
                 request.done(function(response) {
                     if ("success" === response.status) {
                         window.location.href = response.file;
+                    } else {
+                        alert(response.message);
                     }
                 });
             });

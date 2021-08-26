@@ -1,15 +1,14 @@
 <?php
 /**
- * ...
- *
  * @package Helpful\Core\Modules
  * @author  Pixelbart <me@pixelbart.de>
- * @version 4.3.0
+ * @version 4.4.49
  */
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -381,70 +380,7 @@ class Frontend
             return $content;
         }
 
-        $exists = false;
-        $hidden = false;
-        $class = '';
-
-        if (isset($helpful['exists']) && 1 === $helpful['exists']) {
-            if (isset($helpful['exists_hide']) && 1 === $helpful['exists_hide']) {
-                return $content;
-            }
-
-            $exists = true;
-            $hidden = true;
-            $class = 'helpful-exists';
-            $helpful['content'] = do_shortcode($helpful['exists_text']);
-
-            if (get_post_meta($helpful['post_id'], 'helpful_exists', true)) {
-                $helpful['content'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_exists', true));
-            }
-        }
-
-        if (null === $helpful['post_id']) {
-            return $content;
-        }
-
-        if (false !== $exists && get_option('helpful_feedback_after_vote')) {
-            if (!Helper::is_feedback_disabled()) {
-                $shortcode = Helpers\Feedback::after_vote($helpful['post_id'], true);
-                $shortcode = Helpers\Values::convert_tags($shortcode, $helpful['post_id']);
-                return $content . $shortcode;
-            }
-        }
-
-        $helpful['content'] = do_shortcode($helpful['content']);
-
-        if (get_post_meta($helpful['post_id'], 'helpful_heading', true)) {
-            $helpful['heading'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_heading', true));
-        }
-
-        if (get_post_meta($helpful['post_id'], 'helpful_pro', true)) {
-            $helpful['button_pro'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_pro', true));
-        }
-
-        if (get_post_meta($helpful['post_id'], 'helpful_contra', true)) {
-            $helpful['button_contra'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_contra', true));
-        }
-
-        ob_start();
-
-        $default_template = HELPFUL_PATH . 'templates/helpful.php';
-        $custom_template = locate_template('helpful/helpful.php');
-
-        do_action('helpful_before');
-
-        if ('' !== $custom_template) {
-            include $custom_template;
-        } else {
-            include $default_template;
-        }
-
-        do_action('helpful_after');
-
-        $shortcode = ob_get_contents();
-        ob_end_clean();
-
-        $shortcode = Helpers\Values::convert_tags($shortcode, $helpful['post_id']);
+        $shortcode = '[helpful post_id="' . $helpful['post_id'] . '"]';
 
         return $content . $shortcode;
     }
@@ -465,7 +401,7 @@ class Frontend
         global $post;
 
         if (helpful_is_amp()) {
-            return __return_empty_string();
+            return $content;
         }
 
         if (apply_filters('helpful/shortcode/disabled', false, $post)) {
@@ -481,7 +417,7 @@ class Frontend
         $user_id = Helpers\User::get_user();
 
         if ('on' === get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'])) {
-            return __return_empty_string();
+            return $content;
         }
 
         $exists = false;
@@ -490,7 +426,7 @@ class Frontend
 
         if (isset($helpful['exists']) && 1 === $helpful['exists']) {
             if (isset($helpful['exists-hide']) && 1 === $helpful['exists-hide']) {
-                return __return_empty_string();
+                return $content;
             }
 
             $exists = true;
@@ -505,9 +441,9 @@ class Frontend
 
         if (false !== $exists && get_option('helpful_feedback_after_vote')) {
             if (!Helper::is_feedback_disabled()) {
-                $shortcode = Helpers\Feedback::after_vote($helpful['post_id'], true);
-                $shortcode = Helpers\Values::convert_tags($shortcode, $helpful['post_id']);
-                return $shortcode;
+                $content = Helpers\Feedback::after_vote($helpful['post_id'], true);
+                $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
+                return $content;
             }
         }
 
@@ -523,27 +459,12 @@ class Frontend
             $helpful['button_contra'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_contra', true));
         }
 
-        ob_start();
+        $helpful['shortcode_exists'] = $exists;
+        $helpful['shortcode_hidden'] = $hidden;
+        $helpful['shortcode_class'] = $class;
 
-        $default_template = HELPFUL_PATH . 'templates/helpful.php';
-        $custom_template = locate_template('helpful/helpful.php');
-
-        do_action('helpful_before');
-
-        if ('' !== $custom_template) {
-            include $custom_template;
-        } else {
-            include $default_template;
-        }
-
-        do_action('helpful_after');
-
-        $shortcode = ob_get_contents();
-        ob_end_clean();
-
-        $shortcode = Helpers\Values::convert_tags($shortcode, $helpful['post_id']);
-
-        return $content . $shortcode;
+        $object = new Services\Helpful($helpful['post_id'], $helpful);
+        return $object->get_template();;
     }
 
     /**

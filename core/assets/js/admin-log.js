@@ -43,7 +43,7 @@
                 "select": true,
                 "buttons": [{
                     "extend": "selected",
-                    "text": "Delete",
+                    "text": helpful_admin_log.translations.delete,
                     action: function(e, dt, node, config) {
                         let rows = dt.rows({ selected: true });
                         let remove = [];
@@ -79,6 +79,47 @@
                                     }
                                 });
                             }
+                        }
+                    }
+                }, {
+                    "text": helpful_admin_log.translations.export,
+                    action: function(e, dt, node, config) {
+                        let rows = dt.rows({ selected: true });
+                        let exportItems = [];
+
+                        $.each(rows.data(), function(index, row) {
+                            exportItems.push(row.row_id);
+                        });
+
+
+                        if (exportItems.length > 0) {
+                            let request = self.ajaxRequest({
+                                "_wpnonce": helpful_admin_log.nonces.export_rows,
+                                "action": "helpful_export_rows",
+                                "rows": exportItems,
+                            });
+
+                            request.done(function(response) {
+                                if ("success" === response.status) {
+                                    window.location.href = response.file;
+                                } else {
+                                    alert(response.message);
+                                }
+                            });
+                        } else {
+                            let request = self.ajaxRequest({
+                                "_wpnonce": helpful_admin_log.nonces.export_rows,
+                                "action": "helpful_export_rows",
+                                "rows": "all",
+                            });
+
+                            request.done(function(response) {
+                                if ("success" === response.status) {
+                                    window.location.href = response.file;
+                                } else {
+                                    alert(response.message);
+                                }
+                            });
                         }
                     }
                 }],

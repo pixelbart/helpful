@@ -6,6 +6,7 @@
  * @author  Pixelbart <me@pixelbart.de>
  *
  * @since 4.1.5
+ * @version 4.1.5
  */
 use Helpful\Core\Helpers as Helpers;
 use Helpful\Core\Helper;

@@ -1,8 +1,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
-<div class="helpful <?php echo esc_attr( $class ); ?>">
+<div class="helpful <?php echo esc_attr( $helpful['shortcode_class'] ); ?>">
 
-	<?php if ( false === $hidden ) : ?>
+	<?php if ( false === $helpful['shortcode_hidden'] ) : ?>
 	<div class="helpful-header">
 		<?php echo apply_filters( 'helpful_headline_html', '<h3 class="helpful-headline">' . $helpful['heading'] . '</h3>' ); ?>
 	</div><!-- .helpful-header -->
@@ -12,7 +12,7 @@
 		<span><?php echo $helpful['content']; ?></span>
 	</div><!-- .helpful-content -->
 
-	<?php if ( false === $hidden && !(1 === $helpful['button_pro_disabled'] && 1 === $helpful['button_contra_disabled']) ) : ?>
+	<?php if ( false === $helpful['shortcode_hidden'] && !(1 === $helpful['button_pro_disabled'] && 1 === $helpful['button_contra_disabled']) ) : ?>
 	<div class="helpful-controls">
 
 		<?php if (1 !== $helpful['button_pro_disabled']) : ?>
@@ -36,7 +36,7 @@
 	</div><!-- .helpful-controls -->
 	<?php endif; ?>
 
-	<?php if ( 'on' === $helpful['credits'] && false === $hidden ) : ?>
+	<?php if ( 'on' === $helpful['credits'] && false === $helpful['shortcode_hidden'] ) : ?>
 	<div class="helpful-footer">
 		<?php
 		/* translators: %s = credits link */

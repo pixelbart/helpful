@@ -1,10 +1,8 @@
 <?php
 /**
- * ...
- *
  * @package Helpful\Core\Modules
  * @author  Pixelbart <me@pixelbart.de>
- * @version 4.3.0
+ * @version 4.4.49
  */
 namespace Helpful\Core\Modules;
 
@@ -51,6 +49,7 @@ class Core
 
         add_action('admin_init', [ & $this, 'setup_helpful_table']);
         add_action('admin_init', [ & $this, 'setup_feedback_table']);
+        add_action('admin_init', [ & $this, 'setup_instances_table']);
 
         // Causes problems and was therefore commented out.
         // add_action( 'init', [ &$this, 'setup_defaults' ] );
@@ -83,58 +82,67 @@ class Core
     /**
      * Set default options.
      *
-     * @return bool
+     * @return void
      */
     public function setup_defaults()
     {
-        $status = intval(get_option('helpful_defaults'));
-
-        if (1 === $status) {
-            return false;
+        if (get_option('helpful_defaults')) {
+            return;
         }
 
         $this->set_defaults(true);
 
         update_option('helpful_defaults', 1);
-
-        return true;
     }
 
     /**
-     * Create database table for helpful
-     *
-     * @global $wpdb
-     *
-     * @return bool
+     * Create database table for helpful.
+     * 
+     * @return void
      */
     public function setup_helpful_table()
     {
         // Updates database tables.
         Helpers\Database::update_tables();
 
-        if (false === get_transient('setup_helpful_table')) {
+        $transient = 'helpful/setup_database/helpful';
+        if (false === get_transient($transient)) {
             Helpers\Database::setup_helpful_table();
-            set_transient('setup_helpful_table', 1, WEEK_IN_SECONDS);
+            set_transient($transient, 1, WEEK_IN_SECONDS);
         }
     }
 
     /**
-     * Create database table for feedback
-     *
-     * @global $wpdb
-     *
-     * @return bool
+     * Create database table for feedback.
+     * 
+     * @return void
      */
     public function setup_feedback_table()
     {
-        if (false === get_transient('setup_feedback_table')) {
+        $transient = 'helpful/setup_database/feedback';
+        if (false === get_transient($transient)) {
             Helpers\Database::setup_feedback_table();
-            set_transient('setup_feedback_table', 1, WEEK_IN_SECONDS);
+            set_transient($transient, 1, WEEK_IN_SECONDS);
         }
     }
 
     /**
-     * Default values for settings
+     * Create database table for helpful instances.
+     * 
+     * @return void
+     */
+    public function setup_instances_table()
+    {
+        $transient = 'helpful/setup_database/instances';
+        delete_transient($transient);
+        if (false === get_transient($transient)) {
+            Helpers\Database::setup_instances_table();
+            set_transient($transient, 1, WEEK_IN_SECONDS);
+        }
+    }
+
+    /**
+     * Default values for settings.
      *
      * @param bool $status set true for filling defaults.
      *
@@ -197,7 +205,7 @@ class Core
     }
 
     /**
-     * Loads helpful first
+     * Tries to load Helpful first so other plugins don't jump the queue in content.
      *
      * @return void
      */

@@ -1,15 +1,14 @@
 <?php
 /**
- * ...
- *
  * @package Helpful\Core\Modules
  * @author  Pixelbart <me@pixelbart.de>
- * @version 4.3.0
+ * @version 4.4.49
  */
 namespace Helpful\Core\Tabs;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -51,6 +50,7 @@ class Log
         add_action('wp_ajax_helpful_get_log_data', [ & $this, 'ajax_get_log_data']);
         add_action('helpful_tab_log_before', [ & $this, 'register_tab_alerts']);
         add_action('wp_ajax_helpful_delete_rows', [ & $this, 'ajax_delete_rows']);
+        add_action('wp_ajax_helpful_export_rows', [ & $this, 'ajax_export_rows']);
     }
 
     /**
@@ -119,12 +119,15 @@ class Log
             'language' => $language,
             'nonces' => [
                 'delete_rows' => wp_create_nonce('helpful/logs/delete_rows'),
+                'export_rows' => wp_create_nonce('helpful/logs/export_rows'),
             ],
             'translations' => [
                 'delete_confirm' => [
                     'plural' => _x('Are you sure you want to delete the selected %d entries?', 'log alert', 'helpful'),
                     'singular' => _x('Are you sure you want to delete the selected entry?', 'log alert', 'helpful'),
                 ],
+                'delete' => _x('Delete', 'log button', 'helpful'),
+                'export' => _x('Export', 'log button', 'helpful'),
             ],
         ];
 
@@ -234,5 +237,89 @@ class Log
         }
 
         wp_send_json_error(_x('The selected entries could not be deleted.', 'logs alert', 'helpful'));
+    }
+
+    /**
+     * Exports entries to a CSV and returns the file URL to the client.
+     *
+     * @return void
+     */
+    public function ajax_export_rows()
+    {
+        check_ajax_referer('helpful/logs/export_rows');
+
+        $response = [
+            'status' => 'error',
+            'file' => '',
+            'message' => esc_html_x('The selected entries could not be exported.', 'logs alert', 'helpful'),
+        ];
+
+        if (isset($_REQUEST['rows'])) {
+            $lines = [];
+
+            if (is_array($_REQUEST['rows'])) {
+                $rows = array_map('intval', $_REQUEST['rows']);
+                if ($rows) {
+                    foreach ($rows as $row) {
+                        $row = Helpers\Votes::get_vote($row);
+
+                        if (!$row) {
+                            continue;
+                        }
+
+                        $user_string = $row->user;
+                        $user_string = apply_filters('helpful/logs/user_string', $user_string, $row);
+                        $author_id = get_post_field('post_author', $row->post_id);
+                        $post_author = sprintf('%s (%s)', get_the_author_meta('display_name', $author_id), get_the_author_meta('ID', $author_id));
+                        $post_author = apply_filters('helpful/logs/post_author', $post_author, $author_id);
+
+                        $line = [
+                            esc_html_x('Post', 'log table head', 'helpful') => $row->post_id,
+                            esc_html_x('Post Author', 'log table head', 'helpful') => $post_author,
+                            esc_html_x('Title', 'log table head', 'helpful') => esc_html(get_the_title($row->post_id)),
+                            esc_html_x('Pro', 'log table head', 'helpful') => $row->pro,
+                            esc_html_x('Contra', 'log table head', 'helpful') => $row->contra,
+                            esc_html_x('User', 'log table head', 'helpful') => $user_string,
+                            esc_html_x('Time', 'log table head', 'helpful') => date_i18n('Y-m-d H:i:s', strtotime($row->time)),
+                        ];
+
+                        $lines[] = apply_filters('helpful/logs/export/line', $line, $row);
+                    }
+                }
+            } else {
+                $rows = Helpers\Votes::get_votes();
+                if ($rows) {
+                    foreach ($rows as $row) {
+                        $user_string = $row->user;
+                        $user_string = apply_filters('helpful/logs/user_string', $user_string, $row);
+                        $author_id = get_post_field('post_author', $row->post_id);
+                        $post_author = sprintf('%s (%s)', get_the_author_meta('display_name', $author_id), get_the_author_meta('ID', $author_id));
+                        $post_author = apply_filters('helpful/logs/post_author', $post_author, $author_id);
+
+                        $line = [
+                            esc_html_x('Post', 'log table head', 'helpful') => $row->post_id,
+                            esc_html_x('Post Author', 'log table head', 'helpful') => $post_author,
+                            esc_html_x('Title', 'log table head', 'helpful') => esc_html(get_the_title($row->post_id)),
+                            esc_html_x('Pro', 'log table head', 'helpful') => $row->pro,
+                            esc_html_x('Contra', 'log table head', 'helpful') => $row->contra,
+                            esc_html_x('User', 'log table head', 'helpful') => $user_string,
+                            esc_html_x('Time', 'log table head', 'helpful') => date_i18n('Y-m-d H:i:s', strtotime($row->time)),
+                        ];
+
+                        $lines[] = apply_filters('helpful/logs/export/line', $line, $row);
+                    }
+                }
+            }
+
+            if (!empty($lines)) {
+                $csv = new Services\CSV(apply_filters('helpful/logs/export/csv_name', 'logs.csv'));
+                $csv->add_items($lines);
+                $csv->create_file();
+                $response['status'] = 'success';
+                $response['file'] = $csv->get_file();
+            }
+        }
+
+        wp_send_json($response);
     }
 }
