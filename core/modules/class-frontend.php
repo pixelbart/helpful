@@ -1,8 +1,9 @@
 <?php
 /**
- * @package Helpful\Core\Modules
- * @author  Pixelbart <me@pixelbart.de>
- * @version 4.4.49
+ * @package Helpful
+ * @subpackage Core\Modules
+ * @version 4.4.50
+ * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
 
@@ -464,7 +465,7 @@ class Frontend
         $helpful['shortcode_class'] = $class;
 
         $object = new Services\Helpful($helpful['post_id'], $helpful);
-        return $object->get_template();;
+        return $object->get_template();
     }
 
     /**

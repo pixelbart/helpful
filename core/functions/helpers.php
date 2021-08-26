@@ -1,9 +1,8 @@
 <?php
 /**
- * Helpful helpers loaded before helpful classes.
- *
  * @package Helpful
- * @author  Pixelbart <me@pixelbart.de>
+ * @since 4.4.50
+ * @since 4.3.0
  */
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;

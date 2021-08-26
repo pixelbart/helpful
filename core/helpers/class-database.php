@@ -1,8 +1,9 @@
 <?php
 /**
- * @package Helpful\Core\Helpers
- * @author  Pixelbart <me@pixelbart.de>
- * @version 4.4.49
+ * @package Helpful
+ * @subpackage Core\Helpers
+ * @version 4.4.50
+ * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
 

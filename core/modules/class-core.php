@@ -1,13 +1,15 @@
 <?php
 /**
- * @package Helpful\Core\Modules
- * @author  Pixelbart <me@pixelbart.de>
- * @version 4.4.49
+ * @package Helpful
+ * @subpackage Core\Modules
+ * @version 4.4.50
+ * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -45,6 +47,7 @@ class Core
     {
         Helper::set_timezone();
 
+        add_action('init', [ & $this, 'start_session'], -1);
         add_action('init', [ & $this, 'set_user_cookie'], 1);
 
         add_action('admin_init', [ & $this, 'setup_helpful_table']);
@@ -68,15 +71,24 @@ class Core
     }
 
     /**
+     * Start sessions
+     *
+     * @return void
+     */
+    public function start_session()
+    {
+        $session = new Services\Session();
+        $session->init();
+    }
+
+    /**
      * Set users cookie with unique id
      *
      * @return void
      */
     public function set_user_cookie()
     {
-        ob_start();
         Helpers\User::set_user();
-        ob_end_flush();
     }
 
     /**

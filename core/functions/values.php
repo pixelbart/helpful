@@ -1,10 +1,7 @@
 <?php
 /**
- * Helpful Frontend Helpers for retrieving
- * values from database
- *
- * @package helpful
- * @author Pixelbart <me@pixelbart.de>
+ * @package Helpful
+ * @version 4.4.50
  * @since 4.0.0
  */
 use Helpful\Core\Helpers as Helpers;

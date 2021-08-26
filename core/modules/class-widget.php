@@ -1,10 +1,9 @@
 <?php
 /**
- * ...
- *
- * @package Helpful\Core\Modules
- * @author  Pixelbart <me@pixelbart.de>
- * @version 4.3.0
+ * @package Helpful
+ * @subpackage Core\Modules
+ * @version 4.4.50
+ * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
 
@@ -63,11 +62,7 @@ class Widget
      */
     public function enqueue_scripts($hook_suffix)
     {
-        if ('index.php' !== $hook_suffix) {
-            return;
-        }
-
-        if (get_option('helpful_widget')) {
+        if ('index.php' !== $hook_suffix || get_option('helpful_widget')) {
             return;
         }
 
@@ -248,23 +243,23 @@ class Widget
     {
         $years = Helpers\Stats::get_years();
 
-		if ($years) {
-			$stats = Helpers\Stats::get_widget_stats();
+        if ($years) {
+            $stats = Helpers\Stats::get_widget_stats();
 
-			foreach ($years as $year) :
-				Helpers\Stats::get_stats_today($year);
-				Helpers\Stats::get_stats_yesterday($year);
-				Helpers\Stats::get_stats_week($year);
-				Helpers\Stats::get_stats_month($year);
-				Helpers\Stats::get_stats_year($year);
-				Helpers\Stats::get_stats_total();
-			endforeach;
+            foreach ($years as $year):
+                Helpers\Stats::get_stats_today($year);
+                Helpers\Stats::get_stats_yesterday($year);
+                Helpers\Stats::get_stats_week($year);
+                Helpers\Stats::get_stats_month($year);
+                Helpers\Stats::get_stats_year($year);
+                Helpers\Stats::get_stats_total();
+            endforeach;
 
-			if (isset($widget_stats['feedback_items'])) {
-				foreach ( $widget_stats['feedback_items'] as $feedback ) :
-					Helpers\Feedback::get_feedback( $feedback );
-				endforeach;
-			}
-		}
+            if (isset($widget_stats['feedback_items'])) {
+                foreach ($widget_stats['feedback_items'] as $feedback):
+                    Helpers\Feedback::get_feedback($feedback);
+                endforeach;
+            }
+        }
     }
 }

@@ -1,12 +1,14 @@
 <?php
 /**
- * @package Helpful\Core\Helpers
- * @author  Pixelbart <me@pixelbart.de>
- * @version 4.4.49
+ * @package Helpful
+ * @subpackage Core\Helpers
+ * @version 4.4.50
+ * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -130,25 +132,8 @@ class User
         }
 
         if ('on' !== $sessions_disabled && !isset($_COOKIE['helpful_user'])) {
-            if (function_exists('session_status') && PHP_SESSION_NONE == session_status() && true === $session_start) {
-                if (function_exists('session_write_close')) {
-                    session_write_close();
-                }
-
-                ob_start();
-
-                try {
-                    session_cache_limiter('');
-                    header("Cache-Control: public, s-maxage=60");
-                    session_start();
-                } catch (\Exception $e) {
-                    helpful_error_log($e->getMessage());
-                }
-            }
-
-            if (!isset($_SESSION['helpful_user'])) {
-                $_SESSION['helpful_user'] = $string;
-            }
+            $session = new Services\Session();
+            $session->set('helpful_user', $string);
         }
     }
 

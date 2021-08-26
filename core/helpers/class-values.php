@@ -1,10 +1,9 @@
 <?php
 /**
- * ...
- *
- * @package Helpful\Core\Helpers
- * @author  Pixelbart <me@pixelbart.de>
- * @version 4.3.0
+ * @package Helpful
+ * @subpackage Core\Helpers
+ * @version 4.4.50
+ * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
 
@@ -72,9 +71,9 @@ class Values
             'credits_html' => $credits['html'],
             'exists' => User::check_user($user_id, $post_id) ? 1 : 0,
             'exists_text' => self::convert_tags(get_option('helpful_exists'), $post_id),
-            'exists_hide' => ('on' ===get_option('helpful_exists_hide')) ? 1 : 0,
+            'exists_hide' => ('on' === get_option('helpful_exists_hide')) ? 1 : 0,
             'post_id' => $post_id,
-			'user_id' => User::get_user(),
+            'user_id' => User::get_user(),
         ];
 
         return apply_filters('helpful_default_values', $values);

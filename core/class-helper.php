@@ -1,10 +1,9 @@
 <?php
 /**
- * Provides useful helpers for the other classes of the plugin.
- *
- * @package Helpful\Core
- * @author  Pixelbart <me@pixelbart.de>
- * @version 4.3.0
+ * @package Helpful
+ * @subpackage Core
+ * @version 4.4.50
+ * @since 4.3.0
  */
 namespace Helpful\Core;
 
