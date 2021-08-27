@@ -142,12 +142,16 @@ class User
      *
      * @global $wpdb
      *
+     * @version 4.4.51
+     * @since 4.4.0
+     *
      * @param string $user_id user id.
      * @param int    $post_id post id.
+     * @param string $instance
      *
      * @return bool
      */
-    public static function check_user($user_id, $post_id)
+    public static function check_user($user_id, $post_id, $instance = null)
     {
         if (get_option('helpful_multiple')) {
             return false;
@@ -158,15 +162,18 @@ class User
         }
 
         global $wpdb;
+
         $table_name = $wpdb->prefix . 'helpful';
+
         $sql = "
-		SELECT user, post_id
-		FROM {$table_name}
-		WHERE user = %s AND post_id = %d
-		ORDER BY id DESC
-		LIMIT 1
-		";
-        $query = $wpdb->prepare($sql, $user_id, $post_id);
+        SELECT user, post_id, instance_id
+        FROM {$table_name}
+        WHERE user = %s AND post_id = %d AND instance_id = %s
+        ORDER BY id DESC
+        LIMIT 1
+        ";
+
+        $query = $wpdb->prepare($sql, $user_id, $post_id, $instance);
         $results = $wpdb->get_results($query);
 
         if ($results) {

@@ -193,6 +193,148 @@ class Frontend
     }
 
     /**
+     * Add helpful to post content
+     *
+     * @global $post
+     *
+     * @version 4.4.51
+     * @since 4.3.0
+     *
+     * @param string $content post content.
+     *
+     * @return string
+     */
+    public function the_content($content)
+    {
+        global $post;
+
+        if (helpful_is_amp()) {
+            return $content;
+        }
+
+        if (!isset($post->ID)) {
+            return $content;
+        }
+
+        if (apply_filters('helpful/the_content/disabled', false, $post)) {
+            return $content;
+        }
+
+        $helpful = Helpers\Values::get_defaults();
+        $post_types = get_option('helpful_post_types');
+        $user_id = Helpers\User::get_user();
+
+        if ('on' === get_post_meta($helpful['post_id'], 'helpful_hide_on_post', true)) {
+            return $content;
+        }
+
+        if (!is_array($post_types) || !in_array($post->post_type, $post_types, true)) {
+            return $content;
+        }
+
+        if ('on' === get_option('helpful_hide_in_content')) {
+            return $content;
+        }
+
+        $conditions = Helper::get_conditions();
+
+        if (!empty($conditions)) {
+            return $content;
+        }
+
+        $shortcode = '[helpful post_id="' . $helpful['post_id'] . '"]';
+
+        return $content . $shortcode;
+    }
+
+    /**
+     * Callback for helpful shortcode
+     *
+     * @global $post
+     *
+     * @version 4.4.51
+     * @since 4.3.0
+     *
+     * @param array  $atts shortcode attributes.
+     * @param string $content shortcode content.
+     *
+     * @return string
+     */
+    public function helpful($atts, $content = '')
+    {
+        global $post;
+
+        if (helpful_is_amp()) {
+            return $content;
+        }
+
+        if (apply_filters('helpful/shortcode/disabled', false, $post)) {
+            return $content;
+        }
+
+        $defaults = Helpers\Values::get_defaults();
+        $defaults = apply_filters('helpful_shortcode_defaults', $defaults);
+
+        $helpful = shortcode_atts($defaults, $atts);
+        $helpful = apply_filters('helpful_shortcode_atts', $helpful);
+
+        $user_id = Helpers\User::get_user();
+
+        $object = new Services\Helpful($helpful['post_id'], $helpful);
+
+        if ('on' === get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'], $object->get_id())) {
+            return $content;
+        }
+
+        $exists = false;
+        $hidden = false;
+        $class = '';
+
+        if (isset($helpful['exists']) && 1 === $helpful['exists']) {
+            if (isset($helpful['exists-hide']) && 1 === $helpful['exists-hide']) {
+                return $content;
+            }
+
+            $exists = true;
+            $hidden = true;
+            $class = 'helpful-exists';
+            $helpful['content'] = $helpful['exists_text'];
+        }
+
+        if (null === $helpful['post_id']) {
+            return $content;
+        }
+
+        if (false !== $exists && get_option('helpful_feedback_after_vote')) {
+            if (!Helper::is_feedback_disabled()) {
+                $content = Helpers\Feedback::after_vote($helpful['post_id'], true);
+                $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
+                return $content;
+            }
+        }
+
+        if (get_post_meta($helpful['post_id'], 'helpful_heading', true)) {
+            $helpful['heading'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_heading', true));
+        }
+
+        if (get_post_meta($helpful['post_id'], 'helpful_pro', true)) {
+            $helpful['button_pro'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_pro', true));
+        }
+
+        if (get_post_meta($helpful['post_id'], 'helpful_contra', true)) {
+            $helpful['button_contra'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_contra', true));
+        }
+
+        $helpful['shortcode_exists'] = $exists;
+        $helpful['shortcode_hidden'] = $hidden;
+        $helpful['shortcode_class'] = $class;
+
+        $object->set_atts($helpful);
+
+        return $object->get_template();
+    }
+
+    /**
      * Ajax save user vote and render response.
      *
      * @version 4.4.51
@@ -337,145 +479,6 @@ class Frontend
         $message = Helpers\Values::convert_tags($message, $post_id);
         echo apply_filters('helpful_pre_save_feedback', $message, $post_id);
         wp_die();
-    }
-
-    /**
-     * Add helpful to post content
-     *
-     * @global $post
-     *
-     * @version 4.4.49
-     * @since 4.3.0
-     *
-     * @param string $content post content.
-     *
-     * @return string
-     */
-    public function the_content($content)
-    {
-        global $post;
-
-        if (helpful_is_amp()) {
-            return $content;
-        }
-
-        if (!isset($post->ID)) {
-            return $content;
-        }
-
-        if (apply_filters('helpful/the_content/disabled', false, $post)) {
-            return $content;
-        }
-
-        $helpful = Helpers\Values::get_defaults();
-        $post_types = get_option('helpful_post_types');
-        $user_id = Helpers\User::get_user();
-
-        if ('on' === get_post_meta($helpful['post_id'], 'helpful_hide_on_post', true)) {
-            return $content;
-        }
-
-        if (!is_array($post_types) || !in_array($post->post_type, $post_types, true)) {
-            return $content;
-        }
-
-        if ('on' === get_option('helpful_hide_in_content')) {
-            return $content;
-        }
-
-        $conditions = Helper::get_conditions();
-
-        if (!empty($conditions)) {
-            return $content;
-        }
-
-        $shortcode = '[helpful post_id="' . $helpful['post_id'] . '"]';
-
-        return $content . $shortcode;
-    }
-
-    /**
-     * Callback for helpful shortcode
-     *
-     * @global $post
-     *
-     * @version 4.4.49
-     * @since 4.3.0
-     *
-     * @param array  $atts shortcode attributes.
-     * @param string $content shortcode content.
-     *
-     * @return string
-     */
-    public function helpful($atts, $content = '')
-    {
-        global $post;
-
-        if (helpful_is_amp()) {
-            return $content;
-        }
-
-        if (apply_filters('helpful/shortcode/disabled', false, $post)) {
-            return $content;
-        }
-
-        $defaults = Helpers\Values::get_defaults();
-        $defaults = apply_filters('helpful_shortcode_defaults', $defaults);
-
-        $helpful = shortcode_atts($defaults, $atts);
-        $helpful = apply_filters('helpful_shortcode_atts', $helpful);
-
-        $user_id = Helpers\User::get_user();
-
-        if ('on' === get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'])) {
-            return $content;
-        }
-
-        $exists = false;
-        $hidden = false;
-        $class = '';
-
-        if (isset($helpful['exists']) && 1 === $helpful['exists']) {
-            if (isset($helpful['exists-hide']) && 1 === $helpful['exists-hide']) {
-                return $content;
-            }
-
-            $exists = true;
-            $hidden = true;
-            $class = 'helpful-exists';
-            $helpful['content'] = $helpful['exists_text'];
-        }
-
-        if (null === $helpful['post_id']) {
-            return esc_html__('No post found. Helpful must be placed in a post loop.', 'helpful');
-        }
-
-        if (false !== $exists && get_option('helpful_feedback_after_vote')) {
-            if (!Helper::is_feedback_disabled()) {
-                $content = Helpers\Feedback::after_vote($helpful['post_id'], true);
-                $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
-                return $content;
-            }
-        }
-
-        if (get_post_meta($helpful['post_id'], 'helpful_heading', true)) {
-            $helpful['heading'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_heading', true));
-        }
-
-        if (get_post_meta($helpful['post_id'], 'helpful_pro', true)) {
-            $helpful['button_pro'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_pro', true));
-        }
-
-        if (get_post_meta($helpful['post_id'], 'helpful_contra', true)) {
-            $helpful['button_contra'] = do_shortcode(get_post_meta($helpful['post_id'], 'helpful_contra', true));
-        }
-
-        $helpful['shortcode_exists'] = $exists;
-        $helpful['shortcode_hidden'] = $hidden;
-        $helpful['shortcode_class'] = $class;
-
-        $object = new Services\Helpful($helpful['post_id'], $helpful);
-        return $object->get_template();
     }
 
     /**

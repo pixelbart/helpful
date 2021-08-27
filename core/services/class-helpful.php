@@ -53,11 +53,20 @@ class Helpful
         global $wp;
 
         $url = home_url($wp->request);
-        $id = md5($url . maybe_serialize($this->atts));
+        $id = md5($url . $this->atts['heading']);
 
         $instance_id = Helpers\Instance::insert_instance($id, $this->get_post_id(), $this->atts['heading']);
 
         return $instance_id;
+    }
+
+    /**
+     * @param array $atts
+     * @return void
+     */
+    public function set_atts($atts = [])
+    {
+        $this->atts = $atts;
     }
 
     /**
@@ -100,10 +109,6 @@ class Helpful
         ob_end_clean();
 
         $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
-
-        if (is_user_logged_in()) {
-            $content .= sprintf('<pre>%s</pre>', print_r($this->get_id(), true));
-        }
 
         return $content;
     }
