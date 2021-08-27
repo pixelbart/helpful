@@ -179,6 +179,11 @@ class Feedback
             }
         }
 
+        $instance = null;
+        if (isset($_REQUEST['instance'])) {
+            $instance = sanitize_text_field($_REQUEST['instance']);
+        }
+
         $data = [
             'time' => current_time('mysql'),
             'user' => esc_attr($_REQUEST['user_id']),
@@ -187,6 +192,7 @@ class Feedback
             'post_id' => $post_id,
             'message' => $message,
             'fields' => maybe_serialize($fields),
+            'instance_id' => $instance,
         ];
 
         /* send email */
@@ -417,6 +423,9 @@ class Feedback
      * Render after messages or feedback form, after vote.
      * Checks if custom template exists.
      *
+     * @version 4.4.51
+     * @since 4.4.0
+     *
      * @param integer $post_id post id.
      * @param bool $show_feedback show feedback form anyway.
      *
@@ -502,6 +511,11 @@ class Feedback
             $feedback_text = false;
         }
 
+        $instance = null;
+        if (isset($_REQUEST['instance'])) {
+            $instance = sanitize_text_field($_REQUEST['instance']);
+        }
+
         ob_start();
 
         $default_template = HELPFUL_PATH . 'templates/feedback.php';
@@ -515,6 +529,7 @@ class Feedback
         printf('<input type="hidden" name="action" value="%s">', 'helpful_save_feedback');
         printf('<input type="hidden" name="post_id" value="%s">', $post_id);
         printf('<input type="hidden" name="type" value="%s">', $type);
+        printf('<input type="hidden" name="instance" value="%s">', $instance);
 
         /**
          * Simple Spam Protection

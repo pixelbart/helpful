@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
 
 		<?php if (1 !== $helpful['button_pro_disabled']) : ?>
 		<div>
-			<button class="helpful-pro helpful-button" type="button" data-value="pro" data-post="<?php echo $helpful['post_id']; ?>" role="button">
+			<button class="helpful-pro helpful-button" type="button" data-value="pro" data-post="<?php echo $helpful['post_id']; ?>" data-instance="<?php echo $helpful['instance']; ?>" role="button">
 				<?php echo $helpful['button_pro']; ?>
 				<?php echo ($helpful['counter']) ? sprintf('<span class="helpful-counter">%s</span>', $helpful['count_pro']) : ''; ?>
 			</button>
@@ -39,7 +39,7 @@ if (!defined('ABSPATH')) {
 
 		<?php if (1 !== $helpful['button_contra_disabled']) : ?>
 		<div>
-			<button class="helpful-contra helpful-button" type="button" data-value="contra" data-post="<?php echo $helpful['post_id']; ?>" role="button">
+			<button class="helpful-contra helpful-button" type="button" data-value="contra" data-post="<?php echo $helpful['post_id']; ?>" data-instance="<?php echo $helpful['instance']; ?>" role="button">
 				<?php echo $helpful['button_contra']; ?>
 				<?php echo ($helpful['counter']) ? sprintf('<span class="helpful-counter">%s</span>', $helpful['count_contra']) : ''; ?>
 			</button>

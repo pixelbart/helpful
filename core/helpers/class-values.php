@@ -205,14 +205,18 @@ class Values
     /**
      * Insert helpful pro on single post
      *
+     * @version 4.4.51
+     * @since 4.4.0
+     *
      * @param string  $user    user identicator.
      * @param integer $post_id post id.
+     * @param string $instance
      *
      * @return mixed
      */
-    public static function insert_pro($user, $post_id)
+    public static function insert_pro($user, $post_id, $instance = null)
     {
-        $status = Votes::insert_vote($user, $post_id, 'pro');
+        $status = Votes::insert_vote($user, $post_id, 'pro', $instance);
 
         Stats::delete_widget_transient();
 
@@ -222,14 +226,18 @@ class Values
     /**
      * Insert helpful contra on single post
      *
+     * @version 4.4.51
+     * @since 4.4.0
+     *
      * @param string  $user user identicator.
      * @param integer $post_id post id.
+     * @param string $instance
      *
      * @return mixed
      */
-    public static function insert_contra($user, $post_id)
+    public static function insert_contra($user, $post_id, $instance = null)
     {
-        $status = Votes::insert_vote($user, $post_id, 'contra');
+        $status = Votes::insert_vote($user, $post_id, 'contra', $instance);
 
         Stats::delete_widget_transient();
 

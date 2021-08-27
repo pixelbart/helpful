@@ -195,6 +195,9 @@ class Frontend
     /**
      * Ajax save user vote and render response.
      *
+     * @version 4.4.51
+     * @since 4.4.0
+     *
      * @return void
      */
     public function save_vote()
@@ -226,11 +229,16 @@ class Frontend
             $user_id = get_current_user_id();
         }
 
+        $instance = null;
+        if (isset($_POST['instance'])) {
+            $instance = sanitize_text_field($_POST['instance']);
+        }
+
         if (false === Helpers\User::check_user($user_id, $post_id)) {
             if ('pro' === $value) {
-                Helpers\Values::insert_pro($user_id, $post_id);
+                Helpers\Values::insert_pro($user_id, $post_id, $instance);
             } else {
-                Helpers\Values::insert_contra($user_id, $post_id);
+                Helpers\Values::insert_contra($user_id, $post_id, $instance);
             }
 
             $response = do_shortcode(Helpers\Feedback::after_vote($post_id));
@@ -244,6 +252,9 @@ class Frontend
     /**
      * Ajax save user feedback and render response.
      *
+     * @version 4.4.51
+     * @since 4.4.0
+     *
      * @return void
      */
     public function save_feedback()
@@ -255,7 +266,6 @@ class Frontend
         do_action('helpful_ajax_save_feedback');
 
         $post_id = null;
-
         if (isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id'])) {
             $post_id = intval($_REQUEST['post_id']);
         }
@@ -333,7 +343,9 @@ class Frontend
      * Add helpful to post content
      *
      * @global $post
-     * @version 4.3.0
+     *
+     * @version 4.4.49
+     * @since 4.3.0
      *
      * @param string $content post content.
      *
@@ -371,10 +383,6 @@ class Frontend
             return $content;
         }
 
-        if ('on' === get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'])) {
-            return $content;
-        }
-
         $conditions = Helper::get_conditions();
 
         if (!empty($conditions)) {
@@ -390,7 +398,9 @@ class Frontend
      * Callback for helpful shortcode
      *
      * @global $post
-     * @version 4.3.0
+     *
+     * @version 4.4.49
+     * @since 4.3.0
      *
      * @param array  $atts shortcode attributes.
      * @param string $content shortcode content.

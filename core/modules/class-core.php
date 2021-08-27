@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.50
+ * @version 4.4.51
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -50,9 +50,7 @@ class Core
         add_action('init', [ & $this, 'start_session'], -1);
         add_action('init', [ & $this, 'set_user_cookie'], 1);
 
-        add_action('admin_init', [ & $this, 'setup_helpful_table']);
-        add_action('admin_init', [ & $this, 'setup_feedback_table']);
-        add_action('admin_init', [ & $this, 'setup_instances_table']);
+        add_action('admin_init', [ & $this, 'setup_tables']);
 
         // Causes problems and was therefore commented out.
         // add_action( 'init', [ &$this, 'setup_defaults' ] );
@@ -108,47 +106,20 @@ class Core
     }
 
     /**
-     * Create database table for helpful.
-     * 
-     * @return void
+     * Create database tables for helpful.
+     *
+     * @version 4.4.51
+     * @since 4.4.0
      */
-    public function setup_helpful_table()
+    public function setup_tables()
     {
-        // Updates database tables.
-        Helpers\Database::update_tables();
-
-        $transient = 'helpful/setup_database/helpful';
+        // Helpful
+        $transient = 'helpful/database/setup_tables';
         if (false === get_transient($transient)) {
-            Helpers\Database::setup_helpful_table();
-            set_transient($transient, 1, WEEK_IN_SECONDS);
-        }
-    }
-
-    /**
-     * Create database table for feedback.
-     * 
-     * @return void
-     */
-    public function setup_feedback_table()
-    {
-        $transient = 'helpful/setup_database/feedback';
-        if (false === get_transient($transient)) {
-            Helpers\Database::setup_feedback_table();
-            set_transient($transient, 1, WEEK_IN_SECONDS);
-        }
-    }
-
-    /**
-     * Create database table for helpful instances.
-     * 
-     * @return void
-     */
-    public function setup_instances_table()
-    {
-        $transient = 'helpful/setup_database/instances';
-        if (false === get_transient($transient)) {
-            Helpers\Database::setup_instances_table();
-            set_transient($transient, 1, WEEK_IN_SECONDS);
+            Helpers\Database::handle_table_helpful();
+            Helpers\Database::handle_table_feedback();
+            Helpers\Database::handle_table_instances();
+            set_transient($transient, time(), DAY_IN_SECONDS);
         }
     }
 

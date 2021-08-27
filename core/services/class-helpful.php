@@ -42,39 +42,30 @@ class Helpful
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function get_post_id()
+    public function get_id()
     {
-        return $this->post_id;
+        if (!isset($this->atts['heading'])) {
+            return null;
+        }
+
+        global $wp;
+
+        $url = home_url($wp->request);
+        $id = md5($url . maybe_serialize($this->atts));
+
+        $instance_id = Helpers\Instance::insert_instance($id, $this->get_post_id(), $this->atts['heading']);
+
+        return $instance_id;
     }
 
     /**
      * @return int
      */
-    public function get_shortcode_found()
+    public function get_post_id()
     {
-        $content = get_the_content($this->get_post_id());
-
-        $found = 0;
-
-        preg_match_all("/\[\[helpful/", $content, $strings);
-
-        $found -= (isset($strings[0])) ? count($strings[0]) : $found;
-
-        preg_match_all("/\[helpful/", $content, $shortcodes);
-
-        $found += (isset($shortcodes[0])) ? count($shortcodes[0]) : $found;
-
-        $post_types = get_option('helpful_post_types');
-
-        if ('on' !== get_option('helpful_hide_in_content') && in_array(get_post_type($this->get_post_id()), $post_types, true)) {
-            $found += 1;
-        }
-
-        $this->shortcode_found = $found;
-
-        return $this->shortcode_found;
+        return $this->post_id;
     }
 
     /**
@@ -99,6 +90,8 @@ class Helpful
             $template = $custom_template;
         }
 
+        $helpful['instance'] = $this->get_id();
+
         ob_start();
         do_action('helpful_before');
         include $template;
@@ -109,7 +102,7 @@ class Helpful
         $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
 
         if (is_user_logged_in()) {
-            // $content .= sprintf('<pre>%s</pre>', print_r($this->get_shortcode_found(), true));
+            $content .= sprintf('<pre>%s</pre>', print_r($this->get_id(), true));
         }
 
         return $content;

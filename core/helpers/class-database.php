@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.50
+ * @version 4.4.51
  * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
@@ -71,22 +71,23 @@ class Database
      * Create database table for helpful
      *
      * @global $wpdb
-     *
-     * @return bool
+     * @version 4.4.51
+     * @since 1.0.0
+     * @return void
      */
-    public static function setup_helpful_table()
+    public static function handle_table_helpful()
     {
         global $wpdb;
 
+        self::update_tables();
+
         $table_name = $wpdb->prefix . 'helpful';
 
-        if (false !== self::table_exists($table_name)) {
-            return false;
-        }
+        $queries = [];
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        $sql = "
+        $queries[] = "
 		CREATE TABLE $table_name (
 		id bigint(20) NOT NULL AUTO_INCREMENT,
 		time datetime DEFAULT '0000-00-00 00:00:00',
@@ -94,36 +95,34 @@ class Database
 		pro mediumint(1) DEFAULT NULL,
 		contra mediumint(1) DEFAULT NULL,
 		post_id bigint(20) DEFAULT NULL,
+		instance_id bigint(20) DEFAULT NULL,
 		PRIMARY KEY  (id)
 		) $charset_collate;
 		";
 
         include_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        dbDelta($sql);
-
-        return true;
+        dbDelta($queries);
     }
 
     /**
      * Create database table for feedback
      *
      * @global $wpdb
-     *
-     * @return bool
+     * @version 4.4.51
+     * @since 4.4.0
+     * @return void
      */
-    public static function setup_feedback_table()
+    public static function handle_table_feedback()
     {
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'helpful_feedback';
 
-        if (false !== self::table_exists($table_name)) {
-            return false;
-        }
+        $queries = [];
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        $sql = "
+        $queries[] = "
 		CREATE TABLE $table_name (
 		id bigint(20) NOT NULL AUTO_INCREMENT,
 		time datetime DEFAULT '0000-00-00 00:00:00',
@@ -133,39 +132,38 @@ class Database
 		post_id bigint(20) DEFAULT NULL,
 		message text DEFAULT NULL,
 		fields text DEFAULT NULL,
+		instance_id bigint(20) DEFAULT NULL,
 		PRIMARY KEY  (id)
 		) $charset_collate;
 		";
 
         include_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        dbDelta($sql);
-
-        return true;
+        dbDelta($queries);
     }
 
     /**
      * Create database table for helpful instances
      *
      * @global $wpdb
-     * @version 4.4.49
-     * @return bool
+     * @version 4.4.51
+     * @since 4.4.49
+     * @return void
      */
-    public static function setup_instances_table()
+    public static function handle_table_instances()
     {
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'helpful_instances';
 
-        if (false !== self::table_exists($table_name)) {
-            return false;
-        }
+        $queries = [];
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        $sql = "
+        $queries[] = "
 		CREATE TABLE $table_name (
 		id bigint(20) NOT NULL AUTO_INCREMENT,
-		instance_key varchar(55) DEFAULT NULL,
+		instance_key varchar(32) DEFAULT NULL,
+        instance_name text DEFAULT NULL,
 		post_id bigint(20) DEFAULT NULL,
 		created datetime DEFAULT NOW(),
 		PRIMARY KEY  (id)
@@ -173,16 +171,14 @@ class Database
 		";
 
         include_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        dbDelta($sql);
-
-        return true;
+        dbDelta($queries);
     }
 
     /**
      * Updates database tables.
      *
      * @global $wpdb
-     *
+     * 
      * @return void
      */
     public static function update_tables()

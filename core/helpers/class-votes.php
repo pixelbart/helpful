@@ -112,13 +112,17 @@ class Votes
     /**
      * Insert vote for single user on single post.
      *
+     * @version 4.4.51
+     * @since 4.4.0
+     *
      * @param string $user
      * @param int $post_id
      * @param string $type
+     * @param string $instance
      *
      * @return int|false
      */
-    public static function insert_vote($user, $post_id, $type = 'pro')
+    public static function insert_vote($user, $post_id, $type = 'pro', $instance = null)
     {
         global $wpdb;
 
@@ -136,6 +140,7 @@ class Votes
             'pro' => $pro,
             'contra' => $contra,
             'post_id' => absint($post_id),
+            'instance_id' => $instance,
         ];
 
         $table_name = $wpdb->prefix . 'helpful';
