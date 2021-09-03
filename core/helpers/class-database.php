@@ -56,11 +56,11 @@ class Database
         if (!$wpdb->get_var($query) == $table_name) {
 
             if ('helpful_feedback' === $table_name) {
-                $response[] = self::setup_feedback_table();
+                $response[] = self::handle_table_feedback();
             }
 
             if ('helpful' === $table_name) {
-                $response[] = self::setup_helpful_table();
+                $response[] = self::handle_table_helpful();
             }
         }
 
