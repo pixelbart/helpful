@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.50
+ * @version 4.4.51
  * @since 1.0.0
  */
 namespace Helpful\Core\Helpers;
@@ -106,6 +106,7 @@ class Feedback
     {
         global $wpdb;
 
+        $type = '';
         $fields = [];
         $pro = 0;
         $contra = 0;
@@ -185,6 +186,7 @@ class Feedback
         }
 
         $data = [
+            'type' => $type,
             'time' => current_time('mysql'),
             'user' => esc_attr($_REQUEST['user_id']),
             'pro' => $pro,
@@ -234,9 +236,9 @@ class Feedback
 
         /* tags */
         $tags = [
-            '{type}' => $type,
-            '{name}' => isset($feedback['fields']['name']) ? $feedback['fields']['name'] : '',
-            '{email}' => isset($feedback['fields']['email']) ? $feedback['fields']['email'] : '',
+            '{type}' => (isset($feedback['type'])) ? $feedback['type'] : '',
+            '{name}' => (isset($feedback['fields']['name'])) ? $feedback['fields']['name'] : '',
+            '{email}' => (isset($feedback['fields']['email'])) ? $feedback['fields']['email'] : '',
             '{message}' => $feedback['message'],
             '{post_url}' => get_permalink($post),
             '{post_title}' => $post->post_title,
