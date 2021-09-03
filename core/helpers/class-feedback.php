@@ -106,7 +106,6 @@ class Feedback
     {
         global $wpdb;
 
-        $type = '';
         $fields = [];
         $pro = 0;
         $contra = 0;
@@ -186,7 +185,6 @@ class Feedback
         }
 
         $data = [
-            'type' => $type,
             'time' => current_time('mysql'),
             'user' => esc_attr($_REQUEST['user_id']),
             'pro' => $pro,
@@ -234,9 +232,15 @@ class Feedback
 
         $feedback['fields'] = maybe_unserialize($feedback['fields']);
 
+        $type = esc_html_x('positive', 'feedback type email', 'helpful');
+
+        if (1 === $feedback['contra']) {
+            $type = esc_html_x('negative', 'feedback type email', 'helpful');
+        }
+
         /* tags */
         $tags = [
-            '{type}' => (isset($feedback['type'])) ? $feedback['type'] : '',
+            '{type}' => $type,
             '{name}' => (isset($feedback['fields']['name'])) ? $feedback['fields']['name'] : '',
             '{email}' => (isset($feedback['fields']['email'])) ? $feedback['fields']['email'] : '',
             '{message}' => $feedback['message'],
