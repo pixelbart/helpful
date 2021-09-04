@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core
- * @version 4.4.50
+ * @version 4.4.53
  * @since 4.3.0
  */
 namespace Helpful\Core;
@@ -429,14 +429,16 @@ class Helper
     /**
      * Checks if the feedback was deactivated by option.
      *
+     * @version 4.4.53
+     *
      * @return bool
      */
     public static function is_feedback_disabled()
     {
-        if ('on' !== get_option('helpful_feedback_disabled')) {
-            return false;
+        if ('on' === get_option('helpful_feedback_disabled')) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

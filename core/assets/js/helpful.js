@@ -10,6 +10,7 @@
         initPlugin: function() {
             const self = this;
 
+            // todo, for instances
             if (window.performance) {
                 if (2 === performance.navigation.type) {
                     self.hasUserVoted();
@@ -112,6 +113,7 @@
                 });
             });
         },
+        // todo, for instances
         hasUserVoted: function() {
             const self = this;
 

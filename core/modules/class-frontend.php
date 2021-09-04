@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.50
+ * @version 4.4.53
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -127,6 +127,7 @@ class Frontend
      * Enqueue styles and scripts
      *
      * @global $post
+     * 
      * @return void
      */
     public function enqueue_scripts()
@@ -252,7 +253,7 @@ class Frontend
      *
      * @global $post
      *
-     * @version 4.4.51
+     * @version 4.4.53
      * @since 4.3.0
      *
      * @param array  $atts shortcode attributes.
@@ -282,9 +283,11 @@ class Frontend
 
         $object = new Services\Helpful($helpful['post_id'], $helpful);
 
-        if ('on' === get_option('helpful_exists_hide') && Helpers\User::check_user($user_id, $helpful['post_id'], $object->get_id())) {
+        if ('on' === get_option('helpful_exists_hide') && $object->current_user_has_voted()) {
             return $content;
         }
+
+        $helpful['exists'] = ($object->current_user_has_voted()) ? 1 : 0;
 
         $exists = false;
         $hidden = false;
@@ -305,7 +308,7 @@ class Frontend
             return $content;
         }
 
-        if (false !== $exists && get_option('helpful_feedback_after_vote')) {
+        if (1 === $helpful['exists'] && get_option('helpful_feedback_after_vote')) {
             if (!Helper::is_feedback_disabled()) {
                 $content = Helpers\Feedback::after_vote($helpful['post_id'], true);
                 $content = Helpers\Values::convert_tags($content, $helpful['post_id']);

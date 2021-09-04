@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Services
- * @version 4.4.50
+ * @version 4.4.53
  * @since 4.4.47
  */
 namespace Helpful\Core\Services;
@@ -42,6 +42,8 @@ class Helpful
     }
 
     /**
+     * Sets the ID for this instance and returns it.
+     *
      * @return string
      */
     public function get_id()
@@ -61,7 +63,10 @@ class Helpful
     }
 
     /**
+     * Allows to set the attributes for this instance afterwards.
+     *
      * @param array $atts
+     * 
      * @return void
      */
     public function set_atts($atts = [])
@@ -70,6 +75,8 @@ class Helpful
     }
 
     /**
+     * Returns the current post id.
+     *
      * @return int
      */
     public function get_post_id()
@@ -78,6 +85,8 @@ class Helpful
     }
 
     /**
+     * Returns the shortcode attributes and defaults for this Helpful instance.
+     *
      * @return array
      */
     public function get_atts()
@@ -86,6 +95,8 @@ class Helpful
     }
 
     /**
+     * Returns the content of the instance.
+     * 
      * @return string
      */
     public function get_template()
@@ -111,5 +122,23 @@ class Helpful
         $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
 
         return $content;
+    }
+
+    /**
+     * Checks if the current Helpful user has already voted for this instance.
+     *  
+     * @version 4.4.53
+     *
+     * @return bool
+     */
+    public function current_user_has_voted()
+    {
+        $user_id = Helpers\User::get_user();
+        
+        if (Helpers\User::check_user($user_id, $this->get_post_id(), $this->get_id())) {
+            return true;
+        }
+        
+        return false;
     }
 }
