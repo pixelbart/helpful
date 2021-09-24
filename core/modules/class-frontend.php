@@ -136,7 +136,9 @@ class Frontend
             return __return_empty_string();
         }
 
-        $active_theme = get_option('helpful_theme');
+        $options = new Services\Options();
+
+        $active_theme = $options->get_option('helpful_theme');
         $themes = apply_filters('helpful_themes', []);
         $plugin = Helper::get_plugin_data();
 
@@ -221,8 +223,10 @@ class Frontend
             return $content;
         }
 
+        $options = new Services\Options();
+
         $helpful = Helpers\Values::get_defaults();
-        $post_types = get_option('helpful_post_types');
+        $post_types = $options->get_option('helpful_post_types');
         $user_id = Helpers\User::get_user();
 
         if ('on' === get_post_meta($helpful['post_id'], 'helpful_hide_on_post', true)) {
@@ -233,7 +237,7 @@ class Frontend
             return $content;
         }
 
-        if ('on' === get_option('helpful_hide_in_content')) {
+        if ('on' === $options->get_option('helpful_hide_in_content')) {
             return $content;
         }
 
@@ -273,6 +277,8 @@ class Frontend
             return $content;
         }
 
+        $options = new Services\Options();
+
         $defaults = Helpers\Values::get_defaults();
         $defaults = apply_filters('helpful_shortcode_defaults', $defaults);
 
@@ -283,7 +289,7 @@ class Frontend
 
         $object = new Services\Helpful($helpful['post_id'], $helpful);
 
-        if ('on' === get_option('helpful_exists_hide') && $object->current_user_has_voted()) {
+        if ('on' === $options->get_option('helpful_exists_hide') && $object->current_user_has_voted()) {
             return $content;
         }
 
@@ -308,7 +314,7 @@ class Frontend
             return $content;
         }
 
-        if (1 === $helpful['exists'] && get_option('helpful_feedback_after_vote')) {
+        if (1 === $helpful['exists'] && $options->get_option('helpful_feedback_after_vote')) {
             if (!Helper::is_feedback_disabled()) {
                 $content = Helpers\Feedback::after_vote($helpful['post_id'], true);
                 $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
@@ -358,6 +364,8 @@ class Frontend
         $value = null;
         $response = '';
 
+        $options = new Services\Options();
+
         if (isset($_POST['user_id'])) {
             $user_id = sanitize_text_field($_POST['user_id']);
         }
@@ -370,7 +378,7 @@ class Frontend
             $value = sanitize_text_field($_POST['value']);
         }
 
-        if (is_user_logged_in() && 'on' === get_option('helpful_wordpress_user')) {
+        if (is_user_logged_in() && 'on' === $options->get_option('helpful_wordpress_user')) {
             $user_id = get_current_user_id();
         }
 
@@ -410,14 +418,13 @@ class Frontend
 
         do_action('helpful_ajax_save_feedback');
 
+        $options = new Services\Options();
+
         $post_id = null;
         if (isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id'])) {
             $post_id = intval($_REQUEST['post_id']);
         }
 
-        /**
-         * Simple Spam Protection
-         */
         $spam_protection = apply_filters('helpful_simple_spam_protection', '1');
 
         if ('1' !== $spam_protection) {
@@ -427,7 +434,7 @@ class Frontend
         }
 
         if (!empty($_REQUEST['website']) && true === $spam_protection) {
-            $message = do_shortcode(get_option('helpful_feedback_message_spam'));
+            $message = do_shortcode($options->get_option('helpful_feedback_message_spam'));
             $message = apply_filters('helpful_pre_feedback_message_spam', $message, $post_id);
             echo Helpers\Values::convert_tags($message, $post_id);
             wp_die();
@@ -437,15 +444,6 @@ class Frontend
             Helpers\Feedback::insert_feedback();
         }
 
-        /* OLD STYLE */
-        /*
-        $type = 'pro';
-
-        if ( isset( $_REQUEST['type'] ) ) {
-        $type = sanitize_text_field( $_REQUEST['type'] );
-        }
-         */
-
         global $helpful_type;
 
         $user_id = Helpers\User::get_user();
@@ -454,7 +452,7 @@ class Frontend
         $helpful_type[$post_id] = $type;
 
         if ('pro' === $type) {
-            $message = do_shortcode(get_option('helpful_after_pro'));
+            $message = do_shortcode($options->get_option('helpful_after_pro'));
 
             if (get_post_meta($post_id, 'helpful_after_pro', true)) {
                 $message = do_shortcode(get_post_meta($post_id, 'helpful_after_pro', true));
@@ -462,7 +460,7 @@ class Frontend
 
             $message = apply_filters('helpful_pre_after_pro', $message, $post_id);
         } elseif ('contra' === $type) {
-            $message = do_shortcode(get_option('helpful_after_contra'));
+            $message = do_shortcode($options->get_option('helpful_after_contra'));
 
             if (get_post_meta($post_id, 'helpful_after_contra', true)) {
                 $message = do_shortcode(get_post_meta($post_id, 'helpful_after_contra', true));
@@ -470,7 +468,7 @@ class Frontend
 
             $message = apply_filters('helpful_pre_after_contra', $message, $post_id);
         } else {
-            $message = do_shortcode(get_option('helpful_after_fallback'));
+            $message = do_shortcode($options->get_option('helpful_after_fallback'));
 
             if (get_post_meta($post_id, 'helpful_after_fallback', true)) {
                 $message = do_shortcode(get_post_meta($post_id, 'helpful_after_fallback', true));
@@ -491,11 +489,13 @@ class Frontend
      */
     public function filter_nonces()
     {
-        if ('on' === get_option('helpful_disable_frontend_nonce')) {
+        $options = new Services\Options();
+
+        if ('on' === $options->get_option('helpful_disable_frontend_nonce')) {
             add_filter('helpful_verify_frontend_nonce', '__return_false');
         }
 
-        if ('on' === get_option('helpful_disable_feedback_nonce')) {
+        if ('on' === $options->get_option('helpful_disable_feedback_nonce')) {
             add_filter('helpful_verify_feedback_nonce', '__return_false');
         }
     }

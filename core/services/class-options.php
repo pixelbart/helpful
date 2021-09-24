@@ -82,7 +82,11 @@ class Options
         }
 
         if (isset($this->options[$name])) {
-            return $this->options[$name];
+            return apply_filters('helpful/get_option/' . $name, $this->options[$name]);
+        }
+
+        if (get_option($name)) {
+            return apply_filters('helpful/get_option/' . $name, get_option($name));
         }
 
         return $default;
@@ -93,6 +97,6 @@ class Options
      */
     public function get_options()
     {
-        return $this->options;
+        return apply_filters('helpful/get_options', $this->options);
     }
 }

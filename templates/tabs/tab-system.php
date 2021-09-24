@@ -6,12 +6,14 @@
  */
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
 	exit;
 }
 
+$options = new Services\Options();
 $settings = apply_filters('helpful_editor_settings', false);
 $separators = [';', ','];
 $separators = apply_filters('helpful_export_separators', $separators);
@@ -40,7 +42,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_caching'); ?>
+					<?php $value = $options->get_option('helpful_caching'); ?>
 					<input id="helpful_caching" type="checkbox" name="helpful_caching" <?php checked('on', $value); ?> />
 					<?php _ex('Enable Caching', 'label', 'helpful'); ?>
 				</label>
@@ -53,7 +55,7 @@ do_action('helpful_tab_system_before');
 				</label>
 
 				<?php $times = Helpers\Cache::get_cache_times(); ?>
-				<?php $value = get_option('helpful_caching_time'); ?>
+				<?php $value = $options->get_option('helpful_caching_time'); ?>
 
 				<select id="helpful_caching_time" name="helpful_caching_time" class="regular-text">
 					<?php foreach ($times as $id => $label) : ?>
@@ -79,13 +81,13 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-block" for="helpful_timezone"><?php _ex('Custom timezone', 'option name', 'helpful'); ?></label>
-				<?php $value = get_option('helpful_timezone'); ?>
+				<?php $value = $options->get_option('helpful_timezone'); ?>
 				<input type="text" class="regular-text code" name="helpful_timezone" value="<?php echo $value; ?>">
 			</div><!-- .helpful-admin-group -->
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_multiple'); ?>
+					<?php $value = $options->get_option('helpful_multiple'); ?>
 					<input id="helpful_multiple" type="checkbox" name="helpful_multiple" <?php checked('on', $value); ?> />
 					<?php _ex('Enable to allow users to vote more than once in individual posts', 'label', 'helpful'); ?>
 				</label>
@@ -93,7 +95,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_notes'); ?>
+					<?php $value = $options->get_option('helpful_notes'); ?>
 					<input id="helpful_notes" type="checkbox" name="helpful_notes" <?php checked('on', $value); ?> />
 					<?php _ex('Check to completely disable admin notes for Helpful', 'label', 'helpful'); ?>
 				</label>
@@ -101,7 +103,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_plugin_first'); ?>
+					<?php $value = $options->get_option('helpful_plugin_first'); ?>
 					<input id="helpful_plugin_first" type="checkbox" name="helpful_plugin_first" <?php checked('on', $value); ?> />
 					<?php _ex('Select so that Helpful is always loaded first', 'label', 'helpful'); ?>
 				</label>
@@ -109,7 +111,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_classic_editor'); ?>
+					<?php $value = $options->get_option('helpful_classic_editor'); ?>
 					<input id="helpful_classic_editor" type="checkbox" name="helpful_classic_editor" <?php checked('on', $value); ?> />
 					<?php _ex('Activate the classic editor and deactivate the block editor', 'label', 'helpful'); ?>
 				</label>
@@ -117,7 +119,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_disable_frontend_nonce'); ?>
+					<?php $value = $options->get_option('helpful_disable_frontend_nonce'); ?>
 					<input id="helpful_disable_frontend_nonce" type="checkbox" name="helpful_disable_frontend_nonce" <?php checked('on', $value); ?> />
 					<?php _ex('Disable frontend nonce (not recommended)', 'label', 'helpful'); ?>
 				</label>
@@ -125,7 +127,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group">
 				<label>
-					<?php $value = get_option('helpful_disable_feedback_nonce'); ?>
+					<?php $value = $options->get_option('helpful_disable_feedback_nonce'); ?>
 					<input id="helpful_disable_feedback_nonce" type="checkbox" name="helpful_disable_feedback_nonce" <?php checked('on', $value); ?> />
 					<?php _ex('Disable feedback nonce (not recommended)', 'label', 'helpful'); ?>
 				</label>
@@ -146,7 +148,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_user_random'); ?>
+					<?php $value = $options->get_option('helpful_user_random'); ?>
 					<input id="helpful_user_random" type="checkbox" name="helpful_user_random" <?php checked('on', $value); ?> />
 					<?php _ex('Disable cookies and sessions. Users can vote as often as they want, as it is no longer possible to check whether a user has already voted.', 'label', 'helpful'); ?>
 				</label>
@@ -154,7 +156,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_sessions_false'); ?>
+					<?php $value = $options->get_option('helpful_sessions_false'); ?>
 					<input id="helpful_sessions_false" type="checkbox" name="helpful_sessions_false" <?php checked('on', $value); ?> />
 					<?php _ex('Disable sessions. Always uses cookies to identify the user.', 'label', 'helpful'); ?>
 				</label>
@@ -166,7 +168,7 @@ do_action('helpful_tab_system_before');
 					<?php _ex('Cookie Samesite', 'label', 'helpful'); ?>
 				</label>
 
-				<?php $option = (get_option('helpful_cookies_samesite')) ? get_option('helpful_cookies_samesite') : 'Strict'; ?>
+				<?php $option = ($options->get_option('helpful_cookies_samesite')) ? $options->get_option('helpful_cookies_samesite') : 'Strict'; ?>
 				<?php $values = Helper::get_samesite_options(); ?>
 
 				<select id="helpful_cookies_samesite" name="helpful_cookies_samesite" class="regular-text">
@@ -196,7 +198,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-block" for="helpful_export_separator"><?php _ex('Separator (CSV)', 'option name', 'helpful'); ?></label>
-				<?php $value = get_option('helpful_export_separator'); ?>
+				<?php $value = $options->get_option('helpful_export_separator'); ?>
 				<select class="regular-text code" name="helpful_export_separator">
 					<?php foreach ($separators as $separator) : ?>
 						<?php if ($separator === $value) : ?>
@@ -242,7 +244,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-danger">
-					<?php $value = get_option('helpful_uninstall'); ?>
+					<?php $value = $options->get_option('helpful_uninstall'); ?>
 					<input id="helpful_uninstall" type="checkbox" name="helpful_uninstall" <?php checked('on', $value); ?> />
 					<?php _ex('Reset Helpful', 'label', 'helpful'); ?>
 				</label>
@@ -250,7 +252,7 @@ do_action('helpful_tab_system_before');
 
 			<div class="helpful-admin-group">
 				<label class="helpful-danger">
-					<?php $value = get_option('helpful_uninstall_feedback'); ?>
+					<?php $value = $options->get_option('helpful_uninstall_feedback'); ?>
 					<input id="helpful_uninstall_feedback" type="checkbox" name="helpful_uninstall_feedback" <?php checked('on', $value); ?> />
 					<?php _ex('Reset Feedback', 'label', 'helpful'); ?>
 				</label>

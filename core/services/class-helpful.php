@@ -111,6 +111,7 @@ class Helpful
         }
 
         $helpful['instance'] = $this->get_id();
+        $helpful['shortcode_class'] = $this->get_css_classes();
 
         ob_start();
         do_action('helpful_before');
@@ -140,5 +141,28 @@ class Helpful
         }
         
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function get_css_classes()
+    {
+        $helpful = $this->get_atts();
+        $classes = [];
+
+        if (isset($helpful['shortcode_class'])) {
+            if (is_array($helpful['shortcode_class'])) {
+                $classes = $helpful['shortcode_class'];
+            } else {
+                $classes[] = $helpful['shortcode_class'];
+            }
+        }
+
+        if ($this->current_user_has_voted()) {
+            $classes[] = 'voted';
+        }
+
+        return implode(' ', $classes);
     }
 }

@@ -9,6 +9,7 @@ namespace Helpful\Core\Tabs;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -158,6 +159,8 @@ class Start
 
         Helpers\Values::sync_post_meta();
 
+        $options = new Services\Options();
+
         $post_types = 'any';
 
         $response = [
@@ -189,7 +192,7 @@ class Start
 
         if (false === ($query = get_transient($transient))) {
             $query = new \WP_Query($args);
-            $cache_time = get_option('helpful_cache_time', 'minute');
+            $cache_time = $options->get_option('helpful_cache_time', 'minute');
             $cache_times = Helpers\Cache::get_cache_times(false);
             $cache_time = $cache_times[$cache_time];
 

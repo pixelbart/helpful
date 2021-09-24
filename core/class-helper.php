@@ -7,6 +7,8 @@
  */
 namespace Helpful\Core;
 
+use Helpful\Core\Services as Services;
+
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
     exit;
@@ -47,7 +49,9 @@ class Helper
      */
     public static function set_timezone()
     {
-        $timezone = get_option('helpful_timezone');
+        $options = new Services\Options();
+
+        $timezone = $options->get_option('helpful_timezone');
 
         if (isset($timezone) && '' !== trim($timezone)) {
             date_default_timezone_set($timezone);
@@ -335,11 +339,13 @@ class Helper
      */
     public static function get_disallowed_keys()
     {
+        $options = new Services\Options();
+
         if (version_compare(get_bloginfo('version'), '5.5.0') >= 0) {
-            return trim(get_option('disallowed_keys'));
+            return trim($options->get_option('disallowed_keys'));
         }
 
-        return trim(get_option('blacklist_keys'));
+        return trim($options->get_option('blacklist_keys'));
     }
 
     /**
@@ -435,7 +441,9 @@ class Helper
      */
     public static function is_feedback_disabled()
     {
-        if ('on' === get_option('helpful_feedback_disabled')) {
+        $options = new Services\Options();
+    
+        if ('on' === $options->get_option('helpful_feedback_disabled')) {
             return true;
         }
 

@@ -8,6 +8,7 @@
 namespace Helpful\Core\Helpers;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -51,27 +52,29 @@ class Values
             $post_id = $post->ID;
         }
 
+        $options = new Services\Options();
+
         $credits = Helper::get_credits_data();
         $user_id = User::get_user();
 
         $values = [
             'heading_tag' => 'h3',
-            'heading' => self::convert_tags(get_option('helpful_heading'), $post_id),
-            'content' => self::convert_tags(get_option('helpful_content'), $post_id),
-            'button_pro' => get_option('helpful_pro'),
-            'button_contra' => get_option('helpful_contra'),
-            'button_pro_disabled' => ('on' === get_option('helpful_pro_disabled')) ? 1 : 0,
-            'button_contra_disabled' => ('on' === get_option('helpful_contra_disabled')) ? 1 : 0,
-            'counter' => (!get_option('helpful_count_hide')),
+            'heading' => self::convert_tags($options->get_option('helpful_heading'), $post_id),
+            'content' => self::convert_tags($options->get_option('helpful_content'), $post_id),
+            'button_pro' => $options->get_option('helpful_pro'),
+            'button_contra' => $options->get_option('helpful_contra'),
+            'button_pro_disabled' => ('on' === $options->get_option('helpful_pro_disabled')) ? 1 : 0,
+            'button_contra_disabled' => ('on' === $options->get_option('helpful_contra_disabled')) ? 1 : 0,
+            'counter' => (!$options->get_option('helpful_count_hide')),
             'count_pro' => Stats::get_pro($post_id),
             'count_pro_percent' => Stats::get_pro($post_id, true),
             'count_contra' => Stats::get_contra($post_id),
             'count_contra_percent' => Stats::get_contra($post_id, true),
-            'credits' => get_option('helpful_credits'),
+            'credits' => $options->get_option('helpful_credits'),
             'credits_html' => $credits['html'],
             'exists' => User::check_user($user_id, $post_id) ? 1 : 0,
-            'exists_text' => self::convert_tags(get_option('helpful_exists'), $post_id),
-            'exists_hide' => ('on' === get_option('helpful_exists_hide')) ? 1 : 0,
+            'exists_text' => self::convert_tags($options->get_option('helpful_exists'), $post_id),
+            'exists_hide' => ('on' === $options->get_option('helpful_exists_hide')) ? 1 : 0,
             'post_id' => $post_id,
             'user_id' => User::get_user(),
         ];
@@ -377,9 +380,11 @@ class Values
     {
         $transient = 'helpful_sync_meta';
 
+        $options = new Services\Options();
+
         if (false === ($query = get_transient($transient))) {
 
-            $post_types = get_option('helpful_post_types');
+            $post_types = $options->get_option('helpful_post_types');
 
             $args = [
                 'post_type' => $post_types,
@@ -389,7 +394,7 @@ class Values
             ];
 
             $query = new \WP_Query($args);
-            $cache_time = get_option('helpful_cache_time', 'minute');
+            $cache_time = $options->get_option('helpful_cache_time', 'minute');
             $cache_times = Cache::get_cache_times(false);
             $cache_time = $cache_times[$cache_time];
 

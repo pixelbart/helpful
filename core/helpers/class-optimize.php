@@ -8,6 +8,7 @@
 namespace Helpful\Core\Helpers;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -270,8 +271,10 @@ class Optimize
      */
     public static function update_metas()
     {
+        $options = new Services\Options();
+
         $response = [];
-        $post_types = get_option('helpful_post_types');
+        $post_types = $options->get_option('helpful_post_types');
 
         $args = [
             'post_type' => $post_types,
@@ -286,7 +289,7 @@ class Optimize
 
                 $percentages = false;
 
-                if (get_option('helpful_percentages')) {
+                if ($options->get_option('helpful_percentages')) {
                     $percentages = true;
                 }
 

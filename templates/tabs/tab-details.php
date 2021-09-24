@@ -6,12 +6,14 @@
  */
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
 	exit;
 }
 
+$options = new Services\Options();
 $settings = apply_filters('helpful_editor_settings', false);
 
 do_action('helpful_tab_details_before');
@@ -38,8 +40,8 @@ do_action('helpful_tab_details_before');
 				<?php if ( $post_types ) : ?>
 					<?php foreach ( $post_types as $post_type ) : ?>
 						<?php $label = (in_array($post_type, $private_post_types, true)) ? sprintf('<span class="helpful-muted">%s</span>', $post_type) : $post_type; ?>
-						<?php if (get_option('helpful_post_types')) : ?>
-							<?php $checked = (in_array($post_type, get_option('helpful_post_types'), true)) ? 'checked="checked"' : ''; ?>
+						<?php if ($options->get_option('helpful_post_types')) : ?>
+							<?php $checked = (in_array($post_type, $options->get_option('helpful_post_types'), true)) ? 'checked="checked"' : ''; ?>
 							<label class="helpful-inline helpful-margin-right">
 								<input type="checkbox" name="helpful_post_types[]" id="helpful_post_types[]" value="<?php echo esc_html($post_type); ?>" <?php echo $checked; ?>/>
 								<?php echo $label; ?>
@@ -66,7 +68,7 @@ do_action('helpful_tab_details_before');
 		
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_exists_hide'); ?>
+					<?php $value = $options->get_option('helpful_exists_hide'); ?>
 					<input id="helpful_exists_hide" type="checkbox" name="helpful_exists_hide" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Hide Helpful when voted', 'label', 'helpful'); ?>
 				</label>
@@ -74,7 +76,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_count_hide'); ?>
+					<?php $value = $options->get_option('helpful_count_hide'); ?>
 					<input id="helpful_count_hide" type="checkbox" name="helpful_count_hide" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Hide vote counters', 'label', 'helpful'); ?>
 				</label>
@@ -82,7 +84,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_credits'); ?>
+					<?php $value = $options->get_option('helpful_credits'); ?>
 					<input id="helpful_credits" type="checkbox" name="helpful_credits" <?php checked('on', $value); ?> />
 					<?php printf(esc_html_x('Show credits to %s', 'label', 'helpful'), '<a href="https://helpful-plugin.info" target="_blank">helpful-plugin.info</a>'); ?>
 				</label>
@@ -90,7 +92,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_hide_in_content'); ?>
+					<?php $value = $options->get_option('helpful_hide_in_content'); ?>
 					<input id="helpful_hide_in_content" type="checkbox" name="helpful_hide_in_content" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Hide Helpful in post content', 'label', 'helpful'); ?>
 				</label>
@@ -98,7 +100,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_only_once'); ?>
+					<?php $value = $options->get_option('helpful_only_once'); ?>
 					<input id="helpful_only_once" type="checkbox" name="helpful_only_once" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Vote only once on the whole website', 'label', 'helpful'); ?>
 				</label>
@@ -106,7 +108,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_percentages'); ?>
+					<?php $value = $options->get_option('helpful_percentages'); ?>
 					<input id="helpful_percentages" type="checkbox" name="helpful_percentages" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Show percentages in admin if possible', 'label', 'helpful'); ?>
 				</label>
@@ -114,7 +116,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_hide_admin_columns'); ?>
+					<?php $value = $options->get_option('helpful_hide_admin_columns'); ?>
 					<input id="helpful_hide_admin_columns" type="checkbox" name="helpful_hide_admin_columns" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Hide Helpful Admin Columns', 'label', 'helpful'); ?>
 				</label>
@@ -122,7 +124,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_shrink_admin_columns'); ?>
+					<?php $value = $options->get_option('helpful_shrink_admin_columns'); ?>
 					<input id="helpful_shrink_admin_columns" type="checkbox" name="helpful_shrink_admin_columns" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Shrink Helpful Admin Columns', 'label', 'helpful'); ?>
 				</label>
@@ -130,7 +132,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_feedback_disabled'); ?>
+					<?php $value = $options->get_option('helpful_feedback_disabled'); ?>
 					<input id="helpful_feedback_disabled" type="checkbox" name="helpful_feedback_disabled" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Disable feedback completely.', 'label', 'helpful'); ?>
 				</label>
@@ -138,7 +140,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_ip_user'); ?>
+					<?php $value = $options->get_option('helpful_ip_user'); ?>
 					<input id="helpful_ip_user" type="checkbox" name="helpful_ip_user" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Use the IP address instead of the Helpful ID.', 'label', 'helpful'); ?>
 				</label>
@@ -146,7 +148,7 @@ do_action('helpful_tab_details_before');
 		
 			<div class="helpful-admin-group">
 				<label>
-					<?php $value = get_option('helpful_wordpress_user'); ?>
+					<?php $value = $options->get_option('helpful_wordpress_user'); ?>
 					<input id="helpful_wordpress_user" type="checkbox" name="helpful_wordpress_user" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Use the WordPress user instead of the Helpful ID (if the user is logged in and votes).', 'label', 'helpful'); ?>
 				</label>
@@ -164,7 +166,7 @@ do_action('helpful_tab_details_before');
 			
 			<div class="helpful-admin-group">
 				<label>
-					<?php $value = get_option('helpful_metabox'); ?>
+					<?php $value = $options->get_option('helpful_metabox'); ?>
 					<input id="helpful_metabox" type="checkbox" name="helpful_metabox" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Show Meta Box', 'label', 'helpful'); ?>
 				</label>
@@ -181,7 +183,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_widget'); ?>
+					<?php $value = $options->get_option('helpful_widget'); ?>
 					<input id="helpful_widget" type="checkbox" name="helpful_widget" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Hide Dashboard Widget', 'label', 'helpful'); ?>
 				</label>
@@ -189,7 +191,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_widget_pro'); ?>
+					<?php $value = $options->get_option('helpful_widget_pro'); ?>
 					<input id="helpful_widget_pro" type="checkbox" name="helpful_widget_pro" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Show most helpful posts', 'label', 'helpful'); ?>
 				</label>
@@ -197,7 +199,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_widget_contra'); ?>
+					<?php $value = $options->get_option('helpful_widget_contra'); ?>
 					<input id="helpful_widget_contra" type="checkbox" name="helpful_widget_contra" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Show least helpful posts', 'label', 'helpful'); ?>
 				</label>
@@ -205,7 +207,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_widget_pro_recent'); ?>
+					<?php $value = $options->get_option('helpful_widget_pro_recent'); ?>
 					<input id="helpful_widget_pro_recent" type="checkbox" name="helpful_widget_pro_recent" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Show recently helpful posts', 'label', 'helpful'); ?>
 				</label>
@@ -213,7 +215,7 @@ do_action('helpful_tab_details_before');
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_widget_contra_recent'); ?>
+					<?php $value = $options->get_option('helpful_widget_contra_recent'); ?>
 					<input id="helpful_widget_contra_recent" type="checkbox" name="helpful_widget_contra_recent" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Show recently unhelpful posts', 'label', 'helpful'); ?>
 				</label>
@@ -222,7 +224,7 @@ do_action('helpful_tab_details_before');
 			<?php if (!Helper::is_feedback_disabled()) : ?>
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_feedback_widget'); ?>
+					<?php $value = $options->get_option('helpful_feedback_widget'); ?>
 					<input id="helpful_feedback_widget" type="checkbox" name="helpful_feedback_widget" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Show last feedback in Dashboard Widget', 'label', 'helpful'); ?>
 				</label>
@@ -231,7 +233,7 @@ do_action('helpful_tab_details_before');
 	
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
-					<?php $value = get_option('helpful_widget_hide_publication'); ?>
+					<?php $value = $options->get_option('helpful_widget_hide_publication'); ?>
 					<input id="helpful_widget_hide_publication" type="checkbox" name="helpful_widget_hide_publication" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Hide publication date', 'label', 'helpful'); ?>
 				</label>
@@ -239,7 +241,7 @@ do_action('helpful_tab_details_before');
 	
 			<div class="helpful-admin-group">
 				<label>
-					<?php $value = esc_attr(get_option('helpful_widget_amount', 5)); ?>
+					<?php $value = esc_attr($options->get_option('helpful_widget_amount', 5)); ?>
 					<input type="number" id="helpful_widget_amount" name="helpful_widget_amount" class="small-text" min="1" value="<?php echo esc_attr($value); ?>"/>
 					<?php echo esc_html_x('Number of entries', 'label', 'helpful'); ?>
 				</label>

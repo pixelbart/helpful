@@ -9,6 +9,7 @@ namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -64,6 +65,8 @@ class Elementor_Widget extends \Elementor\Widget_Base
      */
     protected function _register_controls()
     {
+        $options = new Services\Options();
+
         $this->start_controls_section(
             'general',
             [
@@ -108,7 +111,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'label' => esc_html_x('Headline', 'elementor option name', 'helpful'),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => get_option('helpful_heading'),
+                'default' => $options->get_option('helpful_heading'),
             ]
         );
 
@@ -118,7 +121,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'label' => esc_html_x('Content', 'elementor option name', 'helpful'),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::TEXTAREA,
-                'default' => get_option('helpful_content'),
+                'default' => $options->get_option('helpful_content'),
             ]
         );
 
@@ -128,7 +131,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'label' => esc_html_x('Pro', 'elementor option name', 'helpful'),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => get_option('helpful_pro'),
+                'default' => $options->get_option('helpful_pro'),
             ]
         );
 
@@ -138,7 +141,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'label' => esc_html_x('Contra', 'elementor option name', 'helpful'),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => get_option('helpful_contra'),
+                'default' => $options->get_option('helpful_contra'),
             ]
         );
 
@@ -166,7 +169,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'description' => esc_html_x('This option overrides the Helpful theme and applies to all Helpful on the site. You will also need to reload the page to see the changes.', 'elementor option description', 'helpful'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => $choices,
-                'default' => get_option('helpful_theme'),
+                'default' => $options->get_option('helpful_theme'),
             ]
         );
 

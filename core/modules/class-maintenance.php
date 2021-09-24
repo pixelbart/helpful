@@ -9,6 +9,7 @@ namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -102,7 +103,9 @@ class Maintenance
      */
     public function maintenance_after_update()
     {
-        if ('on' === get_option('helpful_notes')) {
+        $options = new Services\Options();
+
+        if ('on' === $options->get_option('helpful_notes')) {
             return;
         }
 
@@ -114,7 +117,7 @@ class Maintenance
         }
 
         $plugin = Helper::get_plugin_data();
-        $option = get_option('helpful_plugin_version');
+        $option = $options->get_option('helpful_plugin_version');
 
         if ($option === $plugin['Version']) {
             return;

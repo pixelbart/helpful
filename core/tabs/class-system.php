@@ -9,6 +9,7 @@ namespace Helpful\Core\Tabs;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -44,6 +45,8 @@ class System
      */
     public function __construct()
     {
+        $options = new Services\Options();
+
         add_action('admin_init', [ & $this, 'register_settings']);
 
         add_filter('helpful_get_admin_tabs', [ & $this, 'register_tab'], 10, 2);
@@ -52,7 +55,7 @@ class System
         add_action('admin_init', [ & $this, 'reset_plugin']);
         add_action('admin_init', [ & $this, 'reset_feedback']);
 
-        if (get_option('helpful_classic_editor')) {
+        if ($options->get_option('helpful_classic_editor')) {
             add_filter('use_block_editor_for_post', '__return_false', 10);
         }
 

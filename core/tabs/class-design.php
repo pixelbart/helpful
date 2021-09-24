@@ -10,6 +10,7 @@ namespace Helpful\Core\Tabs;
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
 use Helpful\Core\Vendor as Vendor;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -77,7 +78,9 @@ class Design
      */
     public function custom_css()
     {
-        $custom_css = get_option('helpful_css');
+        $options = new Services\Options();
+
+        $custom_css = $options->get_option('helpful_css');
 
         $parser = new Vendor\Css_Parser();
 

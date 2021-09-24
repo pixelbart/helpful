@@ -61,6 +61,8 @@ class Session
     {
         $start_session = true;
 
+        $options = new Options();
+
         if (!empty($_SERVER['REQUEST_URI'])) {
             $uri = ltrim($_SERVER['REQUEST_URI'], '/');
             $uri = untrailingslashit($uri);
@@ -78,7 +80,7 @@ class Session
             }
         }
 
-        if (get_option('helpful_sessions_false')) {
+        if ($options->get_option('helpful_sessions_false')) {
             $start_session = false;
         }
 

@@ -9,6 +9,7 @@ namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -61,7 +62,9 @@ class Metabox
      */
     public function add_metabox()
     {
-        $post_types = get_option('helpful_post_types');
+        $options = new Services\Options();
+
+        $post_types = $options->get_option('helpful_post_types');
 
         if (isset($post_types) && is_array($post_types)) {
             add_meta_box(

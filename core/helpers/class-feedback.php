@@ -8,6 +8,7 @@
 namespace Helpful\Core\Helpers;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -76,8 +77,10 @@ class Feedback
      */
     public static function get_feedback_items($limit = null)
     {
+        $options = new Services\Options();
+
         if (is_null($limit)) {
-            $limit = absint(get_option('helpful_widget_amount'));
+            $limit = absint($options->get_option('helpful_widget_amount'));
         }
 
         global $wpdb;
@@ -110,6 +113,8 @@ class Feedback
         $pro = 0;
         $contra = 0;
         $message = null;
+        
+        do_action('helpful/insert_feedback');
 
         if (!isset($_REQUEST['post_id'])) {
             $message = 'Helpful Notice: Feedback was not saved because the post id is empty in %s on line %d.';
@@ -215,12 +220,14 @@ class Feedback
      */
     public static function send_email($feedback)
     {
+        $options = new Services\Options();
+
         /**
          * Send email to voter.
          */
         self::send_email_voter($feedback);
 
-        if ('on' !== get_option('helpful_feedback_send_email')) {
+        if ('on' !== $options->get_option('helpful_feedback_send_email')) {
             return;
         }
 
@@ -229,6 +236,8 @@ class Feedback
         if (!$post) {
             return;
         }
+        
+        do_action('helpful/send_email');
 
         $feedback['fields'] = maybe_unserialize($feedback['fields']);
 
@@ -253,7 +262,7 @@ class Feedback
         $tags = apply_filters('helpful_feedback_email_tags', $tags);
 
         /* email subject */
-        $subject = get_option('helpful_feedback_subject');
+        $subject = $options->get_option('helpful_feedback_subject');
         $subject = str_replace(array_keys($tags), array_values($tags), $subject);
 
         /* unserialize feedback fields */
@@ -265,7 +274,7 @@ class Feedback
         }
 
         /* body */
-        $body = get_option('helpful_feedback_email_content');
+        $body = $options->get_option('helpful_feedback_email_content');
         $body = str_replace(array_keys($tags), array_values($tags), $body);
 
         /* receivers by post meta */
@@ -280,8 +289,8 @@ class Feedback
         /* receivers by helpful options */
         $helpful_receivers = [];
 
-        if (get_option('helpful_feedback_receivers')) {
-            $helpful_receivers = get_option('helpful_feedback_receivers');
+        if ($options->get_option('helpful_feedback_receivers')) {
+            $helpful_receivers = $options->get_option('helpful_feedback_receivers');
             $helpful_receivers = helpful_trim_all($helpful_receivers);
             $helpful_receivers = explode(',', $helpful_receivers);
         }
@@ -325,7 +334,9 @@ class Feedback
      */
     public static function send_email_voter($feedback)
     {
-        if ('on' !== get_option('helpful_feedback_send_email_voter')) {
+        $options = new Services\Options();
+
+        if ('on' !== $options->get_option('helpful_feedback_send_email_voter')) {
             return;
         }
 
@@ -334,6 +345,8 @@ class Feedback
         if (!$post) {
             return;
         }
+        
+        do_action('helpful/send_email_voter');
 
         $feedback['fields'] = maybe_unserialize($feedback['fields']);
 
@@ -352,7 +365,7 @@ class Feedback
         $tags = apply_filters('helpful_feedback_email_tags', $tags);
 
         /* subject */
-        $subject = get_option('helpful_feedback_subject_voter');
+        $subject = $options->get_option('helpful_feedback_subject_voter');
         $subject = str_replace(array_keys($tags), array_values($tags), $subject);
 
         /* unserialize feedback fields */
@@ -364,7 +377,7 @@ class Feedback
         }
 
         /* Body */
-        $body = get_option('helpful_feedback_email_content_voter');
+        $body = $options->get_option('helpful_feedback_email_content_voter');
         $body = str_replace(array_keys($tags), array_values($tags), $body);
 
         /* Receivers */
@@ -439,7 +452,9 @@ class Feedback
      */
     public static function after_vote($post_id, $show_feedback = false)
     {
-        // $feedback_text = esc_html_x( 'Thank you very much. Please write us your opinion, so that we can improve ourselves.', 'form user note', 'helpful' );
+        do_action('helpful/after_vote');
+
+        $options = new Services\Options();
 
         $hide_feedback = get_post_meta($post_id, 'helpful_hide_feedback_on_post', true);
         $hide_feedback = ('on' === $hide_feedback) ? true : false;
@@ -461,16 +476,16 @@ class Feedback
 
         if (true === $show_feedback) {
             $type = 'none';
-            $feedback_text = get_option('helpful_feedback_message_voted');
+            $feedback_text = $options->get_option('helpful_feedback_message_voted');
             $feedback_text = apply_filters('helpful_pre_feedback_message_voted', $feedback_text, $post_id);
         }
 
         if ('pro' === $type) {
-            $feedback_text = get_option('helpful_feedback_message_pro');
+            $feedback_text = $options->get_option('helpful_feedback_message_pro');
 
             if (false === $show_feedback) {
-                if (!get_option('helpful_feedback_after_pro') || true === $hide_feedback) {
-                    $content = do_shortcode(get_option('helpful_after_pro'));
+                if (!$options->get_option('helpful_feedback_after_pro') || true === $hide_feedback) {
+                    $content = do_shortcode($options->get_option('helpful_after_pro'));
 
                     if (get_post_meta($post_id, 'helpful_after_pro', true)) {
                         $content = do_shortcode(get_post_meta($post_id, 'helpful_after_pro', true));
@@ -482,11 +497,11 @@ class Feedback
         }
 
         if ('contra' === $type) {
-            $feedback_text = get_option('helpful_feedback_message_contra');
+            $feedback_text = $options->get_option('helpful_feedback_message_contra');
 
             if (false === $show_feedback) {
-                if (!get_option('helpful_feedback_after_contra') || true === $hide_feedback) {
-                    $content = do_shortcode(get_option('helpful_after_contra'));
+                if (!$options->get_option('helpful_feedback_after_contra') || true === $hide_feedback) {
+                    $content = do_shortcode($options->get_option('helpful_after_contra'));
 
                     if (get_post_meta($post_id, 'helpful_after_contra', true)) {
                         $content = do_shortcode(get_post_meta($post_id, 'helpful_after_contra', true));
@@ -498,8 +513,8 @@ class Feedback
         }
 
         if ('none' === $type) {
-            if (!get_option('helpful_feedback_after_pro') && !get_option('helpful_feedback_after_contra') && false === $show_feedback) {
-                $content = do_shortcode(get_option('helpful_after_fallback'));
+            if (!$options->get_option('helpful_feedback_after_pro') && !$options->get_option('helpful_feedback_after_contra') && false === $show_feedback) {
+                $content = do_shortcode($options->get_option('helpful_after_fallback'));
 
                 if (get_post_meta($post_id, 'helpful_after_fallback', true)) {
                     $content = do_shortcode(get_post_meta($post_id, 'helpful_after_fallback', true));

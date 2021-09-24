@@ -24,19 +24,21 @@ class User
      */
     public static function get_user()
     {
+        $options = new Services\Options();
+
         $user = self::get_user_string();
 
-        if ('on' === get_option('helpful_user_random')) {
+        if ('on' === $options->get_option('helpful_user_random')) {
             return self::get_user_string();
         }
 
-        if ('on' === get_option('helpful_wordpress_user')) {
+        if ('on' === $options->get_option('helpful_wordpress_user')) {
             if (is_user_logged_in()) {
                 return get_current_user_id();
             }
         }
 
-        if ('on' === get_option('helpful_ip_user')) {
+        if ('on' === $options->get_option('helpful_ip_user')) {
             if (isset($_SERVER['REMOTE_ADDR'])) {
                 return sanitize_text_field($_SERVER['REMOTE_ADDR']);
             }
@@ -80,15 +82,16 @@ class User
      */
     public static function set_user()
     {
+        $options = new Services\Options();
         $string = self::get_user_string();
         $lifetime = '+30 days';
         $lifetime = apply_filters('helpful_user_cookie_time', $lifetime);
-        $samesite = get_option('helpful_cookies_samesite') ?: 'Strict';
+        $samesite = $options->get_option('helpful_cookies_samesite') ?: 'Strict';
 
         /**
          * No more user is set using sessions or cookies.
          */
-        if ('on' === get_option('helpful_user_random')) {
+        if ('on' === $options->get_option('helpful_user_random')) {
             return;
         }
 
@@ -125,7 +128,7 @@ class User
         }
 
         $session_start = apply_filters('helpful_session_start', true);
-        $sessions_disabled = get_option('helpful_sessions_false');
+        $sessions_disabled = $options->get_option('helpful_sessions_false');
 
         if (!is_bool($session_start)) {
             $session_start = true;
@@ -153,11 +156,13 @@ class User
      */
     public static function check_user($user_id, $post_id, $instance = null)
     {
-        if (get_option('helpful_multiple')) {
+        $options = new Services\Options();
+
+        if ($options->get_option('helpful_multiple')) {
             return false;
         }
 
-        if ('on' === get_option('helpful_user_random')) {
+        if ('on' === $options->get_option('helpful_user_random')) {
             return false;
         }
 
@@ -265,9 +270,11 @@ class User
      */
     public static function get_avatar($email = null, $size = 55)
     {
+        $options = new Services\Options();
+
         $default = plugins_url('core/assets/images/avatar.jpg', HELPFUL_FILE);
 
-        if (get_option('helpful_feedback_gravatar')) {
+        if ($options->get_option('helpful_feedback_gravatar')) {
             if (!is_null($email)) {
                 return get_avatar($email, $size, $default);
             }

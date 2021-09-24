@@ -6,6 +6,9 @@
  */
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
+
+$options = new Services\Options();
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -20,16 +23,16 @@ if (!defined('ABSPATH')) {
 <?php endif; ?>
 
 <div class="group">
-	<?php $label = get_option('helpful_feedback_label_message'); ?>
+	<?php $label = $options->get_option('helpful_feedback_label_message'); ?>
 	<label for="message"><?php echo $label; ?> <req>*</req></label>
 	<div class="control">
 		<textarea name="message" id="message" required></textarea>
 	</div>
 </div><!-- .group -->
 
-<?php if (get_option('helpful_feedback_name') && !is_user_logged_in()) : ?>
+<?php if ($options->get_option('helpful_feedback_name') && !is_user_logged_in()) : ?>
 <div class="group">
-	<?php $label = get_option('helpful_feedback_label_name'); ?>
+	<?php $label = $options->get_option('helpful_feedback_label_name'); ?>
 	<label for="email"><?php echo $label; ?></label>
 	<div class="control">
 		<input type="text" name="fields[name]" id="name">
@@ -37,9 +40,9 @@ if (!defined('ABSPATH')) {
 </div><!-- .group -->
 <?php endif; ?>
 
-<?php if (get_option('helpful_feedback_email') && !is_user_logged_in()) : ?>
+<?php if ($options->get_option('helpful_feedback_email') && !is_user_logged_in()) : ?>
 <div class="group">
-	<?php $label = get_option('helpful_feedback_label_email'); ?>
+	<?php $label = $options->get_option('helpful_feedback_label_email'); ?>
 	<label for="email"><?php echo $label; ?></label>
 	<div class="control">
 		<input type="email" name="fields[email]" id="email">
@@ -48,14 +51,14 @@ if (!defined('ABSPATH')) {
 <?php endif; ?>
 
 <div class="helpful-feedback-controls">
-	<?php if (get_option('helpful_feedback_cancel')) : ?>
-	<?php $cancel = get_option('helpful_feedback_label_cancel'); ?>
+	<?php if ($options->get_option('helpful_feedback_cancel')) : ?>
+	<?php $cancel = $options->get_option('helpful_feedback_label_cancel'); ?>
 	<div>
 		<button class="helpful-button helpful-cancel" type="button" role="button"><?php echo $cancel; ?></button>
 	</div>
 	<?php endif; ?>
 
-	<?php $submit = get_option('helpful_feedback_label_submit'); ?>
+	<?php $submit = $options->get_option('helpful_feedback_label_submit'); ?>
 	<div>
 		<button class="helpful-button helpful-submit" type="submit" role="button"><?php echo $submit; ?></button>
 	</div>

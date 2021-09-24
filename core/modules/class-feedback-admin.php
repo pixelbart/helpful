@@ -131,13 +131,15 @@ class Feedback_Admin
     {
         check_ajax_referer('helpful_admin_feedback_filter');
 
+        $options = new Services\Options();
+
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'helpful_feedback';
         $filters = ['all', 'pro', 'contra'];
         $sql = "SELECT * FROM $table_name";
 
-        $limit = get_option('helpful_feedback_amount', 10);
+        $limit = $options->get_option('helpful_feedback_amount', 10);
         $limit = intval(apply_filters('helpful_feedback_limit', $limit));
 
         $page = 1;

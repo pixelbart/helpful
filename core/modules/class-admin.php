@@ -9,6 +9,7 @@ namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -57,10 +58,12 @@ class Admin
      */
     public function register_admin_menu()
     {
+        $options = new Services\Options();
+
         add_menu_page(
             __('Helpful', 'helpful'),
             __('Helpful', 'helpful'),
-            get_option('helpful_capability', 'manage_options'),
+            $options->get_option('helpful_capability', 'manage_options'),
             'helpful',
             [ & $this, 'callback_admin_page'],
             'dashicons-thumbs-up',
@@ -71,7 +74,7 @@ class Admin
             'helpful',
             __('Settings', 'helpful'),
             __('Settings', 'helpful'),
-            get_option('helpful_settings_capability', 'manage_options'),
+            $options->get_option('helpful_settings_capability', 'manage_options'),
             'helpful',
             [ & $this, 'callback_admin_page']
         );
@@ -112,8 +115,10 @@ class Admin
      */
     public function enqueue_scripts($hook_suffix)
     {
+        $options = new Services\Options();
+
         /* shrink admin columns */
-        if ('on' === get_option('helpful_shrink_admin_columns')) {
+        if ('on' === $options->get_option('helpful_shrink_admin_columns')) {
             $file = plugins_url('core/assets/css/admin-columns.css', HELPFUL_FILE);
             wp_enqueue_style('helpful-admin-columns', $file);
         }
@@ -183,8 +188,10 @@ class Admin
     {
         global $pagenow;
 
-        $post_types = get_option('helpful_post_types');
-        $hide_cols = get_option('helpful_hide_admin_columns');
+        $options = new Services\Options();
+
+        $post_types = $options->get_option('helpful_post_types');
+        $hide_cols = $options->get_option('helpful_hide_admin_columns');
 
         if (isset($hide_cols) && 'on' === $hide_cols) {
             return;
@@ -222,14 +229,16 @@ class Admin
      */
     public function register_columns($defaults)
     {
+        $options = new Services\Options();
+
         $columns = [];
         foreach ($defaults as $key => $value):
             $columns[$key] = $value;
 
             if ('title' === $key) {
-                $columns['helpful-pro'] = get_option('helpful_column_pro') ? get_option('helpful_column_pro') : _x('Pro', 'column name', 'helpful');
-                $columns['helpful-contra'] = get_option('helpful_column_contra') ? get_option('helpful_column_contra') : _x('Contra', 'column name', 'helpful');
-                $columns['helpful-feedback'] = get_option('helpful_column_feedback') ? get_option('helpful_column_feedback') : _x('Feedback', 'column name', 'helpful');
+                $columns['helpful-pro'] = $options->get_option('helpful_column_pro') ? $options->get_option('helpful_column_pro') : _x('Pro', 'column name', 'helpful');
+                $columns['helpful-contra'] = $options->get_option('helpful_column_contra') ? $options->get_option('helpful_column_contra') : _x('Contra', 'column name', 'helpful');
+                $columns['helpful-feedback'] = $options->get_option('helpful_column_feedback') ? $options->get_option('helpful_column_feedback') : _x('Feedback', 'column name', 'helpful');
             }
         endforeach;
 
@@ -246,8 +255,10 @@ class Admin
      */
     public function populate_columns($column_name, $post_id)
     {
+        $options = new Services\Options();
+
         if ('helpful-pro' === $column_name) {
-            if (get_option('helpful_percentages')) {
+            if ($options->get_option('helpful_percentages')) {
                 $percent = Helpers\Stats::get_pro($post_id, true);
                 $pro = Helpers\Stats::get_pro($post_id);
                 update_post_meta($post_id, 'helpful-pro', $pro);
@@ -261,7 +272,7 @@ class Admin
         }
 
         if ('helpful-contra' === $column_name) {
-            if (get_option('helpful_percentages')) {
+            if ($options->get_option('helpful_percentages')) {
                 $percent = Helpers\Stats::get_contra($post_id, true);
                 $contra = Helpers\Stats::get_contra($post_id);
                 update_post_meta($post_id, 'helpful-contra', $contra);

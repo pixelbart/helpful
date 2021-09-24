@@ -9,6 +9,7 @@ namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -62,7 +63,9 @@ class Widget
      */
     public function enqueue_scripts($hook_suffix)
     {
-        if ('index.php' !== $hook_suffix || get_option('helpful_widget')) {
+        $options = new Services\Options();
+
+        if ('index.php' !== $hook_suffix || $options->get_option('helpful_widget')) {
             return;
         }
 
@@ -90,7 +93,9 @@ class Widget
      */
     public function widget_setup()
     {
-        if (get_option('helpful_widget')) {
+        $options = new Services\Options();
+
+        if ($options->get_option('helpful_widget')) {
             return;
         }
 

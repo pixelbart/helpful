@@ -8,6 +8,7 @@
 namespace Helpful\Core\Helpers;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -183,7 +184,9 @@ class Database
      */
     public static function update_tables()
     {
-        if (get_option('helpful_update_table_integer')) {
+        $options = new Services\Options();
+
+        if ($options->get_option('helpful_update_table_integer')) {
             return;
         }
 

@@ -9,6 +9,7 @@ namespace Helpful\Core\Services;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -66,6 +67,8 @@ class CSV
             return new \WP_Error(__('No csv items found.', 'csv error', 'helpful'));
         }
 
+        $options = new Services\Options();
+
         $items = $this->items;
 
         $lines   = [];
@@ -93,7 +96,7 @@ class CSV
         $separators = [ ';', ',' ];
         $separators = apply_filters( 'helpful_export_separators', $separators );
 
-        $option = get_option( 'helpful_export_separator' );
+        $option = $options->get_option( 'helpful_export_separator' );
 
         if ( $option && in_array( $option, $separators ) ) {
             $separator = esc_html( $option );

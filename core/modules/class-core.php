@@ -96,7 +96,9 @@ class Core
      */
     public function setup_defaults()
     {
-        if (get_option('helpful_defaults')) {
+        $options = new Services\Options();
+
+        if ($options->get_option('helpful_defaults')) {
             return;
         }
 
