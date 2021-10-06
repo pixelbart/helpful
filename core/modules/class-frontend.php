@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.53
+ * @version 4.4.55
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -46,7 +46,7 @@ class Frontend
     public function __construct()
     {
         add_filter('helpful_themes', [ & $this, 'default_themes'], 1);
-        add_action('wp_enqueue_scripts', [ & $this, 'enqueue_scripts'], PHP_INT_MAX);
+        add_action('wp_enqueue_scripts', [ & $this, 'enqueue_scripts'], 10);
 
         add_action('wp_ajax_helpful_save_vote', [ & $this, 'save_vote']);
         add_action('wp_ajax_helpful_save_feedback', [ & $this, 'save_feedback']);
@@ -127,6 +127,9 @@ class Frontend
      * Enqueue styles and scripts
      *
      * @global $post
+     *
+     * @version 4.4.55
+     * @since 4.4.0
      * 
      * @return void
      */
@@ -200,7 +203,7 @@ class Frontend
      *
      * @global $post
      *
-     * @version 4.4.51
+     * @version 4.4.55
      * @since 4.3.0
      *
      * @param string $content post content.
@@ -209,7 +212,7 @@ class Frontend
      */
     public function the_content($content)
     {
-        global $post;
+        global $wp_query, $page, $numpages, $multipage, $more, $post;
 
         if (helpful_is_amp()) {
             return $content;
@@ -249,6 +252,14 @@ class Frontend
 
         $shortcode = '[helpful post_id="' . $helpful['post_id'] . '"]';
 
+        if (apply_filters('helpful/the_content/is_multipage', $multipage)) {
+            if ($page === $numpages) {
+                return $content . $shortcode;
+            }
+    
+            return $content;
+        }
+    
         return $content . $shortcode;
     }
 

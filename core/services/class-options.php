@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Services
- * @version 4.4.47
+ * @version 4.4.55
  * @since 4.4.47
  */
 namespace Helpful\Core\Services;
@@ -50,8 +50,12 @@ class Options
             return;
         }
 
+        // not in use
         $this->options[$name] = $value;
         $this->renew_options();
+
+        // should be replaced
+        update_option($name, $value);
     }
 
     /**

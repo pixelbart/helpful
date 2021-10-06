@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.51
+ * @version 4.4.55
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -82,10 +82,17 @@ class Core
     /**
      * Set users cookie with unique id
      *
+     * @version 4.4.55
+     * @since 4.4.0
+     *
      * @return void
      */
     public function set_user_cookie()
     {
+        if ((isset($GLOBALS['pagenow']) && 'wp-login.php' === $GLOBALS['pagenow']) || is_admin()) {
+            return;
+        }
+
         Helpers\User::set_user();
     }
 
@@ -104,7 +111,7 @@ class Core
 
         $this->set_defaults(true);
 
-        update_option('helpful_defaults', 1);
+        $options->update_option('helpful_defaults', 1);
     }
 
     /**

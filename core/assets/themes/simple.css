@@ -17,8 +17,8 @@
 .helpful {
     color: #333;
     position: relative;
-    margin: 25px 0 0;
-    padding: 0 0 25px;
+    margin-top: 25px;
+    padding-bottom: 25px;
     font-size: 1rem;
     line-height: 1.6rem;
     -webkit-font-smoothing: antialiased;

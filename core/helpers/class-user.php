@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.50
+ * @version 4.4.55
  * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
@@ -78,15 +78,15 @@ class User
     /**
      * Set user string
      *
+     * @version 4.4.55
+     * @since 4.4.0
+     *
      * @return void
      */
     public static function set_user()
     {
         $options = new Services\Options();
         $string = self::get_user_string();
-        $lifetime = '+30 days';
-        $lifetime = apply_filters('helpful_user_cookie_time', $lifetime);
-        $samesite = $options->get_option('helpful_cookies_samesite') ?: 'Strict';
 
         /**
          * No more user is set using sessions or cookies.
@@ -100,31 +100,9 @@ class User
             define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
         }
 
-        if (!isset($_COOKIE['helpful_user'])) {
-            if (70300 <= PHP_VERSION_ID) {
-
-                if (!in_array($samesite, Helper::get_samesite_options())) {
-                    $samesite = 'Strict';
-                }
-
-                $cookie_options = [
-                    'expires' => strtotime($lifetime),
-                    'path' => '/',
-                    'secure' => true,
-                    'httponly' => true,
-                    'samesite' => $samesite,
-                ];
-
-                setcookie('helpful_user', $string, $cookie_options);
-            }
-
-            if (70300 > PHP_VERSION_ID) {
-                setcookie('helpful_user', $string, strtotime($lifetime), '/');
-            }
-
-            if (isset($_SESSION['helpful_user']) && isset($_COOKIE['helpful_user'])) {
-                unset($_SESSION['helpful_user']);
-            }
+        $cookie = new Services\Cookie();
+        if (!$cookie->get('helpful_user')) {
+            $cookie->set('helpful_user', $string);
         }
 
         $session_start = apply_filters('helpful_session_start', true);
@@ -134,7 +112,7 @@ class User
             $session_start = true;
         }
 
-        if ('on' !== $sessions_disabled && !isset($_COOKIE['helpful_user'])) {
+        if ('on' !== $sessions_disabled && !$cookie->get('helpful_user')) {
             $session = new Services\Session();
             $session->set('helpful_user', $string);
         }
