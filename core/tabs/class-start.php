@@ -105,12 +105,12 @@ class Start
 
         $from = null;
         if (isset($_REQUEST['from'])) {
-            $from = $_REQUEST['from'];
+            $from = wp_kses($_REQUEST['from'], []);
         }
 
         $to = null;
         if (isset($_REQUEST['to'])) {
-            $to = $_REQUEST['to'];
+            $to = wp_kses($_REQUEST['to'], []);
         }
 
         $response = [];

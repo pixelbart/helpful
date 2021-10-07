@@ -449,4 +449,44 @@ class Helper
 
         return false;
     }
+
+    /**
+     * Returns the allowed HTML tags and attributes for the kses function
+     * that are allowed when saving the settings.
+     * 
+     * @version 4.4.57
+     * @since 4.4.56
+     * 
+     * @return array
+     */
+    public static function kses_allowed_tags()
+    {
+        $tags = [
+            'a' => [
+                'class' => [],
+                'href' => [],
+                'title' => [],
+            ],
+            'br' => [
+                'class' => [],
+            ],
+            'em' => [
+                'class' => [],
+            ],
+            'strong' => [
+                'class' => [],
+            ],
+            'hr' => [
+                'class' => [],
+            ],
+            'p' => [
+                'class' => [],
+            ],
+            'div' => [
+                'class' => [],
+            ],
+        ];
+
+        return apply_filters('helpful/kses/allowed_tags', $tags);
+    }
 }

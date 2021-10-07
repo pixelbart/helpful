@@ -65,43 +65,119 @@ class Feedback
     public function register_settings()
     {
         $fields = [
-            'helpful_feedback_widget',
-            'helpful_feedback_after_pro',
-            'helpful_feedback_after_contra',
-            'helpful_feedback_message_pro',
-            'helpful_feedback_message_contra',
-            'helpful_feedback_messages_table',
-            'helpful_feedback_widget_overview',
-            'helpful_feedback_name',
-            'helpful_feedback_email',
-            'helpful_feedback_cancel',
-            'helpful_feedback_label_message',
-            'helpful_feedback_label_name',
-            'helpful_feedback_label_email',
-            'helpful_feedback_label_submit',
-            'helpful_feedback_label_cancel',
-            'helpful_feedback_gravatar',
-            'helpful_feedback_message_spam',
-            'helpful_feedback_after_vote',
-            'helpful_feedback_message_voted',
-            'helpful_feedback_amount',
-            'helpful_feedback_send_email',
-            'helpful_feedback_receivers',
-            'helpful_feedback_subject',
-            'helpful_feedback_email_content',
-            'helpful_feedback_send_email_voter',
-            'helpful_feedback_subject_voter',
-            'helpful_feedback_email_content_voter',
+            'helpful_feedback_widget' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_after_pro' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_after_contra' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_message_pro' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_message_contra' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_messages_table' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_widget_overview' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_name' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_email' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_cancel' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_label_message' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_label_name' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_label_email' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_label_submit' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_label_cancel' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_gravatar' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_message_spam' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_after_vote' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_message_voted' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_amount' => [
+                'type' => 'integer',
+                'sanitize_callback' => 'intval',
+            ],
+            'helpful_feedback_send_email' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_receivers' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags' ],
+            ],
+            'helpful_feedback_subject' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags' ],
+            ],
+            'helpful_feedback_email_content' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_feedback_send_email_voter' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_subject_voter' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags' ],
+            ],
+            'helpful_feedback_email_content_voter' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
         ];
 
         $fields = apply_filters('helpful_feedback_fields', $fields);
 
-        foreach ($fields as $field) {
-            $args = [
-                'type' => 'string',
-                'sanitize_callback' => 'sanitize_text_field'
-            ];
-
+        foreach ($fields as $field => $args) {
             register_setting('helpful-feedback-settings-group', $field, apply_filters('helpful_settings_group_args', $args, $field));
         }
     }
@@ -153,5 +229,37 @@ class Feedback
             $message = esc_html_x('Settings saved.', 'tab alert after save', 'helpful');
             echo Helper::get_alert($message, 'success', 1500);
         }
+    }
+
+    /**
+     * Filters the values of an option before saving them. Thus does not allow every
+     * HTML element and makes Helpful a bit more secure.
+     * 
+     * @version 4.4.57
+     * @since 4.4.57
+     *
+     * @param mixed $value
+     * 
+     * @return mixed
+     */
+    public function sanitize_input($value)
+    {
+        return wp_kses($value, Helper::kses_allowed_tags());
+    }
+
+    /**
+     * Filters the values of an option before saving them. Thus does not allow 
+     * HTML element and makes Helpful a bit more secure.
+     * 
+     * @version 4.4.57
+     * @since 4.4.57
+     *
+     * @param mixed $value
+     * 
+     * @return mixed
+     */
+    public function sanitize_input_without_tags($value)
+    {
+        return wp_kses($value, []);
     }
 }

@@ -61,41 +61,110 @@ class Details
     public function register_settings()
     {
         $fields = [
-            'helpful_credits',
-            'helpful_hide_in_content',
-            'helpful_post_types',
-            'helpful_exists_hide',
-            'helpful_count_hide',
-            'helpful_widget',
-            'helpful_widget_amount',
-            'helpful_widget_pro',
-            'helpful_widget_contra',
-            'helpful_widget_pro_recent',
-            'helpful_widget_contra_recent',
-            'helpful_only_once',
-            'helpful_percentages',
-            'helpful_form_status_pro',
-            'helpful_form_email_pro',
-            'helpful_form_status_contra',
-            'helpful_form_email_contra',
-            'helpful_metabox',
-            'helpful_widget_hide_publication',
-            'helpful_hide_admin_columns',
-            'helpful_shrink_admin_columns',
-            'helpful_feedback_widget',
-            'helpful_feedback_disabled',
-            'helpful_wordpress_user',
-            'helpful_ip_user',
+            'helpful_credits' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_hide_in_content' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_post_types' => [
+                'type' => 'array',
+            ],
+            'helpful_exists_hide' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_count_hide' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_widget' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_widget_amount' => [
+                'type' => 'integer',
+                'sanitize_callback' => 'intval'
+            ],
+            'helpful_widget_pro' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_widget_contra' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_widget_pro_recent' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_widget_contra_recent' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_only_once' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_percentages' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_form_status_pro' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_form_email_pro' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_form_status_contra' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_form_email_contra' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_metabox' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_widget_hide_publication' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_hide_admin_columns' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_shrink_admin_columns' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_widget' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_feedback_disabled' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_wordpress_user' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_ip_user' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
         ];
 
         $fields = apply_filters('helpful_details_settings_group', $fields);
 
-        foreach ($fields as $field):
-            $args = [
-                'type' => 'string',
-                'sanitize_callback' => 'sanitize_text_field'
-            ];
-
+        foreach ($fields as $field => $args):
             register_setting('helpful-details-settings-group', $field, apply_filters('helpful_settings_group_args', $args, $field));
         endforeach;
     }
@@ -156,5 +225,37 @@ class Details
             $message = esc_html_x('Settings saved.', 'tab alert after save', 'helpful');
             echo Helper::get_alert($message, 'success', 1500);
         }
+    }
+
+    /**
+     * Filters the values of an option before saving them. Thus does not allow every HTML element
+     * and makes Helpful a bit more secure.
+     *
+     * @version 4.4.57
+     * @since 4.4.57
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function sanitize_input($value)
+    {
+        return wp_kses($value, Helper::kses_allowed_tags());
+    }
+
+    /**
+     * Filters the values of an option before saving them. Thus does not allow 
+     * HTML element and makes Helpful a bit more secure.
+     * 
+     * @version 4.4.57
+     * @since 4.4.57
+     *
+     * @param mixed $value
+     * 
+     * @return mixed
+     */
+    public function sanitize_input_without_tags($value)
+    {
+        return wp_kses($value, []);
     }
 }

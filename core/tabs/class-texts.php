@@ -60,29 +60,63 @@ class Texts
     public function register_settings()
     {
         $fields = [
-            'helpful_heading',
-            'helpful_content',
-            'helpful_pro',
-            'helpful_pro_disabled',
-            'helpful_exists',
-            'helpful_contra',
-            'helpful_contra_disabled',
-            'helpful_column_pro',
-            'helpful_column_contra',
-            'helpful_column_feedback',
-            'helpful_after_pro',
-            'helpful_after_contra',
-            'helpful_after_fallback',
+            'helpful_heading' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],   
+            ],
+            'helpful_content' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ], 
+            ],
+            'helpful_pro' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_pro_disabled' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_exists' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_contra' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_contra_disabled' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_column_pro' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_column_contra' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_column_feedback' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_after_pro' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_after_contra' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
+            'helpful_after_fallback' => [
+                'type' => 'string',
+                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+            ],
         ];
 
         $fields = apply_filters('helpful_texts_settings_group', $fields);
 
-        foreach ($fields as $field) {
-            $args = [
-                'type' => 'string',
-                'sanitize_callback' => 'sanitize_text_field'
-            ];
-
+        foreach ($fields as $field => $args) {
             register_setting('helpful-texts-settings-group', $field, apply_filters('helpful_settings_group_args', $args, $field));
         }
     }
@@ -134,5 +168,37 @@ class Texts
             $message = esc_html_x('Settings saved.', 'tab alert after save', 'helpful');
             echo Helper::get_alert($message, 'success', 1500);
         }
+    }
+
+    /**
+     * Filters the values of an option before saving them. Thus does not allow every
+     * HTML element and makes Helpful a bit more secure.
+     * 
+     * @version 4.4.57
+     * @since 4.4.57
+     *
+     * @param mixed $value
+     * 
+     * @return mixed
+     */
+    public function sanitize_input($value)
+    {
+        return wp_kses($value, Helper::kses_allowed_tags());
+    }
+
+    /**
+     * Filters the values of an option before saving them. Thus does not allow 
+     * HTML element and makes Helpful a bit more secure.
+     * 
+     * @version 4.4.57
+     * @since 4.4.57
+     *
+     * @param mixed $value
+     * 
+     * @return mixed
+     */
+    public function sanitize_input_without_tags($value)
+    {
+        return wp_kses($value, []);
     }
 }
