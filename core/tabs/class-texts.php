@@ -78,7 +78,12 @@ class Texts
         $fields = apply_filters('helpful_texts_settings_group', $fields);
 
         foreach ($fields as $field) {
-            register_setting('helpful-texts-settings-group', $field);
+            $args = [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field'
+            ];
+
+            register_setting('helpful-texts-settings-group', $field, apply_filters('helpful_settings_group_args', $args, $field));
         }
     }
 

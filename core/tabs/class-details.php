@@ -91,7 +91,12 @@ class Details
         $fields = apply_filters('helpful_details_settings_group', $fields);
 
         foreach ($fields as $field):
-            register_setting('helpful-details-settings-group', $field);
+            $args = [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field'
+            ];
+
+            register_setting('helpful-details-settings-group', $field, apply_filters('helpful_settings_group_args', $args, $field));
         endforeach;
     }
 

@@ -97,7 +97,12 @@ class Feedback
         $fields = apply_filters('helpful_feedback_fields', $fields);
 
         foreach ($fields as $field) {
-            register_setting('helpful-feedback-settings-group', $field);
+            $args = [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field'
+            ];
+
+            register_setting('helpful-feedback-settings-group', $field, apply_filters('helpful_settings_group_args', $args, $field));
         }
     }
 
