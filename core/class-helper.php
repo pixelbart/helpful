@@ -44,7 +44,8 @@ class Helper
     /**
      * Set custom timezone if set in the options.
      *
-     * @version 4.3.0
+     * @version 4.4.58
+     * 
      * @return void
      */
     public static function set_timezone()
@@ -53,9 +54,31 @@ class Helper
 
         $timezone = $options->get_option('helpful_timezone');
 
+        if (isset($timezone) && '' !== trim($timezone) && false === self::is_timezone($timezone)) {
+            $options->update_option('helpful_timezone', '');
+            return false;
+        }
+
         if (isset($timezone) && '' !== trim($timezone)) {
             date_default_timezone_set($timezone);
         }
+    }
+
+    /**
+     * Checks if a timezone exists.
+     * 
+     * @source https://stackoverflow.com/a/5823217
+     *
+     * @version 4.4.58
+     *
+     * @param string $timezone
+     *
+     * @return bool
+     */
+    public static function is_timezone($timezone)
+    {
+        @$tz=timezone_open($timezone);
+        return $tz!==FALSE;
     }
 
     /**
@@ -442,7 +465,7 @@ class Helper
     public static function is_feedback_disabled()
     {
         $options = new Services\Options();
-    
+
         if ('on' === $options->get_option('helpful_feedback_disabled')) {
             return true;
         }
@@ -453,10 +476,10 @@ class Helper
     /**
      * Returns the allowed HTML tags and attributes for the kses function
      * that are allowed when saving the settings.
-     * 
+     *
      * @version 4.4.57
      * @since 4.4.56
-     * 
+     *
      * @return array
      */
     public static function kses_allowed_tags()
