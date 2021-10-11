@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
@@ -35,6 +35,7 @@ class Values
      * Defaults values for shortcodes.
      *
      * @global $helpful, $post
+     * @version 4.4.59
      *
      * @return array
      */
@@ -59,22 +60,22 @@ class Values
 
         $values = [
             'heading_tag' => 'h3',
-            'heading' => self::convert_tags($options->get_option('helpful_heading'), $post_id),
-            'content' => self::convert_tags($options->get_option('helpful_content'), $post_id),
-            'button_pro' => $options->get_option('helpful_pro'),
-            'button_contra' => $options->get_option('helpful_contra'),
-            'button_pro_disabled' => ('on' === $options->get_option('helpful_pro_disabled')) ? 1 : 0,
-            'button_contra_disabled' => ('on' === $options->get_option('helpful_contra_disabled')) ? 1 : 0,
-            'counter' => (!$options->get_option('helpful_count_hide')),
+            'heading' => self::convert_tags($options->get_option('helpful_heading', '', 'kses'), $post_id),
+            'content' => self::convert_tags($options->get_option('helpful_content', '', 'kses'), $post_id),
+            'button_pro' => $options->get_option('helpful_pro', '', 'kses'),
+            'button_contra' => $options->get_option('helpful_contra', '', 'kses'),
+            'button_pro_disabled' => ('on' === $options->get_option('helpful_pro_disabled', 'off', 'esc_attr')) ? 1 : 0,
+            'button_contra_disabled' => ('on' === $options->get_option('helpful_contra_disabled', 'off', 'esc_attr')) ? 1 : 0,
+            'counter' => ('off' === $options->get_option('helpful_count_hide', 'off', 'esc_attr')),
             'count_pro' => Stats::get_pro($post_id),
             'count_pro_percent' => Stats::get_pro($post_id, true),
             'count_contra' => Stats::get_contra($post_id),
             'count_contra_percent' => Stats::get_contra($post_id, true),
-            'credits' => $options->get_option('helpful_credits'),
+            'credits' => ('on' === $options->get_option('helpful_credits', 'on', 'esc_attr')),
             'credits_html' => $credits['html'],
             'exists' => User::check_user($user_id, $post_id) ? 1 : 0,
-            'exists_text' => self::convert_tags($options->get_option('helpful_exists'), $post_id),
-            'exists_hide' => ('on' === $options->get_option('helpful_exists_hide')) ? 1 : 0,
+            'exists_text' => self::convert_tags($options->get_option('helpful_exists', '', 'kses'), $post_id),
+            'exists_hide' => ('on' === $options->get_option('helpful_exists_hide', 'off', 'esc_attr')) ? 1 : 0,
             'post_id' => $post_id,
             'user_id' => User::get_user(),
         ];
@@ -373,6 +374,8 @@ class Values
 
     /**
      * Sync post meta
+     * 
+     * @version 4.4.59
      *
      * @return void
      */
@@ -384,7 +387,7 @@ class Values
 
         if (false === ($query = get_transient($transient))) {
 
-            $post_types = $options->get_option('helpful_post_types');
+            $post_types = $options->get_option('helpful_post_types', [], 'esc_attr');
 
             $args = [
                 'post_type' => $post_types,
@@ -394,9 +397,9 @@ class Values
             ];
 
             $query = new \WP_Query($args);
-            $cache_time = $options->get_option('helpful_cache_time', 'minute');
+            $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
             $cache_times = Cache::get_cache_times(false);
-            $cache_time = $cache_times[$cache_time];
+            $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
 
             set_transient($transient, $query, $cache_time);
 

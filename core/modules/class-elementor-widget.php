@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -61,6 +61,8 @@ class Elementor_Widget extends \Elementor\Widget_Base
     /**
      * Register widget controls.
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     protected function _register_controls()
@@ -111,7 +113,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'label' => esc_html_x('Headline', 'elementor option name', 'helpful'),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => $options->get_option('helpful_heading'),
+                'default' => $options->get_option('helpful_heading', '', 'kses'),
             ]
         );
 
@@ -121,7 +123,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'label' => esc_html_x('Content', 'elementor option name', 'helpful'),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::TEXTAREA,
-                'default' => $options->get_option('helpful_content'),
+                'default' => $options->get_option('helpful_content', '', 'kses'),
             ]
         );
 
@@ -131,7 +133,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'label' => esc_html_x('Pro', 'elementor option name', 'helpful'),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => $options->get_option('helpful_pro'),
+                'default' => $options->get_option('helpful_pro', '', 'kses'),
             ]
         );
 
@@ -141,7 +143,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'label' => esc_html_x('Contra', 'elementor option name', 'helpful'),
                 'label_block' => true,
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => $options->get_option('helpful_contra'),
+                'default' => $options->get_option('helpful_contra', '', 'kses'),
             ]
         );
 
@@ -169,7 +171,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                 'description' => esc_html_x('This option overrides the Helpful theme and applies to all Helpful on the site. You will also need to reload the page to see the changes.', 'elementor option description', 'helpful'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => $choices,
-                'default' => $options->get_option('helpful_theme'),
+                'default' => $options->get_option('helpful_theme', '', 'esc_attr'),
             ]
         );
 

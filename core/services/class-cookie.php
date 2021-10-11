@@ -4,7 +4,7 @@
  * @subpackage Core\Services
  * @copyright Copyright (c) 2015, Pippin Williamson
  * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @version 4.4.55
+ * @version 4.4.59
  * @since 4.4.55
  */
 namespace Helpful\Core\Services;
@@ -20,8 +20,11 @@ if (!defined('ABSPATH')) {
 class Cookie
 {
     /**
+     * @version 4.4.59
+     *
      * @param string $key
      * @param mixed $value
+     *
      * @return void
      */
     public function set(string $key, $value)
@@ -33,7 +36,7 @@ class Cookie
         $options = new Options();
         $lifetime = '+30 days';
         $lifetime = apply_filters('helpful_user_cookie_time', $lifetime);
-        $samesite = $options->get_option('helpful_cookies_samesite') ?: 'Strict';
+        $samesite = $options->get_option('helpful_cookies_samesite', 'Strict', 'esc_attr') ?: 'Strict';
 
         if (70300 <= PHP_VERSION_ID) {
 

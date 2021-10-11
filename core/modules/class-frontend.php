@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.55
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -128,7 +128,8 @@ class Frontend
      *
      * @global $post
      *
-     * @version 4.4.55
+     * @version 4.4.59
+     *
      * @since 4.4.0
      * 
      * @return void
@@ -141,7 +142,7 @@ class Frontend
 
         $options = new Services\Options();
 
-        $active_theme = $options->get_option('helpful_theme');
+        $active_theme = $options->get_option('helpful_theme', '', 'esc_attr');
         $themes = apply_filters('helpful_themes', []);
         $plugin = Helper::get_plugin_data();
 
@@ -203,7 +204,7 @@ class Frontend
      *
      * @global $post
      *
-     * @version 4.4.55
+     * @version 4.4.59
      * @since 4.3.0
      *
      * @param string $content post content.
@@ -229,7 +230,7 @@ class Frontend
         $options = new Services\Options();
 
         $helpful = Helpers\Values::get_defaults();
-        $post_types = $options->get_option('helpful_post_types');
+        $post_types = $options->get_option('helpful_post_types', [], 'esc_attr');
         $user_id = Helpers\User::get_user();
 
         if ('on' === get_post_meta($helpful['post_id'], 'helpful_hide_on_post', true)) {
@@ -240,7 +241,7 @@ class Frontend
             return $content;
         }
 
-        if ('on' === $options->get_option('helpful_hide_in_content')) {
+        if ('on' === $options->get_option('helpful_hide_in_content', 'off', 'esc_attr')) {
             return $content;
         }
 
@@ -268,7 +269,7 @@ class Frontend
      *
      * @global $post
      *
-     * @version 4.4.53
+     * @version 4.4.59
      * @since 4.3.0
      *
      * @param array  $atts shortcode attributes.
@@ -300,7 +301,7 @@ class Frontend
 
         $object = new Services\Helpful($helpful['post_id'], $helpful);
 
-        if ('on' === $options->get_option('helpful_exists_hide') && $object->current_user_has_voted()) {
+        if ('on' === $options->get_option('helpful_exists_hide', 'off', 'esc_attr') && $object->current_user_has_voted()) {
             return $content;
         }
 
@@ -325,7 +326,7 @@ class Frontend
             return $content;
         }
 
-        if (1 === $helpful['exists'] && $options->get_option('helpful_feedback_after_vote')) {
+        if (1 === $helpful['exists'] && 'on' === $options->get_option('helpful_feedback_after_vote', 'off', 'esc_attr')) {
             if (!Helper::is_feedback_disabled()) {
                 $content = Helpers\Feedback::after_vote($helpful['post_id'], true);
                 $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
@@ -357,7 +358,7 @@ class Frontend
     /**
      * Ajax save user vote and render response.
      *
-     * @version 4.4.51
+     * @version 4.4.59
      * @since 4.4.0
      *
      * @return void
@@ -389,7 +390,7 @@ class Frontend
             $value = sanitize_text_field($_POST['value']);
         }
 
-        if (is_user_logged_in() && 'on' === $options->get_option('helpful_wordpress_user')) {
+        if (is_user_logged_in() && 'on' === $options->get_option('helpful_wordpress_user', 'off', 'esc_attr')) {
             $user_id = get_current_user_id();
         }
 
@@ -416,7 +417,7 @@ class Frontend
     /**
      * Ajax save user feedback and render response.
      *
-     * @version 4.4.51
+     * @version 4.4.59
      * @since 4.4.0
      *
      * @return void
@@ -445,7 +446,7 @@ class Frontend
         }
 
         if (!empty($_REQUEST['website']) && true === $spam_protection) {
-            $message = do_shortcode($options->get_option('helpful_feedback_message_spam'));
+            $message = do_shortcode($options->get_option('helpful_feedback_message_spam', '', 'kses'));
             $message = apply_filters('helpful_pre_feedback_message_spam', $message, $post_id);
             echo Helpers\Values::convert_tags($message, $post_id);
             wp_die();
@@ -463,7 +464,7 @@ class Frontend
         $helpful_type[$post_id] = $type;
 
         if ('pro' === $type) {
-            $message = do_shortcode($options->get_option('helpful_after_pro'));
+            $message = do_shortcode($options->get_option('helpful_after_pro', '', 'kses'));
 
             if (get_post_meta($post_id, 'helpful_after_pro', true)) {
                 $message = do_shortcode(get_post_meta($post_id, 'helpful_after_pro', true));
@@ -471,7 +472,7 @@ class Frontend
 
             $message = apply_filters('helpful_pre_after_pro', $message, $post_id);
         } elseif ('contra' === $type) {
-            $message = do_shortcode($options->get_option('helpful_after_contra'));
+            $message = do_shortcode($options->get_option('helpful_after_contra', '', 'kses'));
 
             if (get_post_meta($post_id, 'helpful_after_contra', true)) {
                 $message = do_shortcode(get_post_meta($post_id, 'helpful_after_contra', true));
@@ -479,7 +480,7 @@ class Frontend
 
             $message = apply_filters('helpful_pre_after_contra', $message, $post_id);
         } else {
-            $message = do_shortcode($options->get_option('helpful_after_fallback'));
+            $message = do_shortcode($options->get_option('helpful_after_fallback', '', 'kses'));
 
             if (get_post_meta($post_id, 'helpful_after_fallback', true)) {
                 $message = do_shortcode(get_post_meta($post_id, 'helpful_after_fallback', true));
@@ -496,17 +497,19 @@ class Frontend
     /**
      * Filters the frontend nonces and set the value to false, using option.
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     public function filter_nonces()
     {
         $options = new Services\Options();
 
-        if ('on' === $options->get_option('helpful_disable_frontend_nonce')) {
+        if ('on' === $options->get_option('helpful_disable_frontend_nonce', 'off', 'esc_attr')) {
             add_filter('helpful_verify_frontend_nonce', '__return_false');
         }
 
-        if ('on' === $options->get_option('helpful_disable_feedback_nonce')) {
+        if ('on' === $options->get_option('helpful_disable_feedback_nonce', 'off', 'esc_attr')) {
             add_filter('helpful_verify_feedback_nonce', '__return_false');
         }
     }

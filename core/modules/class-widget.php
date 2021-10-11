@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -57,6 +57,8 @@ class Widget
     /**
      * Enqueue styles and scripts
      *
+     * @version 4.4.59
+     *
      * @param string $hook_suffix
      *
      * @return void
@@ -65,7 +67,7 @@ class Widget
     {
         $options = new Services\Options();
 
-        if ('index.php' !== $hook_suffix || $options->get_option('helpful_widget')) {
+        if ('index.php' !== $hook_suffix || 'on' === $options->get_option('helpful_widget', 'off', 'esc_attr')) {
             return;
         }
 
@@ -88,6 +90,7 @@ class Widget
      * Dashboard widget options
      *
      * @global $wp_meta_boxes
+     * @version 4.4.59
      *
      * @return void
      */
@@ -95,7 +98,7 @@ class Widget
     {
         $options = new Services\Options();
 
-        if ($options->get_option('helpful_widget')) {
+        if ('on' === $options->get_option('helpful_widget', 'off', 'esc_attr')) {
             return;
         }
 

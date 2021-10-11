@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Services
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.4.49
  */
 namespace Helpful\Core\Services;
@@ -59,6 +59,8 @@ class CSV
     }
 
     /**
+     * @version 4.4.59
+     *
      * @return void
      */
     public function create_file()
@@ -96,7 +98,7 @@ class CSV
         $separators = [ ';', ',' ];
         $separators = apply_filters( 'helpful_export_separators', $separators );
 
-        $option = $options->get_option( 'helpful_export_separator' );
+        $option = $options->get_option('helpful_export_separator', ';', 'esc_attr');
 
         if ( $option && in_array( $option, $separators ) ) {
             $separator = esc_html( $option );

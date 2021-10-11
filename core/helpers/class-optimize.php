@@ -267,6 +267,8 @@ class Optimize
     /**
      * Update meta fields
      *
+     * @version 4.4.59
+     *
      * @return array
      */
     public static function update_metas()
@@ -274,7 +276,7 @@ class Optimize
         $options = new Services\Options();
 
         $response = [];
-        $post_types = $options->get_option('helpful_post_types');
+        $post_types = $options->get_option('helpful_post_types', [], 'esc_attr');
 
         $args = [
             'post_type' => $post_types,
@@ -289,7 +291,7 @@ class Optimize
 
                 $percentages = false;
 
-                if ($options->get_option('helpful_percentages')) {
+                if ('on' === $options->get_option('helpful_percentages', 'off', 'esc_attr')) {
                     $percentages = true;
                 }
 

@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core
- * @version 4.4.53
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core;
@@ -44,7 +44,7 @@ class Helper
     /**
      * Set custom timezone if set in the options.
      *
-     * @version 4.4.58
+     * @version 4.4.59
      * 
      * @return void
      */
@@ -52,7 +52,7 @@ class Helper
     {
         $options = new Services\Options();
 
-        $timezone = $options->get_option('helpful_timezone');
+        $timezone = $options->get_option('helpful_timezone', date_default_timezone_get(), 'esc_attr');
 
         if (isset($timezone) && '' !== trim($timezone) && false === self::is_timezone($timezone)) {
             $options->update_option('helpful_timezone', '');
@@ -358,6 +358,8 @@ class Helper
     /**
      * Returns non-permitted characters and words from the WordPress blacklist.
      *
+     * @version 4.4.59
+     * 
      * @return string
      */
     public static function get_disallowed_keys()
@@ -365,10 +367,10 @@ class Helper
         $options = new Services\Options();
 
         if (version_compare(get_bloginfo('version'), '5.5.0') >= 0) {
-            return trim($options->get_option('disallowed_keys'));
+            return trim($options->get_option('disallowed_keys', '', 'esc_attr'));
         }
 
-        return trim($options->get_option('blacklist_keys'));
+        return trim($options->get_option('blacklist_keys', '', 'esc_attr'));
     }
 
     /**
@@ -458,7 +460,7 @@ class Helper
     /**
      * Checks if the feedback was deactivated by option.
      *
-     * @version 4.4.53
+     * @version 4.4.59
      *
      * @return bool
      */
@@ -466,7 +468,7 @@ class Helper
     {
         $options = new Services\Options();
 
-        if ('on' === $options->get_option('helpful_feedback_disabled')) {
+        if ('on' === $options->get_option('helpful_feedback_disabled', 'off', 'esc_attr')) {
             return true;
         }
 

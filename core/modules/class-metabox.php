@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -41,11 +41,15 @@ class Metabox
     /**
      * Class constructor
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     public function __construct()
     {
-        if (!get_option('helpful_metabox')) {
+        $service = new Services\Options();
+
+        if ('off' === $service->get_option('helpful_metabox', 'off', 'esc_attr')) {
             return;
         }
 
@@ -58,13 +62,15 @@ class Metabox
     /**
      * Add metabox to post types.
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     public function add_metabox()
     {
         $options = new Services\Options();
 
-        $post_types = $options->get_option('helpful_post_types');
+        $post_types = $options->get_option('helpful_post_types', [], 'esc_attr');
 
         if (isset($post_types) && is_array($post_types)) {
             add_meta_box(

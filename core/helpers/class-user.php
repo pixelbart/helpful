@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.55
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
@@ -20,6 +20,8 @@ class User
     /**
      * Get user string
      *
+     * @version 4.4.59
+     *
      * @return string|null
      */
     public static function get_user()
@@ -28,17 +30,17 @@ class User
 
         $user = self::get_user_string();
 
-        if ('on' === $options->get_option('helpful_user_random')) {
+        if ('on' === $options->get_option('helpful_user_random', 'off', 'esc_attr')) {
             return self::get_user_string();
         }
 
-        if ('on' === $options->get_option('helpful_wordpress_user')) {
+        if ('on' === $options->get_option('helpful_wordpress_user', 'off', 'esc_attr')) {
             if (is_user_logged_in()) {
                 return get_current_user_id();
             }
         }
 
-        if ('on' === $options->get_option('helpful_ip_user')) {
+        if ('on' === $options->get_option('helpful_ip_user', 'off', 'esc_attr')) {
             if (isset($_SERVER['REMOTE_ADDR'])) {
                 return sanitize_text_field($_SERVER['REMOTE_ADDR']);
             }
@@ -78,7 +80,7 @@ class User
     /**
      * Set user string
      *
-     * @version 4.4.55
+     * @version 4.4.59
      * @since 4.4.0
      *
      * @return void
@@ -91,7 +93,7 @@ class User
         /**
          * No more user is set using sessions or cookies.
          */
-        if ('on' === $options->get_option('helpful_user_random')) {
+        if ('on' === $options->get_option('helpful_user_random', 'off', 'esc_attr')) {
             return;
         }
 
@@ -106,7 +108,7 @@ class User
         }
 
         $session_start = apply_filters('helpful_session_start', true);
-        $sessions_disabled = $options->get_option('helpful_sessions_false');
+        $sessions_disabled = $options->get_option('helpful_sessions_false', 'off', 'esc_attr');
 
         if (!is_bool($session_start)) {
             $session_start = true;
@@ -123,7 +125,7 @@ class User
      *
      * @global $wpdb
      *
-     * @version 4.4.51
+     * @version 4.4.59
      * @since 4.4.0
      *
      * @param string $user_id user id.
@@ -136,11 +138,11 @@ class User
     {
         $options = new Services\Options();
 
-        if ($options->get_option('helpful_multiple')) {
+        if ('on' === $options->get_option('helpful_multiple', 'off', 'esc_attr')) {
             return false;
         }
 
-        if ('on' === $options->get_option('helpful_user_random')) {
+        if ('on' === $options->get_option('helpful_user_random', 'off', 'esc_attr')) {
             return false;
         }
 
@@ -241,6 +243,8 @@ class User
     /**
      * Get avatar or default helpful avatar by email.
      *
+     * @version 4.4.59
+     *
      * @param string  $email user email.
      * @param integer $size  image size.
      *
@@ -252,7 +256,7 @@ class User
 
         $default = plugins_url('core/assets/images/avatar.jpg', HELPFUL_FILE);
 
-        if ($options->get_option('helpful_feedback_gravatar')) {
+        if ('on' === $options->get_option('helpful_feedback_gravatar', 'off', 'esc_attr')) {
             if (!is_null($email)) {
                 return get_avatar($email, $size, $default);
             }

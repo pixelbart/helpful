@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.55
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -99,13 +99,15 @@ class Core
     /**
      * Set default options.
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     public function setup_defaults()
     {
         $options = new Services\Options();
 
-        if ($options->get_option('helpful_defaults')) {
+        if ($options->get_option('helpful_defaults', 0, 'intval')) {
             return;
         }
 
@@ -134,6 +136,8 @@ class Core
 
     /**
      * Default values for settings.
+     *
+     * @version 4.4.59
      *
      * @param bool $status set true for filling defaults.
      *
@@ -180,15 +184,17 @@ class Core
             'helpful_widget_pro_recent' => true,
             'helpful_widget_contra_recent' => true,
             'helpful_feedback_subject' => _x('There\'s new feedback for you.', 'feedback email subject', 'helpful'),
-            'helpful_feedback_receivers' => get_option('admin_email'),
+            'helpful_feedback_receivers' => get_option('admin_email', '', 'esc_attr'),
             'helpful_feedback_email_content' => $feedback_email_content,
         ];
 
         $options = apply_filters('helpful_options', $options);
 
+        $service = new Services\Options();
+
         foreach ($options as $slug => $value):
-            if (!get_option($slug)) {
-                update_option($slug, $value);
+            if (!$service->get_option($slug)) {
+                $service->update_option($slug, $value);
             }
         endforeach;
 
@@ -198,16 +204,20 @@ class Core
     /**
      * Tries to load Helpful first so other plugins don't jump the queue in content.
      *
+     * @version 4.4.59
+     * 
      * @return void
      */
     public function load_first()
     {
-        if (!get_option('helpful_plugin_first')) {
+        $service = new Services\Options();
+
+        if ('off' === $service->get_option('helpful_plugin_first', 'off', 'esc_attr')) {
             return;
         }
 
         $path = str_replace(WP_PLUGIN_DIR . '/', '', HELPFUL_FILE);
-        if ($plugins = get_option('active_plugins')) {
+        if ($plugins = $service->get_option('active_plugins', [], 'esc_attr')) {
             if ($key = array_search($path, $plugins)) {
                 array_splice($plugins, $key, 1);
                 array_unshift($plugins, $path);

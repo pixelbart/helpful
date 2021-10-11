@@ -4,7 +4,7 @@
  * @subpackage Core\Services
  * @copyright Copyright (c) 2015, Pippin Williamson
  * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.4.50
  */
 namespace Helpful\Core\Services;
@@ -55,6 +55,8 @@ class Session
     }
 
     /**
+     * @version 4.4.59
+     *
      * @return bool
      */
     public function should_start_session()
@@ -80,7 +82,7 @@ class Session
             }
         }
 
-        if ($options->get_option('helpful_sessions_false')) {
+        if ('on' === $options->get_option('helpful_sessions_false', 'off', 'esc_attr')) {
             $start_session = false;
         }
 

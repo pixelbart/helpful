@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Tabs
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Tabs;
@@ -41,6 +41,8 @@ class System
     /**
      * Class constructor
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     public function __construct()
@@ -55,7 +57,7 @@ class System
         add_action('admin_init', [ & $this, 'reset_plugin']);
         add_action('admin_init', [ & $this, 'reset_feedback']);
 
-        if ($options->get_option('helpful_classic_editor')) {
+        if ('on' === $options->get_option('helpful_classic_editor', 'off', 'esc_attr')) {
             add_filter('use_block_editor_for_post', '__return_false', 10);
         }
 
@@ -188,12 +190,15 @@ class System
      * Reset helpful database and entries
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @return void
      */
     public function reset_plugin()
     {
-        if (!get_option('helpful_uninstall')) {
+        $options = new Services\Options();
+    
+        if (false === $options->get_option('helpful_uninstall', false, 'bool')) {
             return;
         }
 
@@ -232,12 +237,15 @@ class System
      * Reset helpful feedback database
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @return void
      */
     public function reset_feedback()
     {
-        if (!get_option('helpful_uninstall_feedback')) {
+        $options = new Services\Options();
+    
+        if (false === $options->get_option('helpful_uninstall_feedback', false, 'bool')) {
             return;
         }
 

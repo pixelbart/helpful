@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Helpful
  * Description: Add a fancy feedback form under your posts or post-types and ask your visitors a question. Give them the abbility to vote with yes or no.
- * Version: 4.4.58
+ * Version: 4.4.59
  * Author: Pixelbart
  * Author URI: https://pixelbart.de
  * Text Domain: helpful
@@ -86,11 +86,13 @@ if (!class_exists('HelpfulPlugin')) {
         /**
          * Outputs the Helpful version that was stored in the database.
          *
+         * @version 4.4.59
+         *
          * @return string
          */
         public function get_option_version()
         {
-            return get_option('helpful/version', '1.0.0');
+            return esc_attr(get_option('helpful/version', '1.0.0'));
         }
 
         /**

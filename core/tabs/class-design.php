@@ -74,13 +74,15 @@ class Design
     /**
      * Print custom css to wp_head.
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     public function custom_css()
     {
         $options = new Services\Options();
 
-        $custom_css = $options->get_option('helpful_css');
+        $custom_css = $options->get_option('helpful_css', ''); // how to secure?
 
         $parser = new Vendor\Css_Parser();
 

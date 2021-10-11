@@ -57,6 +57,7 @@ class Stats
      * Get amount of pro by post id.
      *
      * @global $wpdb, $post
+     * @version 4.4.59
      *
      * @param int  $post_id     if null current post id.
      * @param bool $percentages return percentage values on true.
@@ -84,10 +85,10 @@ class Stats
         $sql = $wpdb->prepare("SELECT COUNT(*) FROM $helpful WHERE pro = 1 AND post_id = %d", intval($post_id));
 
         $cache_name = 'helpful_pro_' . $post_id;
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $var = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -122,6 +123,7 @@ class Stats
      * Get contra count by post id.
      *
      * @global $wpdb, $post
+     * @version 4.4.59
      *
      * @param int  $post_id     if null current post id.
      * @param bool $percentages return percentage values on true.
@@ -149,10 +151,10 @@ class Stats
         $sql = $wpdb->prepare("SELECT COUNT(*) FROM $helpful WHERE contra = 1 AND post_id = %d", intval($post_id));
 
         $cache_name = 'helpful_contra_' . $post_id;
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $var = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -187,6 +189,7 @@ class Stats
      * Get pro count of all posts.
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param bool $percentages return percentage values on true.
      *
@@ -202,10 +205,10 @@ class Stats
         $sql = "SELECT COUNT(*) FROM $helpful WHERE pro = 1";
 
         $cache_name = 'helpful_pro_all';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $var = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -238,6 +241,7 @@ class Stats
      * Get contra count of all posts.
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param bool $percentages return percentage values on true.
      *
@@ -253,10 +257,10 @@ class Stats
         $sql = "SELECT COUNT(*) FROM $helpful WHERE contra = 1";
 
         $cache_name = 'helpful_contra_all';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $var = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -288,6 +292,7 @@ class Stats
      * Get years
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @return array
      */
@@ -301,10 +306,10 @@ class Stats
         $sql = "SELECT time FROM $helpful ORDER BY time DESC";
 
         $cache_name = 'helpful/stats/years';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -335,6 +340,7 @@ class Stats
      * Stats for today.
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param int $year response year.
      *
@@ -357,10 +363,10 @@ class Stats
         $sql = $wpdb->prepare($query, intval($year));
 
         $cache_name = 'helpful/stats/today/' . $year;
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -419,6 +425,7 @@ class Stats
      * Stats for yesterday.
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param int $year response year.
      *
@@ -441,10 +448,10 @@ class Stats
         $sql = $wpdb->prepare($query, intval($year));
 
         $cache_name = 'helpful/stats/yesterday/' . $year;
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -503,6 +510,7 @@ class Stats
      * Stats for week
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param int $year response year.
      *
@@ -525,10 +533,10 @@ class Stats
         $sql = $wpdb->prepare($query, intval($year));
 
         $cache_name = 'helpful/stats/week/' . $year;
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -613,6 +621,7 @@ class Stats
      * Stats for month
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param int $year response year.
      * @param int $month response month.
@@ -643,10 +652,10 @@ class Stats
         $sql = $wpdb->prepare($query, intval($month), intval($year));
 
         $cache_name = 'helpful/stats/month/' . $month . '/' . $year;
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -731,6 +740,7 @@ class Stats
      * Stats for year
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param int $year response year.
      *
@@ -752,10 +762,10 @@ class Stats
         $sql = $wpdb->prepare($query, intval($year));
 
         $cache_name = 'helpful/stats/year/' . $year;
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -839,6 +849,7 @@ class Stats
      * Stats by range
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param string $from time string.
      * @param string $to time string.
@@ -862,10 +873,10 @@ class Stats
         $sql = $wpdb->prepare($query, $from, $to);
 
         $cache_name = 'helpful/stats/range/' . $from . '/' . $to;
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -939,6 +950,7 @@ class Stats
      * Stats for total
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @return array
      */
@@ -952,10 +964,10 @@ class Stats
         $sql = "SELECT pro, contra, time FROM $helpful";
 
         $cache_name = 'helpful/stats/total';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -1013,6 +1025,8 @@ class Stats
 
     /**
      * Get most helpful posts.
+     * 
+     * @version 4.4.59
      *
      * @param int $limit posts per page.
      * @param string|array $post_type
@@ -1024,13 +1038,13 @@ class Stats
         $options = new Services\Options();
 
         if (is_null($limit)) {
-            $limit = intval($options->get_option('helpful_widget_amount'));
+            $limit = intval($options->get_option('helpful_widget_amount', 3, 'intval'));
         } else {
             $limit = intval($limit);
         }
 
         if (is_null($post_type)) {
-            $post_type = $options->get_option('helpful_post_types');
+            $post_type = $options->get_option('helpful_post_types', [], 'esc_attr');
         }
 
         $args = [
@@ -1041,10 +1055,10 @@ class Stats
         ];
 
         $cache_name = 'helpful_most_helpful';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $query = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -1108,6 +1122,8 @@ class Stats
     /**
      * Get least helpful posts.
      *
+     * @version 4.4.59
+     *
      * @param int $limit posts per page.
      * @param string|array $post_type
      *
@@ -1118,11 +1134,11 @@ class Stats
         $options = new Services\Options();
 
         if (is_null($limit)) {
-            $limit = absint($options->get_option('helpful_widget_amount'));
+            $limit = intval($options->get_option('helpful_widget_amount', 3, 'intval'));
         }
 
         if (is_null($post_type)) {
-            $post_type = $options->get_option('helpful_post_types');
+            $post_type = $options->get_option('helpful_post_types', [], 'esc_attr');
         }
 
         $args = [
@@ -1133,10 +1149,10 @@ class Stats
         ];
 
         $cache_name = 'helpful_least_helpful';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $query = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -1201,6 +1217,7 @@ class Stats
      * Get recently helpful pro posts
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param int $limit posts per page.
      *
@@ -1211,7 +1228,7 @@ class Stats
         $options = new Services\Options();
 
         if (is_null($limit)) {
-            $limit = absint($options->get_option('helpful_widget_amount'));
+            $limit = absint($options->get_option('helpful_widget_amount', 3, 'intval'));
         }
 
         global $wpdb;
@@ -1229,10 +1246,10 @@ class Stats
         $sql = $wpdb->prepare($sql, 1, intval($limit));
 
         $cache_name = 'helpful_recently_pro';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -1269,6 +1286,7 @@ class Stats
      * Get recently unhelpful pro posts.
      *
      * @global $wpdb
+     * @version 4.4.59
      *
      * @param int $limit posts per page.
      *
@@ -1279,7 +1297,7 @@ class Stats
         $options = new Services\Options();
 
         if (is_null($limit)) {
-            $limit = absint($options->get_option('helpful_widget_amount'));
+            $limit = absint($options->get_option('helpful_widget_amount', 3, 'intval'));
         }
 
         global $wpdb;
@@ -1297,10 +1315,10 @@ class Stats
         $sql = $wpdb->prepare($sql, 1, intval($limit));
 
         $cache_name = 'helpful_recently_contra';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
@@ -1395,6 +1413,8 @@ class Stats
     /**
      * Returns everything at once and saves the result in a transient to reduce the number of queries for the widget.
      *
+     * @version 4.4.59
+     *
      * @return array
      */
     public static function get_widget_stats()
@@ -1402,19 +1422,19 @@ class Stats
         $options = new Services\Options();
 
         $cache_name = 'helpful_widget_stats';
-        $cache_time = $options->get_option('helpful_cache_time', 'minute');
-        $cache_active = $options->get_option('helpful_caching', 'off');
+        $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
+        $cache_active = $options->get_option('helpful_caching', 'off', 'esc_attr');
         $cache_times = Cache::get_cache_times(false);
-        $cache_time = $cache_times[$cache_time];
+        $cache_time = (isset($cache_times[$cache_time])) ? $cache_times[$cache_time] : MINUTE_IN_SECONDS;
         $results = get_transient($cache_name);
 
         if ('on' !== $cache_active) {
             $results = [
-                'most_helpful' => $options->get_option('helpful_widget_pro') ? self::get_most_helpful() : null,
-                'least_helpful' => $options->get_option('helpful_widget_contra') ? self::get_least_helpful() : null,
-                'recently_pro' => $options->get_option('helpful_widget_pro_recent') ? self::get_recently_pro() : null,
-                'recently_contra' => $options->get_option('helpful_widget_contra_recent') ? self::get_recently_contra() : null,
-                'feedback_items' => $options->get_option('helpful_feedback_widget') ? Feedback::get_feedback_items() : null,
+                'most_helpful' => $options->get_option('helpful_widget_pro', false, 'bool') ? self::get_most_helpful() : null,
+                'least_helpful' => $options->get_option('helpful_widget_contra', false, 'bool') ? self::get_least_helpful() : null,
+                'recently_pro' => $options->get_option('helpful_widget_pro_recent', false, 'bool') ? self::get_recently_pro() : null,
+                'recently_contra' => $options->get_option('helpful_widget_contra_recent', false, 'bool') ? self::get_recently_contra() : null,
+                'feedback_items' => $options->get_option('helpful_feedback_widget', false, 'bool') ? Feedback::get_feedback_items() : null,
                 'pro_total' => intval(self::get_pro_all()),
                 'contra_total' => intval(self::get_contra_all()),
             ];
@@ -1424,11 +1444,11 @@ class Stats
 
         if (false === $results) {
             $results = [
-                'most_helpful' => $options->get_option('helpful_widget_pro') ? self::get_most_helpful() : null,
-                'least_helpful' => $options->get_option('helpful_widget_contra') ? self::get_least_helpful() : null,
-                'recently_pro' => $options->get_option('helpful_widget_pro_recent') ? self::get_recently_pro() : null,
-                'recently_contra' => $options->get_option('helpful_widget_contra_recent') ? self::get_recently_contra() : null,
-                'feedback_items' => $options->get_option('helpful_feedback_widget') ? Feedback::get_feedback_items() : null,
+                'most_helpful' => $options->get_option('helpful_widget_pro', false, 'bool') ? self::get_most_helpful() : null,
+                'least_helpful' => $options->get_option('helpful_widget_contra', false, 'bool') ? self::get_least_helpful() : null,
+                'recently_pro' => $options->get_option('helpful_widget_pro_recent', false, 'bool') ? self::get_recently_pro() : null,
+                'recently_contra' => $options->get_option('helpful_widget_contra_recent', false, 'bool') ? self::get_recently_contra() : null,
+                'feedback_items' => $options->get_option('helpful_feedback_widget', false, 'bool') ? Feedback::get_feedback_items() : null,
                 'pro_total' => intval(self::get_pro_all()),
                 'contra_total' => intval(self::get_contra_all()),
             ];

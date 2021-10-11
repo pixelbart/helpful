@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -125,6 +125,8 @@ class Feedback_Admin
     /**
      * Ajax get feedback items
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     public function ajax_get_feedback_items()
@@ -139,7 +141,7 @@ class Feedback_Admin
         $filters = ['all', 'pro', 'contra'];
         $sql = "SELECT * FROM $table_name";
 
-        $limit = $options->get_option('helpful_feedback_amount', 10);
+        $limit = $options->get_option('helpful_feedback_amount', 3, 'intval');
         $limit = intval(apply_filters('helpful_feedback_limit', $limit));
 
         $page = 1;

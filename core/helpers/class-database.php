@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.51
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
@@ -179,6 +179,7 @@ class Database
      * Updates database tables.
      *
      * @global $wpdb
+     * @version 4.4.59
      * 
      * @return void
      */
@@ -186,7 +187,7 @@ class Database
     {
         $options = new Services\Options();
 
-        if ($options->get_option('helpful_update_table_integer')) {
+        if ($options->get_option('helpful_update_table_integer', false, 'intval')) {
             return;
         }
 

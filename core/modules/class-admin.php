@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.50
+ * @version 4.4.59
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -54,6 +54,8 @@ class Admin
     /**
      * Register admin menu.
      *
+     * @version 4.4.59
+     *
      * @return void
      */
     public function register_admin_menu()
@@ -63,7 +65,7 @@ class Admin
         add_menu_page(
             __('Helpful', 'helpful'),
             __('Helpful', 'helpful'),
-            $options->get_option('helpful_capability', 'manage_options'),
+            $options->get_option('helpful_capability', 'manage_options', 'blank'),
             'helpful',
             [ & $this, 'callback_admin_page'],
             'dashicons-thumbs-up',
@@ -74,7 +76,7 @@ class Admin
             'helpful',
             __('Settings', 'helpful'),
             __('Settings', 'helpful'),
-            $options->get_option('helpful_settings_capability', 'manage_options'),
+            $options->get_option('helpful_settings_capability', 'manage_options', 'blank'),
             'helpful',
             [ & $this, 'callback_admin_page']
         );
@@ -109,6 +111,8 @@ class Admin
     /**
      * Enqueue backend scripts and styles, if current screen is helpful
      *
+     * @version 4.4.59
+     *
      * @param string $hook_suffix
      *
      * @return void
@@ -118,7 +122,7 @@ class Admin
         $options = new Services\Options();
 
         /* shrink admin columns */
-        if ('on' === $options->get_option('helpful_shrink_admin_columns')) {
+        if ('on' === $options->get_option('helpful_shrink_admin_columns', 'off', 'esc_attr')) {
             $file = plugins_url('core/assets/css/admin-columns.css', HELPFUL_FILE);
             wp_enqueue_style('helpful-admin-columns', $file);
         }
@@ -181,6 +185,7 @@ class Admin
      * Register columns on admin pages
      *
      * @global $pagenow
+     * @version 4.4.59
      *
      * @return void
      */
@@ -190,8 +195,8 @@ class Admin
 
         $options = new Services\Options();
 
-        $post_types = $options->get_option('helpful_post_types');
-        $hide_cols = $options->get_option('helpful_hide_admin_columns');
+        $post_types = $options->get_option('helpful_post_types', [], 'esc_attr');
+        $hide_cols = $options->get_option('helpful_hide_admin_columns', 'off', 'esc_attr');
 
         if (isset($hide_cols) && 'on' === $hide_cols) {
             return;
@@ -222,6 +227,8 @@ class Admin
 
     /**
      * Set column titles
+     * 
+     * @version 4.4.59
      *
      * @param array $defaults defatul columns.
      *
@@ -236,9 +243,9 @@ class Admin
             $columns[$key] = $value;
 
             if ('title' === $key) {
-                $columns['helpful-pro'] = $options->get_option('helpful_column_pro') ? $options->get_option('helpful_column_pro') : _x('Pro', 'column name', 'helpful');
-                $columns['helpful-contra'] = $options->get_option('helpful_column_contra') ? $options->get_option('helpful_column_contra') : _x('Contra', 'column name', 'helpful');
-                $columns['helpful-feedback'] = $options->get_option('helpful_column_feedback') ? $options->get_option('helpful_column_feedback') : _x('Feedback', 'column name', 'helpful');
+                $columns['helpful-pro'] = $options->get_option('helpful_column_pro', '', 'esc_attr') ? $options->get_option('helpful_column_pro', '', 'esc_attr') : _x('Pro', 'column name', 'helpful');
+                $columns['helpful-contra'] = $options->get_option('helpful_column_contra', '', 'esc_attr') ? $options->get_option('helpful_column_contra', '', 'esc_attr') : _x('Contra', 'column name', 'helpful');
+                $columns['helpful-feedback'] = $options->get_option('helpful_column_feedback', '', 'esc_attr') ? $options->get_option('helpful_column_feedback', '', 'esc_attr') : _x('Feedback', 'column name', 'helpful');
             }
         endforeach;
 
@@ -247,6 +254,8 @@ class Admin
 
     /**
      * Columns callback
+     *
+     * @version 4.4.59
      *
      * @param string  $column_name column name.
      * @param integer $post_id     post id.
@@ -258,7 +267,7 @@ class Admin
         $options = new Services\Options();
 
         if ('helpful-pro' === $column_name) {
-            if ($options->get_option('helpful_percentages')) {
+            if ('on' === $options->get_option('helpful_percentages', 'off', 'esc_attr')) {
                 $percent = Helpers\Stats::get_pro($post_id, true);
                 $pro = Helpers\Stats::get_pro($post_id);
                 update_post_meta($post_id, 'helpful-pro', $pro);
@@ -272,7 +281,7 @@ class Admin
         }
 
         if ('helpful-contra' === $column_name) {
-            if ($options->get_option('helpful_percentages')) {
+            if ('on' === $options->get_option('helpful_percentages', 'off', 'esc_attr')) {
                 $percent = Helpers\Stats::get_contra($post_id, true);
                 $contra = Helpers\Stats::get_contra($post_id);
                 update_post_meta($post_id, 'helpful-contra', $contra);

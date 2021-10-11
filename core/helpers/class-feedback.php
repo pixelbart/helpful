@@ -70,8 +70,9 @@ class Feedback
      * Get feedback items.
      *
      * @global $wpdb
+     * @version 4.4.59
      *
-     * @param integer $limit posts per page.
+     * @param int $limit posts per page.
      *
      * @return object
      */
@@ -80,7 +81,7 @@ class Feedback
         $options = new Services\Options();
 
         if (is_null($limit)) {
-            $limit = absint($options->get_option('helpful_widget_amount'));
+            $limit = intval($options->get_option('helpful_widget_amount', 3, 'intval'));
         }
 
         global $wpdb;
@@ -214,6 +215,8 @@ class Feedback
     /**
      * Send feedback email.
      *
+     * @version 4.4.59
+     *
      * @param array $feedback feedback data.
      *
      * @return void
@@ -227,7 +230,7 @@ class Feedback
          */
         self::send_email_voter($feedback);
 
-        if ('on' !== $options->get_option('helpful_feedback_send_email')) {
+        if ('on' !== $options->get_option('helpful_feedback_send_email', 'off', 'esc_attr')) {
             return;
         }
 
@@ -262,7 +265,7 @@ class Feedback
         $tags = apply_filters('helpful_feedback_email_tags', $tags);
 
         /* email subject */
-        $subject = $options->get_option('helpful_feedback_subject');
+        $subject = $options->get_option('helpful_feedback_subject', '', 'kses_wot');
         $subject = str_replace(array_keys($tags), array_values($tags), $subject);
 
         /* unserialize feedback fields */
@@ -274,7 +277,7 @@ class Feedback
         }
 
         /* body */
-        $body = $options->get_option('helpful_feedback_email_content');
+        $body = $options->get_option('helpful_feedback_email_content', '', 'kses');
         $body = str_replace(array_keys($tags), array_values($tags), $body);
 
         /* receivers by post meta */
@@ -290,7 +293,7 @@ class Feedback
         $helpful_receivers = [];
 
         if ($options->get_option('helpful_feedback_receivers')) {
-            $helpful_receivers = $options->get_option('helpful_feedback_receivers');
+            $helpful_receivers = $options->get_option('helpful_feedback_receivers', '', 'esc_attr');
             $helpful_receivers = helpful_trim_all($helpful_receivers);
             $helpful_receivers = explode(',', $helpful_receivers);
         }
@@ -328,6 +331,8 @@ class Feedback
     /**
      * Send feedback email to voter.
      *
+     * @version 4.4.59
+     *
      * @param array $feedback feedback data.
      *
      * @return void
@@ -336,7 +341,7 @@ class Feedback
     {
         $options = new Services\Options();
 
-        if ('on' !== $options->get_option('helpful_feedback_send_email_voter')) {
+        if ('on' !== $options->get_option('helpful_feedback_send_email_voter', 'off', 'esc_attr')) {
             return;
         }
 
@@ -365,7 +370,7 @@ class Feedback
         $tags = apply_filters('helpful_feedback_email_tags', $tags);
 
         /* subject */
-        $subject = $options->get_option('helpful_feedback_subject_voter');
+        $subject = $options->get_option('helpful_feedback_subject_voter', '', 'kses_wot');
         $subject = str_replace(array_keys($tags), array_values($tags), $subject);
 
         /* unserialize feedback fields */
@@ -377,7 +382,7 @@ class Feedback
         }
 
         /* Body */
-        $body = $options->get_option('helpful_feedback_email_content_voter');
+        $body = $options->get_option('helpful_feedback_email_content_voter', '', 'kses');
         $body = str_replace(array_keys($tags), array_values($tags), $body);
 
         /* Receivers */
@@ -442,7 +447,7 @@ class Feedback
      * Render after messages or feedback form, after vote.
      * Checks if custom template exists.
      *
-     * @version 4.4.51
+     * @version 4.4.59
      * @since 4.4.0
      *
      * @param integer $post_id post id.
@@ -476,16 +481,16 @@ class Feedback
 
         if (true === $show_feedback) {
             $type = 'none';
-            $feedback_text = $options->get_option('helpful_feedback_message_voted');
+            $feedback_text = $options->get_option('helpful_feedback_message_voted', '', 'kses');
             $feedback_text = apply_filters('helpful_pre_feedback_message_voted', $feedback_text, $post_id);
         }
 
         if ('pro' === $type) {
-            $feedback_text = $options->get_option('helpful_feedback_message_pro');
+            $feedback_text = $options->get_option('helpful_feedback_message_pro', '', 'kses');
 
             if (false === $show_feedback) {
                 if (!$options->get_option('helpful_feedback_after_pro') || true === $hide_feedback) {
-                    $content = do_shortcode($options->get_option('helpful_after_pro'));
+                    $content = do_shortcode($options->get_option('helpful_after_pro', '', 'kses'));
 
                     if (get_post_meta($post_id, 'helpful_after_pro', true)) {
                         $content = do_shortcode(get_post_meta($post_id, 'helpful_after_pro', true));
@@ -497,11 +502,11 @@ class Feedback
         }
 
         if ('contra' === $type) {
-            $feedback_text = $options->get_option('helpful_feedback_message_contra');
+            $feedback_text = $options->get_option('helpful_feedback_message_contra', '', 'kses');
 
             if (false === $show_feedback) {
                 if (!$options->get_option('helpful_feedback_after_contra') || true === $hide_feedback) {
-                    $content = do_shortcode($options->get_option('helpful_after_contra'));
+                    $content = do_shortcode($options->get_option('helpful_after_contra', '', 'kses'));
 
                     if (get_post_meta($post_id, 'helpful_after_contra', true)) {
                         $content = do_shortcode(get_post_meta($post_id, 'helpful_after_contra', true));
@@ -514,7 +519,7 @@ class Feedback
 
         if ('none' === $type) {
             if (!$options->get_option('helpful_feedback_after_pro') && !$options->get_option('helpful_feedback_after_contra') && false === $show_feedback) {
-                $content = do_shortcode($options->get_option('helpful_after_fallback'));
+                $content = do_shortcode($options->get_option('helpful_after_fallback', '', 'kses'));
 
                 if (get_post_meta($post_id, 'helpful_after_fallback', true)) {
                     $content = do_shortcode(get_post_meta($post_id, 'helpful_after_fallback', true));
