@@ -510,6 +510,9 @@ class Helper
             'div' => [
                 'class' => [],
             ],
+            'i' => [
+                'class' => [],
+            ],
         ];
 
         return apply_filters('helpful/kses/allowed_tags', $tags);

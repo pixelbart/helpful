@@ -52,7 +52,7 @@ printf($text, '<code>{feedback_form}</code>, <code>{feedback_toggle}</code>');
 		<div class="helpful-admin-panel-content">
 			<div class="helpful-admin-group">
 				<label class="helpful-block" for="helpful_heading"><?php _ex('Headline', 'option name', 'helpful'); ?></label>
-				<input type="text" id="helpful_heading" name="helpful_heading" class="regular-text" value="<?php echo $options->get_option('helpful_heading', '', 'kses'); ?>"/>
+				<input type="text" id="helpful_heading" name="helpful_heading" class="regular-text" value="<?php echo esc_attr($options->get_option('helpful_heading', '', 'kses')); ?>"/>
 				<p class="description"><?php _ex('Here you can define your own headline.', 'option info', 'helpful'); ?></p>
 			</div><!-- .helpful-admin-group -->
 
@@ -106,13 +106,13 @@ printf($text, '<code>{feedback_form}</code>, <code>{feedback_toggle}</code>');
 		<div class="helpful-admin-panel-content">
 			<div class="helpful-admin-group">
 				<label class="helpful-block" for="helpful_pro"><?php _ex('Button (pro)', 'option name', 'helpful'); ?></label>
-				<input type="text" id="helpful_pro" name="helpful_pro" class="regular-text" value="<?php echo $options->get_option('helpful_pro', '', 'kses'); ?>"/>
+				<input type="text" id="helpful_pro" name="helpful_pro" class="regular-text" value="<?php echo esc_attr($options->get_option('helpful_pro', '', 'kses')); ?>"/>
 				<p class="description"><?php _ex('Here you can define your own text for the pro button. You can use HTML to use e.g. Font Awesome.', 'option info', 'helpful'); ?></p>
 			</div><!-- .helpful-admin-group -->
 
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-block" for="helpful_contra"><?php _ex('Button (contra)', 'option name', 'helpful'); ?></label>
-				<input type="text" id="helpful_contra" name="helpful_contra" class="regular-text" value="<?php echo $options->get_option('helpful_contra', '', 'kses'); ?>"/>
+				<input type="text" id="helpful_contra" name="helpful_contra" class="regular-text" value="<?php echo esc_attr($options->get_option('helpful_contra', '', 'kses')); ?>"/>
 				<p class="description"><?php _ex('Here you can define your own text for the contra button. You can use HTML to use e.g. Font Awesome.', 'option info', 'helpful'); ?></p>
 			</div><!-- .helpful-admin-group -->
 
@@ -156,7 +156,7 @@ printf($text, '<code>{feedback_form}</code>, <code>{feedback_toggle}</code>');
 			<div class="helpful-admin-group">
 				<?php $value = $options->get_option('helpful_column_feedback', _x('Feedback', 'column name', 'helpful'), 'esc_attr'); ?>
 				<label class="helpful-block" for="helpful_column_feedback"><?php _ex('Column (feedback)', 'option name', 'helpful'); ?></label>
-				<input type="text" id="helpful_column_feedback" name="helpful_column_feedback" class="regular-text" value="<?php echo $value; ?>"/>
+				<input type="text" id="helpful_column_feedback" name="helpful_column_feedback" class="regular-text" value="<?php echo esc_attr($value); ?>"/>
 				<p class="description"><?php _ex('Here you can define your own text for the feedback column in the post edit list.', 'option info', 'helpful'); ?></p>
 			</div><!-- .helpful-admin-group -->
 		</div><!-- .helpful-admin-panel-content -->

@@ -141,8 +141,12 @@ class Feedback_Admin
         $filters = ['all', 'pro', 'contra'];
         $sql = "SELECT * FROM $table_name";
 
-        $limit = $options->get_option('helpful_feedback_amount', 3, 'intval');
+        $limit = $options->get_option('helpful_feedback_amount', 10, 'intval');
         $limit = intval(apply_filters('helpful_feedback_limit', $limit));
+
+        if (!$limit || 0 === $limit) {
+            $limit = 10;
+        }
 
         $page = 1;
 
