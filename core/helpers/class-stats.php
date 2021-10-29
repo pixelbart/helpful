@@ -740,7 +740,7 @@ class Stats
      * Stats for year
      *
      * @global $wpdb
-     * @version 4.4.59
+     * @version 4.4.61
      *
      * @param int $year response year.
      *
@@ -787,7 +787,7 @@ class Stats
         $pro = [];
         $contra = [];
         $labels = [];
-        $timestamp = strtotime(sprintf(date('%d-1-1'), intval($year)));
+        $timestamp = strtotime('first day of January' . intval($year));
         $days = 12;
 
         for ($i = 0; $i < $days; $i++):
