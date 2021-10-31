@@ -49,7 +49,7 @@ class Metabox
     {
         $service = new Services\Options();
 
-        if ('off' === $service->get_option('helpful_metabox', 'off', 'esc_attr')) {
+        if ('on' !== $service->get_option('helpful_metabox', 'off', 'esc_attr')) {
             return;
         }
 
@@ -101,13 +101,14 @@ class Metabox
         $hide_feedback = get_post_meta($post->ID, 'helpful_hide_feedback_on_post', true);
         $receivers = get_post_meta($post->ID, 'helpful_feedback_receivers', true);
 
-        $helpful_heading = get_post_meta($post->ID, 'helpful_heading', true);
-        $helpful_pro = get_post_meta($post->ID, 'helpful_pro', true);
-        $helpful_contra = get_post_meta($post->ID, 'helpful_contra', true);
-        $helpful_exists = get_post_meta($post->ID, 'helpful_exists', true);
-        $helpful_after_pro = get_post_meta($post->ID, 'helpful_after_pro', true);
-        $helpful_after_contra = get_post_meta($post->ID, 'helpful_after_contra', true);
-        $helpful_after_fallback = get_post_meta($post->ID, 'helpful_after_fallback', true);
+        // Not working =
+        // $helpful_heading = get_post_meta($post->ID, 'helpful_heading', true);
+        // $helpful_pro = get_post_meta($post->ID, 'helpful_pro', true);
+        // $helpful_contra = get_post_meta($post->ID, 'helpful_contra', true);
+        // $helpful_exists = get_post_meta($post->ID, 'helpful_exists', true);
+        // $helpful_after_pro = get_post_meta($post->ID, 'helpful_after_pro', true);
+        // $helpful_after_contra = get_post_meta($post->ID, 'helpful_after_contra', true);
+        // $helpful_after_fallback = get_post_meta($post->ID, 'helpful_after_fallback', true);
 
         wp_nonce_field('helpful_save_metabox', 'helpful_metabox_nonce');
 
@@ -144,13 +145,13 @@ class Metabox
         }
 
         $metas = [
-            'helpful_heading',
-            'helpful_pro',
-            'helpful_contra',
-            'helpful_exists',
-            'helpful_after_pro',
-            'helpful_after_contra',
-            'helpful_after_fallback',
+            // 'helpful_heading',
+            // 'helpful_pro',
+            // 'helpful_contra',
+            // 'helpful_exists',
+            // 'helpful_after_pro',
+            // 'helpful_after_contra',
+            // 'helpful_after_fallback',
             'helpful_feedback_receivers',
         ];
 

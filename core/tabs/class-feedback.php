@@ -49,7 +49,7 @@ class Feedback
 
         if (Helper::is_feedback_disabled()) {
             return;
-		}
+        }
 
         add_filter('helpful_get_admin_tabs', [ & $this, 'register_tab'], 10, 2);
         add_action('helpful_tabs_content', [ & $this, 'register_tab_content']);
@@ -79,19 +79,19 @@ class Feedback
             ],
             'helpful_feedback_message_pro' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_message_contra' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_messages_table' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_widget_overview' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_name' => [
                 'type' => 'string',
@@ -107,23 +107,23 @@ class Feedback
             ],
             'helpful_feedback_label_message' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_label_name' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_label_email' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_label_submit' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_label_cancel' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_gravatar' => [
                 'type' => 'string',
@@ -131,7 +131,7 @@ class Feedback
             ],
             'helpful_feedback_message_spam' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_after_vote' => [
                 'type' => 'string',
@@ -139,7 +139,7 @@ class Feedback
             ],
             'helpful_feedback_message_voted' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_amount' => [
                 'type' => 'integer',
@@ -151,15 +151,15 @@ class Feedback
             ],
             'helpful_feedback_receivers' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags'],
             ],
             'helpful_feedback_subject' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags'],
             ],
             'helpful_feedback_email_content' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
             'helpful_feedback_send_email_voter' => [
                 'type' => 'string',
@@ -167,15 +167,15 @@ class Feedback
             ],
             'helpful_feedback_subject_voter' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input_without_tags'],
             ],
             'helpful_feedback_email_content_voter' => [
                 'type' => 'string',
-                'sanitize_callback' => [ & $this, 'sanitize_input' ],
+                'sanitize_callback' => [ & $this, 'sanitize_input'],
             ],
         ];
 
-        $fields = apply_filters('helpful_feedback_fields', $fields);
+        $fields = apply_filters('helpful_feedback_settings_group', $fields);
 
         foreach ($fields as $field => $args) {
             register_setting('helpful-feedback-settings-group', $field, apply_filters('helpful_settings_group_args', $args, $field));
@@ -234,12 +234,12 @@ class Feedback
     /**
      * Filters the values of an option before saving them. Thus does not allow every
      * HTML element and makes Helpful a bit more secure.
-     * 
+     *
      * @version 4.4.57
      * @since 4.4.57
      *
      * @param mixed $value
-     * 
+     *
      * @return mixed
      */
     public function sanitize_input($value)
@@ -248,14 +248,14 @@ class Feedback
     }
 
     /**
-     * Filters the values of an option before saving them. Thus does not allow 
+     * Filters the values of an option before saving them. Thus does not allow
      * HTML element and makes Helpful a bit more secure.
-     * 
+     *
      * @version 4.4.57
      * @since 4.4.57
      *
      * @param mixed $value
-     * 
+     *
      * @return mixed
      */
     public function sanitize_input_without_tags($value)

@@ -52,8 +52,7 @@ class Core
 
         add_action('admin_init', [ & $this, 'setup_tables']);
 
-        // Causes problems and was therefore commented out.
-        // add_action( 'init', [ &$this, 'setup_defaults' ] );
+        add_action('init', [ & $this, 'setup_defaults']);
 
         add_action('activated_plugin', [ & $this, 'load_first']);
 
@@ -149,52 +148,13 @@ class Core
             return false;
         }
 
-        ob_start();
-        require_once HELPFUL_PATH . 'templates/feedback-email.php';
-        $feedback_email_content = ob_get_contents();
-        ob_end_clean();
+        $options = new Services\Options();
+        $defaults = $options->get_defaults_array();
+        $defaults = apply_filters('helpful_options', $defaults);
 
-        $options = [
-            'helpful_heading' => _x('Was this post helpful?', 'default headline', 'helpful'),
-            'helpful_content' => _x('Let us know if you liked the post. That’s the only way we can improve.', 'default description', 'helpful'),
-            'helpful_exists' => _x('You have already voted for this post.', 'already voted', 'helpful'),
-            'helpful_success' => _x('Thank you for voting.', 'text after voting', 'helpful'),
-            'helpful_error' => _x('Sorry, an error has occurred.', 'error after voting', 'helpful'),
-            'helpful_pro' => _x('Yes', 'text pro button', 'helpful'),
-            'helpful_contra' => _x('No', 'text contra button', 'helpful'),
-            'helpful_column_pro' => _x('Pro', 'column name', 'helpful'),
-            'helpful_column_contra' => _x('Contra', 'column name', 'helpful'),
-            'helpful_column_feedback' => _x('Feedback', 'column name', 'helpful'),
-            'helpful_after_pro' => _x('Thank you for voting.', 'text after voting', 'helpful'),
-            'helpful_after_contra' => _x('Thank you for voting.', 'text after voting', 'helpful'),
-            'helpful_after_fallback' => _x('Thank you for voting.', 'text after voting', 'helpful'),
-            'helpful_feedback_label_message' => _x('Message', 'label for feedback form field', 'helpful'),
-            'helpful_feedback_label_name' => _x('Name', 'label for feedback form field', 'helpful'),
-            'helpful_feedback_label_email' => _x('Email', 'label for feedback form field', 'helpful'),
-            'helpful_feedback_label_submit' => _x('Send Feedback', 'label for feedback form field', 'helpful'),
-            'helpful_feedback_label_cancel' => _x('Cancel', 'label for feedback form field', 'helpful'),
-            'helpful_post_types' => ['post'],
-            'helpful_count_hide' => false,
-            'helpful_credits' => true,
-            'helpful_uninstall' => false,
-            'helpful_widget' => true,
-            'helpful_widget_amount' => 3,
-            'helpful_widget_pro' => true,
-            'helpful_widget_contra' => true,
-            'helpful_widget_pro_recent' => true,
-            'helpful_widget_contra_recent' => true,
-            'helpful_feedback_subject' => _x('There\'s new feedback for you.', 'feedback email subject', 'helpful'),
-            'helpful_feedback_receivers' => get_option('admin_email', '', 'esc_attr'),
-            'helpful_feedback_email_content' => $feedback_email_content,
-        ];
-
-        $options = apply_filters('helpful_options', $options);
-
-        $service = new Services\Options();
-
-        foreach ($options as $slug => $value):
-            if (!$service->get_option($slug)) {
-                $service->update_option($slug, $value);
+        foreach ($defaults as $slug => $value):
+            if (!$options->get_option($slug)) {
+                $options->update_option($slug, $value);
             }
         endforeach;
 
@@ -205,14 +165,14 @@ class Core
      * Tries to load Helpful first so other plugins don't jump the queue in content.
      *
      * @version 4.4.59
-     * 
+     *
      * @return void
      */
     public function load_first()
     {
         $service = new Services\Options();
 
-        if ('off' === $service->get_option('helpful_plugin_first', 'off', 'esc_attr')) {
+        if ('on' !== $service->get_option('helpful_plugin_first', 'off', 'esc_attr')) {
             return;
         }
 

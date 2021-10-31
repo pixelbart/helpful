@@ -66,7 +66,7 @@ class Values
             'button_contra' => $options->get_option('helpful_contra', '', 'kses'),
             'button_pro_disabled' => ('on' === $options->get_option('helpful_pro_disabled', 'off', 'esc_attr')) ? 1 : 0,
             'button_contra_disabled' => ('on' === $options->get_option('helpful_contra_disabled', 'off', 'esc_attr')) ? 1 : 0,
-            'counter' => ('off' === $options->get_option('helpful_count_hide', 'off', 'esc_attr')),
+            'counter' => ('on' !== $options->get_option('helpful_count_hide', 'off', 'esc_attr')),
             'count_pro' => Stats::get_pro($post_id),
             'count_pro_percent' => Stats::get_pro($post_id, true),
             'count_contra' => Stats::get_contra($post_id),
