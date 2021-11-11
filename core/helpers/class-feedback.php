@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.51
+ * @version 4.4.63
  * @since 1.0.0
  */
 namespace Helpful\Core\Helpers;
@@ -114,7 +114,7 @@ class Feedback
         $pro = 0;
         $contra = 0;
         $message = null;
-        
+
         do_action('helpful/insert_feedback');
 
         if (!isset($_REQUEST['post_id'])) {
@@ -190,9 +190,11 @@ class Feedback
             $instance = sanitize_text_field($_REQUEST['instance']);
         }
 
+        $user_id = esc_attr($_REQUEST['user_id']);
+
         $data = [
             'time' => current_time('mysql'),
-            'user' => esc_attr($_REQUEST['user_id']),
+            'user' => $user_id,
             'pro' => $pro,
             'contra' => $contra,
             'post_id' => $post_id,
@@ -213,9 +215,29 @@ class Feedback
     }
 
     /**
+     * Checks if the feedback already exists.
+     *
+     * @global $wdpb
+     * 
+     * @version 4.4.63
+     * 
+     * @param array $feedback_data
+     * 
+     * @return bool
+     */
+    public static function feedback_exists($data)
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'helpful_feedback';
+        $sql = "SELECT COUNT(*) FROM $table_name WHERE user = %s AND pro = %d AND contra = %d AND post_id = %d AND message = %s AND instance_id = %d";
+        $var = $wpdb->get_var($wpdb->prepare($sql, $data['user'], $data['pro'], $data['contra'], $data['post_id'], $data['message'], $data['instance_id']));
+        return ($var) ? true : false;
+    }
+
+    /**
      * Send feedback email.
      *
-     * @version 4.4.59
+     * @version 4.4.63
      *
      * @param array $feedback feedback data.
      *
@@ -224,6 +246,10 @@ class Feedback
     public static function send_email($feedback)
     {
         $options = new Services\Options();
+
+        if (true === self::feedback_exists($feedback)) {
+            return;
+        }
 
         /**
          * Send email to voter.
@@ -239,7 +265,7 @@ class Feedback
         if (!$post) {
             return;
         }
-        
+
         do_action('helpful/send_email');
 
         $feedback['fields'] = maybe_unserialize($feedback['fields']);
@@ -350,7 +376,7 @@ class Feedback
         if (!$post) {
             return;
         }
-        
+
         do_action('helpful/send_email_voter');
 
         $feedback['fields'] = maybe_unserialize($feedback['fields']);
