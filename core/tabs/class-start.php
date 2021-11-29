@@ -187,10 +187,12 @@ class Start
                 ],
             ],
         ];
+        
+        $args = apply_filters('helpful/ajax_get_posts_data/args', $args);
+        $transient = 'helpful_admin_start_' . md5(serialize($args));        
+        $query = get_transient($transient);
 
-        $transient = 'helpful_admin_start_' . md5(serialize($args));
-
-        if (false === ($query = get_transient($transient))) {
+        if (false === $query) {
             $query = new \WP_Query($args);
             $cache_time = $options->get_option('helpful_cache_time', 'minute', 'esc_attr');
             $cache_times = Helpers\Cache::get_cache_times(false);
