@@ -1070,6 +1070,7 @@ class Stats
 
         $query = maybe_unserialize($query);
         $posts = [];
+        $results = [];
 
         if ($query->found_posts) {
             foreach ($query->posts as $post_id):
@@ -1079,10 +1080,8 @@ class Stats
             endforeach;
 
             if (1 < count($posts)) {
-
                 arsort($posts);
 
-                $results = [];
                 $posts = array_slice($posts, 0, $limit, true);
 
                 foreach ($posts as $post_id => $value):
@@ -1164,6 +1163,7 @@ class Stats
 
         $query = maybe_unserialize($query);
         $posts = [];
+        $results = [];
 
         if ($query->found_posts) {
             foreach ($query->posts as $post_id):
@@ -1173,10 +1173,8 @@ class Stats
             endforeach;
 
             if (1 < count($posts)) {
-
                 arsort($posts);
-
-                $results = [];
+            
                 $posts = array_slice($posts, 0, $limit, true);
 
                 foreach ($posts as $post_id => $value):
