@@ -63,6 +63,10 @@ class Database
             if ('helpful' === $table_name) {
                 $response[] = self::handle_table_helpful();
             }
+
+            if ('instances' === $table_name) {
+                $response[] = self::handle_table_instances();
+            }
         }
 
         return $response;

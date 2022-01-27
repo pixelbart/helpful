@@ -47,6 +47,13 @@ class Instance
 
         $table_name = self::get_table_name($wpdb);
 
+        // setup table if not exists
+        $transient = 'helpful/database/setup_tables/instances';
+        if (false === get_transient($transient)) {
+            Database::table_exists_or_setup($table_name);
+            set_transient($transient, time(), WEEK_IN_SECONDS);
+        }
+
         $instance = self::get_instance_by('instance_key', $instance_key, $wpdb);
 
         if ($instance) {
