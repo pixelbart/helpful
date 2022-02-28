@@ -114,11 +114,16 @@
                             });
 
                             request.done(function(response) {
-                                if ("success" === response.status) {
-                                    window.location.href = response.file;
-                                } else {
-                                    alert(response.message);
-                                }
+                                $(".helpfulLogsClickable").remove();
+
+                                var clickableElement = $("<a></a>", {
+                                    class: "helpfulLogsClickable",
+                                    href: response.file,
+                                    download: "",
+                                    style: "position:absolute;top:0;left:-9999px;"
+                                }).appendTo("body");
+
+                                $(".helpfulLogsClickable")[0].click();
                             });
                         }
                     }
