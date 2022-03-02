@@ -114,12 +114,14 @@
                             });
 
                             request.done(function(response) {
+                                let randomString = Math.random().toString(36).substring(2, 9);
+
                                 $(".helpfulLogsClickable").remove();
 
                                 var clickableElement = $("<a></a>", {
                                     class: "helpfulLogsClickable",
                                     href: response.file,
-                                    download: "",
+                                    download: "helpful-log-" + randomString + ".csv",
                                     style: "position:absolute;top:0;left:-9999px;"
                                 }).appendTo("body");
 
