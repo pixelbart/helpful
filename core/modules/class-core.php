@@ -54,15 +54,6 @@ class Core
         add_action('helpful/plugin/updated', [ & $this, 'setup_tables_and_settings']);
 
         add_action('upgrader_process_complete', [ & $this, 'on_plugin_update'], 10, 2);
-
-        add_action('template_redirect', function () {
-            if (!array_key_exists('update_helpful')) {
-                return;
-            }
-
-            do_action('helpful/plugin/updated');
-            exit();
-        });
     }
 
     /**
