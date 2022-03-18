@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Helpful
- * @version 4.4.59
+ * @version 4.5.0
  * @since 1.0.0
  */
 use Helpful\Core\Helper;
@@ -37,9 +37,12 @@ printf($text, '<code>{feedback_form}</code>, <code>{feedback_toggle}</code>');
 ?></p>
 <?php endif; ?>
 
-<form method="post" action="options.php">
-	<?php settings_fields('helpful-texts-settings-group'); ?>
-	<?php do_settings_sections('helpful-texts-settings-group'); ?>
+<form method="post" action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>">
+	<input type="hidden" name="option_page" value="helpful-texts-settings-group">
+	<input type="hidden" name="action" value="helpful_update_options">
+
+	<?php wp_nonce_field('helpful_update_options'); ?>
+
 	<?php submit_button(__('Save Changes'), 'default'); ?>
 	<?php do_action('helpful_texts_settings_before'); ?>
 

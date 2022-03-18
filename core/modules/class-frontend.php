@@ -2,12 +2,13 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.59
+ * @version 4.5.0
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Module;
 use Helpful\Core\Helpers as Helpers;
 use Helpful\Core\Services as Services;
 
@@ -18,25 +19,7 @@ if (!defined('ABSPATH')) {
 
 class Frontend
 {
-    /**
-     * Instance
-     *
-     * @var Frontend
-     */
-    public static $instance;
-
-    /**
-     * Set instance and fire class
-     *
-     * @return Frontend
-     */
-    public static function get_instance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    use Module;
 
     /**
      * Class Constructor
@@ -142,7 +125,9 @@ class Frontend
 
         $options = new Services\Options();
 
-        $active_theme = $options->get_option('helpful_theme', '', 'esc_attr');
+        $customizer = $options->get_option('helpful_customizer', '');
+        $active_theme = (is_array($customizer) && array_key_exists('theme', $customizer)) ? esc_attr($customizer['theme']) : 'base';
+        
         $themes = apply_filters('helpful_themes', []);
         $plugin = Helper::get_plugin_data();
 
@@ -152,11 +137,7 @@ class Frontend
                     continue;
                 }
 
-                if ('blank' === $theme['id']) {
-                    break;
-                }
-
-                wp_enqueue_style('helpful-theme-' . $theme['id'], $theme['stylesheet'], [], $plugin['Version']);
+                wp_enqueue_style('helpful', $theme['stylesheet'], [], $plugin['Version']);
             }
         }
 
@@ -241,7 +222,7 @@ class Frontend
             return $content;
         }
 
-        if ('on' === $options->get_option('helpful_hide_in_content', 'off', 'esc_attr')) {
+        if ('on' === $options->get_option('helpful_hide_in_content', 'off', 'on_off')) {
             return $content;
         }
 
@@ -301,7 +282,7 @@ class Frontend
 
         $object = new Services\Helpful($helpful['post_id'], $helpful);
 
-        if ('on' === $options->get_option('helpful_exists_hide', 'off', 'esc_attr') && $object->current_user_has_voted()) {
+        if ('on' === $options->get_option('helpful_exists_hide', 'off', 'on_off') && $object->current_user_has_voted()) {
             return $content;
         }
 
@@ -326,7 +307,7 @@ class Frontend
             return $content;
         }
 
-        if (1 === $helpful['exists'] && 'on' === $options->get_option('helpful_feedback_after_vote', 'off', 'esc_attr')) {
+        if (1 === $helpful['exists'] && 'on' === $options->get_option('helpful_feedback_after_vote', 'off', 'on_off')) {
             if (!Helper::is_feedback_disabled()) {
                 $content = Helpers\Feedback::after_vote($helpful['post_id'], true);
                 $content = Helpers\Values::convert_tags($content, $helpful['post_id']);
@@ -390,7 +371,7 @@ class Frontend
             $value = sanitize_text_field($_POST['value']);
         }
 
-        if (is_user_logged_in() && 'on' === $options->get_option('helpful_wordpress_user', 'off', 'esc_attr')) {
+        if (is_user_logged_in() && 'on' === $options->get_option('helpful_wordpress_user', 'off', 'on_off')) {
             $user_id = get_current_user_id();
         }
 

@@ -8,6 +8,7 @@
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Module;
 use Helpful\Core\Helpers as Helpers;
 use Helpful\Core\Services as Services;
 
@@ -18,25 +19,7 @@ if (!defined('ABSPATH')) {
 
 class Maintenance
 {
-    /**
-     * Class instance
-     *
-     * @var Maintenance
-     */
-    public static $instance;
-
-    /**
-     * Set instance and fire class
-     *
-     * @return Maintenance
-     */
-    public static function get_instance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    use Module;
 
     /**
      * Class constructor

@@ -2,12 +2,13 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.63
+ * @version 4.5.0
  * @since 4.4.63
  */
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Module;
 use Helpful\Core\Helpers as Helpers;
 use Helpful\Core\Services as Services;
 
@@ -18,25 +19,7 @@ if (!defined('ABSPATH')) {
 
 class Api
 {
-    /**
-     * Instance
-     *
-     * @var Api
-     */
-    public static $instance;
-
-    /**
-     * Set instance and fire class
-     *
-     * @return Api
-     */
-    public static function get_instance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    use Module;
 
     /**
      * Class constructor

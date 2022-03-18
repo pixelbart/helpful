@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Helpful
- * @version 4.4.50
+ * @version 4.5.0
  * @since 1.0.0
  */
 use Helpful\Core\Helper;

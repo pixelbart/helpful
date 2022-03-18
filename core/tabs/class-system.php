@@ -198,7 +198,7 @@ class System
     {
         $options = new Services\Options();
     
-        if (false === $options->get_option('helpful_uninstall', false, 'bool')) {
+        if ('off' === $options->get_option('helpful_uninstall', 'off', 'on_off')) {
             return;
         }
 
@@ -245,7 +245,7 @@ class System
     {
         $options = new Services\Options();
     
-        if (false === $options->get_option('helpful_uninstall_feedback', false, 'bool')) {
+        if ('off' === $options->get_option('helpful_uninstall_feedback', 'off', 'on_off')) {
             return;
         }
 

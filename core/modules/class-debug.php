@@ -2,12 +2,13 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.50
+ * @version 4.5.0
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Module;
 use Helpful\Core\Helpers as Helpers;
 
 /* Prevent direct access */
@@ -17,26 +18,7 @@ if (!defined('ABSPATH')) {
 
 class Debug
 {
-    /**
-     * Class instance
-     *
-     * @var Debug
-     */
-    public static $instance;
-
-    /**
-     * Set instance and fire class
-     *
-     * @return Debug
-     */
-    public static function get_instance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
+    use Module;
 
     /**
      * Constructor.

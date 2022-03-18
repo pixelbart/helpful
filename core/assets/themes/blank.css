@@ -1,0 +1,134 @@
+/* Helpful */
+
+.helpful {}
+
+
+/* Helpful: Users has already voted */
+
+.helpful.helpful-exists {}
+
+
+/**
+ * Headline
+ */
+
+
+/* Headline: container */
+
+.helpful>.helpful-header {}
+
+
+/* Headline */
+
+.helpful>.helpful-header>h3 {}
+
+
+/**
+ * Content
+ */
+
+
+/* Content: container */
+
+.helpful>.helpful-content {}
+
+
+/* Content: links */
+
+.helpful>.helpful-content>a {}
+
+.helpful>.helpful-content>a:hover {}
+
+
+/**
+ * Buttons & Controls
+ */
+
+
+/* Helpful: buttons container */
+
+.helpful .helpful-controls {}
+
+
+/* Helpful: single button container */
+
+.helpful .helpful-controls>div {}
+
+
+/* Helpful: buttons */
+
+.helpful>.helpful-controls>div>.helpful-button {}
+
+.helpful>.helpful-controls>div>.helpful-button:hover {}
+
+
+/* Helpful: pro button */
+
+.helpful>.helpful-controls>div>.helpful-button[data-value="pro"] {}
+
+
+/* Helpful: contra button */
+
+.helpful>.helpful-controls>div>.helpful-button[data-value="contra"] {}
+
+
+/* Helpful: counter */
+
+.helpful>.helpful-controls>div>.helpful-button>.helpful-counter {}
+
+
+/**
+ * Credits
+ */
+
+
+/* Credits: container */
+
+.helpful>.helpful-footer {}
+
+
+/* Credits: links */
+
+.helpful>.helpful-footer>a {}
+
+
+/**
+ * Feedback
+ */
+
+
+/* Feedback: form */
+
+.helpful>.helpful-content>.helpful-feedback-form {}
+
+
+/* Feedback: required star */
+
+.helpful>.helpful-content>.helpful-feedback-form req {}
+
+
+/* Feedback: paragraph */
+
+.helpful>.helpful-content>.helpful-feedback-form p {}
+
+.helpful>.helpful-content>.helpful-feedback-form>p,
+.helpful>.helpful-content>.helpful-feedback-form>.feedback-note>p,
+.helpful>.helpful-content>.helpful-feedback-form>.group {}
+
+
+/* Feedback: inputs, textareas and buttons */
+
+.helpful>.helpful-content>.helpful-feedback-form textarea,
+.helpful>.helpful-content>.helpful-feedback-form input[type="text"],
+.helpful>.helpful-content>.helpful-feedback-form input[type="email"],
+.helpful>.helpful-content>.helpful-feedback-form input[type="url"],
+.helpful>.helpful-content>.helpful-feedback-form input[type="number"] {}
+
+.helpful>.helpful-content>.helpful-feedback-form textarea {}
+
+.helpful>.helpful-content>.helpful-feedback-form input[type="checkbox"],
+.helpful>.helpful-content>.helpful-feedback-form input[type="radio"] {}
+
+.helpful>.helpful-content>.helpful-feedback-form .helpful-button {}
+
+.helpful>.helpful-content>.helpful-feedback-form .helpful-button:hover {}

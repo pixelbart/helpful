@@ -23,9 +23,12 @@ do_action('helpful_tab_details_before');
 
 <p><?php _ex('Here you can customize Helpful in detail. You can activate and deactivate many things here. Besides you can decide where Helpful appears and if Helpful appears. If you deactivate Helpful in the posts, you can output Helpful with the help of the shortcut code.', 'tab description', 'helpful'); ?></p>
 
-<form method="post" action="options.php">
-	<?php settings_fields('helpful-details-settings-group'); ?>
-	<?php do_settings_sections('helpful-details-settings-group'); ?>
+<form method="post" action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>">
+	<input type="hidden" name="option_page" value="helpful-details-settings-group">
+	<input type="hidden" name="action" value="helpful_update_options">
+
+	<?php wp_nonce_field('helpful_update_options'); ?>
+	
 	<?php submit_button(__('Save Changes'), 'default'); ?>
 	<?php do_action('helpful_details_settings_before'); ?>
 
@@ -241,7 +244,7 @@ do_action('helpful_tab_details_before');
 	
 			<div class="helpful-admin-group">
 				<label>
-					<?php $value = esc_attr($options->get_option('helpful_widget_amount', 5, 'intval')); ?>
+					<?php $value = esc_attr($options->get_option('helpful_widget_amount', 3, 'intval')); ?>
 					<input type="number" id="helpful_widget_amount" name="helpful_widget_amount" class="small-text" min="1" value="<?php echo esc_attr($value); ?>"/>
 					<?php echo esc_html_x('Number of entries', 'label', 'helpful'); ?>
 				</label>

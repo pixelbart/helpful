@@ -2,12 +2,13 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.59
+ * @version 4.5.0
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Module;
 use Helpful\Core\Helpers as Helpers;
 use Helpful\Core\Services as Services;
 
@@ -18,12 +19,7 @@ if (!defined('ABSPATH')) {
 
 class Feedback_Admin
 {
-    /**
-     * Instance
-     *
-     * @var Feedback_Admin
-     */
-    public static $instance;
+    use Module;
 
     /**
      * Class constructor.
@@ -43,20 +39,6 @@ class Feedback_Admin
         add_action('wp_ajax_helpful_remove_feedback', [ & $this, 'ajax_delete_feedback_item']);
         add_action('wp_ajax_helpful_export_feedback', [ & $this, 'ajax_export_feedback']);
         add_action('wp_ajax_helpful_delete_all_feedback', [ & $this, 'ajax_delete_all_feedback']);
-    }
-
-    /**
-     * Class instance.
-     *
-     * @return Feedback_Admin
-     */
-    public static function get_instance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
     }
 
     /**

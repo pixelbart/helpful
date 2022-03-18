@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Helpful
- * @version 4.4.59
+ * @version 4.5.0
  * @since 1.0.0
  */
 use Helpful\Core\Helper;
@@ -25,9 +25,12 @@ do_action('helpful_tab_feedback_before');
 
 <p><?php echo esc_html_x('Here you can activate a feedback form. The feedback form will be displayed after voting and can be configured here. Please note that the form is not spam protected.', 'tab description', 'helpful'); ?></p>
 
-<form method="post" action="options.php">
-	<?php settings_fields('helpful-feedback-settings-group'); ?>
-	<?php do_settings_sections('helpful-feedback-settings-group'); ?>
+<form method="post" action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>">
+	<input type="hidden" name="option_page" value="helpful-feedback-settings-group">
+	<input type="hidden" name="action" value="helpful_update_options">
+
+	<?php wp_nonce_field('helpful_update_options'); ?>
+
 	<?php submit_button(__('Save Changes'), 'default'); ?>
 	<?php do_action('helpful_feedback_settings_before'); ?>
 

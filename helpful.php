@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Helpful
  * Description: Add a fancy feedback form under your posts or post-types and ask your visitors a question. Give them the abbility to vote with yes or no.
- * Version: 4.4.70
+ * Version: 4.5.0
  * Author: Pixelbart
  * Author URI: https://pixelbart.de
  * Text Domain: helpful
@@ -18,6 +18,7 @@ if (!defined('ABSPATH')) {
 define('HELPFUL_FILE', __FILE__);
 define('HELPFUL_PATH', plugin_dir_path(__FILE__));
 define('HELPFUL_PHP_MIN', '5.6.20');
+define('HELPFUL_BASENAME', plugin_basename(__FILE__));
 
 /* Load Helpful after plugins are loaded */
 add_action('plugins_loaded', ['HelpfulPlugin', 'get_instance']);
@@ -143,25 +144,32 @@ if (!class_exists('HelpfulPlugin')) {
         {
             include_once HELPFUL_PATH . 'core/functions/helpers.php';
 
-            Helpful\Core\Modules\Core::get_instance();
+            $this->class_exists('Helpful\Core\Modules\Core');
+            
+            $this->class_exists('Helpful\Core\Solutions\WP_Rocket');
+            $this->class_exists('Helpful\Core\Solutions\WPML');
 
-            Helpful\Core\Modules\Maintenance::get_instance();
-            Helpful\Core\Modules\debug::get_instance();
-            Helpful\Core\Modules\Admin::get_instance();
+            $this->class_exists('Helpful\Core\Modules\Maintenance');
+            $this->class_exists('Helpful\Core\Modules\debug');
+            $this->class_exists('Helpful\Core\Modules\Admin');
 
-            Helpful\Core\Modules\Feedback_Admin::get_instance();
-            Helpful\Core\Modules\Widget::get_instance();
-            Helpful\Core\Modules\Customizer::get_instance();
-            Helpful\Core\Modules\Frontend::get_instance();
-            Helpful\Core\Modules\Api::get_instance();
+            $this->class_exists('Helpful\Core\Modules\Feedback_Admin');
+            $this->class_exists('Helpful\Core\Modules\Widget');
+            
+            // $this->class_exists('Helpful\Core\Customizer\Info_Control_Element');
+            $this->class_exists('Helpful\Core\Customizer\Core');
 
-            Helpful\Core\Tabs\Start::get_instance();
-            Helpful\Core\Tabs\Details::get_instance();
-            Helpful\Core\Tabs\Texts::get_instance();
-            Helpful\Core\Tabs\Feedback::get_instance();
-            Helpful\Core\Tabs\Design::get_instance();
-            Helpful\Core\Tabs\System::get_instance();
-            Helpful\Core\Tabs\Log::get_instance();
+            $this->class_exists('Helpful\Core\Modules\Frontend');
+            $this->class_exists('Helpful\Core\Modules\Api');
+
+            $this->class_exists('Helpful\Core\Tabs\Start');
+            $this->class_exists('Helpful\Core\Tabs\Details');
+            $this->class_exists('Helpful\Core\Tabs\Texts');
+            $this->class_exists('Helpful\Core\Tabs\Feedback');
+            $this->class_exists('Helpful\Core\Tabs\Design');
+            $this->class_exists('Helpful\Core\Tabs\System');
+            $this->class_exists('Helpful\Core\Tabs\Export');
+            $this->class_exists('Helpful\Core\Tabs\Log');
 
             if (is_admin()) {
                 add_action('load-post.php', ['Helpful\Core\Modules\Metabox', 'get_instance']);
@@ -169,6 +177,22 @@ if (!class_exists('HelpfulPlugin')) {
             }
 
             include_once HELPFUL_PATH . 'core/functions/values.php';
+        }
+
+        /**
+         * Checks if a class exists and then sets an instance.
+         * 
+         * @param string $class_name
+         * 
+         * @return string
+         */
+        public function class_exists($class_name)
+        {
+            if (class_exists($class_name)) {
+                $class_name::get_instance();
+            }
+
+            return $class_name;
         }
 
         /**

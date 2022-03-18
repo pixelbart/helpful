@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Helpful
- * @version 4.4.59
+ * @version 4.5.0
  * @since 1.0.0
  */
 use Helpful\Core\Helper;
@@ -25,9 +25,12 @@ do_action('helpful_tab_system_before');
 
 <p><?php _ex('Here you will find settings that Helpful can reset, or affect. Among other things you can set your own timezone, reset Helpful and set whether users can vote for a post more than once.', 'tab description', 'helpful'); ?></p>
 
-<form method="post" action="options.php">
-	<?php settings_fields('helpful-system-settings-group'); ?>
-	<?php do_settings_sections('helpful-system-settings-group'); ?>
+<form method="post" action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>">
+	<input type="hidden" name="option_page" value="helpful-system-settings-group">
+	<input type="hidden" name="action" value="helpful_update_options">
+
+	<?php wp_nonce_field('helpful_update_options'); ?>
+
 	<?php submit_button(__('Save Changes'), 'default'); ?>
 	<?php do_action('helpful_system_settings_before'); ?>
 
@@ -114,6 +117,14 @@ do_action('helpful_tab_system_before');
 					<?php $value = $options->get_option('helpful_classic_editor', 'off', 'esc_attr'); ?>
 					<input id="helpful_classic_editor" type="checkbox" name="helpful_classic_editor" <?php checked('on', $value); ?> />
 					<?php _ex('Activate the classic editor and deactivate the block editor', 'label', 'helpful'); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+
+			<div class="helpful-admin-group helpful-margin-bottom">
+				<label>
+					<?php $value = $options->get_option('helpful_classic_widgets', 'off', 'esc_attr'); ?>
+					<input id="helpful_classic_widgets" type="checkbox" name="helpful_classic_widgets" <?php checked('on', $value); ?> />
+					<?php _ex('Activate the classic widgets and deactivate the block editor for widgets', 'label', 'helpful'); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
 

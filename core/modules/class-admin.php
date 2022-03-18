@@ -2,12 +2,13 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.59
+ * @version 4.5.0
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
+use Helpful\Core\Module;
 use Helpful\Core\Helpers as Helpers;
 use Helpful\Core\Services as Services;
 
@@ -18,25 +19,7 @@ if (!defined('ABSPATH')) {
 
 class Admin
 {
-    /**
-     * Instance
-     *
-     * @var Core
-     */
-    public static $instance;
-
-    /**
-     * Set instance and fire class
-     *
-     * @return Core
-     */
-    public static function get_instance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    use Module;
 
     /**
      * Class constructor
@@ -49,6 +32,8 @@ class Admin
         add_action('admin_enqueue_scripts', [ & $this, 'enqueue_scripts']);
 
         add_action('admin_init', [ & $this, 'init_columns']);
+
+        add_action('wp_ajax_helpful_update_options', [ & $this, 'update_options']);
     }
 
     /**
@@ -400,5 +385,49 @@ class Admin
     public function set_datatables_language()
     {
         return wp_json_encode(Helpers\Values::datatables_language_string());
+    }
+
+    /**
+     * @return void
+     */
+    public function update_options()
+    {
+        if (!check_admin_referer('helpful_update_options')) {
+            wp_safe_redirect(wp_get_referer());
+            exit;
+        }
+
+        if (array_key_exists('option_page', $_POST)) {
+
+            $service = new Services\Options();
+            $option_page = sanitize_text_field($_POST['option_page']);
+            $defaults = $service->get_defaults_array($option_page);
+            $options = array_keys($defaults);
+
+            $updated = [];
+            foreach ($_POST as $key => $value) {
+                if (in_array($key, $options)) {
+                    $service->update_option($key, $value);
+                    $updated[] = $key;
+                }
+            }
+
+            $deleted = [];
+            foreach ($defaults as $key => $value) {
+                if (!in_array($key, array_keys($_POST))) {
+
+                    if (is_string($value) && 'off' === $value) {
+                        $service->update_option($key, 'off');
+                    } else {
+                        $service->delete_option($key);
+                    }
+
+                    $deleted[] = $key;
+                }
+            }
+        }
+        
+        wp_safe_redirect(add_query_arg('settings-updated', 'true', wp_get_referer()));
+        exit;
     }
 }

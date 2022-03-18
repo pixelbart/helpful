@@ -2,13 +2,14 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.4.59
+ * @version 4.5.0
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Module;
 use Helpful\Core\Services as Services;
 
 /* Prevent direct access */
@@ -18,25 +19,7 @@ if (!defined('ABSPATH')) {
 
 class Core
 {
-    /**
-     * Instance
-     *
-     * @var Core
-     */
-    public static $instance;
-
-    /**
-     * Set instance and fire class
-     *
-     * @return Core
-     */
-    public static function get_instance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    use Module;
 
     /**
      * Class constructor
@@ -65,6 +48,21 @@ class Core
         add_action('elementor/widgets/widgets_registered', [ & $this, 'elementor_widgets']);
         add_action('elementor/controls/controls_registered', [ & $this, 'elementor_controls']);
         add_action('elementor/elements/categories_registered', [ & $this, 'elementor_categories']);
+
+        add_action('update_option', [ & $this, 'update_option_hook'], 10, 3);
+
+        add_action('helpful/plugin/updated', [ & $this, 'setup_tables_and_settings']);
+
+        add_action('upgrader_process_complete', [ & $this, 'on_plugin_update'], 10, 2);
+
+        add_action('template_redirect', function () {
+            if (!array_key_exists('update_helpful')) {
+                return;
+            }
+
+            do_action('helpful/plugin/updated');
+            exit();
+        });
     }
 
     /**
@@ -118,14 +116,16 @@ class Core
     /**
      * Create database tables for helpful.
      *
-     * @version 4.4.51
+     * @version 4.5.0
      * @since 4.4.0
      */
     public function setup_tables()
     {
         // Helpful
         $transient = 'helpful/database/setup_tables';
-        if (false === get_transient($transient)) {
+        $setup_tables = get_transient($transient);
+
+        if (false === $setup_tables) {
             Helpers\Database::handle_table_helpful();
             Helpers\Database::handle_table_feedback();
             Helpers\Database::handle_table_instances();
@@ -310,5 +310,64 @@ class Core
                 'buttons' => 'strong,em,del,ul,ol,li,close,link',
             ],
         ];
+    }
+
+    /**
+     * A fallback in case Helpful options are updated with WordPress default options.
+     * 
+     * @version 4.5.0
+     * 
+     * @param string $option
+     * @param mixed $old_value
+     * @param mixed $value
+     * 
+     * @return void
+     */
+    public function update_option_hook($option, $old_value, $value)
+    {
+        $service = new Services\Options();
+
+        $options = array_keys($service->get_defaults_array());
+
+        if (in_array($option, $options)) {
+            $service->update_option($option, $value);
+            delete_option($option);
+        }
+    }
+
+    /**
+     * Checks if there are changes in the database and synchronizes old settings formats once Helpful has been updated.
+     * 
+     * @version 4.5.0
+     * 
+     * @return void
+     */
+    public function setup_tables_and_settings()
+    {
+        delete_transient('helpful/database/setup_tables');
+        $options = new Services\Options();
+        $options->sync_options();
+    }
+
+    /**
+     * Checks if there are changes in the database and synchronizes old settings formats once Helpful has been updated.
+     * Initializes a hook that can be controlled by other classes once Helpful has been updated.
+     * 
+     * @version 4.5.0
+     * 
+     * @param WP_Upgrader $upgrader
+     * @param array $hook_extra
+     * 
+     * @return void
+     */
+    public function on_plugin_update($upgrader, $hook_extra)
+    {
+        if ($hook_extra['action'] == 'update' && $hook_extra['type'] == 'plugin') {
+            foreach ($hook_extra['plugins'] as $plugin_name) {
+                if ($plugin_name == HELPFUL_BASENAME) {
+                    do_action('helpful/plugin/updated');
+                }
+            }
+        }
     }
 }

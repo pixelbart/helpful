@@ -7,7 +7,7 @@
  */
 namespace Helpful\Core;
 
-use Helpful\Core\Services as Services;
+use Helpful\Core\Services;
 
 /* Prevent direct access */
 if (!defined('ABSPATH')) {
@@ -291,6 +291,10 @@ class Helper
 
         $close = intval($close);
 
+        if (0 === $close) {
+            return sprintf('<div class="%s">%s</div>', $classes, $message);
+        }
+
         return sprintf('<div class="%s" data-close="%s">%s</div>', $classes, $close, $message);
     }
 
@@ -468,7 +472,7 @@ class Helper
     {
         $options = new Services\Options();
 
-        if ('on' === $options->get_option('helpful_feedback_disabled', 'off', 'esc_attr')) {
+        if ('on' === $options->get_option('helpful_feedback_disabled', 'off', 'on_off')) {
             return true;
         }
 

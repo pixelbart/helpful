@@ -511,11 +511,14 @@ class Feedback
             $feedback_text = apply_filters('helpful_pre_feedback_message_voted', $feedback_text, $post_id);
         }
 
+        $ap = $options->get_option('helpful_feedback_after_pro', 'off', 'on_off');
+        $ac = $options->get_option('helpful_feedback_after_contra', 'off', 'on_off');
+
         if ('pro' === $type) {
             $feedback_text = $options->get_option('helpful_feedback_message_pro', '', 'kses');
 
             if (false === $show_feedback) {
-                if (!$options->get_option('helpful_feedback_after_pro') || true === $hide_feedback) {
+                if ('off' === $ap || true === $hide_feedback) {
                     $content = do_shortcode($options->get_option('helpful_after_pro', '', 'kses'));
 
                     if (get_post_meta($post_id, 'helpful_after_pro', true)) {
@@ -531,7 +534,7 @@ class Feedback
             $feedback_text = $options->get_option('helpful_feedback_message_contra', '', 'kses');
 
             if (false === $show_feedback) {
-                if (!$options->get_option('helpful_feedback_after_contra') || true === $hide_feedback) {
+                if ('off' === $ac || true === $hide_feedback) {
                     $content = do_shortcode($options->get_option('helpful_after_contra', '', 'kses'));
 
                     if (get_post_meta($post_id, 'helpful_after_contra', true)) {
@@ -544,7 +547,8 @@ class Feedback
         }
 
         if ('none' === $type) {
-            if (!$options->get_option('helpful_feedback_after_pro') && !$options->get_option('helpful_feedback_after_contra') && false === $show_feedback) {
+
+            if ('off' === $ap && 'off' === $ac && false === $show_feedback) {
                 $content = do_shortcode($options->get_option('helpful_after_fallback', '', 'kses'));
 
                 if (get_post_meta($post_id, 'helpful_after_fallback', true)) {

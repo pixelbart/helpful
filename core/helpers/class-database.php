@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.59
+ * @version 4.5.0
  * @since 4.3.0
  */
 namespace Helpful\Core\Helpers;
@@ -101,6 +101,7 @@ class Database
 		contra mediumint(1) DEFAULT NULL,
 		post_id bigint(20) DEFAULT NULL,
 		instance_id bigint(20) DEFAULT NULL,
+        INDEX search  (pro, contra, post_id, instance_id),
 		PRIMARY KEY  (id)
 		) $charset_collate;
 		";
@@ -183,7 +184,7 @@ class Database
      * Updates database tables.
      *
      * @global $wpdb
-     * @version 4.4.59
+     * @version 4.5.0
      * 
      * @return void
      */
