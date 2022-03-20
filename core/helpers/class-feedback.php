@@ -629,14 +629,8 @@ class Feedback
      */
     public static function get_email_content()
     {
-        $file = HELPFUL_PATH . 'templates/feedback-email.php';
-
-        if (!file_exists($file)) {
-            return '';
-        }
-
+        $file = plugins_url('templates/feedback-email.txt', HELPFUL_FILE);
         $content = file_get_contents($file);
-
         return apply_filters('helpful_pre_get_email_content', $content);
     }
 
@@ -647,14 +641,8 @@ class Feedback
      */
     public static function get_email_content_voter()
     {
-        $file = HELPFUL_PATH . 'templates/feedback-email-voter.php';
-
-        if (!file_exists($file)) {
-            return '';
-        }
-
+        $file = plugins_url('templates/feedback-email-voter.txt', HELPFUL_FILE);
         $content = file_get_contents($file);
-
         return apply_filters('helpful_pre_get_email_content_voter', $content);
     }
 }
