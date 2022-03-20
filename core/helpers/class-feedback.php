@@ -635,10 +635,7 @@ class Feedback
             return '';
         }
 
-        ob_start();
-        require_once $file;
-        $content = ob_get_contents();
-        ob_end_clean();
+        $content = file_get_contents($file);
 
         return apply_filters('helpful_pre_get_email_content', $content);
     }
@@ -656,10 +653,7 @@ class Feedback
             return '';
         }
 
-        ob_start();
-        require_once $file;
-        $content = ob_get_contents();
-        ob_end_clean();
+        $content = file_get_contents($file);
 
         return apply_filters('helpful_pre_get_email_content_voter', $content);
     }
