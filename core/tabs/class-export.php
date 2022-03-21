@@ -2,8 +2,8 @@
 /**
  * @package Helpful
  * @subpackage Core\Tabs
- * @version 4.4.50
- * @since 4.3.0
+ * @version 4.5.5
+ * @since 4.5.0
  */
 namespace Helpful\Core\Tabs;
 

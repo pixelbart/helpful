@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.5.0
+ * @version 4.5.5
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -250,7 +250,7 @@ class Frontend
      *
      * @global $post
      *
-     * @version 4.4.59
+     * @version 4.5.5
      * @since 4.3.0
      *
      * @param array  $atts shortcode attributes.
@@ -271,6 +271,12 @@ class Frontend
         }
 
         $options = new Services\Options();
+
+        if ('on' === $options->get_option('helpful_shortcode_post_types', 'off', 'esc_attr')) {
+            if (isset($post->post_type) && !in_array($post->post_type, (array) $options->get_option('helpful_post_types', [], 'esc_attr'))) {
+                return $content;
+            }
+        }
 
         $defaults = Helpers\Values::get_defaults();
         $defaults = apply_filters('helpful_shortcode_defaults', $defaults);

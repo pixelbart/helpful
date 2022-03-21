@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Helpful
- * @version 4.4.59
+ * @version 4.5.5
  * @since 1.0.0
  */
 use Helpful\Core\Helper;
@@ -22,6 +22,8 @@ do_action('helpful_tab_details_before');
 <h2><?php _ex('Details', 'tab name', 'helpful'); ?></h2>
 
 <p><?php _ex('Here you can customize Helpful in detail. You can activate and deactivate many things here. Besides you can decide where Helpful appears and if Helpful appears. If you deactivate Helpful in the posts, you can output Helpful with the help of the shortcut code.', 'tab description', 'helpful'); ?></p>
+
+<p><?php esc_html_e('Shortcode:', 'helpful'); ?> <code>[helpful]</code> | <?php esc_html_e('Dokumentation:', 'helpful'); ?> <a href="https://helpful-plugin.info/docs/getting-started/shortcodes/" target="_blank" title="<?php esc_attr_e('Open documentation in new tab', 'helpful'); ?>"><?php esc_html_e('Shortcodes', 'helpful'); ?></a></p>
 
 <form method="post" action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>">
 	<input type="hidden" name="option_page" value="helpful-details-settings-group">
@@ -149,11 +151,19 @@ do_action('helpful_tab_details_before');
 				</label>
 			</div><!-- .helpful-admin-group -->
 		
-			<div class="helpful-admin-group">
+			<div class="helpful-admin-group helpful-margin-bottom">
 				<label>
 					<?php $value = $options->get_option('helpful_wordpress_user', 'off', 'esc_attr'); ?>
 					<input id="helpful_wordpress_user" type="checkbox" name="helpful_wordpress_user" <?php checked('on', $value); ?> />
 					<?php echo esc_html_x('Use the WordPress user instead of the Helpful ID (if the user is logged in and votes).', 'label', 'helpful'); ?>
+				</label>
+			</div><!-- .helpful-admin-group -->
+		
+			<div class="helpful-admin-group">
+				<label>
+					<?php $value = $options->get_option('helpful_shortcode_post_types', 'off', 'esc_attr'); ?>
+					<input id="helpful_shortcode_post_types" type="checkbox" name="helpful_shortcode_post_types" <?php checked('on', $value); ?> />
+					<?php echo esc_html_x('Respect selected post types when using the shortcode.', 'label', 'helpful'); ?>
 				</label>
 			</div><!-- .helpful-admin-group -->
 		</div><!-- .helpful-admin-panel-content -->

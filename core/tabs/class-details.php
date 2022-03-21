@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Tabs
- * @version 4.4.50
+ * @version 4.5.5
  * @since 4.3.0
  */
 namespace Helpful\Core\Tabs;
@@ -223,7 +223,7 @@ class Details
     {
         if (isset($_GET['settings-updated'])) {
             $message = esc_html_x('Settings saved.', 'tab alert after save', 'helpful');
-            echo Helper::get_alert($message, 'success', 1500);
+            echo Helper::get_alert($message, 'success', 0);
         }
     }
 
@@ -231,7 +231,7 @@ class Details
      * Filters the values of an option before saving them. Thus does not allow every HTML element
      * and makes Helpful a bit more secure.
      *
-     * @version 4.4.57
+     * @version 4.5.5
      * @since 4.4.57
      *
      * @param mixed $value

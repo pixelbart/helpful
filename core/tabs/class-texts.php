@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Tabs
- * @version 4.4.50
+ * @version 4.5.5
  * @since 4.3.0
  */
 namespace Helpful\Core\Tabs;
@@ -166,7 +166,7 @@ class Texts
     {
         if (isset($_GET['settings-updated'])) {
             $message = esc_html_x('Settings saved.', 'tab alert after save', 'helpful');
-            echo Helper::get_alert($message, 'success', 1500);
+            echo Helper::get_alert($message, 'success', 0);
         }
     }
 

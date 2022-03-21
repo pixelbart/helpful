@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Services
- * @version 4.5.0
+ * @version 4.5.5
  * @since 4.4.47
  */
 namespace Helpful\Core\Services;
@@ -206,7 +206,13 @@ class Options
         return wp_kses($value, []);
     }
 
+
     /**
+     * @version 4.5.5
+     * @since 4.5.0
+     *
+     * @param string $group
+     *
      * @return array
      */
     public function get_defaults_array(string $group = '')
@@ -243,6 +249,7 @@ class Options
                 'helpful_feedback_widget' => 'off',
                 'helpful_widget_hide_publication' => 'off',
                 'helpful_widget_amount' => 3,
+                'helpful_shortcode_post_types' => 'off',
             ],
             'helpful-texts-settings-group' => [
                 'helpful_heading' => _x('Was this post helpful?', 'default headline', 'helpful'),
