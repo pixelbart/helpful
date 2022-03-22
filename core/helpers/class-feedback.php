@@ -237,7 +237,7 @@ class Feedback
     /**
      * Send feedback email.
      *
-     * @version 4.4.63
+     * @version 4.5.6
      *
      * @param array $feedback feedback data.
      *
@@ -547,7 +547,6 @@ class Feedback
         }
 
         if ('none' === $type) {
-
             if ('off' === $ap && 'off' === $ac && false === $show_feedback) {
                 $content = do_shortcode($options->get_option('helpful_after_fallback', '', 'kses'));
 
@@ -625,24 +624,36 @@ class Feedback
     /**
      * Get feedback email content.
      *
+     * @version 4.5.6
+     * 
      * @return string
      */
     public static function get_email_content()
     {
-        $file = plugins_url('templates/feedback-email.txt', HELPFUL_FILE);
-        $content = file_get_contents($file);
-        return apply_filters('helpful_pre_get_email_content', $content);
+        $file = plugins_url('templates/emails/feedback-email.txt', HELPFUL_FILE);
+        $file = apply_filters('helpful_pre_get_email_content_voter_file', $file);
+
+        $response = wp_remote_get($file);
+        $response = wp_remote_retrieve_body($response);
+
+        return apply_filters('helpful_pre_get_email_content_voter', $response);
     }
 
     /**
      * Get feedback email content for voters.
      *
+     * @version 4.5.6
+     * 
      * @return string
      */
     public static function get_email_content_voter()
     {
-        $file = plugins_url('templates/feedback-email-voter.txt', HELPFUL_FILE);
-        $content = file_get_contents($file);
-        return apply_filters('helpful_pre_get_email_content_voter', $content);
+        $file = plugins_url('templates/emails/feedback-email-voter.txt', HELPFUL_FILE);
+        $file = apply_filters('helpful_pre_get_email_content_voter_file', $file);
+
+        $response = wp_remote_get($file);
+        $response = wp_remote_retrieve_body($response);
+
+        return apply_filters('helpful_pre_get_email_content_voter', $response);
     }
 }
