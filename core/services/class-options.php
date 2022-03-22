@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Services
- * @version 4.5.5
+ * @version 4.5.6
  * @since 4.4.47
  */
 namespace Helpful\Core\Services;

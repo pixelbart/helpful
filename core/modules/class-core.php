@@ -54,6 +54,10 @@ class Core
         add_action('helpful/plugin/updated', [ & $this, 'setup_tables_and_settings']);
 
         add_action('upgrader_process_complete', [ & $this, 'on_plugin_update'], 10, 2);
+
+        add_action('wp_mail_failed', [ & $this, 'log_mailer_errors'], 10, 1);
+
+        add_filter('use_widgets_block_editor', [ & $this, 'disable_widgets_block_editor'], 10, 1);
     }
 
     /**
@@ -305,13 +309,13 @@ class Core
 
     /**
      * A fallback in case Helpful options are updated with WordPress default options.
-     * 
+     *
      * @version 4.5.0
-     * 
+     *
      * @param string $option
      * @param mixed $old_value
      * @param mixed $value
-     * 
+     *
      * @return void
      */
     public function update_option_hook($option, $old_value, $value)
@@ -328,9 +332,9 @@ class Core
 
     /**
      * Checks if there are changes in the database and synchronizes old settings formats once Helpful has been updated.
-     * 
+     *
      * @version 4.5.0
-     * 
+     *
      * @return void
      */
     public function setup_tables_and_settings()
@@ -343,12 +347,12 @@ class Core
     /**
      * Checks if there are changes in the database and synchronizes old settings formats once Helpful has been updated.
      * Initializes a hook that can be controlled by other classes once Helpful has been updated.
-     * 
+     *
      * @version 4.5.0
-     * 
+     *
      * @param WP_Upgrader $upgrader
      * @param array $hook_extra
-     * 
+     *
      * @return void
      */
     public function on_plugin_update($upgrader, $hook_extra)
@@ -360,5 +364,46 @@ class Core
                 }
             }
         }
+    }
+
+    /**
+     * @version 4.5.6
+     * 
+     * @param WP_Error $wp_error
+     * 
+     * @return void
+     */
+    public function log_mailer_errors($wp_error)
+    {
+        if (!is_wp_error($wp_error)) {
+            return;
+        }
+
+        $options = new Services\Options();
+        
+        if ('off' === $options->get_option('helpful_log_mailer_errors', 'off', 'on_off')) {
+            return;
+        }
+
+        $message = 'Helpful Error: ' . $wp_error->get_error_message();
+        helpful_error_log($message);
+    }
+
+    /**
+     * @version 4.5.6
+     * 
+     * @param bool $current_status
+     * 
+     * @return bool
+     */
+    public function disable_widgets_block_editor($current_status)
+    {
+        $options = new Services\Options();
+    
+        if ('off' === $options->get_option('helpful_log_mailer_errors', 'off', 'on_off')) {
+            return $current_status;
+        }
+
+        return false;
     }
 }

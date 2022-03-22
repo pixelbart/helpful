@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Tabs
- * @version 4.5.5
+ * @version 4.5.6
  * @since 4.3.0
  */
 namespace Helpful\Core\Tabs;
@@ -96,6 +96,10 @@ class System
                 'type' => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
             ],
+            'helpful_classic_widgets' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
             'helpful_caching' => [
                 'type' => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
@@ -125,6 +129,10 @@ class System
                 'sanitize_callback' => 'sanitize_text_field',
             ],
             'helpful_disable_feedback_nonce' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+            ],
+            'helpful_log_mailer_errors' => [
                 'type' => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
             ],
