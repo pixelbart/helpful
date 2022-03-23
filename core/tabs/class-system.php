@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Tabs
- * @version 4.5.6
+ * @version 4.5.7
  * @since 4.3.0
  */
 namespace Helpful\Core\Tabs;
@@ -41,7 +41,7 @@ class System
     /**
      * Class constructor
      *
-     * @version 4.4.59
+     * @version 4.5.7
      *
      * @return void
      */
@@ -57,8 +57,12 @@ class System
         add_action('admin_init', [ & $this, 'reset_plugin']);
         add_action('admin_init', [ & $this, 'reset_feedback']);
 
-        if ('on' === $options->get_option('helpful_classic_editor', 'off', 'esc_attr')) {
+        if ('on' === $options->get_option('helpful_classic_editor', 'off', 'on_off')) {
             add_filter('use_block_editor_for_post', '__return_false', 10);
+        }
+
+        if ('on' === $options->get_option('helpful_classic_widgets', 'off', 'on_off')) {
+            add_filter('use_widgets_block_editor', '__return_false', 10);
         }
 
         add_action('helpful_tab_system_before', [ & $this, 'register_tab_alerts']);

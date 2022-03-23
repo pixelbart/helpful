@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.5.0
+ * @version 4.5.7
  * @since 4.3.0
  */
 namespace Helpful\Core\Modules;
@@ -56,8 +56,6 @@ class Core
         add_action('upgrader_process_complete', [ & $this, 'on_plugin_update'], 10, 2);
 
         add_action('wp_mail_failed', [ & $this, 'log_mailer_errors'], 10, 1);
-
-        add_filter('use_widgets_block_editor', [ & $this, 'disable_widgets_block_editor'], 10, 1);
     }
 
     /**
@@ -387,23 +385,5 @@ class Core
 
         $message = 'Helpful Error: ' . $wp_error->get_error_message();
         helpful_error_log($message);
-    }
-
-    /**
-     * @version 4.5.6
-     * 
-     * @param bool $current_status
-     * 
-     * @return bool
-     */
-    public function disable_widgets_block_editor($current_status)
-    {
-        $options = new Services\Options();
-    
-        if ('off' === $options->get_option('helpful_log_mailer_errors', 'off', 'on_off')) {
-            return $current_status;
-        }
-
-        return false;
     }
 }

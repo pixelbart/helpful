@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.63
+ * @version 4.5.7
  * @since 1.0.0
  */
 namespace Helpful\Core\Helpers;
@@ -624,35 +624,57 @@ class Feedback
     /**
      * Get feedback email content.
      *
-     * @version 4.5.6
+     * @version 4.5.7
      * 
      * @return string
      */
     public static function get_email_content()
     {
-        $file = plugins_url('templates/emails/feedback-email.txt', HELPFUL_FILE);
-        $file = apply_filters('helpful_pre_get_email_content_voter_file', $file);
+        $file = HELPFUL_PATH . '/templates/emails/feedback-email.txt';
+        $file = apply_filters('helpful/emails/pre_feedback_email_file', $file);
 
-        $response = wp_remote_get($file);
-        $response = wp_remote_retrieve_body($response);
+        if (!file_exists($file)) {
+            return '';
+        }
 
-        return apply_filters('helpful_pre_get_email_content_voter', $response);
+        $response = wp_cache_get('helpful/templates/emails/feedback_email');
+
+        if (false === $response) {
+            ob_start();
+            include $file;
+            $response = ob_get_contents();
+            ob_end_clean();
+            wp_cache_set('helpful/templates/emails/feedback_email', $response);
+        }
+
+        return apply_filters('helpful_pre_get_email_content', $response);
     }
 
     /**
      * Get feedback email content for voters.
      *
-     * @version 4.5.6
+     * @version 4.5.7
      * 
      * @return string
      */
     public static function get_email_content_voter()
     {
-        $file = plugins_url('templates/emails/feedback-email-voter.txt', HELPFUL_FILE);
-        $file = apply_filters('helpful_pre_get_email_content_voter_file', $file);
+        $file = HELPFUL_PATH . '/templates/emails/feedback-email-voter.txt';
+        $file = apply_filters('helpful/emails/pre_feedback_email_voter_file', $file);
 
-        $response = wp_remote_get($file);
-        $response = wp_remote_retrieve_body($response);
+        if (!file_exists($file)) {
+            return '';
+        }
+
+        $response = wp_cache_get('helpful/templates/emails/feedback_voter_email');
+
+        if (false === $response) {
+            ob_start();
+            include $file;
+            $response = ob_get_contents();
+            ob_end_clean();
+            wp_cache_set('helpful/templates/emails/feedback_voter_email', $response);
+        }
 
         return apply_filters('helpful_pre_get_email_content_voter', $response);
     }
