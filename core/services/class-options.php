@@ -2,7 +2,7 @@
 /**
  * @package Helpful
  * @subpackage Core\Services
- * @version 4.5.6
+ * @version 4.5.8
  * @since 4.4.47
  */
 namespace Helpful\Core\Services;
@@ -36,7 +36,7 @@ class Options
      */
     public function renew_options()
     {
-        update_option('helpful_options', maybe_serialize($this->options));
+        update_option('helpful_options', $this->options);
     }
 
     /**
