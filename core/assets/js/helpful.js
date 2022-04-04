@@ -30,7 +30,10 @@
 
                 $.extend(ajaxData, helpful.ajax_data);
                 $.extend(ajaxData, $(currentButton).data());
+
                 ajaxData.action = self.vote;
+
+                $(".helpful .helpful-controls button").prop("disabled", true);
 
                 var request = self.ajaxRequest(ajaxData);
 
@@ -72,6 +75,8 @@
                     "_wpnonce": $(currentForm).find("[name='_wpnonce']").val(),
                     "post_id": $(currentForm).find("[name='post_id']").val(),
                 };
+
+                $(this).prop("disabled", true);
 
                 var request = self.ajaxRequest(ajaxData);
 
