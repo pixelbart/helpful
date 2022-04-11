@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div><!-- .group -->
 <?php endif; ?>
 
-<?php if ( 'on' === $options->get_option( 'helpful_feedback_email', 'off', 'on_off' ) && !is_user_logged_in() ) : ?>
+<?php if ( 'on' === $options->get_option( 'helpful_feedback_email', 'off', 'on_off' ) && ! is_user_logged_in() ) : ?>
 <div class="group">
 	<?php $label = $options->get_option( 'helpful_feedback_label_email', '', 'kses_wot' ); ?>
 	<label for="email"><?php echo $label; ?></label>
