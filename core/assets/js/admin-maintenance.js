@@ -30,7 +30,9 @@
         $(container).removeAttr("hidden");
 
         $.each(response, function (i, v) {
-          $(itemContainer).append(v + "<br>");
+          if ($.trim(v) !== "") {
+            $(itemContainer).append(v + "<br>");
+          }
         });
 
         $(container).html(itemContainer);

@@ -1,158 +1,162 @@
 <?php
 /**
+ * Returns the values to votes.
+ *
  * @package Helpful
  * @subpackage Core\Helpers
  * @version 4.4.50
  * @since 4.3.0
  */
+
 namespace Helpful\Core\Helpers;
 
 use Helpful\Core\Helper;
 
 /* Prevent direct access */
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-class Votes
-{
-    /**
-     * Returns all votes from the database.
-     *
-     * @global $wpdb
-     *
-     * @param output_type $type
-     *
-     * @return array
-     */
-    public static function get_votes($type = OBJECT)
-    {
-        global $wpdb;
+/**
+ * ...
+ */
+class Votes {
+	/**
+	 * Returns all votes from the database.
+	 *
+	 * @global $wpdb
+	 *
+	 * @param string $type output type of the results query.
+	 *
+	 * @return array
+	 */
+	public static function get_votes( $type = OBJECT ) {
+		global $wpdb;
 
-        $table_name = $wpdb->prefix . 'helpful';
+		$cache_name = 'Helpful/Votes/get_votes';
+		$results    = wp_cache_get( $cache_name );
 
-        $sql = "SELECT * FROM $table_name";
+		if ( false === $results ) {
+			$table_name = $wpdb->prefix . 'helpful';
+			$sql        = "SELECT * FROM $table_name";
+			$results    = $wpdb->get_results( $sql, $type );
+			wp_cache_set( $cache_name, $results );
+		}
 
-        return $wpdb->get_results($sql, $type);
-    }
+		return $results;
+	}
 
-    /**
-     * @global $wpdb
-     *
-     * @param int $vote_id
-     * @param output_type $type
-     *
-     * @return array
-     */
-    public static function get_vote($vote_id, $type = OBJECT)
-    {
-        global $wpdb;
+	/**
+	 * Returns a single vote.
+	 *
+	 * @global $wpdb
+	 *
+	 * @param int    $vote_id vote id from database.
+	 * @param string $type output type of the results query.
+	 *
+	 * @return array
+	 */
+	public static function get_vote( $vote_id, $type = OBJECT ) {
+		global $wpdb;
 
-        $table_name = $wpdb->prefix . 'helpful';
+		$cache_name = 'Helpful/Votes/get_vote/' . $vote_id;
+		$results    = wp_cache_get( $cache_name );
 
-        $sql = "SELECT * FROM $table_name WHERE id = %d LIMIT 1";
-        $sql = $wpdb->prepare($sql, $vote_id);
+		if ( false === $results ) {
+			$table_name = $wpdb->prefix . 'helpful';
+			$sql        = "SELECT * FROM $table_name WHERE id = %d LIMIT 1";
+			$sql        = $wpdb->prepare( $sql, $vote_id );
+			$results    = $wpdb->get_row( $sql, $type );
+			wp_cache_set( $cache_name, $results );
+		}
 
-        return $wpdb->get_row($sql, $type);
-    }
+		return $results;
+	}
 
-    /**
-     * Delete a vote item by id from database.
-     *
-     * @global $wpdb
-     *
-     * @param int $id
-     *
-     * @return int|false
-     */
-    public static function delete_vote($id)
-    {
-        global $wpdb;
+	/**
+	 * Delete a vote item by id from database.
+	 *
+	 * @global $wpdb
+	 *
+	 * @param int $id vote id.
+	 *
+	 * @return int|false
+	 */
+	public static function delete_vote( $id ) {
+		global $wpdb;
 
-        $table_name = $wpdb->prefix . 'helpful';
+		$table_name = $wpdb->prefix . 'helpful';
+		$status     = $wpdb->delete( $table_name, array( 'id' => $id ) );
 
-        $where = [
-            'id' => $id,
-        ];
+		if ( false !== $status ) {
+			Optimize::clear_cache();
+		}
 
-        $status = $wpdb->delete($table_name, $where);
-        $wpdb->query("OPTIMIZE TABLE $table_name");
+		return $status;
+	}
 
-        if (false !== $status) {
-            Optimize::clear_cache();
-        }
+	/**
+	 * Delete a vote item by mixed from database.
+	 *
+	 * @global $wpdb
+	 *
+	 * @param array $where array with data for the where clause.
+	 *
+	 * @return int|false
+	 */
+	public static function delete_vote_where( $where ) {
+		global $wpdb;
 
-        return $status;
-    }
+		$table_name = $wpdb->prefix . 'helpful';
+		$status     = $wpdb->delete( $table_name, $where );
 
-    /**
-     * Delete a vote item by mixed from database.
-     *
-     * @global $wpdb
-     *
-     * @param array $where
-     *
-     * @return int|false
-     */
-    public static function delete_vote_where($where)
-    {
-        global $wpdb;
+		if ( false !== $status ) {
+			Optimize::clear_cache();
+		}
 
-        $table_name = $wpdb->prefix . 'helpful';
+		return $status;
+	}
 
-        $status = $wpdb->delete($table_name, $where);
+	/**
+	 * Insert vote for single user on single post.
+	 *
+	 * @param string $user user string.
+	 * @param int    $post_id post id.
+	 * @param string $type type of vote (pro, contra).
+	 * @param string $instance instance id.
+	 *
+	 * @return int|false
+	 */
+	public static function insert_vote( $user, $post_id, $type = 'pro', $instance = null ) {
+		global $wpdb;
 
-        if (false !== $status) {
-            Optimize::clear_cache();
-        }
+		$pro    = 1;
+		$contra = 0;
 
-        return $status;
-    }
+		if ( 'contra' === $type ) {
+			$pro    = 0;
+			$contra = 1;
+		}
 
-    /**
-     * Insert vote for single user on single post.
-     *
-     * @version 4.4.51
-     * @since 4.4.0
-     *
-     * @param string $user
-     * @param int $post_id
-     * @param string $type
-     * @param string $instance
-     *
-     * @return int|false
-     */
-    public static function insert_vote($user, $post_id, $type = 'pro', $instance = null)
-    {
-        global $wpdb;
+		$data = array(
+			'time'        => current_time( 'mysql' ),
+			'user'        => esc_attr( $user ),
+			'pro'         => $pro,
+			'contra'      => $contra,
+			'post_id'     => absint( $post_id ),
+			'instance_id' => $instance,
+		);
 
-        $pro = 1;
-        $contra = 0;
+		$table_name = $wpdb->prefix . 'helpful';
 
-        if ('contra' === $type) {
-            $pro = 0;
-            $contra = 1;
-        }
+		$status = $wpdb->insert( $table_name, $data );
 
-        $data = [
-            'time' => current_time('mysql'),
-            'user' => esc_attr($user),
-            'pro' => $pro,
-            'contra' => $contra,
-            'post_id' => absint($post_id),
-            'instance_id' => $instance,
-        ];
+		if ( false !== $status ) {
+			update_post_meta( $post_id, 'helpful-contra', Stats::get_contra( $post_id ) );
+			Optimize::clear_cache();
+			return $wpdb->insert_id;
+		}
 
-        $table_name = $wpdb->prefix . 'helpful';
-
-        $status = $wpdb->insert($table_name, $data);
-
-        if (false !== $status) {
-            update_post_meta($post_id, 'helpful-contra', Stats::get_contra($post_id));
-            Optimize::clear_cache();
-            return $wpdb->insert_id;
-        }
-
-        return false;
-    }
+		return false;
+	}
 }

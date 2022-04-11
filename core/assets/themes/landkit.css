@@ -1,100 +1,101 @@
 .helpful {
-    border: 1px solid #F1F4F8;
-    border-radius: 0.375rem;
-    padding: 2.813rem;
-    margin-top: 2.813rem;
-    position: relative;
+  border: 1px solid #f1f4f8;
+  border-radius: 0.375rem;
+  padding: 2.813rem;
+  margin-top: 2.813rem;
+  position: relative;
 }
 
 .helpful p:empty {
-    display: none;
+  display: none;
 }
 
 .helpful .helpful-headline {
-    font-weight: 600;
-    margin-bottom: 1.563rem;
+  font-weight: 600;
+  margin-bottom: 1.563rem;
 }
 
 .helpful .helpful-controls,
 .helpful .helpful-feedback-controls {
-    display: flex;
-    flex-direction: row;
-    margin-right: -0.938rem;
-    margin-top: 1.563rem;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-right: -0.938rem;
+  margin-top: 1.563rem;
+  width: 100%;
 }
 
 @media all and (max-width: 991.98px) {
-    .helpful .helpful-controls,
-    .helpful .helpful-feedback-controls {
-        flex-direction: column;
-    }
-    .helpful .helpful-controls .helpful-button:first-of-type,
-    .helpful .helpful-feedback-controls .helpful-button:first-of-type {
-        margin-bottom: 1.563rem;
-    }
+  .helpful .helpful-controls,
+  .helpful .helpful-feedback-controls {
+    flex-direction: column;
+  }
+  .helpful .helpful-controls .helpful-button:first-of-type,
+  .helpful .helpful-feedback-controls .helpful-button:first-of-type {
+    margin-bottom: 1.563rem;
+  }
 }
 
 .helpful .helpful-button {
-    background: #335EEA;
-    color: #fff;
-    border: 0;
-    border-radius: 0.375rem;
-    font-size: 17px;
-    height: 2.938rem;
-    line-height: 2.938rem;
-    padding: 0 2.938rem;
-    width: 100%;
-    display: block;
-    cursor: pointer;
-    transition: box-shadow .25s ease, transform .25s ease;
+  background: #335eea;
+  color: #fff;
+  border: 0;
+  border-radius: 0.375rem;
+  font-size: 17px;
+  height: 2.938rem;
+  line-height: 2.938rem;
+  padding: 0 2.938rem;
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .helpful .helpful-button:hover {
-    background: #1746e0;
-    box-shadow: 0 1rem 2.5rem rgb(22 28 45 / 10%), 0 0.5rem 1rem -0.75rem rgb(22 28 45 / 10%) !important;
-    transform: translate3d(0, -3px, 0);
+  background: #1746e0;
+  box-shadow: 0 1rem 2.5rem rgb(22 28 45 / 10%),
+    0 0.5rem 1rem -0.75rem rgb(22 28 45 / 10%) !important;
+  transform: translate3d(0, -3px, 0);
 }
 
-.helpful .helpful-controls>*,
-.helpful .helpful-feedback-controls>* {
-    flex: 1;
-    margin: 0 0.938rem 0 0;
+.helpful .helpful-controls > *,
+.helpful .helpful-feedback-controls > * {
+  flex: 1;
+  margin: 0 0.938rem 0 0;
 }
 
-.helpful .helpful-controls>*:last-child,
-.helpful .helpful-feedback-controls>*:last-child {
-    margin: 0;
+.helpful .helpful-controls > *:last-child,
+.helpful .helpful-feedback-controls > *:last-child {
+  margin: 0;
 }
 
 .helpful-footer {
-    position: absolute;
-    bottom: 0.313rem;
-    right: 0.625rem;
-    font-size: 11px;
+  position: absolute;
+  bottom: 0.313rem;
+  right: 0.625rem;
+  font-size: 11px;
 }
 
-.helpful input[type=text],
-.helpful input[type=email],
-.helpful input[type=number],
-.helpful input[type=password],
-.helpful input[type=url],
-.helpful input[type=email],
+.helpful input[type="text"],
+.helpful input[type="email"],
+.helpful input[type="number"],
+.helpful input[type="password"],
+.helpful input[type="url"],
+.helpful input[type="email"],
 .helpful textarea {
-    border: 1px solid #F1F4F8;
-    border-radius: 0.375rem;
-    padding: 2.813rem;
-    width: 100%;
+  border: 1px solid #f1f4f8;
+  border-radius: 0.375rem;
+  padding: 2.813rem;
+  width: 100%;
 }
 
 .helpful req {
-    color: #f74f78;
+  color: #f74f78;
 }
 
 .helpful .group {
-    margin-bottom: 1.563rem;
+  margin-bottom: 1.563rem;
 }
 
 .helpful .group:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
