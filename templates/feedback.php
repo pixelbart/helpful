@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
 	</div>
 </div><!-- .group -->
 
-<?php if ($options->get_option('helpful_feedback_name') && !is_user_logged_in()) : ?>
+<?php if ('on' === $options->get_option('helpful_feedback_name') && !is_user_logged_in()) : ?>
 <div class="group">
 	<?php $label = $options->get_option('helpful_feedback_label_name', '', 'kses_wot'); ?>
 	<label for="email"><?php echo $label; ?></label>
@@ -40,7 +40,7 @@ if (!defined('ABSPATH')) {
 </div><!-- .group -->
 <?php endif; ?>
 
-<?php if ($options->get_option('helpful_feedback_email') && !is_user_logged_in()) : ?>
+<?php if ('on' === $options->get_option('helpful_feedback_email') && !is_user_logged_in()) : ?>
 <div class="group">
 	<?php $label = $options->get_option('helpful_feedback_label_email', '', 'kses_wot'); ?>
 	<label for="email"><?php echo $label; ?></label>
@@ -51,7 +51,7 @@ if (!defined('ABSPATH')) {
 <?php endif; ?>
 
 <div class="helpful-feedback-controls">
-	<?php if ($options->get_option('helpful_feedback_cancel', '', 'kses_wot')) : ?>
+	<?php if ('on' === $options->get_option('helpful_feedback_cancel', '', 'kses_wot')) : ?>
 	<?php $cancel = $options->get_option('helpful_feedback_label_cancel', '', 'kses_wot'); ?>
 	<div>
 		<button class="helpful-button helpful-cancel" type="button" role="button"><?php echo $cancel; ?></button>
