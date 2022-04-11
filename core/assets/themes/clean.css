@@ -1,164 +1,159 @@
 .helpful * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .helpful {
-    color: #999;
-    position: relative;
-    padding: 15px;
-    font-size: 1rem;
-    background-color: #f8f8f8;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  color: #999;
+  position: relative;
+  padding: 15px;
+  font-size: 1rem;
+  background-color: #f8f8f8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 @media all and (max-width: 991.98px) {
-    .helpful {
-        flex-direction: column;
-    }
+  .helpful {
+    flex-direction: column;
+  }
 }
-
 
 /* HEADING */
 
-.helpful>.helpful-header {
-    margin-right: 10px;
+.helpful > .helpful-header {
+  margin-right: 10px;
 }
 
-.helpful>.helpful-header>.helpful-headline {
-    font-size: 1rem;
-    line-height: 28px;
-    color: #333;
-    display: inline-block;
-    margin: 0;
+.helpful > .helpful-header > .helpful-headline {
+  font-size: 1rem;
+  line-height: 28px;
+  color: #333;
+  display: inline-block;
+  margin: 0;
 }
-
 
 /* CONTENT */
 
-.helpful>.helpful-content {
-    color: #999;
-    font-size: 1rem;
-    line-height: 1.6rem;
+.helpful > .helpful-content {
+  color: #999;
+  font-size: 1rem;
+  line-height: 1.6rem;
 }
 
-.helpful>.helpful-content>span {
-    display: none;
+.helpful > .helpful-content > span {
+  display: none;
 }
 
-.helpful>.helpful-content>a {
-    color: #999;
-    text-decoration: underline;
+.helpful > .helpful-content > a {
+  color: #999;
+  text-decoration: underline;
 }
 
-.helpful>.helpful-content>a:hover {
-    color: #999;
-    text-decoration: none;
+.helpful > .helpful-content > a:hover {
+  color: #999;
+  text-decoration: none;
 }
-
 
 /* CONTROLS */
 
-.helpful>.helpful-controls,
+.helpful > .helpful-controls,
 .helpful .helpful-feedback-controls {
-    display: flex;
+  display: flex;
 }
 
 .helpful .helpful-content .helpful-button {
-    width: auto;
+  width: auto;
 }
 
 .helpful .helpful-content .helpful-button,
-.helpful>.helpful-controls>div>.helpful-button {
-    margin: 0 !important;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 38px;
-    text-align: center;
-    text-transform: uppercase;
-    border-radius: 500px;
-    background-color: transparent;
-    color: #333;
-    border: 1px solid #e5e5e5;
-    padding: 0 15px;
-    line-height: 28px;
-    font-size: .875rem;
-    cursor: pointer;
-    position: relative;
-    transition: all .2s ease-in-out;
+.helpful > .helpful-controls > div > .helpful-button {
+  margin: 0 !important;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 38px;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 500px;
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #e5e5e5;
+  padding: 0 15px;
+  line-height: 28px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
 }
 
-.helpful>.helpful-controls>div:first-child {
-    margin-right: 15px;
+.helpful > .helpful-controls > div:first-child {
+  margin-right: 15px;
 }
 
 .helpful .helpful-content .helpful-button:hover,
-.helpful>.helpful-controls>div>.helpful-button:hover {
-    background-color: #e5e5e5;
-    transition: all .2s ease-in-out;
+.helpful > .helpful-controls > div > .helpful-button:hover {
+  background-color: #e5e5e5;
+  transition: all 0.2s ease-in-out;
 }
 
-.helpful>.helpful-controls>div>.helpful-button>.helpful-counter {
-    right: -7.5px;
-    top: -7.5px;
-    color: #f5f5f5;
-    position: absolute;
-    font-size: 0.75rem;
-    line-height: 0.75rem;
-    background-color: #333;
-    padding: 2.5px 7px;
-    border-radius: 15px;
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
-    z-index: 2;
+.helpful > .helpful-controls > div > .helpful-button > .helpful-counter {
+  right: -7.5px;
+  top: -7.5px;
+  color: #f5f5f5;
+  position: absolute;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  background-color: #333;
+  padding: 2.5px 7px;
+  border-radius: 15px;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  z-index: 2;
 }
-
 
 /* CREDITS */
 
-.helpful>.helpful-footer {
-    color: #bbb;
-    font-size: .7rem;
-    position: absolute;
-    text-align: center;
-    bottom: 0;
-    right: 15px;
+.helpful > .helpful-footer {
+  color: #bbb;
+  font-size: 0.7rem;
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  right: 15px;
 }
 
-.helpful>.helpful-footer>a {
-    color: #bbb;
+.helpful > .helpful-footer > a {
+  color: #bbb;
 }
-
 
 /* FEEDBACK */
 
 @media all and (min-width: 992px) {
-    .helpful>.helpful-content>.helpful-feedback-form {
-        min-width: 320px;
-    }
+  .helpful > .helpful-content > .helpful-feedback-form {
+    min-width: 320px;
+  }
 }
 
-.helpful>.helpful-content>.helpful-feedback-form {
-    color: #333;
+.helpful > .helpful-content > .helpful-feedback-form {
+  color: #333;
 }
 
-.helpful>.helpful-content>.helpful-feedback-form req {
-    color: #ed7161;
+.helpful > .helpful-content > .helpful-feedback-form req {
+  color: #ed7161;
 }
 
-.helpful>.helpful-content>.helpful-feedback-form p {
-    margin: 0 0 12.5px;
+.helpful > .helpful-content > .helpful-feedback-form p {
+  margin: 0 0 12.5px;
 }
 
-.helpful>.helpful-content>.helpful-feedback-form>p,
-.helpful>.helpful-content>.helpful-feedback-form>.feedback-note>p,
-.helpful>.helpful-content>.helpful-feedback-form>.group {
-    color: #333;
-    margin: 0 0 12.5px;
+.helpful > .helpful-content > .helpful-feedback-form > p,
+.helpful > .helpful-content > .helpful-feedback-form > .feedback-note > p,
+.helpful > .helpful-content > .helpful-feedback-form > .group {
+  color: #333;
+  margin: 0 0 12.5px;
 }
 
 .helpful .helpful-feedback-form textarea,
@@ -166,131 +161,130 @@
 .helpful .helpful-feedback-form input[type="email"],
 .helpful .helpful-feedback-form input[type="url"],
 .helpful .helpful-feedback-form input[type="number"] {
-    color: #333;
-    width: 100%;
-    display: block;
-    font-size: 1rem;
-    line-height: 1.6rem;
-    padding: 7.5px 15px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #e5e5e5;
-    background-color: #fff;
-    border-radius: 3px;
-    box-shadow: inset 0 2px 5px 0 #f4f4f4;
-    -moz-box-shadow: inset 0 2px 5px 0 #f4f4f4;
-    -webkit-box-shadow: inset 0 2px 5px 0 #f4f4f4;
+  color: #333;
+  width: 100%;
+  display: block;
+  font-size: 1rem;
+  line-height: 1.6rem;
+  padding: 7.5px 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e5e5e5;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 5px 0 #f4f4f4;
+  -moz-box-shadow: inset 0 2px 5px 0 #f4f4f4;
+  -webkit-box-shadow: inset 0 2px 5px 0 #f4f4f4;
 }
 
-.helpful>.helpful-content>.helpful-feedback-form textarea {
-    min-height: 150px;
-    max-width: 100%;
-    font-size: 1rem;
-    line-height: 1.6rem;
+.helpful > .helpful-content > .helpful-feedback-form textarea {
+  min-height: 150px;
+  max-width: 100%;
+  font-size: 1rem;
+  line-height: 1.6rem;
 }
 
 .helpful .helpful-feedback-form input[type="checkbox"],
 .helpful .helpful-feedback-form input[type="radio"] {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #e5e5e5;
-    background-color: #fff;
-    border-radius: 3px;
-    font-size: 1rem;
-    line-height: 1.6rem;
-    box-shadow: inset 0 2px 5px 0 #f4f4f4;
-    -moz-box-shadow: inset 0 2px 5px 0 #f4f4f4;
-    -webkit-box-shadow: inset 0 2px 5px 0 #f4f4f4;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e5e5e5;
+  background-color: #fff;
+  border-radius: 3px;
+  font-size: 1rem;
+  line-height: 1.6rem;
+  box-shadow: inset 0 2px 5px 0 #f4f4f4;
+  -moz-box-shadow: inset 0 2px 5px 0 #f4f4f4;
+  -webkit-box-shadow: inset 0 2px 5px 0 #f4f4f4;
 }
 
 .helpful .helpful-feedback-form .helpful-button,
 .helpful .helpful-feedback-controls .helpful-button {
-    text-transform: none;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 38px;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    border-radius: 500px;
-    background-color: #f8f8f8;
-    color: #333;
-    border: 1px solid #333;
-    font-size: 1rem;
-    line-height: 1.6rem;
-    padding: 7.5px 15px;
-    height: 56px;
-    max-height: 56px;
-    margin: 12.5px 0;
-    cursor: pointer;
-    transition: all .2s ease-in-out;
-    -moz-transition: all .2s ease-in-out;
-    -webkit-transition: all .2s ease-in-out;
+  text-transform: none;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 38px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 500px;
+  background-color: #f8f8f8;
+  color: #333;
+  border: 1px solid #333;
+  font-size: 1rem;
+  line-height: 1.6rem;
+  padding: 7.5px 15px;
+  height: 56px;
+  max-height: 56px;
+  margin: 12.5px 0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
 }
 
 .helpful .helpful-feedback-form .helpful-button:hover,
 .helpful .helpful-feedback-controls .helpful-button:hover {
-    background-color: #333;
-    color: #f8f8f8;
-    border: 1px solid #333;
-    transition: all .2s ease-in-out;
-    -moz-transition: all .2s ease-in-out;
-    -webkit-transition: all .2s ease-in-out;
+  background-color: #333;
+  color: #f8f8f8;
+  border: 1px solid #333;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
 }
 
-.helpful .helpful-feedback-controls>div {
-    flex: 1;
+.helpful .helpful-feedback-controls > div {
+  flex: 1;
 }
 
-.helpful .helpful-feedback-controls>div:first-child {
-    margin-right: 12.5px;
+.helpful .helpful-feedback-controls > div:first-child {
+  margin-right: 12.5px;
 }
 
 @media all and (max-width: 991.98px) {
-    .helpful .helpful-feedback-controls>div:first-child {
-        margin-right: 0;
-    }
+  .helpful .helpful-feedback-controls > div:first-child {
+    margin-right: 0;
+  }
 }
 
 .helpful .helpful-feedback-controls .helpful-button {
-    width: 100%;
+  width: 100%;
 }
-
 
 /* Helpful Feedback Items */
 
 .helpful-feedback-items {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .helpful-feedback-items .helpful-feedback-item {
-    display: block;
-    list-style: none;
-    border: 1px solid #e5e5e5;
-    padding: 25px;
-    margin-bottom: 25px;
+  display: block;
+  list-style: none;
+  border: 1px solid #e5e5e5;
+  padding: 25px;
+  margin-bottom: 25px;
 }
 
 .helpful-feedback-author {
-    margin-bottom: 12.5px;
+  margin-bottom: 12.5px;
 }
 
 .helpful-feedback-items .--flex {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .helpful-feedback-items .--avatar {
-    margin-right: 15px;
+  margin-right: 15px;
 }
 
 .helpful-feedback-items .--avatar img {
-    border-radius: 50%;
-    height: 45px;
-    width: 45px;
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
 }
 
 .helpful-feedback-items .--name {
-    font-weight: 600;
+  font-weight: 600;
 }

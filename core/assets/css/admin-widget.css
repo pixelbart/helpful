@@ -89,17 +89,17 @@
 }
 
 .helpful-widget-panel button {
-	display: block;
-	color: rgb(50, 55, 60);
-	text-decoration: none;
-	border: 0;
-	background: none;
-	position: relative;
-	font-weight: 600;
-	margin: 0;
-	width: 100%;
-	text-align: left;
-	cursor: pointer;
+  display: block;
+  color: rgb(50, 55, 60);
+  text-decoration: none;
+  border: 0;
+  background: none;
+  position: relative;
+  font-weight: 600;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
   padding: 12px;
   border-width: 1px 0 0;
   border-color: #eee;
@@ -111,16 +111,16 @@
 }
 
 .helpful-widget-panel button .icon {
-	border-color: #82878c;
-	border-style: solid;
-	border-width: 0 2px 2px 0;
-	height: .4rem;
-	pointer-events: none;
-	position: absolute;
-	right: 1.5em;
-	top: 50%;
-	transform: translateY(-70%) rotate(45deg);
-	width: .4rem;
+  border-color: #82878c;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  height: 0.4rem;
+  pointer-events: none;
+  position: absolute;
+  right: 1.5em;
+  top: 50%;
+  transform: translateY(-70%) rotate(45deg);
+  width: 0.4rem;
 }
 
 .helpful-widget-panel button:hover .icon {
@@ -128,7 +128,7 @@
 }
 
 .helpful-widget-panel.active button .icon {
-	transform: translateY(-30%) rotate(-135deg);
+  transform: translateY(-30%) rotate(-135deg);
 }
 
 .helpful-widget-panel ul {
