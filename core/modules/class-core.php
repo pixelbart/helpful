@@ -288,7 +288,7 @@ class Core {
 
 		$options = $service->get_defaults_array( '', true );
 
-		if ( in_array( $option, $options, true ) ) {
+		if ( in_array( $option, $options, true ) || strpos( $option, 'helpful_customizer' ) ) {
 			$service->update_option( $option, $value );
 			delete_option( $option );
 		}
