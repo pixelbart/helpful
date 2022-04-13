@@ -46,16 +46,16 @@ class User {
 		}
 
 		if ( 'on' === $options->get_option( 'helpful_ip_user', 'off', 'on_off' ) ) {
-			if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+			if ( is_array( $_SERVER ) && array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
 				return sanitize_text_field( $_SERVER['REMOTE_ADDR'] );
 			}
 		}
 
-		if ( array_key_exists( 'helpful_user', $_COOKIE ) && '' !== trim( $_COOKIE['helpful_user'] ) ) {
+		if ( is_array( $_COOKIE ) && array_key_exists( 'helpful_user', $_COOKIE ) && '' !== trim( $_COOKIE['helpful_user'] ) ) {
 			$user = sanitize_text_field( $_COOKIE['helpful_user'] );
 		}
 
-		if ( array_key_exists( 'helpful_user', $_SESSION ) && '' !== trim( $_SESSION['helpful_user'] ) ) {
+		if ( is_array( $_SESSION ) && array_key_exists( 'helpful_user', $_SESSION ) && '' !== trim( $_SESSION['helpful_user'] ) ) {
 			$user = sanitize_text_field( $_SESSION['helpful_user'] );
 		}
 

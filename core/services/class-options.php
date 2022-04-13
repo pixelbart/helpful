@@ -335,6 +335,9 @@ class Options {
 				'helpful_uninstall'              => 'off',
 				'helpful_uninstall_feedback'     => 'off',
 			),
+			'helpful-design-settings-group' => array(
+				'helpful_customizer' => array(),
+			),
 		);
 
 		if ( '' !== trim( $group ) && array_key_exists( $group, $groups ) ) {
