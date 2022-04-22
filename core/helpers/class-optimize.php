@@ -5,7 +5,7 @@
  *
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.50
+ * @version 4.5.12
  * @since 4.3.0
  */
 
@@ -64,6 +64,10 @@ class Optimize {
 	private static function optimize_tables() {
 		global $wpdb;
 
+		if (get_transient('helpful_optimize_tables')) {
+			return;
+		}
+
 		$response = array();
 
 		/* OPTIMIZE helpful table */
@@ -81,6 +85,8 @@ class Optimize {
 			/* translators: %s = table name */
 			$response[] = sprintf( esc_html_x( "Table '%s' has been optimized.", 'maintenance response', 'helpful' ), $table_name );
 		}
+
+		set_transient('helpful_optimize_tables', time(), MINUTE_IN_SECONDS * 10);
 
 		return $response;
 	}
@@ -210,24 +216,25 @@ class Optimize {
 		}
 
 		/* Remove double votes */
+		/* BUG, needs to be fixed
 		if ( 'off' === $options->get_option( 'helpful_multiple', 'off', 'on_off' ) ) {
 			$table_name = $wpdb->prefix . 'helpful';
 
-			/* Delete double items */
+			
 			$before = $wpdb->get_var( "SELECT MAX(id) FROM $table_name" );
 			$wpdb->query( "DELETE t1 FROM $table_name t1 INNER JOIN $table_name t2 WHERE t1.id < t2.id AND t1.post_id = t2.post_id AND t1.user = t2.user AND t1.instance_id = t2.instance_id" );
 
-			/* Reset autoincrement */
+			
 			$after = $wpdb->get_var( "SELECT MAX(id) FROM $table_name" );
 			$wpdb->query( $wpdb->prepare( "ALTER TABLE $table_name AUTO_INCREMENT = %d", $after ) );
 
 			$response[] = sprintf(
-				/* translators: %1$d = amount of entries %2$s = table name */
 				esc_html_x( '%1$d Duplicate entries in table "%2$s" removed.', 'maintenance response', 'helpful' ),
 				( $before - $after ),
 				$table_name
 			);
 		}
+		*/
 
 		return $response;
 	}
