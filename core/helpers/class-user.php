@@ -51,11 +51,11 @@ class User {
 			}
 		}
 
-		if ( is_array( $_COOKIE ) && array_key_exists( 'helpful_user', $_COOKIE ) && '' !== trim( $_COOKIE['helpful_user'] ) ) {
+		if ( isset( $_COOKIE ) && is_array( $_COOKIE ) && array_key_exists( 'helpful_user', $_COOKIE ) && '' !== trim( $_COOKIE['helpful_user'] ) ) {
 			$user = sanitize_text_field( $_COOKIE['helpful_user'] );
 		}
 
-		if ( is_array( $_SESSION ) && array_key_exists( 'helpful_user', $_SESSION ) && '' !== trim( $_SESSION['helpful_user'] ) ) {
+		if ( isset( $_SESSION ) && is_array( $_SESSION ) && array_key_exists( 'helpful_user', $_SESSION ) && '' !== trim( $_SESSION['helpful_user'] ) ) {
 			$user = sanitize_text_field( $_SESSION['helpful_user'] );
 		}
 
