@@ -204,7 +204,7 @@ class System {
 
 		$wpdb->query( "TRUNCATE TABLE $table_name" );
 
-		update_option( 'helpful_uninstall', false );
+		$options->update_option( 'helpful_uninstall', 'off' );
 
 		$args = array(
 			'post_type'      => 'any',
@@ -248,7 +248,7 @@ class System {
 
 		$wpdb->query( "TRUNCATE TABLE $table_name" );
 
-		update_option( 'helpful_uninstall_feedback', false );
+		$options->update_option( 'helpful_uninstall_feedback', 'off' );
 	}
 
 	/**
