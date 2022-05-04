@@ -6,7 +6,7 @@
  *
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.4.59
+ * @version 4.5.15
  * @since 4.3.0
  */
 
@@ -26,8 +26,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class User {
 	/**
 	 * Get user string
-	 *
-	 * @version 4.4.59
 	 *
 	 * @return string|null
 	 */
@@ -144,15 +142,28 @@ class User {
 
 		$table_name = $wpdb->prefix . 'helpful';
 
-		$sql = "
-		SELECT user, post_id, instance_id
-		FROM {$table_name}
-		WHERE user = %s AND post_id = %d AND instance_id = %s
-		ORDER BY id DESC
-		LIMIT 1
-		";
+		if ( null !== $instance ) {
+			$sql = "
+			SELECT user, post_id, instance_id
+			FROM {$table_name}
+			WHERE user = %s AND post_id = %d AND instance_id = %s
+			ORDER BY id DESC
+			LIMIT 1
+			";
 
-		$query   = $wpdb->prepare( $sql, $user_id, $post_id, $instance );
+			$query = $wpdb->prepare( $sql, $user_id, $post_id, $instance );
+		} else {
+			$sql = "
+			SELECT user, post_id, instance_id
+			FROM {$table_name}
+			WHERE user = %s AND post_id = %d
+			ORDER BY id DESC
+			LIMIT 1
+			";
+			
+			$query = $wpdb->prepare( $sql, $user_id, $post_id );
+		}
+		
 		$results = $wpdb->get_results( $query );
 
 		if ( $results ) {
