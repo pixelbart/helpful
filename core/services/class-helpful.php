@@ -12,6 +12,7 @@ namespace Helpful\Core\Services;
 
 use Helpful\Core\Helper;
 use Helpful\Core\Helpers as Helpers;
+use Helpful\Core\Helpers\Stats;
 
 /* Prevent direct access */
 if ( ! defined( 'ABSPATH' ) ) {
@@ -100,7 +101,12 @@ class Helpful {
 	 * @return array
 	 */
 	public function get_atts() {
-		return $this->atts;
+		$atts = $this->atts;
+
+		$atts['count_pro']    = Stats::get_pro( $this->get_post_id() );
+		$atts['count_contra'] = Stats::get_contra( $this->get_post_id() );
+	
+		return $atts;
 	}
 
 	/**
