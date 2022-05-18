@@ -65,6 +65,10 @@ class WPML {
 			return;
 		}
 
+		if (!is_writeable(HELPFUL_PATH)) {
+			return;
+		}
+
 		$file_path = $this->get_file_path();
 
 		if ( file_exists( $file_path ) ) {
