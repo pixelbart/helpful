@@ -5,7 +5,7 @@
  *
  * @package Helpful
  * @subpackage Core\Services
- * @version 4.5.8
+ * @version 4.5.19
  * @since 4.4.47
  */
 
@@ -31,6 +31,27 @@ class Options {
 	private $options;
 
 	/**
+	 * Instanzholder.
+	 *
+	 * @var self
+	 */
+	private static $instance;
+
+	/**
+	 * Constructs an instance.
+	 *
+	 * @return self
+	 */
+	public static function get_instance()
+	{
+		if (!self::$instance) {
+			self::$instance = new static();
+		}
+
+		return self::$instance;
+	}
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -42,7 +63,7 @@ class Options {
 	 * Resave the options.
 	 */
 	public function renew_options() {
-		update_option( 'helpful_options', $this->options );
+		update_option( 'helpful_options', maybe_serialize( $this->options ) );
 	}
 
 	/**

@@ -4,7 +4,7 @@
  *
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.5.7
+ * @version 4.5.19
  * @since 4.3.0
  */
 
@@ -284,8 +284,7 @@ class Core {
 	 * @return void
 	 */
 	public function update_option_hook( $option, $old_value, $value ) {
-		$service = new Services\Options();
-
+		$service = Services\Options::get_instance();
 		$options = $service->get_defaults_array( '', true );
 
 		if ( in_array( $option, $options, true ) || strpos( $option, 'helpful_customizer' ) ) {

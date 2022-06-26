@@ -4,7 +4,7 @@
  *
  * @package Helpful
  * @subpackage Core\Tabs
- * @version 4.5.5
+ * @version 4.5.19
  * @since 4.3.0
  */
 
@@ -231,7 +231,7 @@ class Feedback {
 	 * @return mixed
 	 */
 	public function sanitize_input( $value ) {
-		return wp_kses( $value, Helper::kses_allowed_tags() );
+		return esc_html( wp_kses( $value, Helper::kses_allowed_tags() ) );
 	}
 
 	/**

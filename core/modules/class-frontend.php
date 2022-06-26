@@ -5,7 +5,7 @@
  *
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.5.5
+ * @version 4.5.19
  * @since 4.3.0
  */
 
@@ -118,12 +118,12 @@ class Frontend {
 			return;
 		}
 
-		$options      = new Services\Options();
-		$customizer   = $options->get_option( 'helpful_customizer', '' );
-		$active_theme = ( is_array( $customizer ) && array_key_exists( 'theme', $customizer ) ) ? esc_attr( $customizer['theme'] ) : 'base';
+		$service = new Services\Options();
 
-		$themes = apply_filters( 'helpful_themes', array() );
-		$plugin = Helper::get_plugin_data();
+		$customizer   = $service->get_option('helpful_customizer', []);
+		$active_theme = ( is_array( $customizer ) && array_key_exists( 'theme', $customizer ) ) ? esc_attr( $customizer['theme'] ) : 'base';
+		$themes       = apply_filters( 'helpful_themes', array() );
+		$plugin       = Helper::get_plugin_data();
 
 		if ( ! empty( $themes ) ) {
 			foreach ( $themes as $theme ) {

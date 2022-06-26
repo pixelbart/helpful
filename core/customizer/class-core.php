@@ -4,7 +4,7 @@
  *
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.5.0
+ * @version 4.5.19
  * @since 4.3.0
  */
 

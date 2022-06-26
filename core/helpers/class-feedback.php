@@ -4,7 +4,7 @@
  *
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.5.7
+ * @version 4.5.19
  * @since 1.0.0
  */
 
@@ -43,7 +43,7 @@ class Feedback {
 		$feedback['time']    = sprintf(
 			/* translators: %s = time difference */
 			__( 'Submitted %s ago', 'helpful' ),
-			human_time_diff( $time, time() )
+			human_time_diff( $time, date_i18n('U') )
 		);
 
 		if ( $entry->fields ) {
