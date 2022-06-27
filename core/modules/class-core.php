@@ -4,7 +4,7 @@
  *
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.5.19
+ * @version 4.5.20
  * @since 4.3.0
  */
 
@@ -51,7 +51,7 @@ class Core {
 		add_action( 'elementor/controls/controls_registered', array( & $this, 'elementor_controls' ) );
 		add_action( 'elementor/elements/categories_registered', array( & $this, 'elementor_categories' ) );
 
-		add_action( 'update_option', array( & $this, 'update_option_hook' ), 10, 3 );
+		add_action( 'updated_option', array( & $this, 'update_option_hook' ), 99, 3 );
 
 		add_action( 'helpful/plugin/updated', array( & $this, 'setup_tables_and_settings' ) );
 
@@ -287,9 +287,11 @@ class Core {
 		$service = Services\Options::get_instance();
 		$options = $service->get_defaults_array( '', true );
 
-		if ( in_array( $option, $options, true ) || strpos( $option, 'helpful_customizer' ) ) {
+		if ( is_string( $option ) && strpos( $option, 'helpful_customizer' ) !== false ) {
 			$service->update_option( $option, $value );
-			delete_option( $option );
+		} else if ( in_array( $option, $options, true )) {
+			$service->update_option( $option, $value );
+			delete_option($option);
 		}
 	}
 

@@ -4,7 +4,7 @@
  *
  * @package Helpful
  * @subpackage Core\Tabs
- * @version 4.4.50
+ * @version 4.5.20
  * @since 4.3.0
  */
 
@@ -82,9 +82,11 @@ class Design {
 	 * @return void
 	 */
 	public function custom_css() {
-		$options = new Services\Options();
-
-		$customizer = $options->get_option( 'helpful_customizer', '' );
+		$options    = new Services\Options();
+		
+		// Not working
+		//$customizer = $options->get_option( 'helpful_customizer', array() );
+		$customizer = get_option('helpful_customizer') ?: array();
 
 		// ==== CUSTOM CSS ====
 
