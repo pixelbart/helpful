@@ -4,7 +4,7 @@
  *
  * @package Helpful
  * @subpackage Core\Helpers
- * @version 4.5.19
+ * @version 4.5.21
  * @since 1.0.0
  */
 
@@ -641,10 +641,19 @@ class Feedback {
 		$response = wp_cache_get( 'helpful/templates/emails/feedback_email' );
 
 		if ( false === $response ) {
-			ob_start();
-			include $file;
-			$response = ob_get_contents();
-			ob_end_clean();
+
+			if (!ob_get_length()) {
+				ob_start();
+				include $file;
+				$response = ob_get_contents();
+				ob_end_clean();
+			} else if (file_get_contents($file, true)) {
+				$response = file_get_contents($file, true);
+			} else {
+				$response = wp_remote_get($file);
+				$response = wp_retrieve_body($response);
+			}
+
 			wp_cache_set( 'helpful/templates/emails/feedback_email', $response );
 		}
 
@@ -667,10 +676,18 @@ class Feedback {
 		$response = wp_cache_get( 'helpful/templates/emails/feedback_voter_email' );
 
 		if ( false === $response ) {
-			ob_start();
-			include $file;
-			$response = ob_get_contents();
-			ob_end_clean();
+			if (!ob_get_length()) {
+				ob_start();
+				include $file;
+				$response = ob_get_contents();
+				ob_end_clean();
+			} else if (file_get_contents($file, true)) {
+				$response = file_get_contents($file, true);
+			} else {
+				$response = wp_remote_get($file);
+				$response = wp_retrieve_body($response);
+			}
+
 			wp_cache_set( 'helpful/templates/emails/feedback_voter_email', $response );
 		}
 
