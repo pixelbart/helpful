@@ -6,7 +6,7 @@
  *
  * @package Helpful
  * @subpackage Core\Solutions
- * @version 4.5.0
+ * @version 4.5.22
  * @since 4.5.0
  */
 
@@ -42,7 +42,7 @@ class WPML {
 	 * @return string
 	 */
 	public function get_file_path() {
-		return HELPFUL_PATH . '/wpml-config.xml';
+		return rtrim(HELPFUL_PATH, '/') . '/wpml-config.xml';
 	}
 
 	/**
