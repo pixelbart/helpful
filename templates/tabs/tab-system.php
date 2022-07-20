@@ -85,7 +85,7 @@ do_action('helpful_tab_system_before');
 			<div class="helpful-admin-group helpful-margin-bottom">
 				<label class="helpful-block" for="helpful_timezone"><?php _ex('Custom timezone', 'option name', 'helpful'); ?></label>
 				<?php $value = $options->get_option('helpful_timezone', '', 'esc_attr'); ?>
-				<input type="text" class="regular-text code" name="helpful_timezone" value="<?php echo esc_attr($value); ?>">
+				<input type="text" class="regular-text code" name="helpful_timezone" value="<?php echo esc_attr($value); ?>" placeholder="<?php esc_html_e('e.g. Europe/Berlin', 'helpful'); ?>">
 			</div><!-- .helpful-admin-group -->
 
 			<div class="helpful-admin-group helpful-margin-bottom">
