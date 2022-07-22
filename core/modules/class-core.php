@@ -4,7 +4,7 @@
  *
  * @package Helpful
  * @subpackage Core\Modules
- * @version 4.5.20
+ * @version 4.5.23
  * @since 4.3.0
  */
 
@@ -312,6 +312,15 @@ class Core {
 	 * @param array       $hook_extra Type of Upgrade.
 	 */
 	public function on_plugin_update( $upgrader, $hook_extra ) {
+		if (
+			!is_array($hook_extra) || 
+			!array_key_exists('action', $hook_extra) || 
+			!array_key_exists('type', $hook_extra) ||
+			!array_key_exists('plugins', $hook_extra)
+		) {
+			return;
+		}
+
 		if ( 'update' === $hook_extra['action'] && 'plugin' === $hook_extra['type'] ) {
 			foreach ( $hook_extra['plugins'] as $plugin_name ) {
 				if ( HELPFUL_BASENAME === $plugin_name ) {
