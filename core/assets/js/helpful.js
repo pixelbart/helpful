@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
 
     "use strict";
 
@@ -7,7 +7,7 @@
         vote: "helpful_save_vote",
         feedback: "helpful_save_feedback",
         helpful: helpful,
-        initPlugin: function() {
+        initPlugin: function () {
             const self = this;
 
             // todo, for instances
@@ -21,7 +21,7 @@
                 return;
             }
 
-            $(document).on("click", ".helpful .helpful-controls button", function(e) {
+            $(document).on("click", ".helpful .helpful-controls button", function (e) {
                 e.preventDefault();
 
                 var currentButton = $(this);
@@ -37,7 +37,7 @@
 
                 var request = self.ajaxRequest(ajaxData);
 
-                request.done(function(response) {
+                request.done(function (response) {
                     $(currentForm).find(".helpful-header").remove();
                     $(currentForm).find(".helpful-controls").remove();
                     $(currentForm).find(".helpful-footer").remove();
@@ -46,7 +46,7 @@
                 });
             });
 
-            $.each($(".helpful"), function() {
+            $.each($(".helpful"), function () {
                 var currentContainer = $(this);
 
                 if ($(currentContainer).is(".helpful-prevent-form")) {
@@ -54,7 +54,7 @@
                 }
 
                 if ($(currentContainer).find(".helpful-toggle-feedback").length) {
-                    $(currentContainer).find(".helpful-toggle-feedback").click(function(e) {
+                    $(currentContainer).find(".helpful-toggle-feedback").click(function (e) {
                         e.preventDefault();
                         $(this).parent().find("div").removeAttr("hidden");
                         $(this).remove();
@@ -62,10 +62,10 @@
                 }
             });
         },
-        feedbackForm: function(currentForm) {
+        feedbackForm: function (currentForm) {
             var self = this;
 
-            $(currentForm).on("click", ".helpful-cancel", function(e) {
+            $(currentForm).on("click", ".helpful-cancel", function (e) {
                 e.preventDefault();
 
                 var ajaxData = {
@@ -80,18 +80,18 @@
 
                 var request = self.ajaxRequest(ajaxData);
 
-                request.done(function(response) {
+                request.done(function (response) {
                     $(currentForm).find(".helpful-content").html(response);
                 });
             });
 
-            $(currentForm).on("submit", ".helpful-feedback-form", function(e) {
+            $(currentForm).on("submit", ".helpful-feedback-form", function (e) {
                 e.preventDefault();
 
                 var formData = $(this).serializeArray();
                 var ajaxData = {};
 
-                $.each(formData, function(i, field) {
+                $.each(formData, function (i, field) {
                     ajaxData[field.name] = field.value;
                 });
 
@@ -100,7 +100,7 @@
                 let key;
                 let required = [];
 
-                $(currentForm).find("[required]").each(function() {
+                $(currentForm).find("[required]").each(function () {
                     if (!$.trim(this.value).length) {
                         $(this).after("<req class=\"danger\">" + helpful.translations.fieldIsRequired + "</req>");
                         required.push(key);
@@ -113,13 +113,13 @@
 
                 var request = self.ajaxRequest(ajaxData);
 
-                request.done(function(response) {
+                request.done(function (response) {
                     $(currentForm).find(".helpful-content").html(response);
                 });
             });
         },
         // todo, for instances
-        hasUserVoted: function() {
+        hasUserVoted: function () {
             const self = this;
 
             let ajaxData = this.helpful.user_voted;
@@ -128,7 +128,7 @@
 
             let request = self.ajaxRequest(ajaxData);
 
-            request.done(function(response) {
+            request.done(function (response) {
                 if (response.success) {
                     $(self.el).remove();
                 } else {
@@ -138,7 +138,7 @@
 
             return;
         },
-        ajaxRequest: function(data) {
+        ajaxRequest: function (data) {
             if (typeof this.helpful.ajax_session !== "undefined") {
                 data.session = this.helpful.ajax_session;
             }
@@ -147,12 +147,11 @@
                 url: this.helpful.ajax_url,
                 data: data,
                 method: "POST",
-                cache: false,
             });
         },
     };
 
-    $(function() {
+    $(function () {
         HelpfulPlugin.initPlugin();
     });
 
