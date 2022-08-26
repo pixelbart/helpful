@@ -287,7 +287,7 @@ class Core {
 		$service = Services\Options::get_instance();
 		$options = $service->get_defaults_array( '', true );
 
-		if ( is_string( $option ) && strpos( $option, 'helpful_customizer' ) !== false ) {
+		if ( strpos( $option, 'helpful_customizer' ) !== false ) {
 			$service->update_option( $option, $value );
 		} else if ( in_array( $option, $options, true )) {
 			$service->update_option( $option, $value );

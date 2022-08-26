@@ -131,6 +131,11 @@ class Options {
 			$option = $this->handle_security( $option, $security );
 		}
 
+		// apostroph fix
+		if ( is_string( $option ) ) {
+			$option = stripslashes( $option );
+		}
+
 		return ( $option ) ? $option : $default;
 	}
 
