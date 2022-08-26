@@ -52,7 +52,7 @@ class Log {
 		add_action( 'wp_ajax_helpful_get_log_data', array( & $this, 'ajax_get_log_data' ) );
 		add_action( 'helpful_tab_log_before', array( & $this, 'register_tab_alerts' ) );
 		add_action( 'wp_ajax_helpful_delete_rows', array( & $this, 'ajax_delete_rows' ) );
-		add_action( 'wp_ajax_helpful_export_rows', array( & $this, 'ajax_export_rows' ) );
+		add_action( 'template_redirect', array( & $this, 'export_logs' ) );
 	}
 
 	/**
@@ -225,17 +225,21 @@ class Log {
 		wp_send_json_error( _x( 'The selected entries could not be deleted.', 'logs alert', 'helpful' ) );
 	}
 
-	/**
-	 * Exports entries to a CSV and returns the file URL to the client.
-	 */
-	public function ajax_export_rows() {
-		check_ajax_referer( 'helpful/logs/export_rows' );
+	public function export_logs()
+	{
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
 
-		$response = array(
-			'status'  => 'error',
-			'file'    => '',
-			'message' => esc_html_x( 'The selected entries could not be exported.', 'logs alert', 'helpful' ),
-		);
+		$user = wp_get_current_user();
+
+		if ( ! in_array( 'administrator', $user->roles ) ) {
+			return;
+		}
+
+		if ( ! array_key_exists( 'action', $_REQUEST ) || $_REQUEST['action'] !== 'helpful/logs/export_rows' ) {
+			return;
+		}
 
 		if ( array_key_exists( 'rows', $_REQUEST ) ) {
 			$lines = array();
@@ -298,13 +302,8 @@ class Log {
 			if ( ! empty( $lines ) ) {
 				$csv = new Services\CSV( apply_filters( 'helpful/logs/export/csv_name', 'logs.csv' ) );
 				$csv->add_items( $lines );
-				$csv->create_file();
-
-				$response['status'] = 'success';
-				$response['file']   = $csv->get_file();
+				$csv->render();
 			}
 		}
-
-		wp_send_json( $response );
 	}
 }

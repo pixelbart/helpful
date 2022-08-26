@@ -100,23 +100,22 @@
 
             $(".helpful-export").unbind("click").on("click", function(e) {
                 e.preventDefault();
-
-                let current_button = $(this);
-                let ajax_data = {
-                    action: "helpful_export_feedback",
-                    _wpnonce: helpful_admin_feedback.nonce,
-                    type: $(current_button).data("type"),
-                };
-
-                let request = self.ajaxRequest(ajax_data);
-
-                request.done(function(response) {
-                    if ("success" === response.status) {
-                        window.location.href = response.file;
-                    } else {
-                        alert(response.message);
-                    }
+                
+                let exportForm = $('<form>', {
+                    'action' : '/',
+                    'method' : 'post',
                 });
+
+                exportForm.append($('<input>', {
+                    'name' : 'action',
+                    'value' : 'helpful/feedback/export',
+                    'type' : 'hidden',
+                }));
+                
+                $(document.body).append(exportForm);
+
+                exportForm.submit();
+                exportForm.remove();
             });
         },
         deleteFeedback: function() {

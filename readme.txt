@@ -3,9 +3,9 @@ Contributors: pixelbart
 Donate link: https://www.buymeacoffee.com/pixelbart
 Tags: helpful, poll, feedback, reviews, vote, review, voting
 Requires at least: 4.6
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 4.5.25
+Stable tag: 4.5.26
 License: MIT License
 License URI: https://opensource.org/licenses/MIT
 

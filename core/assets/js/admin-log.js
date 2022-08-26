@@ -84,50 +84,27 @@
                 }, {
                     "text": helpful_admin_log.translations.export,
                     action: function(e, dt, node, config) {
-                        let rows = dt.rows({ selected: true });
-                        let exportItems = [];
-
-                        $.each(rows.data(), function(index, row) {
-                            exportItems.push(row.row_id);
+                        let exportForm = $('<form>', {
+                            'action' : '/',
+                            'method' : 'post',
                         });
 
+                        exportForm.append($('<input>', {
+                            'name' : 'action',
+                            'value' : 'helpful/logs/export_rows',
+                            'type' : 'hidden',
+                        }));
 
-                        if (exportItems.length > 0) {
-                            let request = self.ajaxRequest({
-                                "_wpnonce": helpful_admin_log.nonces.export_rows,
-                                "action": "helpful_export_rows",
-                                "rows": exportItems,
-                            });
+                        exportForm.append($('<input>', {
+                            'name' : 'rows',
+                            'value' : 'all',
+                            'type' : 'hidden',
+                        }));
+                        
+                        $(document.body).append(exportForm);
 
-                            request.done(function(response) {
-                                if ("success" === response.status) {
-                                    window.location.href = response.file;
-                                } else {
-                                    alert(response.message);
-                                }
-                            });
-                        } else {
-                            let request = self.ajaxRequest({
-                                "_wpnonce": helpful_admin_log.nonces.export_rows,
-                                "action": "helpful_export_rows",
-                                "rows": "all",
-                            });
-
-                            request.done(function(response) {
-                                let randomString = Math.random().toString(36).substring(2, 9);
-
-                                $(".helpfulLogsClickable").remove();
-
-                                var clickableElement = $("<a></a>", {
-                                    class: "helpfulLogsClickable",
-                                    href: response.file,
-                                    download: "helpful-log-" + randomString + ".csv",
-                                    style: "position:absolute;top:0;left:-9999px;"
-                                }).appendTo("body");
-
-                                $(".helpfulLogsClickable")[0].click();
-                            });
-                        }
+                        exportForm.submit();
+                        exportForm.remove();
                     }
                 }],
             });

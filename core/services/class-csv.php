@@ -124,6 +124,44 @@ class CSV {
 		$this->file = $uploads['baseurl'] . $file_name;
 	}
 
+	public function render()
+	{
+		if ( ! is_array( $this->items ) ) {
+			return;
+		}
+		header( 'Content-Type: text/csv' );
+		header( 'Content-Disposition: attachment; filename=' . $this->filename);
+
+		$options = new Services\Options();
+		$items   = $this->items;
+		$lines   = array();
+		$lines[] = array_keys( $items[0] );
+
+		foreach ( $items as $item ) :
+			$lines[] = array_values( $item );
+		endforeach;
+
+		clearstatcache();
+
+		$separator  = ';';
+		$separators = array( ';', ',' );
+		$separators = apply_filters( 'helpful_export_separators', $separators );
+
+		$option = $options->get_option( 'helpful_export_separator', ';', 'esc_attr' );
+
+		if ( $option && in_array( $option, $separators, true ) ) {
+			$separator = esc_html( $option );
+		}
+
+		$file = fopen( 'php://output', 'w+' );
+
+		foreach ( $lines as $line ) :
+			fputcsv( $file, $line, $separator );
+		endforeach;
+
+		fclose( $file );
+	}
+
 	/**
 	 * Get the current file url, only available after creating.
 	 *

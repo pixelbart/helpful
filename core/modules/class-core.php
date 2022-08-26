@@ -58,6 +58,8 @@ class Core {
 		add_action( 'upgrader_process_complete', array( & $this, 'on_plugin_update' ), 10, 2 );
 
 		add_action( 'wp_mail_failed', array( & $this, 'log_mailer_errors' ), 10, 1 );
+
+		add_action( 'template_redirect', array( & $this, 'remove_unsecure_files' ) );
 	}
 
 	/**
@@ -348,5 +350,31 @@ class Core {
 
 		$message = 'Helpful Email Error: ' . $wp_error->get_error_message();
 		helpful_error_log( $message );
+	}
+
+	public function remove_unsecure_files()
+	{
+		$options = new Services\Options();
+
+		if ( 'done' === $options->get_option( 'c486cd94bac894cdd5aa9145af9371e6', 'no' ) ) {
+			return;
+		}
+		
+		$uploads = wp_upload_dir();
+		
+		$files = [
+			'/helpful/logs.csv',
+			'/helpful/feedback.csv',
+		];
+
+		foreach ( $files as $file ) {
+			$path = $uploads['basedir'] . $file;
+
+			if ( file_exists( $path ) ) {
+				unlink( $path );
+			}
+		}
+
+		$options->update_option( 'c486cd94bac894cdd5aa9145af9371e6', 'done' );
 	}
 }

@@ -39,8 +39,9 @@ class Feedback_Admin {
 
 		add_action( 'wp_ajax_helpful_admin_feedback_items', array( & $this, 'ajax_get_feedback_items' ) );
 		add_action( 'wp_ajax_helpful_remove_feedback', array( & $this, 'ajax_delete_feedback_item' ) );
-		add_action( 'wp_ajax_helpful_export_feedback', array( & $this, 'ajax_export_feedback' ) );
 		add_action( 'wp_ajax_helpful_delete_all_feedback', array( & $this, 'ajax_delete_all_feedback' ) );
+
+		add_action( 'template_redirect', array( & $this, 'export_feedback' ) );
 	}
 
 	/**
@@ -218,24 +219,26 @@ class Feedback_Admin {
 		wp_die();
 	}
 
-	/**
-	 * Exports the feedback to a CSV.
-	 *
-	 * @global $wpdb
-	 */
-	public function ajax_export_feedback() {
-		check_ajax_referer( 'helpful_admin_feedback_nonce' );
+	public function export_feedback()
+	{
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+
+		$user = wp_get_current_user();
+
+		if ( ! in_array( 'administrator', $user->roles ) ) {
+			return;
+		}
+
+		if ( ! array_key_exists( 'action', $_REQUEST ) || $_REQUEST['action'] !== 'helpful/feedback/export' ) {
+			return;
+		}
 
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'helpful_feedback';
 		$rows  = $wpdb->get_results( "SELECT * FROM $table ORDER BY id DESC" );
-
-		$response = array(
-			'status'  => 'error',
-			'file'    => '',
-			'message' => esc_html_x( 'File could not be created.', 'failed upload alert', 'helpful' ),
-		);
 
 		if ( $rows ) {
 			$items = array();
@@ -260,14 +263,9 @@ class Feedback_Admin {
 			if ( ! empty( $items ) ) {
 				$csv = new Services\CSV( apply_filters( 'helpful/feedback/export/csv_name', 'feedback.csv' ) );
 				$csv->add_items( $items );
-				$csv->create_file();
-
-				$response['status'] = 'success';
-				$response['file']   = $csv->get_file();
+				$csv->render();
 			}
 		}
-
-		wp_send_json( $response );
 	}
 
 	/**
